@@ -76,7 +76,7 @@
     <Compile Include="gui\RealtimeField.cs" />
     <Compile Include="MainProgram.cs" />
     <Compile Include="Movement\Walk.cs" />
-    <Compile Include="obj\Sonar\Sonar.cs" />
+    <Compile Include="Sonar\Sonar.cs" />
     <Compile Include="Testing\GoalCommuncatorTest1.cs" />
     <Compile Include="Testing\PriorityQueueTest.cs" />
     <Compile Include="Testing\SonarTest.cs" />
