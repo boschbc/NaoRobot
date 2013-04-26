@@ -45,10 +45,15 @@ namespace Naovigate.Movement
          * */
         public void WalkTo(float x, float y, float theta)
         {
+            //System.Console.WriteLine(x + " " + y);
+            //posture.goToPosture("StandZero", 1f);
+            //motion.moveInit();
+            //motion.moveTo(x, y, theta);
+            //motion.stopMove();
             if (!IsMoving()) 
                 motion.moveInit();
-            motion.move(x, y, theta);
-            //motion.stopMove();
+            motion.moveTo(x, y, theta);
+            motion.stopMove();
         }
 
         /**

@@ -123,7 +123,6 @@ namespace Naovigate.GUI
 
         #endregion
 
-        private LocationMonitor locationMonitor;
         private TabControl mainTabs;
         private TabPage simulateTab;
         private TabPage stateTab;
