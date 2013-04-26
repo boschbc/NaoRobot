@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections;
+using System.Threading;
 
 using Aldebaran.Proxies;
 
@@ -17,6 +18,9 @@ namespace Naovigate.Movement
 
         private static Walk instance = null;
 
+        private int markerID = -1;
+        private Thread t = null;
+
         public Walk()
         {
             motion = NaoState.GetMotionProxy();
@@ -30,7 +34,7 @@ namespace Naovigate.Movement
 
         public void WalkTo(float x, float y, float theta)
         {
-            motion.moveInit();
+            if (!IsMoving()) motion.moveInit();
             motion.move(x, y, theta);
             motion.stopMove();
         }
@@ -39,6 +43,29 @@ namespace Naovigate.Movement
         {
             if (!IsMoving()) motion.moveInit();
             motion.moveToward(x, y, theta);
+        }
+
+        public void walkTowards(float dir, int markerID)
+        {
+            WalkTo(0, 0, dir);
+            StartWalking(0.5F, 0, 0);
+            this.markerID = markerID;
+
+            t = new Thread(new ThreadStart(WalkTillMarker));
+        }
+
+        public void WalkTillMarker()
+        {
+            
+        }
+
+        public void StopLooking()
+        {
+            if (t != null)
+            {
+                t.Abort();
+                t = null;
+            }
         }
 
         public Boolean IsMoving()

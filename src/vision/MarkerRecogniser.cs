@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Aldebaran.Proxies;
 using System.Collections;
+using Naovigate.Util;
 
 namespace Naovigate.vision
 {
@@ -11,6 +12,13 @@ namespace Naovigate.vision
     {
         private LandMarkDetectionProxy detector;
         private MemoryProxy memory;
+
+        public static MarkerRecogniser instance = null;
+
+        public static MarkerRecogniser GetInstance()
+        {
+            return instance == null ? new MarkerRecogniser(NaoState.GetIP(),NaoState.GetPort()) : instance;
+        }
 
         public MarkerRecogniser(String ip, int port)
         {
