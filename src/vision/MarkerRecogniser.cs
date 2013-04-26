@@ -29,7 +29,7 @@ namespace Naovigate.vision
         }
 
         //returns [[TimeStampField][Mark_info_0, Mark_info_1, . . . , Mark_info_N-1]] when N landmarks are detected 
-        public ArrayList getMarkerData()
+        public ArrayList GetMarkerData()
         {
             return (ArrayList)memory.getData("LandmarkDetected");
         }

@@ -8,6 +8,7 @@ using System.Threading;
 using Aldebaran.Proxies;
 
 using Naovigate.Util;
+using Naovigate.Vision;
 
 namespace Naovigate.Movement
 {
@@ -20,6 +21,7 @@ namespace Naovigate.Movement
 
         private int markerID = -1;
         private Thread t = null;
+        private boolean found = false;
 
         public Walk()
         {
@@ -38,6 +40,9 @@ namespace Naovigate.Movement
             return instance == null ? new Walk() : instance;
         }
 
+        /**
+         * walk to (x, y, theta) with the Nao as the origin
+         * */
         public void WalkTo(float x, float y, float theta)
         {
             if (!IsMoving()) 
@@ -46,6 +51,9 @@ namespace Naovigate.Movement
             //motion.stopMove();
         }
 
+        /**
+         * Start walking with normalized speed x, y and theta
+         * */
         public void StartWalking(float x, float y, float theta)
         {
             if (!IsMoving()) 
@@ -53,20 +61,58 @@ namespace Naovigate.Movement
             motion.moveToward(x, y, theta);
         }
 
+        /**
+         * Turn (normalized) dir and walk till the Nao sees the marker with MarkID = markerID
+         * */
         public void walkTowards(float dir, int markerID)
         {
+            stopLooking();
             WalkTo(0, 0, dir);
             StartWalking(0.5F, 0, 0);
             this.markerID = markerID;
-
-            t = new Thread(new ThreadStart(WalkTillMarker));
-        }
-
-        public void WalkTillMarker()
-        {
+            found = false;
             
+            t = new Thread(new ThreadStart(LookForMarker));
         }
 
+        /**
+         * Try to detect the marker with MarkID = markerID.
+         * When the Nao sees the marker, stop moving and set found to true
+         * */
+        public void LookForMarker()
+        {
+            MarkerRecogniser rec = MarkerRecogniser.GetInstance();
+            ArrayList markers;
+
+            while (!found)
+            {
+                ArrayList data = rec.GetMarkerData();
+                markers = data.Count == 0 ? data : data[1];
+                
+                for (int i = 0; i < markers.Count && !found; i++)
+                {
+                    ArrayList marker = markers[i];
+                    if (marker[1][0] == markerID)
+                    {
+                        found = true;
+                        StopMove();
+                    }
+                }
+            }
+        }
+
+        /**
+         * return found
+         * found is true when the marker with MarkID = markerID has been found
+         * */
+        public boolean IsFound()
+        {
+            return found;
+        }
+
+        /**
+         * stop looking for the marker
+         * */
         public void StopLooking()
         {
             if (t != null)
@@ -76,11 +122,17 @@ namespace Naovigate.Movement
             }
         }
 
+        /** 
+         * return true iff the Nao is moving
+         * */
         public Boolean IsMoving()
         {
             return motion.moveIsActive();
         }
 
+        /**
+         * stop the Nao from moving
+         * */
         public void StopMove()
         {
             motion.stopMove();
