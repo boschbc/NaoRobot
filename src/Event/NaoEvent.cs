@@ -48,7 +48,7 @@ namespace Naovigate.Event
         /**
          * See the INaoEvent class docs for documentation of this method.
          **/
-        public Priority GetPriority(Priority p)
+        public Priority GetPriority()
         {
             return priority;
         }

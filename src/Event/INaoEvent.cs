@@ -16,7 +16,7 @@ namespace Naovigate.Event
         /**
          * Returns the event's priority.
          **/
-        Priority GetPriority(Priority p);
+        Priority GetPriority();
 
         /**
          * Fires the event.

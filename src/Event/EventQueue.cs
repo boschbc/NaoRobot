@@ -26,7 +26,7 @@ namespace Naovigate.Event
             // todo: synchronize, priority
             lock (q)
             {
-                q.Enqueue(e, 0);
+                q.Enqueue(e, (int)e.GetPriority());
                 //Monitor.Pulse(this);
             }
         }
@@ -59,8 +59,8 @@ namespace Naovigate.Event
                     if (!q.IsEmpty())
                     {
                         INaoEvent e = q.Dequeue();
-                        e.Fire();
                         Console.WriteLine("Fired " + e);
+                        e.Fire();
                     }
                 }
             }
