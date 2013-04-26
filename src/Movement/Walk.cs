@@ -27,6 +27,12 @@ namespace Naovigate.Movement
             posture = NaoState.GetRobotPostureProxy();
         }
 
+        public void RefreshProxies()
+        {
+            motion = NaoState.GetMotionProxy();
+            posture = NaoState.GetRobotPostureProxy();
+        }
+
         public static Walk GetInstance()
         {
             return instance == null ? new Walk() : instance;
