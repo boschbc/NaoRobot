@@ -10,6 +10,14 @@ namespace Naovigate.Communication
         private Priority priority;
 
         /**
+         * Creates an empty NaoEvent.
+         **/
+        public NaoEvent()
+        {
+            SetPriority(Priority.Medium);
+        }
+
+        /**
          * Takes a communication stream, extracts parameters, and creates a new NaoEvent instance.
          * The NaoEvent's priority is set to medium.
          **/

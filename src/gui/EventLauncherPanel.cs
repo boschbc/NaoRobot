@@ -14,6 +14,8 @@ namespace Naovigate.GUI
 {
     public partial class EventLauncherPanel : UserControl
     {
+        private Thread moveThread;
+
         public EventLauncherPanel()
         {
             InitializeComponent();
@@ -22,7 +24,8 @@ namespace Naovigate.GUI
         private void launchButton_Click(object sender, EventArgs e)
         {
             MoveNaoEvent moveEvent = new MoveNaoEvent(0.5f, 0.0f);
-            moveEvent.Fire();
+            moveThread = new Thread(new ThreadStart(moveEvent.Fire));
+            moveThread.Start();
         }
     }
 }
