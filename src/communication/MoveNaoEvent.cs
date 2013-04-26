@@ -28,7 +28,7 @@ namespace Naovigate.Communication
          **/ 
         public override void Fire()
         {
-            Walk.WalkTo(destination.X, destination.Y, 0.0f);
+            Walk.GetInstance().WalkTo(destination.X, destination.Y, 0.0f);
         }
     }
 }
