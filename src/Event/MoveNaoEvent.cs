@@ -36,6 +36,7 @@ namespace Naovigate.Event
         {
             delta = new PointF(x, y);
         }
+
         /**
          * See the INaoEvent class docs for documentation of this method.
          **/ 
