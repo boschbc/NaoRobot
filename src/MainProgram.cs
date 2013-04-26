@@ -10,10 +10,11 @@ namespace Naovigate
     {
         public static void Main(String[] args)
         {
+            ShutDownHook();
             //Use this switch to deactivate debugger invocation:
             bool Debug = true;
             if (Debug)
-                LaunchDebugger.DebugMain();
+                LaunchDebugger.DebugMain("192.168.0.126");
             //NaoProxyManager.Instance.EndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 9550);
             //Testing.GoalCommunicatorTest1 goalCom = new Testing.GoalCommunicatorTest1(args);
             //hoi hoi
@@ -28,6 +29,17 @@ namespace Naovigate
             //    System.Threading.Thread.Sleep(100);
             //}
 
+        }
+
+        private static void ShutDownHook()
+        {
+             AppDomain.CurrentDomain.ProcessExit += Cleanup;  
+        }
+
+        private static void Cleanup(object sender, EventArgs e)
+        {
+            Console.WriteLine("ShutDown...");
+            NaoState.TeardownProxies();
         }
     }
 }

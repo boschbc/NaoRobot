@@ -60,6 +60,30 @@ namespace Naovigate.Util
         }
 
         /**
+        * Delete proxies for the Nao this class is connected to.
+        * @throws UnavailableConnectionException if connection is unavailable.
+        **/
+        public static void TeardownProxies()
+        {
+            try
+            {
+                if (motionProxy != null) {
+                    motionProxy.Dispose();
+                    Console.WriteLine("Deleted Motion Proxy");
+                }
+                if (postureProxy != null)
+                {
+                    Console.WriteLine("Deleted posture Proxy");
+                }
+            }
+            catch
+            {
+                throw new Exception("Error deleting Proxies.");
+                //throw new UnavailableConnectionException();
+            }
+        }
+
+        /**
          * Return the IP of the Nao currently connected to.
          **/
         public static string GetIP()

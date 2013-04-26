@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Naovigate.Util;
 using System.Threading;
-
+using System.ComponentModel;
 namespace Naovigate.Event
 {
     class EventQueue
@@ -51,11 +51,12 @@ namespace Naovigate.Event
             while (true)
             {
                 //Console.WriteLine("EventQueue waiting");
-                Thread.Sleep(100);
+                Thread.Sleep(1000);
                 //Monitor.Wait(this);
                 //Console.WriteLine("Locking list");
                 //lock (q)
                 //{
+                Console.WriteLine("EventQueue...");
                     if (!q.IsEmpty())
                     {
                         INaoEvent e = q.Dequeue();
