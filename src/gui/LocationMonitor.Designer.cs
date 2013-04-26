@@ -1,4 +1,4 @@
-﻿namespace Naovigate.gui
+﻿namespace Naovigate.GUI
 {
     partial class LocationMonitor
     {

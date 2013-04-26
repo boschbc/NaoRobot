@@ -9,27 +9,28 @@ using System.Windows.Forms;
 
 using Aldebaran.Proxies;
 
-namespace Naovigate.gui
+using Naovigate.Util;
+
+namespace Naovigate.GUI
 {
-    public partial class LocationMonitor : UserControl
+    public partial class LocationMonitor : UserControl, IRealtimeField
     {
         private static string Format = "Location: ({0}, {1})\nAngle: {2}";
         private static string DefaultText = "Location: Unknown\nAngle: Unknown"; 
 
-        private MotionProxy proxy;
 
-        public LocationMonitor(string ip, int port)
+        public LocationMonitor()
         {
             InitializeComponent();
-            proxy = new MotionProxy(ip, port);
             UpdateContent();
         }
 
         public void UpdateContent()
         {
+            MotionProxy motion = NaoState.GetMotionProxy();
             try
             {
-                List<float> vector = proxy.getRobotPosition(false);
+                List<float> vector = motion.getRobotPosition(false);
                 label.Text = String.Format(Format, vector[0], vector[1], vector[2]);
             }
             catch
