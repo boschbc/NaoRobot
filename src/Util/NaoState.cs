@@ -30,7 +30,7 @@ namespace Naovigate.Util
         {
             motionProxy = new MotionProxy(GetIP(), GetPort());
             postureProxy = new RobotPostureProxy(GetIP(), GetPort());
-            Walk.RefreshProxies();
+            //Walk.RefreshProxies();
         }
 
         public static string GetIP()

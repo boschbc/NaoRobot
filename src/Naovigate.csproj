@@ -46,39 +46,52 @@
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject />
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Compile Include="Communication\EventQueue.cs" />
+    <Compile Include="Event\EventQueue.cs" />
     <Compile Include="Communication\CommunicationStream.cs" />
     <Compile Include="Communication\FindIP.cs" />
-    <Compile Include="Communication\GrabNaoEvent.cs" />
-    <Compile Include="Communication\INaoEvent.cs" />
-    <Compile Include="Communication\InvalidActionCodeException.cs" />
-    <Compile Include="Communication\LookNaoEvent.cs" />
-    <Compile Include="Communication\MoveNaoEvent.cs" />
-    <Compile Include="Communication\NaoEvent.cs" />
-    <Compile Include="Communication\NaoEventFactory.cs" />
-    <Compile Include="Communication\Priority.cs" />
-    <Compile Include="gui\LocationMonitor.cs">
+    <Compile Include="Event\GrabNaoEvent.cs" />
+    <Compile Include="Event\INaoEvent.cs" />
+    <Compile Include="Event\InvalidActionCodeException.cs" />
+    <Compile Include="Event\LookNaoEvent.cs" />
+    <Compile Include="Event\MoveNaoEvent.cs" />
+    <Compile Include="Event\NaoEvent.cs" />
+    <Compile Include="Event\NaoEventFactory.cs" />
+    <Compile Include="Event\Priority.cs" />
+    <Compile Include="GUI\EventLauncherPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="gui\LocationMonitor.Designer.cs">
+    <Compile Include="GUI\EventLauncherPanel.Designer.cs">
+      <DependentUpon>EventLauncherPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\IRealtimeField.cs" />
+    <Compile Include="GUI\LocationMonitor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\LocationMonitor.Designer.cs">
       <DependentUpon>LocationMonitor.cs</DependentUpon>
     </Compile>
-    <Compile Include="gui\NaoDebugger.cs">
+    <Compile Include="GUI\NaoDebugger.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="gui\NaoDebugger.Designer.cs">
+    <Compile Include="GUI\NaoDebugger.Designer.cs">
       <DependentUpon>NaoDebugger.cs</DependentUpon>
     </Compile>
-    <Compile Include="gui\RealtimeField.cs" />
+    <Compile Include="GUI\StateMonitorPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\StateMonitorPanel.Designer.cs">
+      <DependentUpon>StateMonitorPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainProgram.cs" />
     <Compile Include="Movement\Walk.cs" />
-    <Compile Include="obj\Sonar\Sonar.cs" />
     <Compile Include="Sonar\Sonar.cs" />
     <Compile Include="Testing\GoalCommuncatorTest1.cs" />
+    <Compile Include="Testing\GUI\LaunchDebugger.cs" />
     <Compile Include="Testing\PriorityQueueTest.cs" />
     <Compile Include="Testing\SonarTest.cs" />
     <Compile Include="Util\PriorityQueue.cs" />
@@ -127,11 +140,20 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="gui\LocationMonitor.resx">
+    <EmbeddedResource Include="GUI\EventLauncherPanel.resx">
+      <DependentUpon>EventLauncherPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\LocationMonitor.resx">
       <DependentUpon>LocationMonitor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="gui\NaoDebugger.resx">
+    <EmbeddedResource Include="GUI\NaoDebugger.resx">
       <DependentUpon>NaoDebugger.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\StateMonitorPanel.resx">
+      <DependentUpon>StateMonitorPanel.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="obj\" />
   </ItemGroup>
 </Project>

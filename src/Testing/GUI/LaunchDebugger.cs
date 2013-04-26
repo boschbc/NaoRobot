@@ -11,7 +11,7 @@ namespace Naovigate.Testing.gui
 {
     class LaunchDebugger
     {
-        public static void Main(string[] args)
+        public static void DebugMain(string[] args)
         {
             string ip = "127.0.0.1";
             int port = 9559;

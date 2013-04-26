@@ -40,7 +40,7 @@ namespace Naovigate.Communication
          **/ 
         public override void Fire()
         {
-            Walk.WalkTo(delta.X, delta.Y, 0.0f);
+            //Walk.WalkTo(delta.X, delta.Y, 0.0f);
         }
     }
 }
