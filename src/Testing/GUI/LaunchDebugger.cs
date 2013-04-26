@@ -7,11 +7,11 @@ using System.Windows.Forms;
 using Naovigate.Util;
 using Naovigate.GUI;
 
-namespace Naovigate.Testing.gui
+namespace Naovigate.Testing.GUI
 {
     class LaunchDebugger
     {
-        public static void DebugMain(string[] args)
+        public static void DebugMain()
         {
             string ip = "127.0.0.1";
             int port = 9559;

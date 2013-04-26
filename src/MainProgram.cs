@@ -2,6 +2,7 @@
 using System.Net;
 using Naovigate.Communication;
 using Naovigate.Util;
+using Naovigate.Testing.GUI;
 
 namespace Naovigate
 {
@@ -9,6 +10,10 @@ namespace Naovigate
     {
         public static void Main(String[] args)
         {
+            //Use this switch to deactivate debugger invocation:
+            bool Debug = false;
+            if (Debug)
+                LaunchDebugger.DebugMain();
             //NaoProxyManager.Instance.EndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 9550);
             //Testing.GoalCommunicatorTest1 goalCom = new Testing.GoalCommunicatorTest1(args);
             //hoi hoi
@@ -22,6 +27,7 @@ namespace Naovigate
             //    Console.WriteLine();
             //    System.Threading.Thread.Sleep(100);
             //}
+
         }
     }
 }
