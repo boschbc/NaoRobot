@@ -50,10 +50,10 @@ namespace Naovigate.Event
         {
             while (true)
             {
-                Console.WriteLine("EventQueue waiting");
-                
+                //Console.WriteLine("EventQueue waiting");
+                Thread.Sleep(100);
                 //Monitor.Wait(this);
-                Console.WriteLine("Locking list");
+                //Console.WriteLine("Locking list");
                 lock (q)
                 {
                     if (!q.IsEmpty())
