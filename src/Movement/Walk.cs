@@ -21,7 +21,7 @@ namespace Naovigate.Movement
 
         private int markerID = -1;
         private Thread t = null;
-        private boolean found = false;
+        private Boolean found = false;
 
         public Walk()
         {
@@ -66,7 +66,7 @@ namespace Naovigate.Movement
          * */
         public void walkTowards(float dir, int markerID)
         {
-            stopLooking();
+            StopLooking();
             WalkTo(0, 0, dir);
             StartWalking(0.5F, 0, 0);
             this.markerID = markerID;
@@ -87,12 +87,12 @@ namespace Naovigate.Movement
             while (!found)
             {
                 ArrayList data = rec.GetMarkerData();
-                markers = data.Count == 0 ? data : data[1];
+                markers = data.Count == 0 ? data : (ArrayList)data[1];
                 
                 for (int i = 0; i < markers.Count && !found; i++)
                 {
-                    ArrayList marker = markers[i];
-                    if (marker[1][0] == markerID)
+                    ArrayList marker = (ArrayList)markers[i];
+                    if ((int)((ArrayList)marker[1])[0] == markerID)
                     {
                         found = true;
                         StopMove();
@@ -105,7 +105,7 @@ namespace Naovigate.Movement
          * return found
          * found is true when the marker with MarkID = markerID has been found
          * */
-        public boolean IsFound()
+        public Boolean IsFound()
         {
             return found;
         }

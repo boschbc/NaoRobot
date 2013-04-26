@@ -6,7 +6,7 @@ using Aldebaran.Proxies;
 using System.Collections;
 using Naovigate.Util;
 
-namespace Naovigate.vision
+namespace Naovigate.Vision
 {
     public class MarkerRecogniser
     {
