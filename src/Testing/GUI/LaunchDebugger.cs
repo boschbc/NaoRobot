@@ -11,9 +11,12 @@ namespace Naovigate.Testing.GUI
 {
     class LaunchDebugger
     {
-        public static void DebugMain()
+        public static void DebugMain(params String[] args)
         {
-            string ip = "127.0.0.1";
+            string ip= "127.0.0.1";
+            if (args.Length > 0)
+                ip = args[0];
+            
             int port = 9559;
             NaoState.ConnectTo(ip, port);
             Application.Run(new NaoDebugger());
