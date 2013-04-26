@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{E716A50D-7773-4AE2-B73F-9FC95F72C798}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>Naovigate</RootNamespace>
+    <AssemblyName>Naovigate</AssemblyName>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>..\build</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>none</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>..\build</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>False</ConsolePause>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Compile Include="Communication\EventQueue.cs" />
+    <Compile Include="Communication\CommunicationStream.cs" />
+    <Compile Include="Communication\FindIP.cs" />
+    <Compile Include="Communication\GrabNaoEvent.cs" />
+    <Compile Include="Communication\INaoEvent.cs" />
+    <Compile Include="Communication\InvalidActionCodeException.cs" />
+    <Compile Include="Communication\LookNaoEvent.cs" />
+    <Compile Include="Communication\MoveNaoEvent.cs" />
+    <Compile Include="Communication\NaoEvent.cs" />
+    <Compile Include="Communication\NaoEventFactory.cs" />
+    <Compile Include="Communication\Priority.cs" />
+    <Compile Include="gui\LocationMonitor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="gui\LocationMonitor.Designer.cs">
+      <DependentUpon>LocationMonitor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="gui\NaoDebugger.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="gui\NaoDebugger.Designer.cs">
+      <DependentUpon>NaoDebugger.cs</DependentUpon>
+    </Compile>
+    <Compile Include="gui\RealtimeField.cs" />
+    <Compile Include="MainProgram.cs" />
+    <Compile Include="Movement\Walk.cs" />
+    <Compile Include="obj\Sonar\Sonar.cs" />
+    <Compile Include="Testing\GoalCommuncatorTest1.cs" />
+    <Compile Include="Testing\PriorityQueueTest.cs" />
+    <Compile Include="Testing\SonarTest.cs" />
+    <Compile Include="Util\PriorityQueue.cs" />
+    <Compile Include="Vision\Camera.cs" />
+    <Compile Include="Communication\GoalCommunicator.cs" />
+    <Compile Include="Testing\Program.cs" />
+    <Compile Include="Testing\GoalCommunicatorTest.cs" />
+    <Compile Include="Vision\MarkerRecogniser.cs" />
+    <Compile Include="Vision\Processing.cs" />
+    <Compile Include="Haptics\Grabber.cs" />
+    <Compile Include="Util\NaoProxyManager.cs" />
+    <Compile Include="Util\NaoState.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="naoqi-dotnet4">
+      <HintPath>..\build\naoqi-dotnet4.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>lib\NUnit-2.6.2\bin\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="gui\LocationMonitor.resx">
+      <DependentUpon>LocationMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="gui\NaoDebugger.resx">
+      <DependentUpon>NaoDebugger.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,51 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Aldebaran.Proxies;
+using System.Net.Sockets;
+using System.Net;
+
+namespace Naovigate.communication
+{
+    public class FindIP
+    {
+        public static String getNextIP(int last)
+        {
+            for (int i = last < 0 ? 0 : last; i <= 255; i++)
+            {
+                if (testIP("192.168.0." + i))
+                {
+                    return "192.168.0." + i;
+                }
+                else if (testIP("192.168.1." + i))
+                {
+                    return "192.168.1." + i;
+                }
+            }
+            return null;
+        }
+
+        private static Boolean testIP(String ip)
+        {
+            try
+            {
+                IPAddress ipAddress = IPAddress.Parse(ip);
+                IPEndPoint endPoint = new IPEndPoint(ipAddress, 9559);
+                Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+                IAsyncResult res = socket.BeginConnect(endPoint, null, null);
+                if (res.AsyncWaitHandle.WaitOne(50))
+                {
+                    TextToSpeechProxy proxy = new TextToSpeechProxy(ip, 9559);
+                    proxy.say("My IP is " + ip);
+                    return true;
+                }
+            }
+            catch (Exception ex) {
+                Console.WriteLine(ex.Message);
+            }
+                return false;
+        }
+    }
+}

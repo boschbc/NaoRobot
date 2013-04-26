@@ -1,0 +1,13 @@
+c:\users\jorik\documents\visual studio 2010\Projects\NaoForm\NaoForm\obj\x86\Debug\ResolveAssemblyReference.cache
+c:\users\jorik\documents\visual studio 2010\Projects\NaoForm\NaoForm\obj\x86\Debug\NaoForm.Properties.Resources.resources
+c:\users\jorik\documents\visual studio 2010\Projects\NaoForm\NaoForm\obj\x86\Debug\GenerateResource.read.1.tlog
+c:\users\jorik\documents\visual studio 2010\Projects\NaoForm\NaoForm\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\Jorik\documents\visual studio 2010\Projects\NaoForm\NaoForm\bin\Debug\NaoForm.exe
+C:\Users\Jorik\documents\visual studio 2010\Projects\NaoForm\NaoForm\bin\Debug\NaoForm.pdb
+C:\Users\Jorik\documents\visual studio 2010\Projects\NaoForm\NaoForm\bin\Debug\naoqi-dotnet4.dll
+C:\Users\Jorik\documents\visual studio 2010\Projects\NaoForm\NaoForm\bin\Debug\naoqi-dotnet4.xml
+C:\Users\Jorik\documents\visual studio 2010\Projects\NaoForm\NaoForm\obj\x86\Debug\NaoForm.Form1.resources
+C:\Users\Jorik\documents\visual studio 2010\Projects\NaoForm\NaoForm\obj\x86\Debug\NaoForm.exe
+C:\Users\Jorik\documents\visual studio 2010\Projects\NaoForm\NaoForm\obj\x86\Debug\NaoForm.pdb
+D:\My Files\TU\Contextproject\ti2800\NaoForm\NaoForm\obj\x86\Debug\NaoForm.exe
+D:\My Files\TU\Contextproject\ti2800\NaoForm\NaoForm\obj\x86\Debug\NaoForm.pdb
