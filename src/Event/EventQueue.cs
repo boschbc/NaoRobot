@@ -15,6 +15,7 @@ namespace Naovigate.Event
 
         public EventQueue()
         {
+            q = new PriorityQueue<INaoEvent>(3);
             Thread t = new Thread(new ThreadStart(Run));
             t.IsBackground = true;
             t.Start();
