@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Naovigate.Communication;
 
-namespace Naovigate.Communication
+namespace Naovigate.Event
 {
     /**
      * Creates new Nao-events on-demand.

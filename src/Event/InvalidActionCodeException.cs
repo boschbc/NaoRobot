@@ -1,7 +1,8 @@
 ﻿using System;
+using Naovigate.Communication;
 using System.Runtime.Serialization;
 
-namespace Naovigate.Communication
+namespace Naovigate.Event
 {
     /**
      * An exception designed to be thrown when trying to initialise

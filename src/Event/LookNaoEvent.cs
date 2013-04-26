@@ -1,6 +1,7 @@
 ﻿using System;
+using Naovigate.Communication;
 
-namespace Naovigate.Communication
+namespace Naovigate.Event
 {
     /**
     * A class representing the "look" Nao-event.

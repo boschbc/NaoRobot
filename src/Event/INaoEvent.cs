@@ -1,6 +1,7 @@
 ﻿using System;
 
-namespace Naovigate.Communication
+using Naovigate.Communication;
+namespace Naovigate.Event
 {
     /**
      * A simple interface for Nao-events.

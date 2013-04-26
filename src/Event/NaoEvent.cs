@@ -1,6 +1,6 @@
 ﻿using System;
-
-namespace Naovigate.Communication
+using Naovigate.Communication;
+namespace Naovigate.Event
 {
     /**
      * An abstract class implementing a simple NaoEvent interface.

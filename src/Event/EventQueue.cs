@@ -5,7 +5,7 @@ using System.Text;
 using Naovigate.Util;
 using System.Threading;
 
-namespace Naovigate.Communication
+namespace Naovigate.Event
 {
     class EventQueue
     {

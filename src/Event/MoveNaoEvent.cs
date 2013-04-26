@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Windows;
 using System.Drawing;
+using Naovigate.Communication;
 
 using Naovigate.Movement;
 
-namespace Naovigate.Communication
+namespace Naovigate.Event
 {
     /**
      * A class representing the "move" Nao-event.

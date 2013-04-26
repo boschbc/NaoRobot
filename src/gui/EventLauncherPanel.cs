@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Threading;
 
-using Naovigate.Communication;
+using Naovigate.Event;
 
 namespace Naovigate.GUI
 {

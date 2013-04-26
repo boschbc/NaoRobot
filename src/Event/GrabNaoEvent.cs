@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Naovigate.Communication;
 
-
-namespace Naovigate.Communication
+namespace Naovigate.Event
 {
     /**
     * A class representing the "grab" Nao-event.
