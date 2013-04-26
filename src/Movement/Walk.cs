@@ -34,14 +34,16 @@ namespace Naovigate.Movement
 
         public void WalkTo(float x, float y, float theta)
         {
-            if (!IsMoving()) motion.moveInit();
+            if (!IsMoving()) 
+                motion.moveInit();
             motion.move(x, y, theta);
-            motion.stopMove();
+            //motion.stopMove();
         }
 
         public void StartWalking(float x, float y, float theta)
         {
-            if (!IsMoving()) motion.moveInit();
+            if (!IsMoving()) 
+                motion.moveInit();
             motion.moveToward(x, y, theta);
         }
 

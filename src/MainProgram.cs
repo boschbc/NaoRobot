@@ -11,7 +11,7 @@ namespace Naovigate
         public static void Main(String[] args)
         {
             //Use this switch to deactivate debugger invocation:
-            bool Debug = false;
+            bool Debug = true;
             if (Debug)
                 LaunchDebugger.DebugMain();
             //NaoProxyManager.Instance.EndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 9550);
