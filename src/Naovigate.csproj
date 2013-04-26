@@ -63,6 +63,17 @@
     <Compile Include="Event\NaoEventFactory.cs" />
     <Compile Include="Event\Priority.cs" />
     <Compile Include="GUI\EventLauncherPanel.cs">
+    <Compile Include="Communication\GrabNaoEvent.cs" />
+    <Compile Include="Communication\INaoEvent.cs" />
+    <Compile Include="Communication\InvalidActionCodeException.cs" />
+    <Compile Include="Communication\LookNaoEvent.cs" />
+    <Compile Include="Communication\MoveNaoEvent.cs" />
+    <Compile Include="Communication\NaoEvent.cs" />
+    <Compile Include="Communication\NaoEventFactory.cs" />
+    <Compile Include="Communication\Priority.cs" />
+    <Compile Include="Event\EventQueue.cs" />
+    <Compile Include="gui\IRealtimeField.cs" />
+    <Compile Include="gui\LocationMonitor.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GUI\EventLauncherPanel.Designer.cs">
