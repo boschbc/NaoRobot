@@ -27,7 +27,7 @@ namespace Naovigate.Event
             lock (q)
             {
                 q.Enqueue(e, 0);
-                Monitor.Pulse(this);
+                //Monitor.Pulse(this);
             }
         }
 
@@ -51,7 +51,8 @@ namespace Naovigate.Event
             while (true)
             {
                 Console.WriteLine("EventQueue waiting");
-                Monitor.Wait(this);
+                
+                //Monitor.Wait(this);
                 Console.WriteLine("Locking list");
                 lock (q)
                 {
