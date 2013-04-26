@@ -12,28 +12,43 @@ namespace Naovigate.Movement
 {
     class Walk
     {
-        private static MotionProxy motion;
-        private static RobotPostureProxy posture;
+        private MotionProxy motion;
+        private RobotPostureProxy posture;
 
-        public static void RefreshProxies()
+        private static Walk instance = null;
+
+        public Walk()
         {
             motion = NaoState.GetMotionProxy();
             posture = NaoState.GetRobotPostureProxy();
         }
 
-        public static void WalkTo(float x, float y, float theta)
+        public static Walk GetInstance()
         {
-            //Util.NaoState.IsWalking = true;
-            posture.goToPosture("StandZero", 1f);
+            return instance == null ? new Walk() : instance;
+        }
+
+        public void WalkTo(float x, float y, float theta)
+        {
             motion.moveInit();
             motion.move(x, y, theta);
             motion.stopMove();
         }
 
-        public static void stopMove()
+        public void StartWalking(float x, float y, float theta)
+        {
+            if (!IsMoving()) motion.moveInit();
+            motion.moveToward(x, y, theta);
+        }
+
+        public Boolean IsMoving()
+        {
+            return motion.moveIsActive();
+        }
+
+        public void StopMove()
         {
             motion.stopMove();
-           // Util.NaoState.IsWalking = false;
         }
     }
 }
