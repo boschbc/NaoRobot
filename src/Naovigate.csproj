@@ -62,7 +62,7 @@
     <Compile Include="Event\NaoEvent.cs" />
     <Compile Include="Event\NaoEventFactory.cs" />
     <Compile Include="Event\Priority.cs" />
-    <Compile Include="GUI\EventLauncherPanel.cs">
+    <Compile Include="GUI\EventLauncherPanel.cs" />
     <Compile Include="Communication\GrabNaoEvent.cs" />
     <Compile Include="Communication\INaoEvent.cs" />
     <Compile Include="Communication\InvalidActionCodeException.cs" />
