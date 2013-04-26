@@ -24,11 +24,11 @@ namespace Naovigate.Event
         public void Enqueue(INaoEvent e)
         {
             // todo: synchronize, priority
-            lock (q)
-            {
+            //lock (q)
+            //{
                 q.Enqueue(e, (int)e.GetPriority());
                 //Monitor.Pulse(this);
-            }
+            //}
         }
 
         /**
@@ -54,15 +54,15 @@ namespace Naovigate.Event
                 Thread.Sleep(100);
                 //Monitor.Wait(this);
                 //Console.WriteLine("Locking list");
-                lock (q)
-                {
+                //lock (q)
+                //{
                     if (!q.IsEmpty())
                     {
                         INaoEvent e = q.Dequeue();
                         Console.WriteLine("Fired " + e);
                         e.Fire();
                     }
-                }
+                //}
             }
         }
     }
