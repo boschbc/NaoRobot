@@ -1,5 +1,4 @@
 ﻿using System;
-using Naovigate.Communication;
 using System.Runtime.Serialization;
 
 namespace Naovigate.Event

@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 using Aldebaran.Proxies;
@@ -27,16 +23,13 @@ namespace Naovigate.GUI
 
         public void UpdateContent()
         {
-            MotionProxy motion = NaoState.GetMotionProxy();
-            try
-            {
-                List<float> vector = motion.getRobotPosition(false);
-                label.Text = String.Format(Format, vector[0], vector[1], vector[2]);
-            }
-            catch
-            {
-                label.Text = DefaultText;
-            }
+            NaoState.Update();
+            PointF location = NaoState.GetLocation();
+            float rotation = NaoState.GetRotation();
+            label.Text = String.Format(Format,
+                                    Math.Round(location.X, 2),
+                                    Math.Round(location.Y, 2),
+                                    Math.Round(rotation, 2));     
         }
     }
 }

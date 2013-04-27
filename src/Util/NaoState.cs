@@ -5,11 +5,16 @@ using System.Collections.Generic;
 using Aldebaran.Proxies;
 
 using Naovigate.Movement;
+using Naovigate.Communication;
 
 namespace Naovigate.Util
 {
     public static class NaoState
     {
+        private static string ConnectionErrorMsg = "Connection Unavailable.";
+        private static string ProxyDeletionErrorMsg = "Error while disposing of proxies.";
+        private static string UpdateErrorMsg = "Failed update - no connection.";
+
         private static string ip;
         private static int port;
         private static PointF location;
@@ -22,23 +27,33 @@ namespace Naovigate.Util
 
         /**
          * Connect to a Nao.
+         * If already connected to a Nao, will disonnect first.
          * @param ip_ = IP address of target Nao.
          * @param port_ = Integer of the desired port.
          **/
         public static void ConnectTo(string ip_, int port_)
         {
+            if (IsConnected())
+                Disconnect();
+
             ip = ip_;
             port = port_;
             CreateProxies();
-            SetConnected(true);
+            connected = true;
             Update();
         }
 
-        private static void SetConnected(bool value)
+        /**
+         * Disconnects from the Nao currently connected to.
+         * If no Nao is connected, does nothing.
+         **/
+        public static void Disconnect()
         {
-            connected = value;
+            ip = null;
+            port = -1;
+            TeardownProxies();
+            connected = false;
         }
-
 
         /**
          * Create proxies for the Nao this class is connected to.
@@ -48,14 +63,12 @@ namespace Naovigate.Util
         {
             try
             {
-                motionProxy = new MotionProxy(GetIP(), GetPort());
-                postureProxy = new RobotPostureProxy(GetIP(), GetPort());
-                Walk.GetInstance().RefreshProxies();
+                motionProxy = new MotionProxy(ip, port);
+                postureProxy = new RobotPostureProxy(ip, port);
             }
             catch
             {
-                throw new Exception("Connection unavailable.");
-                //throw new UnavailableConnectionException();
+                throw new UnavailableConnectionException(ConnectionErrorMsg, ip, port);
             }
         }
 
@@ -63,23 +76,20 @@ namespace Naovigate.Util
         * Delete proxies for the Nao this class is connected to.
         * @throws UnavailableConnectionException if connection is unavailable.
         **/
-        public static void TeardownProxies()
+        private static void TeardownProxies()
         {
+            if (!IsConnected())
+                return;
             try
             {
-                if (motionProxy != null) {
-                    motionProxy.Dispose();
-                    Console.WriteLine("Deleted Motion Proxy");
-                }
-                if (postureProxy != null)
-                {
-                    Console.WriteLine("Deleted posture Proxy");
-                }
+                motionProxy.Dispose();
+                Console.WriteLine("Deleted Motion Proxy");
+                postureProxy.Dispose();
+                Console.WriteLine("Deleted Posture Proxy");
             }
             catch
             {
-                throw new Exception("Error deleting Proxies.");
-                //throw new UnavailableConnectionException();
+                throw new UnavailableConnectionException(ProxyDeletionErrorMsg, ip, port);
             }
         }
 
@@ -138,12 +148,25 @@ namespace Naovigate.Util
          * These properties include:
          *  - Location
          *  - Rotation
+         *  @throws UnavailableConnectionException if not connected to a Nao.
          **/
         public static void Update()
         {
-            List<float> vector = motionProxy.getRobotPosition(false);
-            location = new PointF(vector[0], vector[1]);
-            rotation = vector[2];
+            Console.WriteLine("Updating.");
+
+            if (!IsConnected())
+                throw new UnavailableConnectionException(UpdateErrorMsg, ip, port);
+            try
+            {
+                List<float> vector = motionProxy.getRobotPosition(false);
+                location = new PointF(vector[0], vector[1]);
+                rotation = vector[2];
+            }
+            catch
+            {
+                Console.WriteLine("Faild Nao update.");
+            }
+            
         }
     }    
 }

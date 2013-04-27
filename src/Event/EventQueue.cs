@@ -12,13 +12,14 @@ namespace Naovigate.Event
 
         private static EventQueue instance;
         private PriorityQueue<INaoEvent> q;
+        private Thread thread;
 
         public EventQueue()
         {
             q = new PriorityQueue<INaoEvent>(3);
-            Thread t = new Thread(new ThreadStart(Run));
-            t.IsBackground = true;
-            t.Start();
+            thread = new Thread(new ThreadStart(Run));
+            thread.IsBackground = true;
+            thread.Start();
         }
 
         public void Enqueue(INaoEvent e)

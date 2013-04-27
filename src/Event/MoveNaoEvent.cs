@@ -30,7 +30,7 @@ namespace Naovigate.Event
         }
 
         /**
-         * Programmatically set the move's velocity.
+         * Programmatically set the move's destination.
          **/
         public void SetDelta(float x, float y)
         {

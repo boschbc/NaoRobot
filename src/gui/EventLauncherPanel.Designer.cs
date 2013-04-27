@@ -34,6 +34,7 @@
             this.radioGrab = new System.Windows.Forms.RadioButton();
             this.radioMove = new System.Windows.Forms.RadioButton();
             this.launchButton = new System.Windows.Forms.Button();
+            this.eventLauncher = new System.ComponentModel.BackgroundWorker();
             this.tableContainer.SuspendLayout();
             this.eventTypeBox.SuspendLayout();
             this.SuspendLayout();
@@ -110,6 +111,10 @@
             this.launchButton.UseVisualStyleBackColor = true;
             this.launchButton.Click += new System.EventHandler(this.launchButton_Click);
             // 
+            // eventLauncher
+            // 
+            this.eventLauncher.DoWork += new System.ComponentModel.DoWorkEventHandler(this.eventLauncher_DoWork);
+            // 
             // EventLauncherPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -135,6 +140,7 @@
         private System.Windows.Forms.RadioButton radioLook;
         private System.Windows.Forms.RadioButton radioGrab;
         private System.Windows.Forms.RadioButton radioMove;
+        private System.ComponentModel.BackgroundWorker eventLauncher;
 
     }
 }

@@ -14,9 +14,6 @@ namespace Naovigate.Movement
 {
     class Walk
     {
-        private MotionProxy motion;
-        private RobotPostureProxy posture;
-
         private static Walk instance = null;
 
         private int markerID = -1;
@@ -25,14 +22,7 @@ namespace Naovigate.Movement
 
         public Walk()
         {
-            motion = NaoState.GetMotionProxy();
-            posture = NaoState.GetRobotPostureProxy();
-        }
-
-        public void RefreshProxies()
-        {
-            motion = NaoState.GetMotionProxy();
-            posture = NaoState.GetRobotPostureProxy();
+            
         }
 
         public static Walk GetInstance()
@@ -41,19 +31,22 @@ namespace Naovigate.Movement
         }
 
         /**
-         * walk to (x, y, theta) with the Nao as the origin
+         * Walk to (x, y, theta) with the Nao as the origin
          * */
         public void WalkTo(float x, float y, float theta)
         {
+            MotionProxy motion = NaoState.GetMotionProxy();
+            RobotPostureProxy posture = NaoState.GetRobotPostureProxy();
             //System.Console.WriteLine(x + " " + y);
-            //posture.goToPosture("StandZero", 1f);
+            posture.goToPosture("StandZero", 1f);
             //motion.moveInit();
             //motion.moveTo(x, y, theta);
             //motion.stopMove();
             if (!IsMoving()) 
-                motion.moveInit();
-            motion.moveTo(x, y, theta);
-            motion.stopMove();
+                motion.post.moveInit();
+            motion.post.moveTo(x, y, theta);
+            //motion.post.stopMove();
+            Console.WriteLine("Done.");
         }
 
         /**
@@ -61,6 +54,7 @@ namespace Naovigate.Movement
          * */
         public void StartWalking(float x, float y, float theta)
         {
+            MotionProxy motion = NaoState.GetMotionProxy();
             if (!IsMoving()) 
                 motion.moveInit();
             motion.moveToward(x, y, theta);
@@ -144,7 +138,7 @@ namespace Naovigate.Movement
          * */
         public Boolean IsMoving()
         {
-            return motion.moveIsActive();
+            return NaoState.GetMotionProxy().moveIsActive();
         }
 
         /**
@@ -152,7 +146,7 @@ namespace Naovigate.Movement
          * */
         public void StopMove()
         {
-            motion.stopMove();
+            NaoState.GetMotionProxy().stopMove();
         }
     }
 }
