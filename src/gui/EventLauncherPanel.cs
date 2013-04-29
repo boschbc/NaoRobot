@@ -16,8 +16,8 @@ namespace Naovigate.GUI
         private void launchButton_Click(object sender, EventArgs e)
         {
             MoveNaoEvent moveEvent = new MoveNaoEvent(0.5f, 0.0f);
-            moveEvent.Fire();
-           // EventQueue.Instance.Enqueue(moveEvent);
+            //moveEvent.Fire();
+            EventQueue.Instance.Post(moveEvent);
            // eventLauncher.RunWorkerAsync();
         }
 

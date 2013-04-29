@@ -39,9 +39,14 @@ namespace Naovigate.Event
             thread.Start();
         }
 
+        public void Post(params INaoEvent[] events)
+        {
+            Enqueue(events);
+        }
+
         public void Enqueue(params INaoEvent[] events)
         {
-            // todo: synchronize, priority
+            // todo: synchronize
             lock (q)
             {
                 foreach(INaoEvent e in events)
@@ -69,22 +74,26 @@ namespace Naovigate.Event
         {
             while (true)
             {
-                //Console.WriteLine("EventQueue waiting");
                 Thread.Sleep(100);
                 //Monitor.Wait(this);
-                //Console.WriteLine("Locking list");
+                inAction = true;
+                INaoEvent e = null;
+
+                // lock queue, we dont want concurrent modifications
                 lock (q)
                 {
-                    inAction = true;
-                //Console.WriteLine("EventQueue...");
                     if (!q.IsEmpty())
                     {
-                        INaoEvent e = q.Dequeue();
-                        Console.WriteLine("Fired " + e);
-                        e.Fire();
+                        e = q.Dequeue();
                     }
-                    inAction = false;
                 }
+                // there was an event available, fire it
+                if (e != null)
+                {
+                    Console.WriteLine("Firing " + e);
+                    e.Fire();
+                }
+                inAction = false;
             }
         }
 
