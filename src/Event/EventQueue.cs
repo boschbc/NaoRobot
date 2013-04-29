@@ -7,12 +7,29 @@ using System.Threading;
 using System.ComponentModel;
 namespace Naovigate.Event
 {
+    /*
+     * The EventQueue collects events for activation, and fires them one at a time.
+     * To achieve interruptable events by high-prioritized stop events, events should
+     * be handled quickly
+     *      e.g. an action that makes the robot stand up and walk a meter, should
+     *      create multiple events for standing up and walking, preferably splitting
+     *      the walk in multiple events aswell.
+     */
     class EventQueue
     {
 
         private static EventQueue instance;
+
+        /*
+         * internal queue to store the events
+         */
         private PriorityQueue<INaoEvent> q;
         private Thread thread;
+
+        /*
+         * boolean saying if the event queue is handling an event
+         */
+        private bool inAction;
 
         public EventQueue()
         {
@@ -22,14 +39,15 @@ namespace Naovigate.Event
             thread.Start();
         }
 
-        public void Enqueue(INaoEvent e)
+        public void Enqueue(params INaoEvent[] events)
         {
             // todo: synchronize, priority
-            //lock (q)
-            //{
-                q.Enqueue(e, (int)e.GetPriority());
+            lock (q)
+            {
+                foreach(INaoEvent e in events)
+                    q.Enqueue(e, (int)e.GetPriority());
                 //Monitor.Pulse(this);
-            //}
+            }
         }
 
         /**
@@ -52,20 +70,32 @@ namespace Naovigate.Event
             while (true)
             {
                 //Console.WriteLine("EventQueue waiting");
-                Thread.Sleep(1000);
+                Thread.Sleep(100);
                 //Monitor.Wait(this);
                 //Console.WriteLine("Locking list");
-                //lock (q)
-                //{
-                Console.WriteLine("EventQueue...");
+                lock (q)
+                {
+                    inAction = true;
+                //Console.WriteLine("EventQueue...");
                     if (!q.IsEmpty())
                     {
                         INaoEvent e = q.Dequeue();
                         Console.WriteLine("Fired " + e);
                         e.Fire();
                     }
-                //}
+                    inAction = false;
+                }
             }
+        }
+
+        public int EventsQueuedCount()
+        {
+            return q.Size();
+        }
+
+        public bool IsEmpty()
+        {
+            return q.IsEmpty() && !inAction;
         }
     }
 }

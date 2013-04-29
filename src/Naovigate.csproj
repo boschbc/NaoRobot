@@ -91,6 +91,8 @@
     <Compile Include="MainProgram.cs" />
     <Compile Include="Movement\Walk.cs" />
     <Compile Include="Sonar\Sonar.cs" />
+    <Compile Include="Testing\CommunicationStreamTest.cs" />
+    <Compile Include="Testing\EventQueueTest.cs" />
     <Compile Include="Testing\GoalCommuncatorTest1.cs" />
     <Compile Include="Testing\GUI\LaunchDebugger.cs" />
     <Compile Include="Testing\PriorityQueueTest.cs" />
