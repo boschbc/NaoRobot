@@ -11,8 +11,8 @@ namespace Naovigate.Communication
 {
     class CommunicationStream
     {
-        private NetworkStream stream;
-        public CommunicationStream(NetworkStream stream)
+        private Stream stream;
+        public CommunicationStream(Stream stream)
         {
             this.stream = stream;
         }
@@ -82,19 +82,12 @@ namespace Naovigate.Communication
             // until length bytes are read
             while (pos < length + off)
             {
-                Console.WriteLine("pos = " + pos + ", to = " + (length + off) + ", av = " + stream.DataAvailable);
-                while (!stream.DataAvailable)
-                {
-                    Thread.Sleep(1000);
-                    Console.WriteLine("No Data Available");
-                }
-                // starting a current location, read until the end of the buffer
-                int len = stream.Read(buf, pos, length - pos - off);
-                Console.WriteLine("read " + len + " bytes");
+                // starting at current location, read until the end of the buffer
+                int len = stream.Read(buf, pos, off - pos + length);
                 pos += len;
             }
-            Debug.Assert(pos == length);
-            return pos;
+            Debug.Assert(pos - off == length);
+            return pos - off;
         }
 
         /**
@@ -132,7 +125,7 @@ namespace Naovigate.Communication
         /**
          * return the underlying stream
          */
-        public NetworkStream GetStream()
+        public Stream GetStream()
         {
             return stream;
         }
