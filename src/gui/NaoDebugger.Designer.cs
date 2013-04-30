@@ -53,7 +53,7 @@ namespace Naovigate.GUI
             this.mainTabs.Location = new System.Drawing.Point(0, 0);
             this.mainTabs.Name = "mainTabs";
             this.mainTabs.SelectedIndex = 0;
-            this.mainTabs.Size = new System.Drawing.Size(213, 177);
+            this.mainTabs.Size = new System.Drawing.Size(384, 262);
             this.mainTabs.TabIndex = 0;
             // 
             // simulateTab
@@ -62,7 +62,7 @@ namespace Naovigate.GUI
             this.simulateTab.Location = new System.Drawing.Point(4, 22);
             this.simulateTab.Name = "simulateTab";
             this.simulateTab.Padding = new System.Windows.Forms.Padding(3);
-            this.simulateTab.Size = new System.Drawing.Size(205, 151);
+            this.simulateTab.Size = new System.Drawing.Size(376, 236);
             this.simulateTab.TabIndex = 0;
             this.simulateTab.Text = "Simulate";
             this.simulateTab.UseVisualStyleBackColor = true;
@@ -73,7 +73,7 @@ namespace Naovigate.GUI
             this.eventLauncherPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.eventLauncherPanel.Location = new System.Drawing.Point(3, 3);
             this.eventLauncherPanel.Name = "eventLauncherPanel";
-            this.eventLauncherPanel.Size = new System.Drawing.Size(199, 136);
+            this.eventLauncherPanel.Size = new System.Drawing.Size(370, 136);
             this.eventLauncherPanel.TabIndex = 0;
             // 
             // stateTab
@@ -110,6 +110,7 @@ namespace Naovigate.GUI
             // 
             this.cameraMonitor.Location = new System.Drawing.Point(0, 0);
             this.cameraMonitor.Name = "cameraMonitor";
+            this.cameraMonitor.Size = new System.Drawing.Size(320, 240);
             this.cameraMonitor.TabIndex = 0;
             // 
             // NaoDebugger
@@ -117,7 +118,7 @@ namespace Naovigate.GUI
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(213, 177);
+            this.ClientSize = new System.Drawing.Size(384, 262);
             this.Controls.Add(this.mainTabs);
             this.Name = "NaoDebugger";
             this.Text = "NaoDebugger";
@@ -127,7 +128,6 @@ namespace Naovigate.GUI
             this.stateTab.ResumeLayout(false);
             this.stateTab.PerformLayout();
             this.cameraTab.ResumeLayout(false);
-            this.cameraTab.PerformLayout();
             this.ResumeLayout(false);
 
         }
