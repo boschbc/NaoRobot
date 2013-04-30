@@ -5,6 +5,7 @@ using System.Windows.Forms;
 
 using Aldebaran.Proxies;
 
+using Naovigate.Communication;
 using Naovigate.Util;
 
 namespace Naovigate.GUI
@@ -18,12 +19,20 @@ namespace Naovigate.GUI
         public LocationMonitor()
         {
             InitializeComponent();
-            UpdateContent();
+            label.Text = DefaultText;
         }
 
         public void UpdateContent()
         {
-            NaoState.Update();
+            try
+            {
+                NaoState.Update();
+            }
+            catch (UnavailableConnectionException e)
+            {
+                Console.WriteLine("Caught exception: " + e.Message);
+                return;
+            }
             PointF location = NaoState.GetLocation();
             float rotation = NaoState.GetRotation();
             label.Text = String.Format(Format,

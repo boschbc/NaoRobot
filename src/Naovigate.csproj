@@ -63,6 +63,12 @@
     <Compile Include="Event\NaoEvent.cs" />
     <Compile Include="Event\NaoEventFactory.cs" />
     <Compile Include="Event\Priority.cs" />
+    <Compile Include="GUI\CameraMonitor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\CameraMonitor.Designer.cs">
+      <DependentUpon>CameraMonitor.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\EventLauncherPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -117,6 +123,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
@@ -141,6 +148,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="GUI\CameraMonitor.resx">
+      <DependentUpon>CameraMonitor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\EventLauncherPanel.resx">
       <DependentUpon>EventLauncherPanel.cs</DependentUpon>
     </EmbeddedResource>

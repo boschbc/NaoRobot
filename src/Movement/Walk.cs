@@ -46,7 +46,6 @@ namespace Naovigate.Movement
                 motion.post.moveInit();
             motion.post.moveTo(x, y, theta);
             //motion.post.stopMove();
-            Console.WriteLine("Done.");
         }
 
         /**

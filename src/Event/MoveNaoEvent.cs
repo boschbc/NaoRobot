@@ -44,5 +44,13 @@ namespace Naovigate.Event
         {
             Walk.GetInstance().WalkTo(delta.X, delta.Y, 0.0f);
         }
+
+        /**
+         * Returns a human-readable string describing an instance of this class.
+         **/
+        public override string ToString()
+        {
+            return String.Format("MoveNaoEvent(delta={0})", delta);
+        }
     }
 }

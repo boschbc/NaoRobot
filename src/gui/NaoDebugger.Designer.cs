@@ -33,13 +33,15 @@ namespace Naovigate.GUI
         {
             this.mainTabs = new System.Windows.Forms.TabControl();
             this.simulateTab = new System.Windows.Forms.TabPage();
+            this.eventLauncherPanel = new Naovigate.GUI.EventLauncherPanel();
             this.stateTab = new System.Windows.Forms.TabPage();
+            this.stateMonitorPanel = new Naovigate.GUI.StateMonitorPanel();
             this.cameraTab = new System.Windows.Forms.TabPage();
-            this.eventLauncherPanel1 = new Naovigate.GUI.EventLauncherPanel();
-            this.stateMonitorPanel1 = new Naovigate.GUI.StateMonitorPanel();
+            this.cameraMonitor = new Naovigate.GUI.CameraMonitor();
             this.mainTabs.SuspendLayout();
             this.simulateTab.SuspendLayout();
             this.stateTab.SuspendLayout();
+            this.cameraTab.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainTabs
@@ -56,7 +58,7 @@ namespace Naovigate.GUI
             // 
             // simulateTab
             // 
-            this.simulateTab.Controls.Add(this.eventLauncherPanel1);
+            this.simulateTab.Controls.Add(this.eventLauncherPanel);
             this.simulateTab.Location = new System.Drawing.Point(4, 22);
             this.simulateTab.Name = "simulateTab";
             this.simulateTab.Padding = new System.Windows.Forms.Padding(3);
@@ -65,43 +67,50 @@ namespace Naovigate.GUI
             this.simulateTab.Text = "Simulate";
             this.simulateTab.UseVisualStyleBackColor = true;
             // 
+            // eventLauncherPanel
+            // 
+            this.eventLauncherPanel.AutoSize = true;
+            this.eventLauncherPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.eventLauncherPanel.Location = new System.Drawing.Point(3, 3);
+            this.eventLauncherPanel.Name = "eventLauncherPanel";
+            this.eventLauncherPanel.Size = new System.Drawing.Size(199, 136);
+            this.eventLauncherPanel.TabIndex = 0;
+            // 
             // stateTab
             // 
-            this.stateTab.Controls.Add(this.stateMonitorPanel1);
+            this.stateTab.Controls.Add(this.stateMonitorPanel);
             this.stateTab.Location = new System.Drawing.Point(4, 22);
             this.stateTab.Name = "stateTab";
             this.stateTab.Padding = new System.Windows.Forms.Padding(3);
-            this.stateTab.Size = new System.Drawing.Size(532, 450);
+            this.stateTab.Size = new System.Drawing.Size(205, 151);
             this.stateTab.TabIndex = 1;
             this.stateTab.Text = "State";
             this.stateTab.UseVisualStyleBackColor = true;
             // 
+            // stateMonitorPanel
+            // 
+            this.stateMonitorPanel.AutoSize = true;
+            this.stateMonitorPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.stateMonitorPanel.Location = new System.Drawing.Point(3, 3);
+            this.stateMonitorPanel.Name = "stateMonitorPanel";
+            this.stateMonitorPanel.Size = new System.Drawing.Size(199, 32);
+            this.stateMonitorPanel.TabIndex = 1;
+            // 
             // cameraTab
             // 
+            this.cameraTab.Controls.Add(this.cameraMonitor);
             this.cameraTab.Location = new System.Drawing.Point(4, 22);
             this.cameraTab.Name = "cameraTab";
-            this.cameraTab.Size = new System.Drawing.Size(532, 450);
+            this.cameraTab.Size = new System.Drawing.Size(205, 151);
             this.cameraTab.TabIndex = 2;
             this.cameraTab.Text = "Camera";
             this.cameraTab.UseVisualStyleBackColor = true;
             // 
-            // eventLauncherPanel1
+            // cameraMonitor
             // 
-            this.eventLauncherPanel1.AutoSize = true;
-            this.eventLauncherPanel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.eventLauncherPanel1.Location = new System.Drawing.Point(3, 3);
-            this.eventLauncherPanel1.Name = "eventLauncherPanel1";
-            this.eventLauncherPanel1.Size = new System.Drawing.Size(199, 136);
-            this.eventLauncherPanel1.TabIndex = 0;
-            // 
-            // stateMonitorPanel1
-            // 
-            this.stateMonitorPanel1.AutoSize = true;
-            this.stateMonitorPanel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.stateMonitorPanel1.Location = new System.Drawing.Point(3, 3);
-            this.stateMonitorPanel1.Name = "stateMonitorPanel1";
-            this.stateMonitorPanel1.Size = new System.Drawing.Size(526, 32);
-            this.stateMonitorPanel1.TabIndex = 1;
+            this.cameraMonitor.Location = new System.Drawing.Point(0, 0);
+            this.cameraMonitor.Name = "cameraMonitor";
+            this.cameraMonitor.TabIndex = 0;
             // 
             // NaoDebugger
             // 
@@ -117,6 +126,8 @@ namespace Naovigate.GUI
             this.simulateTab.PerformLayout();
             this.stateTab.ResumeLayout(false);
             this.stateTab.PerformLayout();
+            this.cameraTab.ResumeLayout(false);
+            this.cameraTab.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -127,7 +138,8 @@ namespace Naovigate.GUI
         private TabPage simulateTab;
         private TabPage stateTab;
         private TabPage cameraTab;
-        private EventLauncherPanel eventLauncherPanel1;
-        private StateMonitorPanel stateMonitorPanel1;
+        private EventLauncherPanel eventLauncherPanel;
+        private StateMonitorPanel stateMonitorPanel;
+        private CameraMonitor cameraMonitor;
     }
 }

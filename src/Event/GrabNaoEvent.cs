@@ -11,6 +11,8 @@ namespace Naovigate.Event
     {
         public GrabNaoEvent(CommunicationStream stream) : base(stream) { }
 
+        public GrabNaoEvent() { }
+
         /**
          * Extracts parameters from a communication stream.
          **/
@@ -24,7 +26,15 @@ namespace Naovigate.Event
          **/ 
         public override void Fire()
         {
-            //ControllerClass.grab()
+            //ControllerClass.Grab()
+        }
+
+        /**
+         * Returns a human-readable string describing an instance of this class.
+         **/
+        public override string ToString()
+        {
+            return "GrabNaoEvent";
         }
     }
 }

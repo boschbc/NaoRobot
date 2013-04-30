@@ -34,7 +34,6 @@
             this.radioGrab = new System.Windows.Forms.RadioButton();
             this.radioMove = new System.Windows.Forms.RadioButton();
             this.launchButton = new System.Windows.Forms.Button();
-            this.eventLauncher = new System.ComponentModel.BackgroundWorker();
             this.tableContainer.SuspendLayout();
             this.eventTypeBox.SuspendLayout();
             this.SuspendLayout();
@@ -75,7 +74,6 @@
             this.radioLook.Name = "radioLook";
             this.radioLook.Size = new System.Drawing.Size(49, 17);
             this.radioLook.TabIndex = 2;
-            this.radioLook.TabStop = true;
             this.radioLook.Text = "Look";
             this.radioLook.UseVisualStyleBackColor = true;
             // 
@@ -86,13 +84,13 @@
             this.radioGrab.Name = "radioGrab";
             this.radioGrab.Size = new System.Drawing.Size(48, 17);
             this.radioGrab.TabIndex = 1;
-            this.radioGrab.TabStop = true;
             this.radioGrab.Text = "Grab";
             this.radioGrab.UseVisualStyleBackColor = true;
             // 
             // radioMove
             // 
             this.radioMove.AutoSize = true;
+            this.radioMove.Checked = true;
             this.radioMove.Location = new System.Drawing.Point(6, 19);
             this.radioMove.Name = "radioMove";
             this.radioMove.Size = new System.Drawing.Size(52, 17);
@@ -110,10 +108,6 @@
             this.launchButton.Text = "Launch Event";
             this.launchButton.UseVisualStyleBackColor = true;
             this.launchButton.Click += new System.EventHandler(this.launchButton_Click);
-            // 
-            // eventLauncher
-            // 
-            this.eventLauncher.DoWork += new System.ComponentModel.DoWorkEventHandler(this.eventLauncher_DoWork);
             // 
             // EventLauncherPanel
             // 
@@ -140,7 +134,6 @@
         private System.Windows.Forms.RadioButton radioLook;
         private System.Windows.Forms.RadioButton radioGrab;
         private System.Windows.Forms.RadioButton radioMove;
-        private System.ComponentModel.BackgroundWorker eventLauncher;
 
     }
 }

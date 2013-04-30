@@ -11,12 +11,18 @@ namespace Naovigate.Event
     {
         private static string InvalidActionCodeMsg = "Attempting to construct a NaoEvent with a corrupt action-code.";
 
+        private enum ActionCode
+        {
+            Move = 0,
+            Look = Move + 1,
+            Grab = Look + 1
+        }
         private static Dictionary<byte, Func<CommunicationStream, NaoEvent>> CodeConverter = 
             new Dictionary<byte, Func<CommunicationStream, NaoEvent>>()
             {
-                {(byte) 0, stream => new MoveNaoEvent(stream)},
-                {(byte) 1, stream => new LookNaoEvent(stream)},
-                {(byte) 2, stream => new GrabNaoEvent(stream)}
+                {(byte) ActionCode.Move, stream => new MoveNaoEvent(stream)},
+                {(byte) ActionCode.Look, stream => new LookNaoEvent(stream)},
+                {(byte) ActionCode.Grab, stream => new GrabNaoEvent(stream)}
             };
 
         /**
