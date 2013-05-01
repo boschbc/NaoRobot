@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+
 using Naovigate.Communication;
 
 namespace Naovigate.Event
@@ -11,11 +12,11 @@ namespace Naovigate.Event
     {
         private static string InvalidActionCodeMsg = "Attempting to construct a NaoEvent with a corrupt action-code.";
 
-        private enum ActionCode
+        public enum ActionCode
         {
             Move = 0,
-            Look = Move + 1,
-            Grab = Look + 1
+            Look = 1,
+            Grab = 2
         }
         private static Dictionary<byte, Func<CommunicationStream, NaoEvent>> CodeConverter = 
             new Dictionary<byte, Func<CommunicationStream, NaoEvent>>()

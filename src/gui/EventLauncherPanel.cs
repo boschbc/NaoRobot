@@ -42,13 +42,13 @@ namespace Naovigate.GUI
         private void LaunchLookEvent()
         {
             LookNaoEvent lookEvent = new LookNaoEvent(3.14f);
-            lookEvent.Fire();
+            EventQueue.Instance.Post(lookEvent);
         }
 
         private void LaunchGrabEvent()
         {
             GrabNaoEvent grabEvent = new GrabNaoEvent();
-            grabEvent.Fire();
+            EventQueue.Instance.Post(grabEvent);
         }
     }
 }

@@ -99,6 +99,7 @@
     <Compile Include="Sonar\Sonar.cs" />
     <Compile Include="Testing\CommunicationStreamTest.cs" />
     <Compile Include="Testing\EventQueueTest.cs" />
+    <Compile Include="Testing\Event\NaoEventFactoryTest.cs" />
     <Compile Include="Testing\GoalCommuncatorTest1.cs" />
     <Compile Include="Testing\GUI\LaunchDebugger.cs" />
     <Compile Include="Testing\PriorityQueueTest.cs" />
@@ -171,6 +172,5 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="obj\" />
-    <Folder Include="Testing\Event\" />
   </ItemGroup>
 </Project>
