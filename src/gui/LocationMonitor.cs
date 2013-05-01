@@ -33,8 +33,8 @@ namespace Naovigate.GUI
                 Console.WriteLine("Caught exception: " + e.Message);
                 return;
             }
-            PointF location = NaoState.GetLocation();
-            float rotation = NaoState.GetRotation();
+            PointF location = NaoState.Location;
+            float rotation = NaoState.Rotation;
             label.Text = String.Format(Format,
                                     Math.Round(location.X, 2),
                                     Math.Round(location.Y, 2),

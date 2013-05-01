@@ -105,11 +105,8 @@ namespace Naovigate.Util
             try
             {
                 motionProxy.Dispose();
-                Console.WriteLine("Deleted Motion Proxy");
                 postureProxy.Dispose();
-                Console.WriteLine("Deleted Posture Proxy");
                 videoProxy.Dispose();
-                Console.WriteLine("Deleted Video Proxy");
             }
             catch
             {
@@ -120,33 +117,33 @@ namespace Naovigate.Util
         /**
          * Return the IP of the Nao currently connected to.
          **/
-        public static string GetIP()
+        public static string IP
         {
-            return ip;
+            get { return ip; }
         }
 
         /**
          * Return the post of the Nao currently connected to.
          **/
-        public static int GetPort()
+        public static int Port
         {
-            return port;
+            get { return port; }
         }
 
         /**
          * Return the location of the Nao currently connected to.
          **/
-        public static PointF GetLocation()
+        public static PointF Location
         {
-            return location;
+            get { return location; }
         }
 
         /**
          * Return the rotation degree of the Nao currently connected to.
          **/
-        public static float GetRotation()
+        public static float Rotation
         {
-            return rotation;
+            get { return rotation; }
         }
 
         /**
@@ -168,14 +165,14 @@ namespace Naovigate.Util
                                 System.Runtime.InteropServices.Marshal.UnsafeAddrOfPinnedArrayElement(imageBytes, 0));
         }
 
-        public static MotionProxy GetMotionProxy()
+        public static MotionProxy MotionProxy
         {
-            return motionProxy;
+            get { return motionProxy; }
         }
 
-        public static RobotPostureProxy GetRobotPostureProxy()
+        public static RobotPostureProxy PostureProxy
         {
-            return postureProxy;
+            get { return postureProxy; }
         }
 
         /**

@@ -35,8 +35,8 @@ namespace Naovigate.Movement
          * */
         public void WalkTo(float x, float y, float theta)
         {
-            MotionProxy motion = NaoState.GetMotionProxy();
-            RobotPostureProxy posture = NaoState.GetRobotPostureProxy();
+            MotionProxy motion = NaoState.MotionProxy;
+            RobotPostureProxy posture = NaoState.PostureProxy;
             //System.Console.WriteLine(x + " " + y);
             posture.goToPosture("StandZero", 1f);
             //motion.moveInit();
@@ -53,7 +53,7 @@ namespace Naovigate.Movement
          * */
         public void StartWalking(float x, float y, float theta)
         {
-            MotionProxy motion = NaoState.GetMotionProxy();
+            MotionProxy motion = NaoState.MotionProxy;
             if (!IsMoving()) 
                 motion.moveInit();
             motion.moveToward(x, y, theta);
@@ -137,7 +137,7 @@ namespace Naovigate.Movement
          * */
         public Boolean IsMoving()
         {
-            return NaoState.GetMotionProxy().moveIsActive();
+            return NaoState.MotionProxy.moveIsActive();
         }
 
         /**
@@ -145,7 +145,7 @@ namespace Naovigate.Movement
          * */
         public void StopMove()
         {
-            NaoState.GetMotionProxy().stopMove();
+            NaoState.MotionProxy.stopMove();
         }
     }
 }

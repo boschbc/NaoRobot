@@ -115,6 +115,9 @@
     <Compile Include="Util\NaoState.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>lib\Moq.4.0.10827\NET40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="naoqi-dotnet4">
       <HintPath>..\build\naoqi-dotnet4.dll</HintPath>
     </Reference>
@@ -168,5 +171,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="obj\" />
+    <Folder Include="Testing\Event\" />
   </ItemGroup>
 </Project>
