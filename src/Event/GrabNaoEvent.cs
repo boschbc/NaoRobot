@@ -7,7 +7,7 @@ namespace Naovigate.Event
     /**
     * A class representing the "grab" Nao-event.
     **/
-    class GrabNaoEvent : NaoEvent
+    public class GrabNaoEvent : NaoEvent
     {
         public GrabNaoEvent(CommunicationStream stream) : base(stream) { }
 

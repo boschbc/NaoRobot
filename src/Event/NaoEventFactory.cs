@@ -8,7 +8,7 @@ namespace Naovigate.Event
     /**
      * Creates new Nao-events on-demand.
      **/
-    class NaoEventFactory
+    public class NaoEventFactory
     {
         private static string InvalidActionCodeMsg = "Attempting to construct a NaoEvent with a corrupt action-code.";
 

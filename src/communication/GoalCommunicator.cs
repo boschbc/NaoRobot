@@ -10,7 +10,7 @@ using System.Diagnostics;
 namespace Naovigate.Communication
 {
    
-    class GoalCommunicator
+    public class GoalCommunicator
     {
 
         protected static GoalCommunicator instance = null;

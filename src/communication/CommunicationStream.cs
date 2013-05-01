@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace Naovigate.Communication
 {
-    class CommunicationStream
+    public class CommunicationStream
     {
         private Stream stream;
         public CommunicationStream(Stream stream)

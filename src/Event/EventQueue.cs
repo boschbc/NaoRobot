@@ -15,7 +15,7 @@ namespace Naovigate.Event
      *      create multiple events for standing up and walking, preferably splitting
      *      the walk in multiple events aswell.
      */
-    class EventQueue
+    public class EventQueue
     {
 
         private static EventQueue instance;

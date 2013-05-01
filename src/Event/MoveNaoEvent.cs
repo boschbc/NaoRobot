@@ -10,7 +10,7 @@ namespace Naovigate.Event
     /**
      * A class representing the "move" Nao-event.
      **/
-    class MoveNaoEvent : NaoEvent
+    public class MoveNaoEvent : NaoEvent
     {
         private PointF delta;
 

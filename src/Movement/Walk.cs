@@ -12,7 +12,7 @@ using Naovigate.Vision;
 
 namespace Naovigate.Movement
 {
-    class Walk
+    public class Walk
     {
         private static Walk instance = null;
 

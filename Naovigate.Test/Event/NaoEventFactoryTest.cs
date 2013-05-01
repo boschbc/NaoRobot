@@ -41,7 +41,7 @@ namespace Naovigate.Testing.Event
         }
 
         [Test]
-        public void NewMoveEvent()
+        public void NewEvent_Valid_Move()
         {
             INaoEvent result = NaoEventFactory.NewEvent(
                                 (byte)NaoEventFactory.ActionCode.Move, 
@@ -50,7 +50,7 @@ namespace Naovigate.Testing.Event
         }
 
         [Test]
-        public void NewLookEvent()
+        public void NewEvent_Valid_Look()
         {
             INaoEvent result = NaoEventFactory.NewEvent(
                                 (byte)NaoEventFactory.ActionCode.Look,
@@ -59,7 +59,7 @@ namespace Naovigate.Testing.Event
         }
 
         [Test]
-        public void NewGrabEvent()
+        public void NewEvent_Valid_Grab()
         {
             INaoEvent result = NaoEventFactory.NewEvent(
                                 (byte)NaoEventFactory.ActionCode.Grab,
@@ -69,7 +69,7 @@ namespace Naovigate.Testing.Event
 
         [Test]
         [ExpectedException(typeof(InvalidActionCodeException))]
-        public void NewInvalidEvent()
+        public void NewEvent_Invalid_ExceptionThrown()
         {
             INaoEvent result = NaoEventFactory.NewEvent(
                                 invalidActionCode,

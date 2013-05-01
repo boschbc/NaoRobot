@@ -6,7 +6,7 @@ namespace Naovigate.Event
     /**
     * A class representing the "look" Nao-event.
     **/
-    class LookNaoEvent : NaoEvent
+    public class LookNaoEvent : NaoEvent
     {
         private float degree;
 

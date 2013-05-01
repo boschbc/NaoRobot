@@ -6,7 +6,7 @@ using Aldebaran.Proxies;
 
 namespace Naovigate.Sonar
 {
-    class Sonar
+    public class Sonar
     {
         private SonarProxy sonarProxy;
         private MemoryProxy memoryProxy;

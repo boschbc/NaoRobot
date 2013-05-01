@@ -76,6 +76,7 @@
     <Compile Include="GUI\EventLauncherPanel.Designer.cs">
       <DependentUpon>EventLauncherPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\LaunchDebugger.cs" />
     <Compile Include="GUI\LocationMonitor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -97,18 +98,12 @@
     <Compile Include="MainProgram.cs" />
     <Compile Include="Movement\Walk.cs" />
     <Compile Include="Sonar\Sonar.cs" />
-    <Compile Include="Testing\CommunicationStreamTest.cs" />
-    <Compile Include="Testing\EventQueueTest.cs" />
-    <Compile Include="Testing\Event\NaoEventFactoryTest.cs" />
-    <Compile Include="Testing\GoalCommuncatorTest1.cs" />
-    <Compile Include="Testing\GUI\LaunchDebugger.cs" />
-    <Compile Include="Testing\PriorityQueueTest.cs" />
-    <Compile Include="Testing\SonarTest.cs" />
+    <Compile Include="Testing [Deprecated]\GoalCommuncatorTest1.cs" />
+    <Compile Include="Testing [Deprecated]\SonarTest.cs" />
     <Compile Include="Util\PriorityQueue.cs" />
     <Compile Include="Vision\Camera.cs" />
     <Compile Include="Communication\GoalCommunicator.cs" />
-    <Compile Include="Testing\Program.cs" />
-    <Compile Include="Testing\GoalCommunicatorTest.cs" />
+    <Compile Include="Testing [Deprecated]\Program.cs" />
     <Compile Include="Vision\MarkerRecogniser.cs" />
     <Compile Include="Vision\Processing.cs" />
     <Compile Include="Haptics\Grabber.cs" />
@@ -121,9 +116,6 @@
     </Reference>
     <Reference Include="naoqi-dotnet4">
       <HintPath>..\build\naoqi-dotnet4.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>lib\NUnit-2.6.2\bin\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

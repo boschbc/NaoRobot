@@ -5,7 +5,7 @@ namespace Naovigate.Event
     /**
      * An abstract class implementing a simple NaoEvent interface.
      **/
-    abstract class NaoEvent : INaoEvent
+    public abstract class NaoEvent : INaoEvent
     {
         private Priority priority;
 
