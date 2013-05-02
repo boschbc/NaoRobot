@@ -88,13 +88,21 @@ namespace Naovigate.Util
 
         private static void InitVideo()
         {
+            DisposeVideo();
             videoProxy.subscribeCamera(VideoSubscriberID, 0, 1 /*kQVGA*/, 13 /*kRGB*/, 30);
         }
 
 
         private static void DisposeVideo()
         {
-            videoProxy.unsubscribe(VideoSubscriberID);
+            try
+            {
+                videoProxy.unsubscribe(VideoSubscriberID);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("UnsubCamera: No Camera subscribed");
+            }
         }
 
         /**
@@ -225,9 +233,9 @@ namespace Naovigate.Util
                 rotation = vector[2];
                 batteryLeft = batteryProxy.getBatteryCharge();
             }
-            catch
+            catch(Exception e)
             {
-                Console.WriteLine("Faild Nao update.");
+                Console.WriteLine("Faild Nao update: "+e);
             }
             Stopwatch.Restart();
         }

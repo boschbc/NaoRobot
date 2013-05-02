@@ -33,7 +33,7 @@ namespace Naovigate.Event
 
         public EventQueue()
         {
-            q = new PriorityQueue<INaoEvent>(3);
+            q = new PriorityQueue<INaoEvent>(4);
             thread = new Thread(new ThreadStart(Run));
             thread.IsBackground = true;
             thread.Start();
@@ -41,7 +41,9 @@ namespace Naovigate.Event
 
         public void Post(params INaoEvent[] events)
         {
+            Console.WriteLine("Posting Event(s)");
             Enqueue(events);
+            Console.WriteLine("Posted Event(s)");
         }
 
         public void Enqueue(params INaoEvent[] events)
@@ -49,7 +51,11 @@ namespace Naovigate.Event
             lock (q)
             {
                 foreach (INaoEvent e in events)
-                    q.Enqueue(e, (int) e.Priority);
+                {
+                    Console.WriteLine("Enqueue "+e);
+                    q.Enqueue(e, (int)e.Priority);
+                    Console.WriteLine(e+" Added");
+                }
             }
         }
 
@@ -68,28 +74,22 @@ namespace Naovigate.Event
             }
         }
 
-        public void Run()
+        private void Run()
         {
             while (true)
             {
                 Thread.Sleep(100);
-                Console.WriteLine("EventQueue");
-                while (EventsQueuedCount() > 0)
-                {
-                    Console.WriteLine("EventQueue");
-                    FireEvent();
-                }
-
+                FireEvent();
             }
         }
 
-        public void FireEvent()
+        private void FireEvent()
         {
             inAction = true;
             INaoEvent e = null;
 
             // lock queue, we dont want concurrent modifications
-            Console.WriteLine("Locking Q FireEvent");
+           
             lock (q)
             {
                 if (!q.IsEmpty())
@@ -97,11 +97,10 @@ namespace Naovigate.Event
                     e = q.Dequeue();
                 }
             }
-            Console.WriteLine("Release Q FireEvent");
-            // there was an event available, fire it
             if (e != null)
             {
-                Console.WriteLine("Firing " + e);
+                // there was an event available, fire it
+                Console.WriteLine("Firing " + e + "\n" + EventsQueuedCount()+" Events left.");
                 e.Fire();
             }
             inAction = false;
