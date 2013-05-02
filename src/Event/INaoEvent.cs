@@ -6,7 +6,7 @@ namespace Naovigate.Event
     /**
      * A simple interface for Nao-events.
      **/
-    interface INaoEvent
+    public interface INaoEvent
     {
         /**
          * Set the event's priority.

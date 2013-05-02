@@ -6,7 +6,7 @@ using Aldebaran.Proxies;
 using System.Net.Sockets;
 using System.Net;
 
-namespace Naovigate.communication
+namespace Naovigate.Communication
 {
     public class FindIP
     {
@@ -38,7 +38,7 @@ namespace Naovigate.communication
                 if (res.AsyncWaitHandle.WaitOne(50))
                 {
                     TextToSpeechProxy proxy = new TextToSpeechProxy(ip, 9559);
-                    proxy.say("My IP is " + ip);
+                    proxy.say("Connected");
                     return true;
                 }
             }

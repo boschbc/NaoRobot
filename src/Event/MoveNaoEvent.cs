@@ -10,7 +10,7 @@ namespace Naovigate.Event
     /**
      * A class representing the "move" Nao-event.
      **/
-    class MoveNaoEvent : NaoEvent
+    public class MoveNaoEvent : NaoEvent
     {
         private PointF delta;
 
@@ -30,7 +30,7 @@ namespace Naovigate.Event
         }
 
         /**
-         * Programmatically set the move's velocity.
+         * Programmatically set the move's destination.
          **/
         public void SetDelta(float x, float y)
         {
@@ -43,6 +43,14 @@ namespace Naovigate.Event
         public override void Fire()
         {
             Walk.GetInstance().WalkTo(delta.X, delta.Y, 0.0f);
+        }
+
+        /**
+         * Returns a human-readable string describing an instance of this class.
+         **/
+        public override string ToString()
+        {
+            return String.Format("MoveNaoEvent(delta={0})", delta);
         }
     }
 }

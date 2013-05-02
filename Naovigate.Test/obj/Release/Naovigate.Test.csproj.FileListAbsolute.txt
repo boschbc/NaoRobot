@@ -1,0 +1,9 @@
+D:\My Files\TU\Contextproject\NaoRobot\Naovigate.Test\obj\Release\ResolveAssemblyReference.cache
+D:\My Files\TU\Contextproject\NaoRobot\Naovigate.Test\bin\Release\Naovigate.Test.dll
+D:\My Files\TU\Contextproject\NaoRobot\Naovigate.Test\bin\Release\Naovigate.Test.pdb
+D:\My Files\TU\Contextproject\NaoRobot\Naovigate.Test\bin\Release\Naovigate.exe
+D:\My Files\TU\Contextproject\NaoRobot\Naovigate.Test\bin\Release\nunit.framework.dll
+D:\My Files\TU\Contextproject\NaoRobot\Naovigate.Test\bin\Release\naoqi-dotnet4.dll
+D:\My Files\TU\Contextproject\NaoRobot\Naovigate.Test\bin\Release\Naovigate.pdb
+D:\My Files\TU\Contextproject\NaoRobot\Naovigate.Test\obj\Release\Naovigate.Test.dll
+D:\My Files\TU\Contextproject\NaoRobot\Naovigate.Test\obj\Release\Naovigate.Test.pdb

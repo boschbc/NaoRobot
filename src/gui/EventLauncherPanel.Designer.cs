@@ -74,7 +74,6 @@
             this.radioLook.Name = "radioLook";
             this.radioLook.Size = new System.Drawing.Size(49, 17);
             this.radioLook.TabIndex = 2;
-            this.radioLook.TabStop = true;
             this.radioLook.Text = "Look";
             this.radioLook.UseVisualStyleBackColor = true;
             // 
@@ -85,13 +84,13 @@
             this.radioGrab.Name = "radioGrab";
             this.radioGrab.Size = new System.Drawing.Size(48, 17);
             this.radioGrab.TabIndex = 1;
-            this.radioGrab.TabStop = true;
             this.radioGrab.Text = "Grab";
             this.radioGrab.UseVisualStyleBackColor = true;
             // 
             // radioMove
             // 
             this.radioMove.AutoSize = true;
+            this.radioMove.Checked = true;
             this.radioMove.Location = new System.Drawing.Point(6, 19);
             this.radioMove.Name = "radioMove";
             this.radioMove.Size = new System.Drawing.Size(52, 17);

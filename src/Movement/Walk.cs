@@ -12,11 +12,8 @@ using Naovigate.Vision;
 
 namespace Naovigate.Movement
 {
-    class Walk
+    public class Walk
     {
-        private MotionProxy motion;
-        private RobotPostureProxy posture;
-
         private static Walk instance = null;
 
         private int markerID = -1;
@@ -25,14 +22,7 @@ namespace Naovigate.Movement
 
         public Walk()
         {
-            motion = NaoState.GetMotionProxy();
-            posture = NaoState.GetRobotPostureProxy();
-        }
-
-        public void RefreshProxies()
-        {
-            motion = NaoState.GetMotionProxy();
-            posture = NaoState.GetRobotPostureProxy();
+            
         }
 
         public static Walk GetInstance()
@@ -41,19 +31,21 @@ namespace Naovigate.Movement
         }
 
         /**
-         * walk to (x, y, theta) with the Nao as the origin
+         * Walk to (x, y, theta) with the Nao as the origin
          * */
         public void WalkTo(float x, float y, float theta)
         {
+            MotionProxy motion = NaoState.MotionProxy;
+            RobotPostureProxy posture = NaoState.PostureProxy;
             //System.Console.WriteLine(x + " " + y);
-            //posture.goToPosture("StandZero", 1f);
+            posture.goToPosture("StandZero", 1f);
             //motion.moveInit();
             //motion.moveTo(x, y, theta);
             //motion.stopMove();
             if (!IsMoving()) 
-                motion.moveInit();
-            motion.moveTo(x, y, theta);
-            motion.stopMove();
+                motion.post.moveInit();
+            motion.post.moveTo(x, y, theta);
+            //motion.post.stopMove();
         }
 
         /**
@@ -61,6 +53,7 @@ namespace Naovigate.Movement
          * */
         public void StartWalking(float x, float y, float theta)
         {
+            MotionProxy motion = NaoState.MotionProxy;
             if (!IsMoving()) 
                 motion.moveInit();
             motion.moveToward(x, y, theta);
@@ -78,37 +71,48 @@ namespace Naovigate.Movement
             found = false;
             
             t = new Thread(new ThreadStart(LookForMarker));
+            t.Start();
         }
 
         /**
          * Try to detect the marker with MarkID = markerID.
-         * When the Nao sees the marker, stop moving and set found to true
+         * When the Nao sees the marker, it heads towards the marker.
+         * When the Nao is within a meter of the marker, the Nao stops moving and found is set to true
          * */
         public void LookForMarker()
         {
             MarkerRecogniser rec = MarkerRecogniser.GetInstance();
+            Sonar.Sonar sonar = Sonar.Sonar.GetInstance();
             ArrayList markers;
 
             while (!found)
             {
                 ArrayList data = rec.GetMarkerData();
                 markers = data.Count == 0 ? data : (ArrayList)data[1];
-                
+
                 for (int i = 0; i < markers.Count && !found; i++)
                 {
                     ArrayList marker = (ArrayList)markers[i];
                     if ((int)((ArrayList)marker[1])[0] == markerID)
                     {
-                        found = true;
-                        StopMove();
+                        StartWalking(0.5F, 0, (float)((ArrayList)marker[0])[5]);
+                        
+                        float sonarL = sonar.getSonarDataLeft();
+                        float sonarR = sonar.getSonarDataRight();
+                        if (sonarL <= 1 && sonarR <= 1)
+                        {
+                            StopMove();
+                            found = true;
+                        }
                     }
                 }
+                Thread.Sleep(1000);
             }
         }
 
         /**
          * return found
-         * found is true when the marker with MarkID = markerID has been found
+         * found is true when the marker with MarkID = markerID has been found and reached
          * */
         public Boolean IsFound()
         {
@@ -116,7 +120,7 @@ namespace Naovigate.Movement
         }
 
         /**
-         * stop looking for the marker
+         * stop looking for the marker and stop moving
          * */
         public void StopLooking()
         {
@@ -125,6 +129,7 @@ namespace Naovigate.Movement
                 t.Abort();
                 t = null;
             }
+            StopMove();
         }
 
         /** 
@@ -132,7 +137,7 @@ namespace Naovigate.Movement
          * */
         public Boolean IsMoving()
         {
-            return motion.moveIsActive();
+            return NaoState.MotionProxy.moveIsActive();
         }
 
         /**
@@ -140,7 +145,7 @@ namespace Naovigate.Movement
          * */
         public void StopMove()
         {
-            motion.stopMove();
+            NaoState.MotionProxy.stopMove();
         }
     }
 }
