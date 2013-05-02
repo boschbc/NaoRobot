@@ -108,10 +108,10 @@ namespace Naovigate.Event
         public int EventsQueuedCount()
         {
             int val = 0;
-            lock (q)
-            {
+            //lock (q)
+            //{
                 val = q.Size();
-            }
+            //}
             return val;
         }
 
