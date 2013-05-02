@@ -124,9 +124,8 @@ namespace Naovigate.Communication
         /**
          * return the underlying stream
          */
-        public Stream GetStream()
-        {
-            return stream;
+        public Stream Stream {
+            get { return stream; }
         }
 
         //debugging help function

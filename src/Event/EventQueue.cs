@@ -19,6 +19,7 @@ namespace Naovigate.Event
     {
 
         private static EventQueue instance;
+        private Object locker;
 
         /*
          * internal queue to store the events
@@ -47,10 +48,11 @@ namespace Naovigate.Event
         public void Enqueue(params INaoEvent[] events)
         {
             // todo: synchronize
+            Monitor.Pulse(locker);
             lock (q)
             {
                 foreach(INaoEvent e in events)
-                    q.Enqueue(e, (int)e.GetPriority());
+                    q.Enqueue(e, (int) e.GetPriority());
                 //Monitor.Pulse(this);
             }
         }
@@ -75,7 +77,10 @@ namespace Naovigate.Event
             while (true)
             {
                 Thread.Sleep(100);
-                //Monitor.Wait(this);
+                lock (locker)
+                {
+                    Monitor.Wait(locker);
+                }
                 inAction = true;
                 INaoEvent e = null;
 

@@ -132,7 +132,7 @@ namespace Naovigate.Testing
         [Test]
         public void GetStreamTest()
         {
-            Assert.AreEqual(internalStream, stream.GetStream());
+            Assert.AreEqual(internalStream, stream.Stream);
         }
 
         [TearDown]

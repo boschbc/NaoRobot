@@ -12,8 +12,11 @@ using Naovigate.Vision;
 
 namespace Naovigate.Movement
 {
-    public class Walk
+    class Walk
     {
+        private MotionProxy motion;
+        private RobotPostureProxy posture;
+
         private static Walk instance = null;
 
         private int markerID = -1;
@@ -22,30 +25,30 @@ namespace Naovigate.Movement
 
         public Walk()
         {
-            
+            this.motion = NaoState.MotionProxy;
+            this.posture = NaoState.PostureProxy;
         }
 
-        public static Walk GetInstance()
+        public static Walk Instance
         {
-            return instance == null ? new Walk() : instance;
+            get {
+                if (instance == null)
+                {
+                    instance = new Walk();
+                }
+                return instance;
+            }
         }
 
         /**
-         * Walk to (x, y, theta) with the Nao as the origin
+         * walk to (x, y, theta) with the Nao as the origin
          * */
         public void WalkTo(float x, float y, float theta)
         {
-            MotionProxy motion = NaoState.MotionProxy;
-            RobotPostureProxy posture = NaoState.PostureProxy;
-            //System.Console.WriteLine(x + " " + y);
-            posture.goToPosture("StandZero", 1f);
-            //motion.moveInit();
-            //motion.moveTo(x, y, theta);
-            //motion.stopMove();
             if (!IsMoving()) 
-                motion.post.moveInit();
-            motion.post.moveTo(x, y, theta);
-            //motion.post.stopMove();
+                motion.moveInit();
+            motion.moveTo(x, y, theta);
+            motion.stopMove();
         }
 
         /**
@@ -53,7 +56,6 @@ namespace Naovigate.Movement
          * */
         public void StartWalking(float x, float y, float theta)
         {
-            MotionProxy motion = NaoState.MotionProxy;
             if (!IsMoving()) 
                 motion.moveInit();
             motion.moveToward(x, y, theta);
@@ -62,7 +64,7 @@ namespace Naovigate.Movement
         /**
          * Turn (normalized) dir and walk till the Nao sees the marker with MarkID = markerID
          * */
-        public void walkTowards(float dir, int markerID)
+        public void WalkTowards(float dir, int markerID)
         {
             StopLooking();
             WalkTo(0, 0, dir);
@@ -137,7 +139,7 @@ namespace Naovigate.Movement
          * */
         public Boolean IsMoving()
         {
-            return NaoState.MotionProxy.moveIsActive();
+            return motion.moveIsActive();
         }
 
         /**
@@ -145,7 +147,7 @@ namespace Naovigate.Movement
          * */
         public void StopMove()
         {
-            NaoState.MotionProxy.stopMove();
+            motion.stopMove();
         }
     }
 }
