@@ -17,7 +17,7 @@ namespace Naovigate.Vision
 
         public static MarkerRecogniser GetInstance()
         {
-            return instance == null ? new MarkerRecogniser(NaoState.GetIP(),NaoState.GetPort()) : instance;
+            return instance == null ? new MarkerRecogniser(NaoState.IP,NaoState.Port) : instance;
         }
 
         public MarkerRecogniser(String ip, int port)

@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 using Aldebaran.Proxies;
 
+using Naovigate.Communication;
 using Naovigate.Util;
 
 namespace Naovigate.GUI
@@ -22,21 +19,26 @@ namespace Naovigate.GUI
         public LocationMonitor()
         {
             InitializeComponent();
-            UpdateContent();
+            label.Text = DefaultText;
         }
 
         public void UpdateContent()
         {
-            MotionProxy motion = NaoState.GetMotionProxy();
             try
             {
-                List<float> vector = motion.getRobotPosition(false);
-                label.Text = String.Format(Format, vector[0], vector[1], vector[2]);
+                NaoState.Update();
             }
-            catch
+            catch (UnavailableConnectionException e)
             {
-                label.Text = DefaultText;
+                Console.WriteLine("Caught exception: " + e.Message);
+                return;
             }
+            PointF location = NaoState.Location;
+            float rotation = NaoState.Rotation;
+            label.Text = String.Format(Format,
+                                    Math.Round(location.X, 2),
+                                    Math.Round(location.Y, 2),
+                                    Math.Round(rotation, 2));     
         }
     }
 }

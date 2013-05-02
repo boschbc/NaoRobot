@@ -6,7 +6,7 @@ using Aldebaran.Proxies;
 
 namespace Naovigate.Sonar
 {
-    class Sonar
+    public class Sonar
     {
         private SonarProxy sonarProxy;
         private MemoryProxy memoryProxy;
@@ -22,7 +22,7 @@ namespace Naovigate.Sonar
 
         public static Sonar GetInstance()
         {
-            return instance == null ? new Sonar(Util.NaoState.GetIP()) : instance;
+            return instance == null ? new Sonar(Util.NaoState.IP) : instance;
         }
 
         //activates sonar

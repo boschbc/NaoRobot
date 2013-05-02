@@ -51,6 +51,7 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <Compile Include="Communication\UnavailableConnectionException.cs" />
     <Compile Include="Event\EventQueue.cs" />
     <Compile Include="Communication\CommunicationStream.cs" />
     <Compile Include="Communication\FindIP.cs" />
@@ -62,6 +63,12 @@
     <Compile Include="Event\NaoEvent.cs" />
     <Compile Include="Event\NaoEventFactory.cs" />
     <Compile Include="Event\Priority.cs" />
+    <Compile Include="GUI\CameraMonitor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\CameraMonitor.Designer.cs">
+      <DependentUpon>CameraMonitor.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\EventLauncherPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -69,6 +76,7 @@
     <Compile Include="GUI\EventLauncherPanel.Designer.cs">
       <DependentUpon>EventLauncherPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\LaunchDebugger.cs" />
     <Compile Include="GUI\LocationMonitor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -90,15 +98,12 @@
     <Compile Include="MainProgram.cs" />
     <Compile Include="Movement\Walk.cs" />
     <Compile Include="Sonar\Sonar.cs" />
-    <Compile Include="Testing\GoalCommuncatorTest1.cs" />
-    <Compile Include="Testing\GUI\LaunchDebugger.cs" />
-    <Compile Include="Testing\PriorityQueueTest.cs" />
-    <Compile Include="Testing\SonarTest.cs" />
+    <Compile Include="Testing [Deprecated]\GoalCommuncatorTest1.cs" />
+    <Compile Include="Testing [Deprecated]\SonarTest.cs" />
     <Compile Include="Util\PriorityQueue.cs" />
     <Compile Include="Vision\Camera.cs" />
     <Compile Include="Communication\GoalCommunicator.cs" />
-    <Compile Include="Testing\Program.cs" />
-    <Compile Include="Testing\GoalCommunicatorTest.cs" />
+    <Compile Include="Testing [Deprecated]\Program.cs" />
     <Compile Include="Vision\MarkerRecogniser.cs" />
     <Compile Include="Vision\Processing.cs" />
     <Compile Include="Haptics\Grabber.cs" />
@@ -106,16 +111,17 @@
     <Compile Include="Util\NaoState.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>lib\Moq.4.0.10827\NET40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="naoqi-dotnet4">
       <HintPath>..\build\naoqi-dotnet4.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>lib\NUnit-2.6.2\bin\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
@@ -140,6 +146,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="GUI\CameraMonitor.resx">
+      <DependentUpon>CameraMonitor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\EventLauncherPanel.resx">
       <DependentUpon>EventLauncherPanel.cs</DependentUpon>
     </EmbeddedResource>

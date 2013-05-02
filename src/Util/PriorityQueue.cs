@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Naovigate.Util
 {
-    class PriorityQueue<T>
+    public class PriorityQueue<T>
     {
         private Queue<T>[] queues;
         private int maxPriority;
@@ -73,13 +73,7 @@ namespace Naovigate.Util
 
         public int Size()
         {
-            //return size;
-            int s = 0;
-            foreach (Queue<T> q in queues)
-            {
-                if (q != null) s += q.Count();
-            }
-            return s;
+            return size;
         }
 
         public void Clear()
