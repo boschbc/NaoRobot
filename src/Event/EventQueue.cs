@@ -19,7 +19,7 @@ namespace Naovigate.Event
     {
 
         private static EventQueue instance;
-        private Object locker;
+        private EventWaitHandle locker = new AutoResetEvent(false);
 
         /*
          * internal queue to store the events
@@ -47,14 +47,12 @@ namespace Naovigate.Event
 
         public void Enqueue(params INaoEvent[] events)
         {
-            // todo: synchronize
-            Monitor.Pulse(locker);
             lock (q)
             {
                 foreach(INaoEvent e in events)
                     q.Enqueue(e, (int) e.GetPriority());
-                //Monitor.Pulse(this);
             }
+            locker.Set();
         }
 
         /**
@@ -76,40 +74,50 @@ namespace Naovigate.Event
         {
             while (true)
             {
-                Thread.Sleep(100);
-                lock (locker)
+                while (EventsQueuedCount() > 0)
                 {
-                    Monitor.Wait(locker);
+                    FireEvent();
                 }
-                inAction = true;
-                INaoEvent e = null;
-
-                // lock queue, we dont want concurrent modifications
-                lock (q)
-                {
-                    if (!q.IsEmpty())
-                    {
-                        e = q.Dequeue();
-                    }
-                }
-                // there was an event available, fire it
-                if (e != null)
-                {
-                    Console.WriteLine("Firing " + e);
-                    e.Fire();
-                }
-                inAction = false;
+                locker.Reset();
+                locker.WaitOne();
             }
+        }
+
+        public void FireEvent()
+        {
+            inAction = true;
+            INaoEvent e = null;
+
+            // lock queue, we dont want concurrent modifications
+            lock (q)
+            {
+                if (!q.IsEmpty())
+                {
+                    e = q.Dequeue();
+                }
+            }
+            // there was an event available, fire it
+            if (e != null)
+            {
+                Console.WriteLine("Firing " + e);
+                e.Fire();
+            }
+            inAction = false;
         }
 
         public int EventsQueuedCount()
         {
-            return q.Size();
+            int val = 0;
+            lock (q)
+            {
+                val = q.Size();
+            }
+            return val;
         }
 
         public bool IsEmpty()
         {
-            return q.IsEmpty() && !inAction;
+            return EventsQueuedCount() == 0 && !inAction;
         }
     }
 }

@@ -16,7 +16,7 @@ namespace Naovigate.Testing{
         private Tracker t;
         private EventQueue q;
 		private void Add(params INaoEvent[] events){
-		    q.Enqueue(events);
+		    q.Post(events);
 		}
 
         private void WaitFor()
@@ -74,6 +74,33 @@ namespace Naovigate.Testing{
             Assert.AreEqual(Priority.Low, t.events[3].GetPriority());
             Assert.AreEqual(Priority.Low, t.events[4].GetPriority());
 		}
+
+        [Test]
+        public void FireMultipleSessionsTest()
+        {
+            Add(new TEvent(t, Priority.Low),
+                    new TEvent(t, Priority.High),
+                    new TEvent(t, Priority.Medium),
+                    new TEvent(t, Priority.Low),
+                    new TEvent(t, Priority.Low));
+            WaitFor();
+            Assert.AreEqual(5, t.events.Count());
+            Add(new TEvent(t, Priority.Low),
+                   new TEvent(t, Priority.High),
+                   new TEvent(t, Priority.Medium),
+                   new TEvent(t, Priority.Low),
+                   new TEvent(t, Priority.Low));
+            WaitFor();
+            Assert.AreEqual(10, t.events.Count());
+            Add(new TEvent(t, Priority.Low),
+                  new TEvent(t, Priority.High),
+                  new TEvent(t, Priority.Medium),
+                  new TEvent(t, Priority.Low),
+                  new TEvent(t, Priority.Low));
+            WaitFor();
+            Assert.AreEqual(15, t.events.Count());
+
+        }
 	}
 
     class Tracker{
