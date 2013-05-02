@@ -72,7 +72,7 @@
     <Compile Include="GUI\EventLauncherPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="gui\IRealtimeField.cs" />
+    <Compile Include="GUI\IRealtimeField.cs" />
     <Compile Include="GUI\EventLauncherPanel.Designer.cs">
       <DependentUpon>EventLauncherPanel.cs</DependentUpon>
     </Compile>
@@ -163,6 +163,5 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="obj\" />
   </ItemGroup>
 </Project>

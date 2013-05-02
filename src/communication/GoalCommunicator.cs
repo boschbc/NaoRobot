@@ -1,16 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading;
 using System.IO;
-using System.Diagnostics;
+
 namespace Naovigate.Communication
 {
    
-    public class GoalCommunicator
+    public class GoalCommunicator : IDisposable
     {
 
         protected static GoalCommunicator instance = null;
@@ -25,41 +22,42 @@ namespace Naovigate.Communication
         private Dictionary<String, Action> handlers;
 		
         // thread variables
-        private Thread t;
         private bool running;
+        private byte[] receiveBuffer;
+
+        private GoalCommunicator()
+        {
+            this.mainLoop = new Thread(new ThreadStart(this.Run));
+            this.running = false;
+            this.handlers = new Dictionary<string, Action>();
+            this.client = new TcpClient();
+            this.receiveBuffer = new byte[this.client.ReceiveBufferSize];
+        }
 
         /**
          * construct a new GoalCommunicator instance from the specified ip
          */
         public GoalCommunicator(String ip, int port)
         {
-            
+            GoalCommunicator();
             this.ip = ip;
             this.port = port;
-            init();
+            this.endPoint = new IPEndPoint(IPAddress.Parse(ip), port);
         }
 
         /**
-        * construct a new GoalCommunicator instance from the specified IPEndPoint
-        */
+         * construct a new GoalCommunicator instance from the specified IPEndPoint
+         */
         public GoalCommunicator(IPEndPoint end, int port)
         {
-            this.endPoint = end;
+            if (end == null)
+            {
+                throw new ArgumentNullException();
+            }
+            GoalCommunicator();
+            this.ip = end.Address.ToString();
             this.port = port;
-            init();
-        }
-
-        /**
-         * initialize class objects.
-         * Note: instance will be set to the newly created GoalCommunicator, there should be no other GoalCommunicator in existance
-         */
-        private void init()
-        {
-            this.running = false;
-            this.handlers = new Dictionary<string, Action>();
-            this.client = new TcpClient();
-            Debug.Assert(instance == null);
-            instance = this;
+            this.endPoint = end;
         }
 
         /**
@@ -76,37 +74,33 @@ namespace Naovigate.Communication
                 return instance;
             }
         }
-        /**
-         * create remote end point (Goal server ip).
-         */
-        private void Setup()
-        {
-            // 
-            IPAddress ipAddress = IPAddress.Parse(ip);
-            endPoint = new IPEndPoint(ipAddress, port);
-        }
 
         /**
          * Connect to the server
          */
         public void Connect()
         {
-            if (endPoint == null)
-            {
-                Setup();
-            }
-           
-            client.Connect(endPoint);
-            stream = client.GetStream();
+            this.client.Connect(this.endPoint);
+            this.stream = this.client.GetStream();
         }
 
         /**
-         * start the client
+         * Start the main loop.
          */
-        public void start()
+        public void Start()
         {
-            t = new Thread(new ThreadStart(Run));
-            t.Start();
+            if (!this.client.Connected)
+            {
+                this.Connect();
+            }
+            this.running = true;
+            this.stream.BeginRead(this.receiveBuffer, 0, this.receiveBuffer.Length, this.OnData, null)
+        }
+
+        public void Stop()
+        {
+            this.running = false;
+            this.stream.Close();
         }
 
         /*
@@ -114,35 +108,59 @@ namespace Naovigate.Communication
          * 
          * listen for data, respond to orders received from the server
          */
-        public void Run()
+        private void OnData(IAsyncResult result)
         {
-            while (running)
+            if (!this.running)
             {
-                while (!stream.DataAvailable)
-                {
-                    // sleep
-                }
-                
-                // wait for orders, send to listeners
+                return;
             }
-            Close();
+            this.stream.EndRead(result);
+
+            // Decode receive buffer.
+            String data = new UTF8Encoding().GetString(this.receiveBuffer);
+
+            // Fire event handlers.
+            foreach (var entry in this.handlers)
+            {
+                String actionName = entry.Key;
+                Action handler = entry.Value;
+
+                if (!data.StartsWith(actionName))
+                {
+                    continue;
+                }
+                handler();
+            }
+
+            // Begin reading again.
+            this.Start();
         }
 
         /**
          * close the GoalCommunicator
          */
-        public void Close()
+        public void Dispose()
         {
-            running = false;
-            if (client != null) client.Close();
+            this.running = false;
+            if (this.client != null) {
+                this.client.Close();
+            }
         }
 
-        /**
-         * return the stream used by the client
-         */
-        public NetworkStream GetStream()
-        {
-            return stream;
+        public NetworkStream Stream {
+            get { return this.stream; }
+        }
+
+        public IPAddress IP {
+            get { return this.ip; }
+        }
+
+        public int Port {
+            get { return this.port; }
+        }
+
+        public bool IsRunning {
+            get { return this.running; }
         }
 
         /**
