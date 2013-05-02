@@ -29,7 +29,7 @@ namespace Naovigate.Haptics
             // Move those arms, boy.
             motionProxy.positionInterpolations(
                 new[] { "LArm", "RArm" }.ToList(),
-                MotionProxy.FRAME_ROBOT,
+                2,
                 new[] {
                     new[] { 1.0 },
                     new[] { 1.0 }
