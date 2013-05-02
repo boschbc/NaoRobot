@@ -140,7 +140,14 @@ namespace Naovigate.Movement
          * */
         public Boolean IsMoving()
         {
-            return motion.moveIsActive();
+            try
+            {
+                return motion.moveIsActive();
+            }
+            catch (Exception e)
+            {
+                return true;
+            }
         }
 
         /**

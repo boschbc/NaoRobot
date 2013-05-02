@@ -19,7 +19,6 @@ namespace Naovigate.Event
     {
 
         private static EventQueue instance;
-        private EventWaitHandle locker = new AutoResetEvent(false);
 
         /*
          * internal queue to store the events
@@ -34,7 +33,7 @@ namespace Naovigate.Event
 
         public EventQueue()
         {
-            q = new PriorityQueue<INaoEvent>(3);
+            q = new PriorityQueue<INaoEvent>(4);
             thread = new Thread(new ThreadStart(Run));
             thread.IsBackground = true;
             thread.Start();
@@ -42,17 +41,22 @@ namespace Naovigate.Event
 
         public void Post(params INaoEvent[] events)
         {
+            Console.WriteLine("Posting Event(s)");
             Enqueue(events);
+            Console.WriteLine("Posted Event(s)");
         }
 
         public void Enqueue(params INaoEvent[] events)
         {
             lock (q)
             {
-                foreach(INaoEvent e in events)
-                    q.Enqueue(e, (int) e.Priority);
+                foreach (INaoEvent e in events)
+                {
+                    Console.WriteLine("Enqueue "+e);
+                    q.Enqueue(e, (int)e.Priority);
+                    Console.WriteLine(e+" Added");
+                }
             }
-            locker.Set();
         }
 
         /**
@@ -70,25 +74,22 @@ namespace Naovigate.Event
             }
         }
 
-        public void Run()
+        private void Run()
         {
             while (true)
             {
-                while (EventsQueuedCount() > 0)
-                {
-                    FireEvent();
-                }
-                locker.Reset();
-                locker.WaitOne();
+                Thread.Sleep(100);
+                FireEvent();
             }
         }
 
-        public void FireEvent()
+        private void FireEvent()
         {
             inAction = true;
             INaoEvent e = null;
 
             // lock queue, we dont want concurrent modifications
+           
             lock (q)
             {
                 if (!q.IsEmpty())
@@ -96,10 +97,10 @@ namespace Naovigate.Event
                     e = q.Dequeue();
                 }
             }
-            // there was an event available, fire it
             if (e != null)
             {
-                Console.WriteLine("Firing " + e);
+                // there was an event available, fire it
+                Console.WriteLine("Firing " + e + "\n" + EventsQueuedCount()+" Events left.");
                 e.Fire();
             }
             inAction = false;
@@ -107,12 +108,7 @@ namespace Naovigate.Event
 
         public int EventsQueuedCount()
         {
-            int val = 0;
-            //lock (q)
-            //{
-                val = q.Size();
-            //}
-            return val;
+            return q.Size();
         }
 
         public bool IsEmpty()
