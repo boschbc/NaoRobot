@@ -215,6 +215,7 @@ namespace Naovigate.Util
          **/
         public static void Update()
         {
+            Console.WriteLine("Update");
             if (!IsConnected())
                 throw new UnavailableConnectionException(UpdateErrorMsg, ip, port);
             try

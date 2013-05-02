@@ -19,7 +19,6 @@ namespace Naovigate.Event
     {
 
         private static EventQueue instance;
-        private EventWaitHandle locker = new AutoResetEvent(false);
 
         /*
          * internal queue to store the events
@@ -49,10 +48,9 @@ namespace Naovigate.Event
         {
             lock (q)
             {
-                foreach(INaoEvent e in events)
+                foreach (INaoEvent e in events)
                     q.Enqueue(e, (int) e.Priority);
             }
-            locker.Set();
         }
 
         /**
@@ -74,12 +72,14 @@ namespace Naovigate.Event
         {
             while (true)
             {
+                Thread.Sleep(100);
+                Console.WriteLine("EventQueue");
                 while (EventsQueuedCount() > 0)
                 {
+                    Console.WriteLine("EventQueue");
                     FireEvent();
                 }
-                locker.Reset();
-                locker.WaitOne();
+
             }
         }
 
@@ -89,6 +89,7 @@ namespace Naovigate.Event
             INaoEvent e = null;
 
             // lock queue, we dont want concurrent modifications
+            Console.WriteLine("Locking Q FireEvent");
             lock (q)
             {
                 if (!q.IsEmpty())
@@ -96,6 +97,7 @@ namespace Naovigate.Event
                     e = q.Dequeue();
                 }
             }
+            Console.WriteLine("Release Q FireEvent");
             // there was an event available, fire it
             if (e != null)
             {
@@ -107,12 +109,7 @@ namespace Naovigate.Event
 
         public int EventsQueuedCount()
         {
-            int val = 0;
-            //lock (q)
-            //{
-                val = q.Size();
-            //}
-            return val;
+            return q.Size();
         }
 
         public bool IsEmpty()
