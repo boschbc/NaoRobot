@@ -27,7 +27,6 @@ namespace Naovigate.Communication
 
         private GoalCommunicator()
         {
-            this.mainLoop = new Thread(new ThreadStart(this.Run));
             this.running = false;
             this.handlers = new Dictionary<string, Action>();
             this.client = new TcpClient();
@@ -37,9 +36,8 @@ namespace Naovigate.Communication
         /**
          * construct a new GoalCommunicator instance from the specified ip
          */
-        public GoalCommunicator(String ip, int port)
+        public GoalCommunicator(String ip, int port) : this()
         {
-            GoalCommunicator();
             this.ip = ip;
             this.port = port;
             this.endPoint = new IPEndPoint(IPAddress.Parse(ip), port);
@@ -48,13 +46,12 @@ namespace Naovigate.Communication
         /**
          * construct a new GoalCommunicator instance from the specified IPEndPoint
          */
-        public GoalCommunicator(IPEndPoint end, int port)
+        public GoalCommunicator(IPEndPoint end, int port) : this()
         {
             if (end == null)
             {
                 throw new ArgumentNullException();
             }
-            GoalCommunicator();
             this.ip = end.Address.ToString();
             this.port = port;
             this.endPoint = end;
@@ -94,7 +91,7 @@ namespace Naovigate.Communication
                 this.Connect();
             }
             this.running = true;
-            this.stream.BeginRead(this.receiveBuffer, 0, this.receiveBuffer.Length, this.OnData, null)
+            this.stream.BeginRead(this.receiveBuffer, 0, this.receiveBuffer.Length, this.OnData, null);
         }
 
         public void Stop()
