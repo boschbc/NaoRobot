@@ -27,8 +27,8 @@ namespace Naovigate.Util
         private static float rotation;
         private static int batteryLeft;
 
-        private static MotionProxy motionProxy;
-        private static RobotPostureProxy postureProxy;
+        //private static MotionProxy motionProxy;
+        //private static RobotPostureProxy postureProxy;
         private static VideoDeviceProxy videoProxy;
         private static BatteryProxy batteryProxy;
 
@@ -75,8 +75,8 @@ namespace Naovigate.Util
         {
             try
             {
-                motionProxy = new MotionProxy(ip, port);
-                postureProxy = new RobotPostureProxy(ip, port);
+                //motionProxy = new MotionProxy(ip, port);
+                //postureProxy = new RobotPostureProxy(ip, port);
                 videoProxy = new VideoDeviceProxy(ip, port);
                 batteryProxy = new BatteryProxy(ip, port);
             }
@@ -99,9 +99,9 @@ namespace Naovigate.Util
             {
                 videoProxy.unsubscribe(VideoSubscriberID);
             }
-            catch (Exception e)
+            catch
             {
-                Console.WriteLine("UnsubCamera: No Camera subscribed");
+                Console.WriteLine("DisposeVideo: No Camera subscribed.");
             }
         }
 
@@ -115,8 +115,8 @@ namespace Naovigate.Util
                 return;
             try
             {
-                motionProxy.Dispose();
-                postureProxy.Dispose();
+                //motionProxy.Dispose();
+                //postureProxy.Dispose();
                 videoProxy.Dispose();
                 batteryProxy.Dispose();
             }
@@ -187,12 +187,12 @@ namespace Naovigate.Util
 
         public static MotionProxy MotionProxy
         {
-            get { return motionProxy; }
+            get { return new MotionProxy(ip, port); /*motionProxy;*/ }
         }
 
         public static RobotPostureProxy PostureProxy
         {
-            get { return postureProxy; }
+            get { return new RobotPostureProxy(ip, port); /* postureProxy;*/ }
         }
 
         /**
@@ -219,24 +219,28 @@ namespace Naovigate.Util
          * These properties include:
          *  - Location
          *  - Rotation
+         *  - Battery-charge
          *  @throws UnavailableConnectionException if not connected to a Nao.
          **/
         public static void Update()
         {
-            Console.WriteLine("Update");
             if (!IsConnected())
                 throw new UnavailableConnectionException(UpdateErrorMsg, ip, port);
             try
             {
-                List<float> vector = motionProxy.getRobotPosition(false);
-                location = new PointF(vector[0], vector[1]);
-                rotation = vector[2];
+                using (MotionProxy motion = MotionProxy)
+                {
+                    List<float> vector = motion.getRobotPosition(false);
+                    location = new PointF(vector[0], vector[1]);
+                    rotation = vector[2];
+                }
                 batteryLeft = batteryProxy.getBatteryCharge();
             }
             catch(Exception e)
             {
-                Console.WriteLine("Faild Nao update: "+e);
+                Console.WriteLine("Faild Nao update: " + e);
             }
+            //Count the time between this update and the next:
             Stopwatch.Restart();
         }
     }    

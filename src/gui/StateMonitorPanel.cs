@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 
+using Naovigate.Communication;
+using Naovigate.Util;
+
 namespace Naovigate.GUI
 {
     public partial class StateMonitorPanel : UserControl
@@ -29,7 +32,16 @@ namespace Naovigate.GUI
         {
             foreach (IRealtimeField rf in debugWidgets)
             {
-                rf.UpdateContent();
+                try
+                {
+                    NaoState.Update();
+                    rf.UpdateContent();
+                }
+                catch (UnavailableConnectionException except)
+                {
+                    Console.WriteLine("Caught exception: " + except.Message);
+                    return;
+                }
             }
         }
     }

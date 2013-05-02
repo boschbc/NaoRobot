@@ -18,15 +18,6 @@ namespace Naovigate.GUI
 
         public void UpdateContent()
         {
-            try
-            {
-                NaoState.Update();
-            }
-            catch (UnavailableConnectionException e)
-            {
-                Console.WriteLine("Caught exception: " + e.Message);
-                return;
-            }
             batteryGauge.Value = NaoState.BatteryPercentageLeft;
         }
     }

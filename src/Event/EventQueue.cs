@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Naovigate.Util;
 using System.Threading;
 using System.ComponentModel;
+
 namespace Naovigate.Event
 {
     /*

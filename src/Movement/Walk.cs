@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Collections;
 using System.Threading;
 
@@ -14,8 +12,8 @@ namespace Naovigate.Movement
 {
     class Walk
     {
-        private MotionProxy motion;
-        private RobotPostureProxy posture;
+        private MotionProxy motion; //deprecated
+        private RobotPostureProxy posture; //deprecated
 
         private static Walk instance = null;
 
@@ -45,11 +43,26 @@ namespace Naovigate.Movement
          * */
         public void WalkTo(float x, float y, float theta)
         {
-            posture.goToPosture("Stand", 1.0f);
-            if (!IsMoving()) 
-                motion.moveInit();
-            motion.moveTo(x, y, theta);
-            motion.stopMove();
+            InitMove();
+            using (MotionProxy motion = NaoState.MotionProxy)
+            {
+                if (!motion.moveIsActive())
+                    motion.moveInit();
+                motion.moveTo(x, y, theta);
+                //motion.stopMove();
+            }
+        }
+
+        /**
+         * Sets the stiffness of the Nao's motors on if it is not already so.
+         **/
+        public void InitMove()
+        {
+            using (MotionProxy motion = NaoState.MotionProxy)
+            {
+                if (!motion.robotIsWakeUp())
+                    motion.wakeUp();
+            }
         }
 
         /**
@@ -144,7 +157,7 @@ namespace Naovigate.Movement
             {
                 return motion.moveIsActive();
             }
-            catch (Exception e)
+            catch
             {
                 return true;
             }
