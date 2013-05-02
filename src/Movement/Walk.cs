@@ -45,7 +45,7 @@ namespace Naovigate.Movement
          * */
         public void WalkTo(float x, float y, float theta)
         {
-            //posture.goToPosture("Stand", 1.0f);
+            posture.goToPosture("Stand", 1.0f);
             if (!IsMoving()) 
                 motion.moveInit();
             motion.moveTo(x, y, theta);
