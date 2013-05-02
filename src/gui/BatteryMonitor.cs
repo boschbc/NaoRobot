@@ -27,7 +27,6 @@ namespace Naovigate.GUI
                 Console.WriteLine("Caught exception: " + e.Message);
                 return;
             }
-            Console.WriteLine(NaoState.BatteryPercentageLeft + "%");
             batteryGauge.Value = NaoState.BatteryPercentageLeft;
         }
     }

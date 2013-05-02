@@ -9,14 +9,13 @@ namespace Naovigate.Event
     public interface INaoEvent
     {
         /**
-         * Set the event's priority.
+         * The event's priority property.
          **/
-        void SetPriority(Priority p);
-        
-        /**
-         * Returns the event's priority.
-         **/
-        Priority GetPriority();
+        Priority Priority
+        {
+            get;
+            set;
+        }
 
         /**
          * Fires the event.

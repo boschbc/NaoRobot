@@ -1,15 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
 <!--This file represents the results of running a test suite-->
-<test-results name="D:\My Files\TU\Contextproject\NaoRobot\Naovigate.Test\bin\Release\Naovigate.Test.dll" total="28" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2013-05-02" time="11:05:14">
+<test-results name="D:\My Files\TU\Contextproject\NaoRobot\Naovigate.Test\bin\Release\Naovigate.Test.dll" total="29" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2013-05-02" time="11:31:48">
   <environment nunit-version="2.6.2.12296" clr-version="2.0.50727.5466" os-version="Microsoft Windows NT 6.1.7601 Service Pack 1" platform="Win32NT" cwd="D:\My Files\TU\Contextproject\NaoRobot\Naovigate.Test" machine-name="RAOUL-PC" user="Raou" user-domain="RAOUL-PC" />
   <culture-info current-culture="en-GB" current-uiculture="en-US" />
-  <test-suite type="Assembly" name="D:\My Files\TU\Contextproject\NaoRobot\Naovigate.Test\bin\Release\Naovigate.Test.dll" executed="True" result="Success" success="True" time="1.466" asserts="0">
+  <test-suite type="Assembly" name="D:\My Files\TU\Contextproject\NaoRobot\Naovigate.Test\bin\Release\Naovigate.Test.dll" executed="True" result="Success" success="True" time="0.265" asserts="0">
     <results>
-      <test-suite type="Namespace" name="Naovigate" executed="True" result="Success" success="True" time="1.466" asserts="0">
+      <test-suite type="Namespace" name="Naovigate" executed="True" result="Success" success="True" time="0.265" asserts="0">
         <results>
-          <test-suite type="Namespace" name="Testing" executed="True" result="Success" success="True" time="1.466" asserts="0">
+          <test-suite type="Namespace" name="Testing" executed="True" result="Success" success="True" time="0.250" asserts="0">
             <results>
-              <test-suite type="TestFixture" name="CommunicationStreamTest" executed="True" result="Success" success="True" time="0.094" asserts="0">
+              <test-suite type="TestFixture" name="CommunicationStreamTest" executed="True" result="Success" success="True" time="0.078" asserts="0">
                 <results>
                   <test-case name="Naovigate.Testing.CommunicationStreamTest.GetStreamTest" executed="True" result="Success" success="True" time="0.016" asserts="1" />
                   <test-case name="Naovigate.Testing.CommunicationStreamTest.ReadWriteAllBufferTest" executed="True" result="Success" success="True" time="0.016" asserts="2" />
@@ -24,30 +24,31 @@
                   <test-case name="Naovigate.Testing.CommunicationStreamTest.ReadWriteLongSingleByteValueTest" executed="True" result="Success" success="True" time="0.000" asserts="1" />
                 </results>
               </test-suite>
-              <test-suite type="Namespace" name="Event" executed="True" result="Success" success="True" time="0.047" asserts="0">
+              <test-suite type="Namespace" name="Event" executed="True" result="Success" success="True" time="0.031" asserts="0">
                 <results>
                   <test-suite type="TestFixture" name="NaoEventFactoryTests" executed="True" result="Success" success="True" time="0.031" asserts="0">
                     <results>
-                      <test-case name="Naovigate.Testing.Event.NaoEventFactoryTests.NewEvent_Invalid_ExceptionThrown" executed="True" result="Success" success="True" time="0.000" asserts="0" />
-                      <test-case name="Naovigate.Testing.Event.NaoEventFactoryTests.NewEvent_Valid_Grab" executed="True" result="Success" success="True" time="0.016" asserts="1" />
+                      <test-case name="Naovigate.Testing.Event.NaoEventFactoryTests.NewEvent_Invalid_ExceptionThrown" executed="True" result="Success" success="True" time="0.016" asserts="0" />
+                      <test-case name="Naovigate.Testing.Event.NaoEventFactoryTests.NewEvent_Valid_Grab" executed="True" result="Success" success="True" time="0.000" asserts="1" />
                       <test-case name="Naovigate.Testing.Event.NaoEventFactoryTests.NewEvent_Valid_Look" executed="True" result="Success" success="True" time="0.000" asserts="1" />
                       <test-case name="Naovigate.Testing.Event.NaoEventFactoryTests.NewEvent_Valid_Move" executed="True" result="Success" success="True" time="0.000" asserts="1" />
                     </results>
                   </test-suite>
                 </results>
               </test-suite>
-              <test-suite type="TestFixture" name="EventQueueTest" executed="True" result="Success" success="True" time="1.264" asserts="0">
+              <test-suite type="TestFixture" name="EventQueueTest" executed="True" result="Success" success="True" time="0.047" asserts="0">
                 <results>
-                  <test-case name="Naovigate.Testing.EventQueueTest.FiredInOrderTest" executed="True" result="Success" success="True" time="0.562" asserts="6" />
-                  <test-case name="Naovigate.Testing.EventQueueTest.MultipleEventFiredTest" executed="True" result="Success" success="True" time="0.546" asserts="1" />
-                  <test-case name="Naovigate.Testing.EventQueueTest.SingleEventFiredTest" executed="True" result="Success" success="True" time="0.140" asserts="1" />
+                  <test-case name="Naovigate.Testing.EventQueueTest.FiredInOrderTest" executed="True" result="Success" success="True" time="0.016" asserts="6" />
+                  <test-case name="Naovigate.Testing.EventQueueTest.FireMultipleSessionsTest" executed="True" result="Success" success="True" time="0.000" asserts="3" />
+                  <test-case name="Naovigate.Testing.EventQueueTest.MultipleEventFiredTest" executed="True" result="Success" success="True" time="0.000" asserts="1" />
+                  <test-case name="Naovigate.Testing.EventQueueTest.SingleEventFiredTest" executed="True" result="Success" success="True" time="0.000" asserts="1" />
                 </results>
               </test-suite>
-              <test-suite type="TestFixture" name="PriorityQueueTest" executed="True" result="Success" success="True" time="0.062" asserts="0">
+              <test-suite type="TestFixture" name="PriorityQueueTest" executed="True" result="Success" success="True" time="0.047" asserts="0">
                 <results>
                   <test-case name="Naovigate.Testing.PriorityQueueTest.EmptyAfterRemoveTest" executed="True" result="Success" success="True" time="0.000" asserts="1" />
                   <test-case name="Naovigate.Testing.PriorityQueueTest.EmptyAtStartTest" executed="True" result="Success" success="True" time="0.000" asserts="1" />
-                  <test-case name="Naovigate.Testing.PriorityQueueTest.EnqueueInOrderTest" executed="True" result="Success" success="True" time="0.000" asserts="5" />
+                  <test-case name="Naovigate.Testing.PriorityQueueTest.EnqueueInOrderTest" executed="True" result="Success" success="True" time="0.016" asserts="5" />
                   <test-case name="Naovigate.Testing.PriorityQueueTest.EnqueuePriorityAndOrderTest" executed="True" result="Success" success="True" time="0.000" asserts="5" />
                   <test-case name="Naovigate.Testing.PriorityQueueTest.EnqueuePriorityRandomOrderTest" executed="True" result="Success" success="True" time="0.000" asserts="11" />
                   <test-case name="Naovigate.Testing.PriorityQueueTest.EnqueuePriorityTest" executed="True" result="Success" success="True" time="0.000" asserts="5" />

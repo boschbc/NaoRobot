@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <VisualState xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ShowCheckBoxes="false">
-  <TopNode>[0-1032]D:\My Files\TU\Contextproject\NaoRobot\Naovigate.Test\bin\Release\Naovigate.Test.dll</TopNode>
-  <SelectedNode>[0-1033]Naovigate</SelectedNode>
+  <TopNode>[0-1033]D:\My Files\TU\Contextproject\NaoRobot\Naovigate.Test\bin\Release\Naovigate.Test.dll</TopNode>
+  <SelectedNode>[0-1035]Naovigate.Testing</SelectedNode>
   <ExcludeCategories>false</ExcludeCategories>
   <Nodes>
-    <Node UniqueName="[0-1032]D:\My Files\TU\Contextproject\NaoRobot\Naovigate.Test\bin\Release\Naovigate.Test.dll" Expanded="true" />
-    <Node UniqueName="[0-1033]Naovigate" Expanded="true" />
-    <Node UniqueName="[0-1034]Naovigate.Testing" Expanded="true" />
-    <Node UniqueName="[0-1035]Naovigate.Testing.Event" Expanded="true" />
+    <Node UniqueName="[0-1033]D:\My Files\TU\Contextproject\NaoRobot\Naovigate.Test\bin\Release\Naovigate.Test.dll" Expanded="true" />
+    <Node UniqueName="[0-1034]Naovigate" Expanded="true" />
+    <Node UniqueName="[0-1035]Naovigate.Testing" Expanded="true" />
+    <Node UniqueName="[0-1036]Naovigate.Testing.Event" Expanded="true" />
     <Node UniqueName="[0-1023]Naovigate.Testing.Event.NaoEventFactoryTests" Expanded="true" />
+    <Node UniqueName="[0-1028]Naovigate.Testing.EventQueueTest" Expanded="true" />
   </Nodes>
 </VisualState>

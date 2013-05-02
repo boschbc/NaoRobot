@@ -14,7 +14,7 @@ namespace Naovigate.Event
          **/
         public NaoEvent()
         {
-            SetPriority(Priority.Medium);
+            priority = Priority.Medium;
         }
 
         /**
@@ -24,7 +24,7 @@ namespace Naovigate.Event
         public NaoEvent(CommunicationStream stream)
         {
             Unpack(stream);
-            SetPriority(Priority.Medium);
+            priority = Priority.Medium;
         }
 
         /**
@@ -34,23 +34,16 @@ namespace Naovigate.Event
         public NaoEvent(CommunicationStream stream, Priority p)
         {
             Unpack(stream);
-            SetPriority(p);
-        }
-
-        /**
-         * See the INaoEvent class docs for documentation of this method.
-         **/
-        public void SetPriority(Priority p)
-        {
             priority = p;
         }
 
         /**
          * See the INaoEvent class docs for documentation of this method.
          **/
-        public Priority GetPriority()
+        public Priority Priority
         {
-            return priority;
+            get { return priority; }
+            set { priority = value; }
         }
 
         /**

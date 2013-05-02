@@ -50,7 +50,7 @@ namespace Naovigate.Event
             lock (q)
             {
                 foreach(INaoEvent e in events)
-                    q.Enqueue(e, (int) e.GetPriority());
+                    q.Enqueue(e, (int) e.Priority);
             }
             locker.Set();
         }
