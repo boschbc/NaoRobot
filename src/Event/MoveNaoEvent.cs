@@ -42,7 +42,7 @@ namespace Naovigate.Event
          **/ 
         public override void Fire()
         {
-            Walk.GetInstance().WalkTo(delta.X, delta.Y, 0.0f);
+            Walk.Instance.WalkTo(delta.X, delta.Y, 0.0f);
         }
 
         /**

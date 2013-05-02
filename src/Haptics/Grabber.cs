@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Aldebaran.Proxies;
 using Naovigate.Communication;
 using Naovigate.Util;
@@ -22,18 +23,18 @@ namespace Naovigate.Haptics
             RobotPostureProxy postureProxy = NaoState.PostureProxy;
 
             // Apply crouch posture first.
-            postureProxy.goToPosture("Crouch", 1.0);
+            postureProxy.goToPosture("Crouch", 1.0f);
             NaoState.Update();
 
             // Move those arms, boy.
             motionProxy.positionInterpolations(
-                new[] { "LArm", "RArm" },
+                new[] { "LArm", "RArm" }.ToList(),
                 MotionProxy.FRAME_ROBOT,
                 new[] {
-                    new[] { },
-                    new[] { }
+                    new[] { 1.0 },
+                    new[] { 1.0 }
                 },
-                63, 0.5, false
+                63f, 0.5f, false
             );
             NaoState.Update();
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
@@ -14,7 +15,7 @@ namespace Naovigate.Communication
         private static String defaultIp = "127.0.0.1";
         private static int defaultPort = 1337;
 
-        private String ip;
+        private IPAddress ip;
         private int port;
         private TcpClient client;
         private NetworkStream stream;
@@ -38,9 +39,9 @@ namespace Naovigate.Communication
          */
         public GoalCommunicator(String ip, int port) : this()
         {
-            this.ip = ip;
+            this.ip = IPAddress.Parse(ip);
             this.port = port;
-            this.endPoint = new IPEndPoint(IPAddress.Parse(ip), port);
+            this.endPoint = new IPEndPoint(this.ip, port);
         }
 
         /**
@@ -52,7 +53,7 @@ namespace Naovigate.Communication
             {
                 throw new ArgumentNullException();
             }
-            this.ip = end.Address.ToString();
+            this.ip = end.Address;
             this.port = port;
             this.endPoint = end;
         }

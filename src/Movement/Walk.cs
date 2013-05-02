@@ -25,19 +25,19 @@ namespace Naovigate.Movement
 
         public Walk()
         {
-            motion = NaoState.GetMotionProxy();
-            posture = NaoState.GetRobotPostureProxy();
+            this.motion = NaoState.MotionProxy;
+            this.posture = NaoState.PostureProxy;
         }
 
-        public void RefreshProxies()
+        public static Walk Instance
         {
-            motion = NaoState.GetMotionProxy();
-            posture = NaoState.GetRobotPostureProxy();
-        }
-
-        public static Walk GetInstance()
-        {
-            return instance == null ? new Walk() : instance;
+            get {
+                if (instance == null)
+                {
+                    instance = new Walk();
+                }
+                return instance;
+            }
         }
 
         /**
@@ -64,7 +64,7 @@ namespace Naovigate.Movement
         /**
          * Turn (normalized) dir and walk till the Nao sees the marker with MarkID = markerID
          * */
-        public void walkTowards(float dir, int markerID)
+        public void WalkTowards(float dir, int markerID)
         {
             StopLooking();
             WalkTo(0, 0, dir);
