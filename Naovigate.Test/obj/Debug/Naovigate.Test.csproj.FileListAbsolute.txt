@@ -1,8 +1,0 @@
-D:\My Files\TU\Contextproject\NaoRobot\Naovigate.Test\bin\Debug\Naovigate.Test.dll
-D:\My Files\TU\Contextproject\NaoRobot\Naovigate.Test\bin\Debug\Naovigate.Test.pdb
-D:\My Files\TU\Contextproject\NaoRobot\Naovigate.Test\bin\Debug\Naovigate.exe
-D:\My Files\TU\Contextproject\NaoRobot\Naovigate.Test\bin\Debug\naoqi-dotnet4.dll
-D:\My Files\TU\Contextproject\NaoRobot\Naovigate.Test\bin\Debug\Naovigate.pdb
-D:\My Files\TU\Contextproject\NaoRobot\Naovigate.Test\obj\Debug\ResolveAssemblyReference.cache
-D:\My Files\TU\Contextproject\NaoRobot\Naovigate.Test\obj\Debug\Naovigate.Test.dll
-D:\My Files\TU\Contextproject\NaoRobot\Naovigate.Test\obj\Debug\Naovigate.Test.pdb
