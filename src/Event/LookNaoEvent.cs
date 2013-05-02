@@ -20,7 +20,7 @@ namespace Naovigate.Event
         /**
          * Extracts the degree parameter from a communication stream.
          **/
-        private void Unpack(CommunicationStream stream)
+        protected override void Unpack(CommunicationStream stream)
         {
             degree = stream.ReadInt();
         }

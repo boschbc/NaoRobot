@@ -19,6 +19,7 @@ namespace Naovigate.GUI
         {
             debugWidgets = new List<IRealtimeField>();
             debugWidgets.Add(locationMonitor);
+            debugWidgets.Add(batteryMonitor);
         }
 
         /**

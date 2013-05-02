@@ -24,7 +24,7 @@ namespace Naovigate.Event
         /**
          * Extracts the destination parameter from a communication stream.
          **/
-        private void Unpack(CommunicationStream stream)
+        protected override void Unpack(CommunicationStream stream)
         {
             SetDelta(stream.ReadInt(), stream.ReadInt());
         }

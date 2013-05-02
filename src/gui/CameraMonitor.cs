@@ -10,7 +10,7 @@ using Naovigate.Util;
 
 namespace Naovigate.GUI
 {
-    public partial class CameraMonitor : UserControl
+    public partial class CameraMonitor : UserControl, IRealtimeField
     {
         private static int Fps = 5;
 

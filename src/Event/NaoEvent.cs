@@ -62,9 +62,6 @@ namespace Naovigate.Event
          * Takes a communication stream and extracts different parameters as required.
          * All subclasses should provide an implementation of this method.
          **/
-        private void Unpack(CommunicationStream stream)
-        {
-            throw new NotImplementedException("Method Unpack() is not implemented.");
-        }
+        protected abstract void Unpack(CommunicationStream stream);
     }
 }

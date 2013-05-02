@@ -25,10 +25,12 @@ namespace Naovigate.Util
         private static int port;
         private static PointF location;
         private static float rotation;
+        private static int batteryLeft;
 
         private static MotionProxy motionProxy;
         private static RobotPostureProxy postureProxy;
         private static VideoDeviceProxy videoProxy;
+        private static BatteryProxy batteryProxy;
 
         private static bool connected = false;
         private static Stopwatch Stopwatch = new Stopwatch();
@@ -76,6 +78,7 @@ namespace Naovigate.Util
                 motionProxy = new MotionProxy(ip, port);
                 postureProxy = new RobotPostureProxy(ip, port);
                 videoProxy = new VideoDeviceProxy(ip, port);
+                batteryProxy = new BatteryProxy(ip, port);
             }
             catch
             {
@@ -107,6 +110,7 @@ namespace Naovigate.Util
                 motionProxy.Dispose();
                 postureProxy.Dispose();
                 videoProxy.Dispose();
+                batteryProxy.Dispose();
             }
             catch
             {
@@ -144,6 +148,14 @@ namespace Naovigate.Util
         public static float Rotation
         {
             get { return rotation; }
+        }
+
+        /**
+         * Return the current percentage of battery charge left.
+         **/
+        public static int BatteryPercentageLeft
+        {
+            get { return batteryLeft; }
         }
 
         /**
@@ -210,6 +222,7 @@ namespace Naovigate.Util
                 List<float> vector = motionProxy.getRobotPosition(false);
                 location = new PointF(vector[0], vector[1]);
                 rotation = vector[2];
+                batteryLeft = batteryProxy.getBatteryCharge();
             }
             catch
             {

@@ -16,7 +16,7 @@ namespace Naovigate.Event
         /**
          * Extracts parameters from a communication stream.
          **/
-        private void Unpack(CommunicationStream stream)
+        protected override void Unpack(CommunicationStream stream)
         {
             //Extract parameters (if any)
         }
