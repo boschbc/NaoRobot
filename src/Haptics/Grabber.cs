@@ -28,13 +28,18 @@ namespace Naovigate.Haptics
 
             // Move those arms, boy.
             motionProxy.positionInterpolations(
-                new[] { "LArm", "RArm" }.ToList(),
-                2,
-                new[] {
-                    new[] { 1.0 },
-                    new[] { 1.0 }
+                new[] { "LArm", "RArm" }.ToList(),  // Move left and right arms.
+                2,                                  // MotionProxy.ROBOT_FRAME. Not defined by NaoQI.NET.
+                new[] {                             // Positions for each arm.
+                    // Left arm positions: (x, y, z, θx, θy, θz)
+                    new[] { 0.5, 0.0, 0.1, 0.1, 0.1, 0.0 },
+                    // Right arm positions: (x, y, z, θx, θy, θz)
+                    new[] { -0.5, 0.0, 0.1, -0.1, 0.1, 0.0 }
                 },
-                63f, 0.5f, false
+                63f,                                // Move rotation AND position.
+                new[] { new[] { 0.5f },             // Movement times of left positions.
+                        new[] { 0.5f } },           // Movement times of right positions.
+                false                               // No absolute movement.
             );
             NaoState.Update();
         }

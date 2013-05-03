@@ -8,7 +8,7 @@ using System.Net;
 
 namespace Naovigate.Communication
 {
-    public class FindIP
+    public class IPScanner
     {
         public static String getNextIP(int last)
         {
