@@ -30,9 +30,15 @@ namespace Naovigate.GUI
         {
             Console.WriteLine("Cam control");
             if (cameraEnabler.Checked)
+            {
+                NaoState.InitVideo();
                 updateTimer.Enabled = true;
+            }
             else
+            {
                 updateTimer.Enabled = false;
+                NaoState.UnsubscribeVideo();
+            }
         }
 
         public void UpdateContent()
