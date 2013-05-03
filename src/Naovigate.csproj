@@ -70,6 +70,12 @@
     <Compile Include="GUI\CameraMonitor.Designer.cs">
       <DependentUpon>CameraMonitor.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\DemoLauncherPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\DemoLauncherPanel.Designer.cs">
+      <DependentUpon>DemoLauncherPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\EventLauncherPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -98,6 +104,11 @@
     </Compile>
     <Compile Include="MainProgram.cs" />
     <Compile Include="Movement\Walk.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Sonar\Sonar.cs" />
     <Compile Include="Testing [Deprecated]\GoalCommuncatorTest1.cs" />
     <Compile Include="Testing [Deprecated]\SonarTest.cs" />
@@ -154,6 +165,9 @@
     <EmbeddedResource Include="GUI\CameraMonitor.resx">
       <DependentUpon>CameraMonitor.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\DemoLauncherPanel.resx">
+      <DependentUpon>DemoLauncherPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\EventLauncherPanel.resx">
       <DependentUpon>EventLauncherPanel.cs</DependentUpon>
     </EmbeddedResource>
@@ -165,6 +179,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\StateMonitorPanel.resx">
       <DependentUpon>StateMonitorPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

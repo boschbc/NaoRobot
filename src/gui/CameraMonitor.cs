@@ -17,7 +17,28 @@ namespace Naovigate.GUI
         public CameraMonitor()
         {
             InitializeComponent();
+            HookEventHandlers();
             updateTimer.Interval = 1000 / Fps;
+        }
+
+        public void HookEventHandlers()
+        {
+            cameraEnabler.CheckedChanged += new EventHandler(ToggleCamera);
+        }
+
+        public void ToggleCamera(Object sender, EventArgs e)
+        {
+            Console.WriteLine("Cam control");
+            if (cameraEnabler.Checked)
+            {
+                NaoState.InitVideo();
+                updateTimer.Enabled = true;
+            }
+            else
+            {
+                updateTimer.Enabled = false;
+                NaoState.UnsubscribeVideo();
+            }
         }
 
         public void UpdateContent()

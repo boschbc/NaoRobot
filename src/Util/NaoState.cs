@@ -49,7 +49,7 @@ namespace Naovigate.Util
             ip = ip_;
             port = port_;
             CreateProxies();
-            InitVideo();
+            UnsubscribeVideo();
             connected = true;
             Update();
         }
@@ -62,7 +62,7 @@ namespace Naovigate.Util
         {
             ip = null;
             port = -1;
-            DisposeVideo();
+            UnsubscribeVideo();
             TeardownProxies();
             connected = false;
         }
@@ -86,23 +86,34 @@ namespace Naovigate.Util
             }
         }
 
-        private static void InitVideo()
+        public static void InitVideo(string subscriberID)
         {
-            DisposeVideo();
-            videoProxy.subscribeCamera(VideoSubscriberID, 0, 1 /*kQVGA*/, 13 /*kRGB*/, 30);
+            Console.Write("Subscribing: " + subscriberID);
+            UnsubscribeVideo(subscriberID);
+            videoProxy.subscribeCamera(subscriberID, 0, 1 /*kQVGA*/, 13 /*kRGB*/, 30);
         }
 
-
-        private static void DisposeVideo()
+        public static void InitVideo()
         {
+            InitVideo(VideoSubscriberID);
+        }
+
+        public static void UnsubscribeVideo(string subscriberID)
+        {
+            Console.WriteLine("Unsubscribing: " + subscriberID);
             try
             {
-                videoProxy.unsubscribe(VideoSubscriberID);
+                videoProxy.unsubscribe(subscriberID);
             }
             catch
             {
                 Console.WriteLine("DisposeVideo: No Camera subscribed.");
             }
+        }
+
+        public static void UnsubscribeVideo()
+        {
+            UnsubscribeVideo(VideoSubscriberID);
         }
 
         /**

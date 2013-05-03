@@ -30,18 +30,19 @@ namespace Naovigate.GUI
          **/
         private void updateTimer_Tick(object sender, EventArgs e)
         {
+            try
+            {
+                NaoState.Update();
+            }
+            catch (UnavailableConnectionException except)
+            {
+                Console.WriteLine("Caught exception: " + except.Message);
+                return;
+            }
+
             foreach (IRealtimeField rf in debugWidgets)
             {
-                try
-                {
-                    NaoState.Update();
-                    rf.UpdateContent();
-                }
-                catch (UnavailableConnectionException except)
-                {
-                    Console.WriteLine("Caught exception: " + except.Message);
-                    return;
-                }
+                rf.UpdateContent();
             }
         }
     }

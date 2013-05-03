@@ -14,8 +14,10 @@ namespace Naovigate
             //Use this switch to deactivate debugger invocation:
             bool Debug = true;
             string localhost = "127.0.0.1";
+            string tony = "192.168.0.110";
+            string orangeNao = "192.168.0.109";
             if (Debug)
-                LaunchDebugger.DebugMain(localhost);
+                LaunchDebugger.DebugMain(tony);
             //NaoProxyManager.Instance.EndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 9550);
             //Testing.GoalCommunicatorTest1 goalCom = new Testing.GoalCommunicatorTest1(args);
             //hoi hoi

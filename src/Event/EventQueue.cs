@@ -18,6 +18,7 @@ namespace Naovigate.Event
     {
 
         private static EventQueue instance;
+        private static EventQueue goal;
 
         /*
          * internal queue to store the events
@@ -62,7 +63,7 @@ namespace Naovigate.Event
         }
 
         /**
-        * return the EventQueue instance
+        * return the EventQueue instance for nao events
         */
         public static EventQueue Instance
         {
@@ -73,6 +74,21 @@ namespace Naovigate.Event
                     instance = new EventQueue();
                 }
                 return instance;
+            }
+        }
+
+       /**
+       * return the EventQueue instance for sending 
+       */
+        public static EventQueue Goal
+        {
+            get
+            {
+                if (goal == null)
+                {
+                    goal = new EventQueue();
+                }
+                return goal;
             }
         }
 

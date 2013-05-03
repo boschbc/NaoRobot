@@ -35,7 +35,7 @@ namespace Naovigate.Communication
                 Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
                 IAsyncResult res = socket.BeginConnect(endPoint, null, null);
-                if (res.AsyncWaitHandle.WaitOne(50))
+                if (res.AsyncWaitHandle.WaitOne(100))
                 {
                     TextToSpeechProxy proxy = new TextToSpeechProxy(ip, 9559);
                     proxy.say("Connected");

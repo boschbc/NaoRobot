@@ -44,7 +44,7 @@
             // 
             this.locationMonitor.AutoSize = true;
             this.locationMonitor.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.locationMonitor.Location = new System.Drawing.Point(0, 0);
+            this.locationMonitor.Location = new System.Drawing.Point(3, 14);
             this.locationMonitor.Name = "locationMonitor";
             this.locationMonitor.Size = new System.Drawing.Size(100, 26);
             this.locationMonitor.TabIndex = 2;
@@ -52,7 +52,7 @@
             // batteryMonitor
             // 
             this.batteryMonitor.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.batteryMonitor.Location = new System.Drawing.Point(3, 32);
+            this.batteryMonitor.Location = new System.Drawing.Point(3, 46);
             this.batteryMonitor.Name = "batteryMonitor";
             this.batteryMonitor.Size = new System.Drawing.Size(160, 33);
             this.batteryMonitor.TabIndex = 3;
