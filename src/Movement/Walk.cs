@@ -111,6 +111,7 @@ namespace Naovigate.Movement
                     Console.WriteLine("New Loop " + markers.Count);
                     if (markers.Count == 0)
                     {
+                        // Temp fix
                         StopMove();
                         return;
                     }
@@ -124,17 +125,17 @@ namespace Naovigate.Movement
 
                             Console.WriteLine("Alpha = " + ((float)((ArrayList)marker[0])[1]));
                             Console.WriteLine("Angle = " + angle);
-                            float x = 0.40f;
+                            float target = 0.40f;
                             float sonarL = sonar.getSonarDataLeft();
                             float sonarR = sonar.getSonarDataRight();
                             Console.WriteLine("SonarL = " + sonarL);
                             Console.WriteLine("SonarR = " + sonarR);
 
-                            Console.WriteLine("TestL = " + (sonarL - x) + " < " + 0.001);
-                            Console.WriteLine("TestR = " + (sonarR - x) + " < " + 0.001);
+                            Console.WriteLine("TestL = " + (sonarL - target) + " < " + 0.001);
+                            Console.WriteLine("TestR = " + (sonarR - target) + " < " + 0.001);
                             Console.WriteLine("Markerfound");
 
-                            if (sonarL >= 0.20f && sonarL - x < 0.001 && sonarR >= 0.20f && sonarR - x < 0.001)
+                            if (sonarL >= 0.20f && sonarL - target < 0.001 && sonarR >= 0.20f && sonarR - target < 0.001)
                             {
                                 Console.WriteLine("stopping");
                                 Console.WriteLine("SonarL was = " + sonarL);
@@ -143,12 +144,7 @@ namespace Naovigate.Movement
                                 found = true;
                             }
                         }
-                        else
-                        {
-                            Console.WriteLine("No Marker");
-                        }
                     }
-                    
                     Thread.Sleep(250);
                 }
                 Console.WriteLine("Exit LookForMarker");
