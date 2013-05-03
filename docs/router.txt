@@ -1,0 +1,2 @@
+router sitecom: MQEKBHB2MJM3
+router NaoNet: BKT7O3SVUMY8

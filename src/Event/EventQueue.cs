@@ -25,6 +25,8 @@ namespace Naovigate.Event
         private PriorityQueue<INaoEvent> q;
         private Thread thread;
 
+        private EventWaitHandle locker = new AutoResetEvent(false);
+
         /*
          * boolean saying if the event queue is handling an event
          */
@@ -56,6 +58,7 @@ namespace Naovigate.Event
                     Console.WriteLine(e+" Added");
                 }
             }
+            locker.Set();
         }
 
         /**
@@ -77,8 +80,11 @@ namespace Naovigate.Event
         {
             while (true)
             {
-                Thread.Sleep(100);
-                FireEvent();
+                while (!IsEmpty())
+                {
+                    FireEvent();
+                }
+                locker.WaitOne();
             }
         }
 
@@ -88,7 +94,6 @@ namespace Naovigate.Event
             INaoEvent e = null;
 
             // lock queue, we dont want concurrent modifications
-           
             lock (q)
             {
                 if (!q.IsEmpty())
