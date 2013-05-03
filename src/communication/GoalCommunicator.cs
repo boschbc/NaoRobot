@@ -7,10 +7,8 @@ using System.IO;
 
 namespace Naovigate.Communication
 {
-   
     public class GoalCommunicator : IDisposable
     {
-
         protected static GoalCommunicator instance = null;
         private static String defaultIp = "127.0.0.1";
         private static int defaultPort = 1337;
@@ -145,18 +143,30 @@ namespace Naovigate.Communication
             }
         }
 
+        /**
+         * returns stream
+         */
         public NetworkStream Stream {
             get { return this.stream; }
         }
 
+        /**
+         * returns ip
+         */
         public IPAddress IP {
             get { return this.ip; }
         }
 
+        /**
+         * returns port
+         */
         public int Port {
             get { return this.port; }
         }
 
+        /**
+         * returns bool running
+         */
         public bool IsRunning {
             get { return this.running; }
         }

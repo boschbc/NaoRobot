@@ -27,8 +27,6 @@ namespace Naovigate.Util
         private static float rotation;
         private static int batteryLeft;
 
-        //private static MotionProxy motionProxy;
-        //private static RobotPostureProxy postureProxy;
         private static VideoDeviceProxy videoProxy;
         private static BatteryProxy batteryProxy;
 
@@ -86,6 +84,9 @@ namespace Naovigate.Util
             }
         }
 
+        /*
+         * inits the camera of the nao with a specified name
+         */
         public static void InitVideo(string subscriberID)
         {
             Console.Write("Subscribing: " + subscriberID);
@@ -93,11 +94,17 @@ namespace Naovigate.Util
             videoProxy.subscribeCamera(subscriberID, 0, 1 /*kQVGA*/, 13 /*kRGB*/, 30);
         }
 
+        /*
+         * inits the camera of the nao with a default name
+         */
         public static void InitVideo()
         {
             InitVideo(VideoSubscriberID);
         }
 
+        /*
+         * unsubscribe the camera of the nao with a specified name
+         */
         public static void UnsubscribeVideo(string subscriberID)
         {
             Console.WriteLine("Unsubscribing: " + subscriberID);
@@ -111,6 +118,9 @@ namespace Naovigate.Util
             }
         }
 
+        /*
+         * unsubscribe the camera of the nao with a default name
+         */
         public static void UnsubscribeVideo()
         {
             UnsubscribeVideo(VideoSubscriberID);

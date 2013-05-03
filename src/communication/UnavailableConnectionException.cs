@@ -28,15 +28,20 @@ namespace Naovigate.Communication
             return String.Format(msgIPPortFormat, message, ip, port);
         }
 
+        /**
+         * Exceptions
+         */
         public UnavailableConnectionException() : base() { }
         public UnavailableConnectionException(string message) : base(message) { }
         public UnavailableConnectionException(string message, string ip) : 
             base(buildIPError(message, ip)) { }
         public UnavailableConnectionException(string message, string ip, int port) : 
             base(buildIPError(message, ip, port)) { }
-        
 
-        //Allows serialization of this exception.
+
+        /**
+         * Allows serialization of this exception.
+         */
         protected UnavailableConnectionException(SerializationInfo info, StreamingContext ctxt) : 
             base(info, ctxt) { }
     }

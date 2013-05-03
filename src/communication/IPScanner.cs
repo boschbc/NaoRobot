@@ -10,6 +10,10 @@ namespace Naovigate.Communication
 {
     public class IPScanner
     {
+        /**
+         * Finds a IP of a Nao by going through all the last numbers of
+         * a Nao's ip
+         */
         public static String getNextIP(int last)
         {
             for (int i = last < 0 ? 0 : last; i <= 255; i++)
@@ -26,6 +30,9 @@ namespace Naovigate.Communication
             return null;
         }
 
+        /**
+         * Test if the found ip a lissening ip is.
+         */
         private static Boolean testIP(String ip)
         {
             try

@@ -13,7 +13,9 @@ namespace Naovigate.Sonar
 
         private static Sonar instance = null;
 
-        //makes Sonar and memory Proxies
+        /*
+         * makes Sonar and memory Proxies
+         */
         public Sonar(String ip)
         {
                 sonarProxy = new SonarProxy(ip, 9559);
@@ -25,7 +27,9 @@ namespace Naovigate.Sonar
             return instance == null ? new Sonar(Util.NaoState.IP) : instance;
         }
 
-        //activates sonar
+        /*
+         * activates sonar
+         */
         public void activateSonar()
         {
             try
@@ -38,12 +42,16 @@ namespace Naovigate.Sonar
                 Console.WriteLine("No sonar subscription");
             }                            
         }
-        //deavtivates sonar
+
+        /*
+         * deactivates sonar
+         */
         public void deactivateSonar()
         {
             sonarProxy.unsubscribe("Nao");
             Console.WriteLine("Deactivating sonar");
         }
+
         /*
          * get value of sonar left
          * not done yet

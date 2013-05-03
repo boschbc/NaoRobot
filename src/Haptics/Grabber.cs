@@ -11,12 +11,18 @@ namespace Naovigate.Haptics
     {
         private GoalCommunicator goal;
 
+        /*
+         * Constructor
+         */
         public Grabber()
         {
             this.goal = GoalCommunicator.Instance;
             this.goal.RegisterHandler("grab", this.OnGrabCommand);
         }
 
+        /*
+         * The movemont for the grabbing
+         */
         public void OnGrabCommand()
         {
             MotionProxy motionProxy = NaoState.MotionProxy;

@@ -16,7 +16,6 @@ namespace Naovigate.Event
      */
     public class EventQueue
     {
-
         private static EventQueue instance;
         private static EventQueue goal;
 
@@ -33,6 +32,9 @@ namespace Naovigate.Event
          */
         private bool inAction;
 
+        /*
+         * Constructor
+         */
         public EventQueue()
         {
             q = new PriorityQueue<INaoEvent>(4);
@@ -41,6 +43,9 @@ namespace Naovigate.Event
             thread.Start();
         }
 
+        /*
+         * Post an evend to the queue
+         */
         public void Post(params INaoEvent[] events)
         {
             Console.WriteLine("Posting Event(s)");
@@ -48,6 +53,9 @@ namespace Naovigate.Event
             Console.WriteLine("Posted Event(s)");
         }
 
+        /*
+         * Enque the events
+         */
         public void Enqueue(params INaoEvent[] events)
         {
             lock (q)
@@ -92,6 +100,9 @@ namespace Naovigate.Event
             }
         }
 
+        /*
+         * Runs the event in the queue if he's not empty else wait fot one.
+         */
         private void Run()
         {
             while (true)
@@ -104,6 +115,9 @@ namespace Naovigate.Event
             }
         }
 
+        /*
+         * exectues the event
+         */
         private void FireEvent()
         {
             inAction = true;
@@ -126,6 +140,9 @@ namespace Naovigate.Event
             inAction = false;
         }
 
+        /*
+         * returns the size of the queue
+         */
         public int EventsQueuedCount()
         {
             return q.Size();

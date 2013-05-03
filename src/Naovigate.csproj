@@ -111,7 +111,6 @@
     <Compile Include="Vision\MarkerRecogniser.cs" />
     <Compile Include="Vision\Processing.cs" />
     <Compile Include="Haptics\Grabber.cs" />
-    <Compile Include="Util\NaoProxyManager.cs" />
     <Compile Include="Util\NaoState.cs" />
     <Compile Include="Communication\IPScanner.cs" />
   </ItemGroup>

@@ -21,7 +21,7 @@ namespace Naovigate.Communication
         {
             Write(data, 0, data.Length);
         }
-
+        
         /**
          * write from data to the socket, starting from off, writing len bytes
          */

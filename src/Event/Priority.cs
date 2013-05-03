@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Naovigate.Event
 {
+    /*
+    * Gives an event a Priority
+    */
     public enum Priority
     {
         Low = 0,
