@@ -44,7 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Communication\CommunicationStreamTest.cs" />
     <Compile Include="Communication\GoalCommunicatorTest.cs" />
     <Compile Include="Util\PriorityQueueTest.cs" />

@@ -108,31 +108,50 @@ namespace Naovigate.Movement
                 {
                     ArrayList data = rec.GetMarkerData();
                     markers = data.Count == 0 ? data : (ArrayList)data[1];
-
+                    Console.WriteLine("New Loop " + markers.Count);
+                    if (markers.Count == 0)
+                    {
+                        StopMove();
+                        return;
+                    }
                     for (int i = 0; i < markers.Count && !found; i++)
                     {
                         ArrayList marker = (ArrayList)markers[i];
                         if ((int)((ArrayList)marker[1])[0] == markerID)
                         {
-                            float angle = ((float)((ArrayList)marker[0])[1]);
-                            StartWalking(0.5F, 0, Math.Max(-1,Math.Min(1,angle)));
+                            float angle = ((float)((ArrayList)marker[0])[1]) / 4F;
+                            StartWalking(0.5F, 0, Math.Max(-1, Math.Min(1, angle)));
 
                             Console.WriteLine("Alpha = " + ((float)((ArrayList)marker[0])[1]));
                             Console.WriteLine("Angle = " + angle);
-
+                            float x = 0.40f;
                             float sonarL = sonar.getSonarDataLeft();
                             float sonarR = sonar.getSonarDataRight();
                             Console.WriteLine("SonarL = " + sonarL);
                             Console.WriteLine("SonarR = " + sonarR);
-                            if (sonarL >= 0.25 && sonarL <= 1 && sonarR >= 0.25 && sonarR <= 1)
+
+                            Console.WriteLine("TestL = " + (sonarL - x) + " < " + 0.001);
+                            Console.WriteLine("TestR = " + (sonarR - x) + " < " + 0.001);
+                            Console.WriteLine("Markerfound");
+
+                            if (sonarL >= 0.20f && sonarL - x < 0.001 && sonarR >= 0.20f && sonarR - x < 0.001)
                             {
+                                Console.WriteLine("stopping");
+                                Console.WriteLine("SonarL was = " + sonarL);
+                                Console.WriteLine("SonarR was = " + sonarR);
                                 StopMove();
                                 found = true;
                             }
                         }
+                        else
+                        {
+                            Console.WriteLine("No Marker");
+                        }
                     }
-                    Thread.Sleep(1000);
+                    
+                    Thread.Sleep(250);
                 }
+                Console.WriteLine("Exit LookForMarker");
             }
             finally
             {

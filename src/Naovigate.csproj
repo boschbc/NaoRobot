@@ -115,12 +115,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Sonar\Sonar.cs" />
-    <Compile Include="Testing [Deprecated]\GoalCommuncatorTest1.cs" />
-    <Compile Include="Testing [Deprecated]\SonarTest.cs" />
     <Compile Include="Util\PriorityQueue.cs" />
     <Compile Include="Vision\Camera.cs" />
     <Compile Include="Communication\GoalCommunicator.cs" />
-    <Compile Include="Testing [Deprecated]\Program.cs" />
     <Compile Include="Vision\MarkerRecogniser.cs" />
     <Compile Include="Vision\Processing.cs" />
     <Compile Include="Haptics\Grabber.cs" />
