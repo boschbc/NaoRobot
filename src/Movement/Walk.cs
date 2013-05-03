@@ -25,14 +25,14 @@ namespace Naovigate.Movement
 
         public Walk()
         {
-            motion = NaoState.GetMotionProxy();
-            posture = NaoState.GetRobotPostureProxy();
+            motion = NaoState.MotionProxy;
+            posture = NaoState.PostureProxy;
         }
 
         public void RefreshProxies()
         {
-            motion = NaoState.GetMotionProxy();
-            posture = NaoState.GetRobotPostureProxy();
+            motion = NaoState.MotionProxy;
+            posture = NaoState.PostureProxy;
         }
 
         public static Walk GetInstance()
@@ -86,29 +86,43 @@ namespace Naovigate.Movement
             MarkerRecogniser rec = MarkerRecogniser.GetInstance();
             Sonar.Sonar sonar = Sonar.Sonar.GetInstance();
             ArrayList markers;
+            sonar.activateSonar();
 
-            while (!found)
+            try
             {
-                ArrayList data = rec.GetMarkerData();
-                markers = data.Count == 0 ? data : (ArrayList)data[1];
-
-                for (int i = 0; i < markers.Count && !found; i++)
+                while (!found)
                 {
-                    ArrayList marker = (ArrayList)markers[i];
-                    if ((int)((ArrayList)marker[1])[0] == markerID)
+                    ArrayList data = rec.GetMarkerData();
+                    markers = data.Count == 0 ? data : (ArrayList)data[1];
+
+                    for (int i = 0; i < markers.Count && !found; i++)
                     {
-                        StartWalking(0.5F, 0, (float)((ArrayList)marker[0])[5]);
-                        
-                        float sonarL = sonar.getSonarDataLeft();
-                        float sonarR = sonar.getSonarDataRight();
-                        if (sonarL <= 1 && sonarR <= 1)
+                        ArrayList marker = (ArrayList)markers[i];
+                        if ((int)((ArrayList)marker[1])[0] == markerID)
                         {
-                            StopMove();
-                            found = true;
+                            float angle = ((float)((ArrayList)marker[0])[1]);
+                            StartWalking(0.5F, 0, Math.Max(-1,Math.Min(1,angle)));
+
+                            Console.WriteLine("Alpha = " + ((float)((ArrayList)marker[0])[1]));
+                            Console.WriteLine("Angle = " + angle);
+
+                            float sonarL = sonar.getSonarDataLeft();
+                            float sonarR = sonar.getSonarDataRight();
+                            Console.WriteLine("SonarL = " + sonarL);
+                            Console.WriteLine("SonarR = " + sonarR);
+                            if (sonarL >= 0.25 && sonarL <= 1 && sonarR >= 0.25 && sonarR <= 1)
+                            {
+                                StopMove();
+                                found = true;
+                            }
                         }
                     }
+                    Thread.Sleep(1000);
                 }
-                Thread.Sleep(1000);
+            }
+            finally
+            {
+                sonar.deactivateSonar();
             }
         }
 

@@ -47,7 +47,6 @@ namespace Naovigate.Util
             ip = ip_;
             port = port_;
             CreateProxies();
-            InitVideo();
             connected = true;
             Update();
         }
@@ -60,7 +59,6 @@ namespace Naovigate.Util
         {
             ip = null;
             port = -1;
-            DisposeVideo();
             TeardownProxies();
             connected = false;
         }
