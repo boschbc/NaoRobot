@@ -49,6 +49,7 @@ namespace Naovigate.Util
             ip = ip_;
             port = port_;
             CreateProxies();
+            InitVideo();
             connected = true;
             Update();
         }
@@ -61,6 +62,7 @@ namespace Naovigate.Util
         {
             ip = null;
             port = -1;
+            UnsubscribeVideo();
             TeardownProxies();
             connected = false;
         }
@@ -86,12 +88,12 @@ namespace Naovigate.Util
 
         private static void InitVideo()
         {
-            DisposeVideo();
+            UnsubscribeVideo();
             videoProxy.subscribeCamera(VideoSubscriberID, 0, 1 /*kQVGA*/, 13 /*kRGB*/, 30);
         }
 
 
-        private static void DisposeVideo()
+        private static void UnsubscribeVideo()
         {
             try
             {

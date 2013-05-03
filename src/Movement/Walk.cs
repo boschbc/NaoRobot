@@ -23,9 +23,7 @@ namespace Naovigate.Movement
 
         public Walk()
         {
-            this.motion = NaoState.MotionProxy;
             motion = NaoState.MotionProxy;
-            this.posture = NaoState.PostureProxy;
             posture = NaoState.PostureProxy;
         }
 
@@ -38,8 +36,6 @@ namespace Naovigate.Movement
                 }
                 return instance;
             }
-            motion = NaoState.MotionProxy;
-            posture = NaoState.PostureProxy;
         }
 
         /**
