@@ -14,10 +14,8 @@ namespace Naovigate
             //Use this switch to deactivate debugger invocation:
             bool Debug = true;
             string localhost = "127.0.0.1";
-            string tony = "192.168.0.110";
-            string orangeNao = "192.168.0.109";
             if (Debug)
-                LaunchDebugger.DebugMain(orangeNao);
+                LaunchDebugger.DebugMain(localhost);
 
         }
 
