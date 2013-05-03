@@ -20,6 +20,9 @@ namespace Naovigate.Testing.Event
         private CommunicationStream invalidCommand;
         private byte invalidActionCode;
 
+        /**
+         * create the stream and fill it with data
+         */
         private CommunicationStream BuildStream(params int[] input)
         {
             MemoryStream mem = new MemoryStream();
@@ -44,7 +47,7 @@ namespace Naovigate.Testing.Event
         }
 
         [Test]
-        public void NewEvent_Valid_Move()
+        public void NewEventValidMoveTest()
         {
             INaoEvent result = NaoEventFactory.NewEvent(
                                 (byte)NaoEventFactory.ActionCode.Move, 
@@ -53,7 +56,7 @@ namespace Naovigate.Testing.Event
         }
 
         [Test]
-        public void NewEvent_Valid_Look()
+        public void NewEventValidLookTest()
         {
             INaoEvent result = NaoEventFactory.NewEvent(
                                 (byte)NaoEventFactory.ActionCode.Look,
@@ -62,7 +65,7 @@ namespace Naovigate.Testing.Event
         }
 
         [Test]
-        public void NewEvent_Valid_Grab()
+        public void NewEventValidGrabTest()
         {
             INaoEvent result = NaoEventFactory.NewEvent(
                                 (byte)NaoEventFactory.ActionCode.Grab,
@@ -72,7 +75,7 @@ namespace Naovigate.Testing.Event
 
         [Test]
         [ExpectedException(typeof(InvalidActionCodeException))]
-        public void NewEvent_Invalid_ExceptionThrown()
+        public void NewEventInvalidExceptionThrown()
         {
             INaoEvent result = NaoEventFactory.NewEvent(
                                 invalidActionCode,

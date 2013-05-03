@@ -19,18 +19,18 @@ namespace Naovigate.Testing{
 		    q.Enqueue(events);
 		}
 
+        /**
+         * Wait until all the events are fired
+         */
         private void WaitFor()
         {
-            // after event queue is empty, it is still processing the last event
-            //while (q.EventsQueuedCount() > 0) ;
-            //Thread.Sleep(100);
-
             while (!q.IsEmpty()) ;
         }
 
         [TestFixtureSetUp]
         public void SetupOnce()
         {
+            // we need only one EventQueue for all tests
             Console.WriteLine("New EventQueue");
             q = new EventQueue();
         }
@@ -74,6 +74,33 @@ namespace Naovigate.Testing{
             Assert.AreEqual(Priority.Low, t.events[3].Priority);
             Assert.AreEqual(Priority.Low, t.events[4].Priority);
 		}
+
+        [Test]
+        public void FireMultipleSessionsTest()
+        {
+            Add(new TEvent(t, Priority.Low),
+                    new TEvent(t, Priority.High),
+                    new TEvent(t, Priority.Medium),
+                    new TEvent(t, Priority.Low),
+                    new TEvent(t, Priority.Low));
+            WaitFor();
+            Assert.AreEqual(5, t.events.Count());
+            Add(new TEvent(t, Priority.Low),
+                   new TEvent(t, Priority.High),
+                   new TEvent(t, Priority.Medium),
+                   new TEvent(t, Priority.Low),
+                   new TEvent(t, Priority.Low));
+            WaitFor();
+            Assert.AreEqual(10, t.events.Count());
+            Add(new TEvent(t, Priority.Low),
+                  new TEvent(t, Priority.High),
+                  new TEvent(t, Priority.Medium),
+                  new TEvent(t, Priority.Low),
+                  new TEvent(t, Priority.Low));
+            WaitFor();
+            Assert.AreEqual(15, t.events.Count());
+        }
+
 	}
 
     class Tracker{
