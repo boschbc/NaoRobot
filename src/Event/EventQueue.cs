@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Naovigate.Util;
 using System.Threading;
 using System.ComponentModel;
+
 namespace Naovigate.Event
 {
     /*
@@ -26,6 +25,8 @@ namespace Naovigate.Event
         private PriorityQueue<INaoEvent> q;
         private Thread thread;
 
+        private EventWaitHandle locker = new AutoResetEvent(false);
+
         /*
          * boolean saying if the event queue is handling an event
          */
@@ -33,7 +34,7 @@ namespace Naovigate.Event
 
         public EventQueue()
         {
-            q = new PriorityQueue<INaoEvent>(3);
+            q = new PriorityQueue<INaoEvent>(4);
             thread = new Thread(new ThreadStart(Run));
             thread.IsBackground = true;
             thread.Start();
@@ -41,18 +42,23 @@ namespace Naovigate.Event
 
         public void Post(params INaoEvent[] events)
         {
+            Console.WriteLine("Posting Event(s)");
             Enqueue(events);
+            Console.WriteLine("Posted Event(s)");
         }
 
         public void Enqueue(params INaoEvent[] events)
         {
-            // todo: synchronize
             lock (q)
             {
-                foreach(INaoEvent e in events)
-                    q.Enqueue(e, (int)e.GetPriority());
-                //Monitor.Pulse(this);
+                foreach (INaoEvent e in events)
+                {
+                    Console.WriteLine("Enqueue "+e);
+                    q.Enqueue(e, (int)e.Priority);
+                    Console.WriteLine(e+" Added");
+                }
             }
+            locker.Set();
         }
 
         /**
@@ -70,31 +76,38 @@ namespace Naovigate.Event
             }
         }
 
-        public void Run()
+        private void Run()
         {
             while (true)
             {
-                Thread.Sleep(100);
-                //Monitor.Wait(this);
-                inAction = true;
-                INaoEvent e = null;
-
-                // lock queue, we dont want concurrent modifications
-                lock (q)
+                while (!IsEmpty())
                 {
-                    if (!q.IsEmpty())
-                    {
-                        e = q.Dequeue();
-                    }
+                    FireEvent();
                 }
-                // there was an event available, fire it
-                if (e != null)
-                {
-                    Console.WriteLine("Firing " + e);
-                    e.Fire();
-                }
-                inAction = false;
+                locker.WaitOne();
             }
+        }
+
+        private void FireEvent()
+        {
+            inAction = true;
+            INaoEvent e = null;
+
+            // lock queue, we dont want concurrent modifications
+            lock (q)
+            {
+                if (!q.IsEmpty())
+                {
+                    e = q.Dequeue();
+                }
+            }
+            if (e != null)
+            {
+                // there was an event available, fire it
+                Console.WriteLine("Firing " + e + "\n" + EventsQueuedCount()+" Events left.");
+                e.Fire();
+            }
+            inAction = false;
         }
 
         public int EventsQueuedCount()
@@ -104,7 +117,7 @@ namespace Naovigate.Event
 
         public bool IsEmpty()
         {
-            return q.IsEmpty() && !inAction;
+            return EventsQueuedCount() == 0 && !inAction;
         }
     }
 }

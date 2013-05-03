@@ -50,8 +50,8 @@ namespace Naovigate.Testing
             GoalCommunicator client = new GoalCommunicator(endPoint, 11000);
             client.Connect();
             Console.WriteLine("Client Connected");
-            while (serverStream == null || client.GetStream() == null) ;
-            runTests(new CommunicationStream(serverStream), new CommunicationStream(client.GetStream()));
+            while (serverStream == null || client.Stream == null) ;
+            runTests(new CommunicationStream(serverStream), new CommunicationStream(client.Stream));
         }
 
         public void run()
@@ -77,7 +77,7 @@ namespace Naovigate.Testing
         {
             int x = 432;
             client.WriteInt(x);
-            client.GetStream().Flush();
+            client.Stream.Flush();
             Thread.Sleep(500);
             int ret = server.ReadInt();
             Debug.Assert(x == ret);

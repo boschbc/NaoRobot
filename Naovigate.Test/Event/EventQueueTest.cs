@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+
 using NUnit.Framework;
+
 using Naovigate.Event;
-
-
 
 namespace Naovigate.Testing{
 	// test if events are fired
@@ -68,11 +68,11 @@ namespace Naovigate.Testing{
                     new TEvent(t, Priority.Low));
             WaitFor();
             Assert.AreEqual(5, t.events.Count());
-            Assert.AreEqual(Priority.High, t.events[0].GetPriority());
-            Assert.AreEqual(Priority.Medium, t.events[1].GetPriority());
-            Assert.AreEqual(Priority.Low, t.events[2].GetPriority());
-            Assert.AreEqual(Priority.Low, t.events[3].GetPriority());
-            Assert.AreEqual(Priority.Low, t.events[4].GetPriority());
+            Assert.AreEqual(Priority.High, t.events[0].Priority);
+            Assert.AreEqual(Priority.Medium, t.events[1].Priority);
+            Assert.AreEqual(Priority.Low, t.events[2].Priority);
+            Assert.AreEqual(Priority.Low, t.events[3].Priority);
+            Assert.AreEqual(Priority.Low, t.events[4].Priority);
 		}
 	}
 
@@ -97,14 +97,11 @@ namespace Naovigate.Testing{
 			this.p = p;
 		}
 
-        public void SetPriority(Priority p)
+        public Priority Priority
         {
-            this.p = p;
+            get { return p; }
+            set { p = value; }
         }
-
-		public Priority GetPriority(){
-			return p;
-		}
 
 		public virtual void Fire(){
 			t.Fired(this);

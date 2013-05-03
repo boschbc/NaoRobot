@@ -20,23 +20,26 @@ namespace Naovigate.Testing.Event
         private CommunicationStream invalidCommand;
         private byte invalidActionCode;
 
-        private CommunicationStream StreamFromString(string s)
+        private CommunicationStream BuildStream(params int[] input)
         {
-            MemoryStream stream = new MemoryStream();
-            StreamWriter writer = new StreamWriter(stream);
-            writer.Write(s);
-            writer.Flush();
-            stream.Position = 0;
-            return new CommunicationStream(stream);
+            MemoryStream mem = new MemoryStream();
+            CommunicationStream com = new CommunicationStream(mem);
+
+            foreach (int i in input)
+            {
+                com.WriteInt(i);
+            }
+            mem.Position = 0;
+            return com;
         }
 
         [SetUp]
         public void Init()
         {
-            moveCommand = StreamFromString("0.5 0.2");
-            grabCommand = StreamFromString("");
-            lookCommand = StreamFromString("3.14");
-            invalidCommand = StreamFromString("This is invalid.");
+            moveCommand = BuildStream(1, 1);
+            grabCommand = BuildStream();
+            lookCommand = BuildStream(3);
+            invalidCommand = BuildStream(-1);
             invalidActionCode = 99;
         }
 

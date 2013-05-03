@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Collections;
 using System.Threading;
 
@@ -14,8 +12,8 @@ namespace Naovigate.Movement
 {
     class Walk
     {
-        private MotionProxy motion;
-        private RobotPostureProxy posture;
+        private MotionProxy motion; //deprecated
+        private RobotPostureProxy posture; //deprecated
 
         private static Walk instance = null;
 
@@ -25,19 +23,23 @@ namespace Naovigate.Movement
 
         public Walk()
         {
+            this.motion = NaoState.MotionProxy;
             motion = NaoState.MotionProxy;
+            this.posture = NaoState.PostureProxy;
             posture = NaoState.PostureProxy;
         }
 
-        public void RefreshProxies()
+        public static Walk Instance
         {
+            get {
+                if (instance == null)
+                {
+                    instance = new Walk();
+                }
+                return instance;
+            }
             motion = NaoState.MotionProxy;
             posture = NaoState.PostureProxy;
-        }
-
-        public static Walk GetInstance()
-        {
-            return instance == null ? new Walk() : instance;
         }
 
         /**
@@ -45,10 +47,26 @@ namespace Naovigate.Movement
          * */
         public void WalkTo(float x, float y, float theta)
         {
-            if (!IsMoving()) 
-                motion.moveInit();
-            motion.moveTo(x, y, theta);
-            motion.stopMove();
+            InitMove();
+            using (MotionProxy motion = NaoState.MotionProxy)
+            {
+                if (!motion.moveIsActive())
+                    motion.moveInit();
+                motion.moveTo(x, y, theta);
+                //motion.stopMove();
+            }
+        }
+
+        /**
+         * Sets the stiffness of the Nao's motors on if it is not already so.
+         **/
+        public void InitMove()
+        {
+            using (MotionProxy motion = NaoState.MotionProxy)
+            {
+                if (!motion.robotIsWakeUp())
+                    motion.wakeUp();
+            }
         }
 
         /**
@@ -64,7 +82,7 @@ namespace Naovigate.Movement
         /**
          * Turn (normalized) dir and walk till the Nao sees the marker with MarkID = markerID
          * */
-        public void walkTowards(float dir, int markerID)
+        public void WalkTowards(float dir, int markerID)
         {
             StopLooking();
             WalkTo(0, 0, dir);
@@ -153,7 +171,14 @@ namespace Naovigate.Movement
          * */
         public Boolean IsMoving()
         {
-            return motion.moveIsActive();
+            try
+            {
+                return motion.moveIsActive();
+            }
+            catch
+            {
+                return true;
+            }
         }
 
         /**

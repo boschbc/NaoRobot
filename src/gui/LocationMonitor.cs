@@ -24,15 +24,6 @@ namespace Naovigate.GUI
 
         public void UpdateContent()
         {
-            try
-            {
-                NaoState.Update();
-            }
-            catch (UnavailableConnectionException e)
-            {
-                Console.WriteLine("Caught exception: " + e.Message);
-                return;
-            }
             PointF location = NaoState.Location;
             float rotation = NaoState.Rotation;
             label.Text = String.Format(Format,

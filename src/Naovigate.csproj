@@ -63,6 +63,12 @@
     <Compile Include="Event\NaoEvent.cs" />
     <Compile Include="Event\NaoEventFactory.cs" />
     <Compile Include="Event\Priority.cs" />
+    <Compile Include="GUI\BatteryMonitor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\BatteryMonitor.Designer.cs">
+      <DependentUpon>BatteryMonitor.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\CameraMonitor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -72,7 +78,7 @@
     <Compile Include="GUI\EventLauncherPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="gui\IRealtimeField.cs" />
+    <Compile Include="GUI\IRealtimeField.cs" />
     <Compile Include="GUI\EventLauncherPanel.Designer.cs">
       <DependentUpon>EventLauncherPanel.cs</DependentUpon>
     </Compile>
@@ -146,6 +152,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="GUI\BatteryMonitor.resx">
+      <DependentUpon>BatteryMonitor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\CameraMonitor.resx">
       <DependentUpon>CameraMonitor.cs</DependentUpon>
     </EmbeddedResource>
@@ -163,6 +172,5 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="obj\" />
   </ItemGroup>
 </Project>

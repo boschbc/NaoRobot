@@ -25,10 +25,12 @@ namespace Naovigate.Util
         private static int port;
         private static PointF location;
         private static float rotation;
+        private static int batteryLeft;
 
-        private static MotionProxy motionProxy;
-        private static RobotPostureProxy postureProxy;
+        //private static MotionProxy motionProxy;
+        //private static RobotPostureProxy postureProxy;
         private static VideoDeviceProxy videoProxy;
+        private static BatteryProxy batteryProxy;
 
         private static bool connected = false;
         private static Stopwatch Stopwatch = new Stopwatch();
@@ -71,9 +73,10 @@ namespace Naovigate.Util
         {
             try
             {
-                motionProxy = new MotionProxy(ip, port);
-                postureProxy = new RobotPostureProxy(ip, port);
+                //motionProxy = new MotionProxy(ip, port);
+                //postureProxy = new RobotPostureProxy(ip, port);
                 videoProxy = new VideoDeviceProxy(ip, port);
+                batteryProxy = new BatteryProxy(ip, port);
             }
             catch
             {
@@ -83,13 +86,21 @@ namespace Naovigate.Util
 
         private static void InitVideo()
         {
+            DisposeVideo();
             videoProxy.subscribeCamera(VideoSubscriberID, 0, 1 /*kQVGA*/, 13 /*kRGB*/, 30);
         }
 
 
         private static void DisposeVideo()
         {
-            videoProxy.unsubscribe(VideoSubscriberID);
+            try
+            {
+                videoProxy.unsubscribe(VideoSubscriberID);
+            }
+            catch
+            {
+                Console.WriteLine("DisposeVideo: No Camera subscribed.");
+            }
         }
 
         /**
@@ -102,9 +113,10 @@ namespace Naovigate.Util
                 return;
             try
             {
-                motionProxy.Dispose();
-                postureProxy.Dispose();
+                //motionProxy.Dispose();
+                //postureProxy.Dispose();
                 videoProxy.Dispose();
+                batteryProxy.Dispose();
             }
             catch
             {
@@ -145,6 +157,14 @@ namespace Naovigate.Util
         }
 
         /**
+         * Return the current percentage of battery charge left.
+         **/
+        public static int BatteryPercentageLeft
+        {
+            get { return batteryLeft; }
+        }
+
+        /**
          * Fetches the current image from Nao's camera.
          * @returns null if not connected to any Nao.
          **/
@@ -165,12 +185,12 @@ namespace Naovigate.Util
 
         public static MotionProxy MotionProxy
         {
-            get { return motionProxy; }
+            get { return new MotionProxy(ip, port); /*motionProxy;*/ }
         }
 
         public static RobotPostureProxy PostureProxy
         {
-            get { return postureProxy; }
+            get { return new RobotPostureProxy(ip, port); /* postureProxy;*/ }
         }
 
         /**
@@ -197,6 +217,7 @@ namespace Naovigate.Util
          * These properties include:
          *  - Location
          *  - Rotation
+         *  - Battery-charge
          *  @throws UnavailableConnectionException if not connected to a Nao.
          **/
         public static void Update()
@@ -205,14 +226,19 @@ namespace Naovigate.Util
                 throw new UnavailableConnectionException(UpdateErrorMsg, ip, port);
             try
             {
-                List<float> vector = motionProxy.getRobotPosition(false);
-                location = new PointF(vector[0], vector[1]);
-                rotation = vector[2];
+                using (MotionProxy motion = MotionProxy)
+                {
+                    List<float> vector = motion.getRobotPosition(false);
+                    location = new PointF(vector[0], vector[1]);
+                    rotation = vector[2];
+                }
+                batteryLeft = batteryProxy.getBatteryCharge();
             }
-            catch
+            catch(Exception e)
             {
-                Console.WriteLine("Faild Nao update.");
+                Console.WriteLine("Faild Nao update: " + e);
             }
+            //Count the time between this update and the next:
             Stopwatch.Restart();
         }
     }    

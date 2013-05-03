@@ -27,7 +27,6 @@ namespace Naovigate.Communication
          */
         public void Write(byte[] data, int off, int len)
         {
-            Console.WriteLine("GoalCommunicator.Write " + len + " Bytes");
             stream.Write(data, off, len);
         }
 
@@ -75,7 +74,6 @@ namespace Naovigate.Communication
          */
         public int Read(byte[] buf, int off, int length)
         {
-            Console.WriteLine("GoalCommunicator.Read " + length + " Bytes");
             // start at offset
             int pos = off;
             // until length bytes are read
@@ -124,9 +122,8 @@ namespace Naovigate.Communication
         /**
          * return the underlying stream
          */
-        public Stream GetStream()
-        {
-            return stream;
+        public Stream Stream {
+            get { return stream; }
         }
 
         //debugging help function
