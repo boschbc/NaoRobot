@@ -104,11 +104,6 @@
     </Compile>
     <Compile Include="MainProgram.cs" />
     <Compile Include="Movement\Walk.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Sonar\Sonar.cs" />
     <Compile Include="Util\PriorityQueue.cs" />
     <Compile Include="Vision\Camera.cs" />
@@ -176,10 +171,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\StateMonitorPanel.resx">
       <DependentUpon>StateMonitorPanel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
