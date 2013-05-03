@@ -45,16 +45,11 @@
     <ConsolePause>False</ConsolePause>
     <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject>
-    </StartupObject>
-  </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Compile Include="Communication\UnavailableConnectionException.cs" />
     <Compile Include="Event\EventQueue.cs" />
     <Compile Include="Communication\CommunicationStream.cs" />
-    <Compile Include="Communication\FindIP.cs" />
     <Compile Include="Event\GrabNaoEvent.cs" />
     <Compile Include="Event\INaoEvent.cs" />
     <Compile Include="Event\InvalidActionCodeException.cs" />
@@ -115,6 +110,7 @@
     <Compile Include="Haptics\Grabber.cs" />
     <Compile Include="Util\NaoProxyManager.cs" />
     <Compile Include="Util\NaoState.cs" />
+    <Compile Include="Communication\IPScanner.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Moq">
