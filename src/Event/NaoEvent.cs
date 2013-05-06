@@ -54,7 +54,7 @@ namespace Naovigate.Event
         /**
          * See the INaoEvent class docs for documentation of this method.
          **/
-        public void Abort() { };
+        public void Abort() { }
 
         /**
          * Takes a communication stream and extracts different parameters as required.
