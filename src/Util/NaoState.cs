@@ -82,7 +82,7 @@ namespace Naovigate.Util
             }
             catch
             {
-                throw new UnavailableConnectionException("Error while disconnecting proxies.", ip, port);
+                throw new UnavailableConnectionException("Error while disconnecting proxies.", ip.ToString(), port);
             }
         }
 
@@ -90,7 +90,7 @@ namespace Naovigate.Util
         /// The IP of the currently connected-to Nao.
         /// </summary>
         /// <value>The IP.</value>
-        public static string IP
+        public static IPAddress IP
         {
             get { return ip; }
         }
@@ -139,7 +139,7 @@ namespace Naovigate.Util
         {
             get
             {
-                MotionProxy res = new MotionProxy(ip, port);
+                MotionProxy res = new MotionProxy(ip.ToString(), port);
                 proxies.Add(res);
                 return res;
             }
@@ -153,7 +153,7 @@ namespace Naovigate.Util
         {
             get
             {
-                RobotPostureProxy res = new RobotPostureProxy(ip, port);
+                RobotPostureProxy res = new RobotPostureProxy(ip.ToString(), port);
                 proxies.Add(res);
                 return res;
             }
@@ -167,7 +167,7 @@ namespace Naovigate.Util
         {
             get
             {
-                VideoDeviceProxy res = new VideoDeviceProxy(ip, port);
+                VideoDeviceProxy res = new VideoDeviceProxy(ip.ToString(), port);
                 proxies.Add(res);
                 return res;
             }
@@ -181,7 +181,7 @@ namespace Naovigate.Util
         {
             get
             {
-                BatteryProxy res = new BatteryProxy(ip, port);
+                BatteryProxy res = new BatteryProxy(ip.ToString(), port);
                 proxies.Add(res);
                 return res;
             }
@@ -195,7 +195,17 @@ namespace Naovigate.Util
         {
             get
             {
-                SonarProxy res = new SonarProxy(ip, port);
+                SonarProxy res = new SonarProxy(ip.ToString(), port);
+                proxies.Add(res);
+                return res;
+            }
+        }
+
+        public static MemoryProxy MemoryProxy
+        {
+            get
+            {
+                MemoryProxy res = new MemoryProxy(ip.ToString(), port);
                 proxies.Add(res);
                 return res;
             }
@@ -217,12 +227,9 @@ namespace Naovigate.Util
         /// Gets a value indicating whether this <see cref="Naovigate.Util.NaoState"/>'s data is out of date.
         /// </summary>
         /// <value><c>true</c> if out of date; otherwise, <c>false</c>.</value>
-        public static bool OutOfDate
+        public static bool OutOfDate(int threshold)
         {
-            get
-            {
-                return Stopwatch.ElapsedMilliseconds > threshold;
-            }
+            return Stopwatch.ElapsedMilliseconds > threshold;
         }
 
         /// <summary>
@@ -232,7 +239,7 @@ namespace Naovigate.Util
         public static void Update()
         {
             if (!Connected)
-                throw new UnavailableConnectionException("Attempted to update state while not connected.", ip, port);
+                throw new UnavailableConnectionException("Attempted to update state while not connected.", ip.ToString(), port);
 
             try
             {
@@ -242,7 +249,7 @@ namespace Naovigate.Util
                     location = new PointF(vector[0], vector[1]);
                     rotation = vector[2];
                 }
-                batteryLeft = batteryProxy.getBatteryCharge();
+                batteryLeft = BatteryProxy.getBatteryCharge();
             }
             catch(Exception e)
             {

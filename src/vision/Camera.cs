@@ -65,7 +65,7 @@ namespace Naovigate.Vision
          **/
         public Image GetImage()
         {
-            if (!NaoState.IsConnected())
+            if (!NaoState.Connected)
                 return null;
 
             ArrayList imageObject = GetRawImage();

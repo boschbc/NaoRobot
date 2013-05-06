@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Aldebaran.Proxies;
-using Naovigate.Util.NaoState;
+using Naovigate.Util;
 
 namespace Naovigate.Vision
 {
