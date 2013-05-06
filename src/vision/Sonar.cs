@@ -6,7 +6,7 @@ using Aldebaran.Proxies;
 using System.Timers;
 using Naovigate.Event;
 
-namespace Naovigate.Sonar
+namespace Naovigate.Vision
 {
     public class Sonar
     {
