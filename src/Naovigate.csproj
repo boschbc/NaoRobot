@@ -124,6 +124,7 @@
     <Compile Include="Vision\Camera.cs" />
     <Compile Include="Communication\GoalCommunicator.cs" />
     <Compile Include="Vision\MarkerRecogniser.cs" />
+    <Compile Include="Vision\ObjectRecogniser.cs" />
     <Compile Include="Vision\Processing.cs" />
     <Compile Include="Haptics\Grabber.cs" />
     <Compile Include="Util\NaoState.cs" />
