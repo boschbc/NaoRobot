@@ -56,24 +56,6 @@ namespace Naovigate.Testing.Event
         }
 
         [Test]
-        public void NewEventValidLookTest()
-        {
-            INaoEvent result = NaoEventFactory.NewEvent(
-                                (byte)NaoEventFactory.ActionCode.Look,
-                                lookCommand);
-            Assert.IsInstanceOf(typeof(LookNaoEvent), result);
-        }
-
-        [Test]
-        public void NewEventValidGrabTest()
-        {
-            INaoEvent result = NaoEventFactory.NewEvent(
-                                (byte)NaoEventFactory.ActionCode.Grab,
-                                grabCommand);
-            Assert.IsInstanceOf(typeof(GrabNaoEvent), result);
-        }
-
-        [Test]
         [ExpectedException(typeof(InvalidActionCodeException))]
         public void NewEventInvalidExceptionThrown()
         {

@@ -24,22 +24,24 @@ namespace Naovigate.Vision
                 sonarProxy = new SonarProxy(ip, 9559);
                 memoryProxy = new MemoryProxy(ip, 9559);
 
-                activateSonar();
+                ActivateSonar();
 
                 timer = new Timer();
                 timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
                 timer.Interval = 500;
         }
 
-        public static Sonar GetInstance()
+        public static Sonar Instance
         {
-            return instance == null ? new Sonar(Util.NaoState.IP) : instance;
+            get{
+                return instance == null ? instance = new Sonar(Util.NaoState.IP.ToString()) : instance;
+            }
         }
 
         /*
          * activates sonar
          */
-        public void activateSonar()
+        public void ActivateSonar()
         {
             try
             {
@@ -55,7 +57,7 @@ namespace Naovigate.Vision
         /*
          * deactivates sonar
          */
-        public void deactivateSonar()
+        public void Deactivate()
         {
             StopChecking();
             sonarProxy.unsubscribe("Nao");

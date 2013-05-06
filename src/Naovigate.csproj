@@ -128,6 +128,7 @@
     <Compile Include="Haptics\Grabber.cs" />
     <Compile Include="Util\NaoState.cs" />
     <Compile Include="Communication\IPScanner.cs" />
+    <Compile Include="Vision\Sonar.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Moq">
