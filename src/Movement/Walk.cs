@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections;
 using System.Threading;
@@ -98,9 +99,9 @@ namespace Naovigate.Movement
         public void LookForMarker()
         {
             MarkerRecogniser rec = MarkerRecogniser.GetInstance();
-            Sonar.Sonar sonar = Sonar.Sonar.GetInstance();
+            Sonar sonar = Sonar.Instance;
             ArrayList markers;
-            sonar.activateSonar();
+            sonar.Activate();
 
             try
             {
@@ -126,8 +127,8 @@ namespace Naovigate.Movement
                             Console.WriteLine("Alpha = " + ((float)((ArrayList)marker[0])[1]));
                             Console.WriteLine("Angle = " + angle);
                             float target = 0.40f;
-                            float sonarL = sonar.getSonarDataLeft();
-                            float sonarR = sonar.getSonarDataRight();
+                            float sonarL = sonar.LeftData;
+                            float sonarR = sonar.RightData;
                             Console.WriteLine("SonarL = " + sonarL);
                             Console.WriteLine("SonarR = " + sonarR);
 
@@ -151,7 +152,7 @@ namespace Naovigate.Movement
             }
             finally
             {
-                sonar.deactivateSonar();
+                sonar.Deactivate();
             }
         }
 

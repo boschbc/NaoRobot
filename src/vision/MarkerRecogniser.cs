@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,7 +17,7 @@ namespace Naovigate.Vision
 
         public static MarkerRecogniser GetInstance()
         {
-            return instance == null ? new MarkerRecogniser(NaoState.IP,NaoState.Port) : instance;
+            return instance == null ? new MarkerRecogniser(NaoState.IP.ToString(), NaoState.Port) : instance;
         }
 
         public MarkerRecogniser(String ip, int port)
@@ -35,3 +35,4 @@ namespace Naovigate.Vision
         }
     }
 }
+

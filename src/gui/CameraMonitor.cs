@@ -43,7 +43,7 @@ namespace Naovigate.GUI
 
         public void UpdateContent()
         {
-            if (NaoState.OutOfDate(updateTimer.Interval))
+            if (NaoState.OutOfDate)
             {
                 try
                 {

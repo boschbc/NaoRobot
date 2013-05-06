@@ -1,8 +1,15 @@
 ﻿using System;
-
 using Naovigate.Communication;
+
 namespace Naovigate.Event
 {
+    public enum Priority
+    {
+        Low,
+        Medium,
+        High
+    };
+
     /**
      * A simple interface for Nao-events.
      **/
@@ -21,5 +28,10 @@ namespace Naovigate.Event
          * Fires the event.
          **/
         void Fire();
+
+        /**
+         * Aborts this event's operation.
+         **/
+        void Abort();
     }
 }
