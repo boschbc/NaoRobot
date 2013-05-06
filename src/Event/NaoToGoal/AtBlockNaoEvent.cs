@@ -8,7 +8,7 @@ namespace Naovigate.Event.NaoToGoal
     /**
      * Nao is at object ID
      */
-    class AtBlockNaoEvent
+    public class AtBlockNaoEvent
     {
     }
 }

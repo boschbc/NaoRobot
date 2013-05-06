@@ -8,7 +8,7 @@ namespace Naovigate.Event.NaoToGoal
     /**
      * Notify Goal that the Nao is holding object ID.
      */
-    class HoldingNaoEvent
+    public class HoldingNaoEvent
     {
     }
 }

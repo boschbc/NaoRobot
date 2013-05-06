@@ -48,6 +48,7 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Compile Include="Communication\UnavailableConnectionException.cs" />
+    <Compile Include="Event\GoalToNao\GoalToNaoEvent.cs" />
     <Compile Include="Event\NaoCollidingEvent.cs" />
     <Compile Include="Event\EventQueue.cs" />
     <Compile Include="Communication\CommunicationStream.cs" />
@@ -55,10 +56,8 @@
     <Compile Include="Event\GoalToNao\GoToNaoEvent.cs" />
     <Compile Include="Event\GoalToNao\PickupNaoEvent.cs" />
     <Compile Include="Event\GoalToNao\StopNaoEvent.cs" />
-    <Compile Include="Event\GrabNaoEvent.cs" />
     <Compile Include="Event\INaoEvent.cs" />
     <Compile Include="Event\InvalidActionCodeException.cs" />
-    <Compile Include="Event\LookNaoEvent.cs" />
     <Compile Include="Event\MoveNaoEvent.cs" />
     <Compile Include="Event\NaoEvent.cs" />
     <Compile Include="Event\NaoEventFactory.cs" />

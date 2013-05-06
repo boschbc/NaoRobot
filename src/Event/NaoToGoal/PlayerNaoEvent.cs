@@ -8,7 +8,8 @@ namespace Naovigate.Event.NaoToGoal
     /*
      * Send the Nao id. The id consists of the last number of the ip address.
      */
-    class PlayerNaoEvent
+    public abstract class PlayerNaoEvent : NaoEvent
     {
+
     }
 }

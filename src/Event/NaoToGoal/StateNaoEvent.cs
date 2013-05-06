@@ -11,7 +11,7 @@ namespace Naovigate.Event.NaoToGoal
      *      looking
      *      stopped
      */
-    class StateNaoEvent
+    public class StateNaoEvent
     {
     }
 }

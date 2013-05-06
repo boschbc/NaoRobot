@@ -6,7 +6,7 @@ using Naovigate.Movement;
 
 namespace Naovigate.Event
 {
-    class NaoCollidingEvent : INaoEvent 
+    class NaoCollidingEvent : NaoEvent 
     {
         private bool left, right;
 
@@ -17,17 +17,18 @@ namespace Naovigate.Event
             Priority = Priority.High;
         }
 
-
-        public Priority Priority
-        {
-            get;
-            set;
-        }
-
-        public void Fire()
+        public override void Fire()
         {
             Walk.Instance.StopLooking();
             Walk.Instance.StopMove();
+        }
+
+        /**
+         * unimplemented
+         */
+        public override void Abort()
+        {
+            throw new NotImplementedException();
         }
     }
 }

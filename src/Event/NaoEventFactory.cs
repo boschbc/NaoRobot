@@ -15,15 +15,11 @@ namespace Naovigate.Event
         public enum ActionCode
         {
             Move = 0,
-            Look = 1,
-            Grab = 2
         }
         private static Dictionary<byte, Func<CommunicationStream, NaoEvent>> CodeConverter = 
             new Dictionary<byte, Func<CommunicationStream, NaoEvent>>()
             {
                 {(byte) ActionCode.Move, stream => new MoveNaoEvent(stream)},
-                {(byte) ActionCode.Look, stream => new LookNaoEvent(stream)},
-                {(byte) ActionCode.Grab, stream => new GrabNaoEvent(stream)}
             };
 
         /**

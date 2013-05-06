@@ -4,13 +4,14 @@ using System.Drawing;
 using Naovigate.Communication;
 
 using Naovigate.Movement;
+using Naovigate.Event.GoalToNao;
 
 namespace Naovigate.Event
 {
     /**
      * A class representing the "move" Nao-event.
      **/
-    public class MoveNaoEvent : NaoEvent
+    public class MoveNaoEvent : GoalToNaoEvent
     {
         private PointF delta;
 
@@ -43,6 +44,14 @@ namespace Naovigate.Event
         public override void Fire()
         {
             Walk.Instance.WalkTo(delta.X, delta.Y, 0.0f);
+        }
+
+        /**
+         * unimplemented
+         */
+        public override void Abort()
+        {
+            throw new NotImplementedException();
         }
 
         /**

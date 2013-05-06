@@ -8,7 +8,7 @@ namespace Naovigate.Event.NaoToGoal
     /**
      * Send the position the Nao is at.
      */
-    class PlaceNaoEvent
+    public class PlaceNaoEvent
     {
     }
 }

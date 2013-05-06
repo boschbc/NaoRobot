@@ -8,7 +8,7 @@ namespace Naovigate.Event.NaoToGoal
     /**
      * Nao sees object ID at marker MarkerID
      */
-    class BlockAtNaoEvent
+    public class BlockAtNaoEvent
     {
     }
 }

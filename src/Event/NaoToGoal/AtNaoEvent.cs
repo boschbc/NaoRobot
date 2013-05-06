@@ -8,7 +8,7 @@ namespace Naovigate.Event.NaoToGoal
     /**
      * The Nao is Distance rooms away from MarkerID
      */
-    class AtNaoEvent
+    public class AtNaoEvent
     {
     }
 }
