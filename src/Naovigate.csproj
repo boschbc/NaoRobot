@@ -68,7 +68,6 @@
     <Compile Include="Event\NaoToGoal\PlaceNaoEvent.cs" />
     <Compile Include="Event\NaoToGoal\PlayerNaoEvent.cs" />
     <Compile Include="Event\NaoToGoal\StateNaoEvent.cs" />
-    <Compile Include="Event\Priority.cs" />
     <Compile Include="GUI\BatteryMonitor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -120,7 +119,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Sonar\Sonar.cs" />
     <Compile Include="Util\PriorityQueue.cs" />
     <Compile Include="Vision\Camera.cs" />
     <Compile Include="Communication\GoalCommunicator.cs" />
@@ -190,5 +188,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Event\Local\" />
+    <Folder Include="Sonar\" />
   </ItemGroup>
 </Project>
