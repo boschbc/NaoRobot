@@ -3,73 +3,116 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Aldebaran.Proxies;
-using Naovigate.Util;
+using System.Timers;
+using Naovigate.Event;
 
-namespace Naovigate.Vision
+namespace Naovigate.Sonar
 {
     public class Sonar
     {
-        private static string leftDataLocation = "Device/SubDeviceList/US/Left/Sensor/Value";
-        private static string rightDataLocation = "Device/SubDeviceList/US/Right/Sensor/Value";
         private SonarProxy sonarProxy;
         private MemoryProxy memoryProxy;
+        private Timer timer;
+
         private static Sonar instance = null;
 
-        public Sonar()
+        /*
+         * makes Sonar and memory Proxies
+         */
+        public Sonar(String ip)
         {
-            this.sonarProxy = NaoState.SonarProxy;
-            this.memoryProxy = NaoState.MemoryProxy;
+                sonarProxy = new SonarProxy(ip, 9559);
+                memoryProxy = new MemoryProxy(ip, 9559);
+
+                activateSonar();
+
+                timer = new Timer();
+                timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+                timer.Interval = 500;
         }
 
-        /// <summary>
-        /// Gets the singleton instance.
-        /// </summary>
-        /// <value>The instance.</value>
-        public static Sonar Instance
+        public static Sonar GetInstance()
         {
-            get
+            return instance == null ? new Sonar(Util.NaoState.IP) : instance;
+        }
+
+        /*
+         * activates sonar
+         */
+        public void activateSonar()
+        {
+            try
             {
-                if (instance == null) {
-                    instance = new Sonar();
+                sonarProxy.subscribe("Nao");
+                Console.WriteLine("subscribed");
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("No sonar subscription");
+            }                            
+        }
+
+        /*
+         * deactivates sonar
+         */
+        public void deactivateSonar()
+        {
+            StopChecking();
+            sonarProxy.unsubscribe("Nao");
+            Console.WriteLine("Deactivating sonar");
+        }
+
+        /*
+         * Check if the Nao is too close (within 0.3 metres) to a wall (or other object)
+         * If the Nao is too close, raise a NaoCollidingEvent and stop checking
+         * */
+        public void OnTimedEvent(object source, ElapsedEventArgs ev) {
+            if (timer.Enabled)
+            {
+                float left = getSonarDataLeft();
+                float right = getSonarDataRight();
+
+                bool collidingLeft = left <= 0.3;
+                bool collidingRight = right <= 0.3;
+
+                if (collidingLeft || collidingRight)
+                {
+                    EventQueue.Instance.Enqueue(new NaoCollidingEvent(collidingLeft, collidingRight));
+                    StopChecking();
                 }
-                return instance;
             }
         }
 
-        /// <summary>
-        /// Activate sonar.
-        /// </summary>
-        public void Activate()
+        /**
+         * Start checking for collisions
+         * */
+        public void StartChecking()
         {
-            this.sonarProxy.subscribe("Nao");                        
+            timer.Start();
         }
 
-        /// <summary>
-        /// Deactivate the sonar.
-        /// </summary>
-        public void Deactivate()
+        /**
+         * Stop checking for collisions
+         * */
+        public void StopChecking()
         {
-            this.sonarProxy.unsubscribe("Nao");
+            timer.Stop();
         }
 
-        /// <summary>
-        /// The detected range to nearest wall from the left sonar.
-        /// </summary>
-        /// <value>The left data.</value>
-        public float LeftData {
-            get {
-                return (float)this.memoryProxy.getData(leftDataLocation);
-            }
+        /*
+         * get value of sonar left
+         * */
+        public float getSonarDataLeft()
+        { 
+            return (float)memoryProxy.getData("Device/SubDeviceList/US/Left/Sensor/Value");            
         }
 
-        /// <summary>
-        /// The detected range to nearest wall from the right sonar.
-        /// </summary>
-        /// <value>The right data.</value>
-        public float RightData {
-            get {
-                return (float)this.memoryProxy.getData(rightDataLocation);
-            }
+        /*
+         * get value of sonar left
+         * */
+        public float getSonarDataRight()
+        {
+            return (float)memoryProxy.getData("Device/SubDeviceList/US/Right/Sensor/Value");
         }
     }
 }

@@ -46,7 +46,6 @@ namespace Naovigate.Util
             }
             ip = endPoint.Address;
             port = endPoint.Port;
-
             connected = true;
             Update();
         }
