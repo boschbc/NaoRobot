@@ -42,7 +42,7 @@ namespace Naovigate.Vision
             }
             catch
             {
-                Console.WriteLine("DisposeVideo: No Camera subscribed.");
+                return; //Console.WriteLine("DisposeVideo: No Camera subscribed.");
             }
         }
 

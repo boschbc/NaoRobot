@@ -44,10 +44,6 @@
             this.imageContainer.TabIndex = 0;
             this.imageContainer.TabStop = false;
             // 
-            // updateTimer
-            // 
-            this.updateTimer.Tick += new System.EventHandler(this.updateTimer_Tick);
-            // 
             // cameraEnabler
             // 
             this.cameraEnabler.Location = new System.Drawing.Point(3, 246);

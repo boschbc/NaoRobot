@@ -4,46 +4,67 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Data;
 using System.Windows.Forms;
+using System.Threading;
 
 using Naovigate.Communication;
 using Naovigate.Util;
+using Naovigate.Vision;
 
 namespace Naovigate.GUI
 {
     public partial class CameraMonitor : UserControl, IRealtimeField
     {
-        private static int Fps = 5;
+        private static int DefaultFps = 5;
 
+        private int fps;
+        private Camera camera;
+        private UpdaterThread worker;
+        
         public CameraMonitor()
         {
-            InitializeComponent();
-            HookEventHandlers();
-            updateTimer.Interval = 1000 / Fps;
+            fps = DefaultFps;
+            Init();
         }
 
-        public void HookEventHandlers()
+        public CameraMonitor(int fps_)
+        {
+            fps = fps_;
+            Init();
+        }
+
+        private void Init()
+        {
+            camera = new Camera("CameraMonitor");
+            worker = new UpdaterThread(Interval, UpdateContent);
+            InitializeComponent();
+            HookEventHandlers();
+        }
+
+        private int Interval
+        {
+            get { return 1000 / fps; }
+        }
+
+        private void HookEventHandlers()
         {
             cameraEnabler.CheckedChanged += new EventHandler(ToggleCamera);
         }
 
         public void ToggleCamera(Object sender, EventArgs e)
         {
-            Console.WriteLine("Cam control");
             if (cameraEnabler.Checked)
             {
-                NaoState.InitVideo();
-                updateTimer.Enabled = true;
+                worker.Enabled = true;
             }
             else
             {
-                updateTimer.Enabled = false;
-                NaoState.UnsubscribeVideo();
+                worker.Enabled = false;
             }
         }
 
         public void UpdateContent()
         {
-            if (NaoState.OutOfDate)
+            if (NaoState.OutOfDate(Interval))
             {
                 try
                 {
@@ -55,13 +76,8 @@ namespace Naovigate.GUI
                     return;
                 }
             }
-            Image image = NaoState.GetImage();
+            Image image = camera.GetImage();
             imageContainer.Image = image;
-        }
-
-        private void updateTimer_Tick(object sender, EventArgs e)
-        {
-            UpdateContent();
         }
     }
 }

@@ -101,6 +101,7 @@
     <Compile Include="GUI\StateMonitorPanel.Designer.cs">
       <DependentUpon>StateMonitorPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\UpdaterThread.cs" />
     <Compile Include="MainProgram.cs" />
     <Compile Include="Movement\Walk.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

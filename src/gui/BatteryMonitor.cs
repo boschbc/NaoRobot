@@ -18,6 +18,11 @@ namespace Naovigate.GUI
 
         public void UpdateContent()
         {
+            //Avoid cross-thread exception:
+            if (batteryGauge.InvokeRequired)
+            {
+                batteryGauge.Invoke(new MethodInvoker(UpdateContent));
+            }
             batteryGauge.Value = NaoState.BatteryPercentageLeft;
         }
     }

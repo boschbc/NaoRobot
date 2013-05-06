@@ -133,5 +133,10 @@ namespace Naovigate.Testing{
 		public virtual void Fire(){
 			t.Fired(this);
 		}
+
+        public void Abort()
+        {
+
+        }
 	}
 }

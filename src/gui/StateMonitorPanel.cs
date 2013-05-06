@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
-using System.Timers;
+using System.Threading;
 
 using Naovigate.Communication;
 using Naovigate.Util;
@@ -11,16 +11,30 @@ namespace Naovigate.GUI
 {
     public partial class StateMonitorPanel : UserControl
     {
-        private List<IRealtimeField> debugWidgets;
-        private System.Timers.Timer updateTimer;
+        private static int DefaultFps = 2;
 
+        private List<IRealtimeField> debugWidgets;
+        private int fps;
+        private UpdaterThread worker;
+        
         public StateMonitorPanel()
         {
+            fps = DefaultFps;
+            Init();
+        }
+
+        public StateMonitorPanel(int fps_)
+        {
+            fps = fps_;
+            Init();
+        }
+
+        private void Init()
+        {
+            worker = new UpdaterThread(Interval, UpdateContent);
             InitializeComponent();
             InitializeDebugWidgets();
-            updateTimer = new System.Timers.Timer(500);
-            updateTimer.Elapsed += new ElapsedEventHandler(updateTimer_Tick);
-            //updateTimer.Enabled = true;
+            worker.Enabled = true;
         }
 
         private void InitializeDebugWidgets()
@@ -30,22 +44,28 @@ namespace Naovigate.GUI
             debugWidgets.Add(batteryMonitor);
         }
 
+        public int Interval
+        {
+            get { return 1000 / fps; }
+        }
+
         /**
          * Update the debug data displayed in all debug fiels.
          **/
-        private void updateTimer_Tick(object sender, EventArgs e)
+        private void UpdateContent()
         {
-            Console.WriteLine("Updating stats...");
-            try
+            if (NaoState.OutOfDate(Interval))
             {
-                NaoState.Update();
+                try
+                {
+                    NaoState.Update();
+                }
+                catch (UnavailableConnectionException except)
+                {
+                    Console.WriteLine("Caught exception: " + except.Message);
+                    return;
+                }
             }
-            catch (UnavailableConnectionException except)
-            {
-                Console.WriteLine("Caught exception: " + except.Message);
-                return;
-            }
-
             foreach (IRealtimeField rf in debugWidgets)
             {
                 rf.UpdateContent();

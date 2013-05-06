@@ -24,6 +24,11 @@ namespace Naovigate.GUI
 
         public void UpdateContent()
         {
+            //Avoid cross-thread exception:
+            if (label.InvokeRequired)
+            {
+                label.Invoke(new MethodInvoker(UpdateContent));
+            }
             PointF location = NaoState.Location;
             float rotation = NaoState.Rotation;
             label.Text = String.Format(Format,
