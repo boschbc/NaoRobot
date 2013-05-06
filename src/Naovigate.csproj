@@ -109,7 +109,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Sonar\Sonar.cs" />
     <Compile Include="Testing [Deprecated]\GoalCommuncatorTest1.cs" />
     <Compile Include="Testing [Deprecated]\SonarTest.cs" />
     <Compile Include="Util\PriorityQueue.cs" />
@@ -119,9 +118,9 @@
     <Compile Include="Vision\MarkerRecogniser.cs" />
     <Compile Include="Vision\Processing.cs" />
     <Compile Include="Haptics\Grabber.cs" />
-    <Compile Include="Util\NaoProxyManager.cs" />
     <Compile Include="Util\NaoState.cs" />
     <Compile Include="Communication\IPScanner.cs" />
+    <Compile Include="Vision\Sonar.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Moq">
