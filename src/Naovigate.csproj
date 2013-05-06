@@ -50,6 +50,10 @@
     <Compile Include="Communication\UnavailableConnectionException.cs" />
     <Compile Include="Event\EventQueue.cs" />
     <Compile Include="Communication\CommunicationStream.cs" />
+    <Compile Include="Event\GoalToNao\DropObjectNaoEvent.cs" />
+    <Compile Include="Event\GoalToNao\GoToNaoEvent.cs" />
+    <Compile Include="Event\GoalToNao\PickupNaoEvent.cs" />
+    <Compile Include="Event\GoalToNao\StopNaoEvent.cs" />
     <Compile Include="Event\GrabNaoEvent.cs" />
     <Compile Include="Event\INaoEvent.cs" />
     <Compile Include="Event\InvalidActionCodeException.cs" />
@@ -57,6 +61,14 @@
     <Compile Include="Event\MoveNaoEvent.cs" />
     <Compile Include="Event\NaoEvent.cs" />
     <Compile Include="Event\NaoEventFactory.cs" />
+    <Compile Include="Event\NaoToGoal\AtBlockNaoEvent.cs" />
+    <Compile Include="Event\NaoToGoal\AtNaoEvent.cs" />
+    <Compile Include="Event\NaoToGoal\BlockAtNaoEvent.cs" />
+    <Compile Include="Event\NaoToGoal\HoldingNaoEvent.cs" />
+    <Compile Include="Event\NaoToGoal\PlaceNaoEvent.cs" />
+    <Compile Include="Event\NaoToGoal\PlayerNaoEvent.cs" />
+    <Compile Include="Event\NaoToGoal\StateNaoEvent.cs" />
+    <Compile Include="Event\Priority.cs" />
     <Compile Include="GUI\BatteryMonitor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -108,6 +120,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Sonar\Sonar.cs" />
     <Compile Include="Util\PriorityQueue.cs" />
     <Compile Include="Vision\Camera.cs" />
     <Compile Include="Communication\GoalCommunicator.cs" />
@@ -116,7 +129,6 @@
     <Compile Include="Haptics\Grabber.cs" />
     <Compile Include="Util\NaoState.cs" />
     <Compile Include="Communication\IPScanner.cs" />
-    <Compile Include="Vision\Sonar.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Moq">
@@ -177,5 +189,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Event\Local\" />
   </ItemGroup>
 </Project>
