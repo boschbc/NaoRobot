@@ -28,17 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.updateTimer = new System.Windows.Forms.Timer(this.components);
             this.locationMonitor = new Naovigate.GUI.LocationMonitor();
             this.batteryMonitor = new Naovigate.GUI.BatteryMonitor();
             this.SuspendLayout();
-            // 
-            // updateTimer
-            // 
-            this.updateTimer.Enabled = true;
-            this.updateTimer.Interval = 500;
-            this.updateTimer.Tick += new System.EventHandler(this.updateTimer_Tick);
             // 
             // locationMonitor
             // 
@@ -73,7 +65,6 @@
 
         #endregion
 
-        private System.Windows.Forms.Timer updateTimer;
         private LocationMonitor locationMonitor;
         private BatteryMonitor batteryMonitor;
     }

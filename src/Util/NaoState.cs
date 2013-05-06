@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Net;
 using System.Collections.Generic;
 using System.Collections;
@@ -21,7 +21,6 @@ namespace Naovigate.Util
         private static int batteryLeft;
 
         private static List<IDisposable> proxies = new List<IDisposable>();
-
         private static bool connected = false;
         private static Stopwatch Stopwatch = new Stopwatch();
 

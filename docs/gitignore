@@ -1,0 +1,8 @@
+build/*
+Naovigate.Test/obj/*
+!build/naoqi-dotnet4.dll
+*.local
+*.userprefs
+.*
+src/obj
+*.suo
