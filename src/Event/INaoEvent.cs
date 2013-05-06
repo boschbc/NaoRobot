@@ -28,5 +28,10 @@ namespace Naovigate.Event
          * Fires the event.
          **/
         void Fire();
+
+        /**
+         * Aborts this event's operation.
+         **/
+        void Abort();
     }
 }
