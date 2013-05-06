@@ -84,48 +84,6 @@ namespace Naovigate.Util
             }
         }
 
-        /*
-         * inits the camera of the nao with a specified name
-         */
-        public static void InitVideo(string subscriberID)
-        {
-            Console.Write("Subscribing: " + subscriberID);
-            UnsubscribeVideo(subscriberID);
-            videoProxy.subscribeCamera(subscriberID, 0, 1 /*kQVGA*/, 13 /*kRGB*/, 30);
-        }
-
-        /*
-         * inits the camera of the nao with a default name
-         */
-        public static void InitVideo()
-        {
-            InitVideo(VideoSubscriberID);
-        }
-
-        /*
-         * unsubscribe the camera of the nao with a specified name
-         */
-        public static void UnsubscribeVideo(string subscriberID)
-        {
-            Console.WriteLine("Unsubscribing: " + subscriberID);
-            try
-            {
-                videoProxy.unsubscribe(subscriberID);
-            }
-            catch
-            {
-                Console.WriteLine("DisposeVideo: No Camera subscribed.");
-            }
-        }
-
-        /*
-         * unsubscribe the camera of the nao with a default name
-         */
-        public static void UnsubscribeVideo()
-        {
-            UnsubscribeVideo(VideoSubscriberID);
-        }
-
         /**
         * Delete proxies for the Nao this class is connected to.
         * @throws UnavailableConnectionException if connection is unavailable.
@@ -187,25 +145,7 @@ namespace Naovigate.Util
             get { return batteryLeft; }
         }
 
-        /**
-         * Fetches the current image from Nao's camera.
-         * @returns null if not connected to any Nao.
-         **/
-        public static Image GetImage()
-        {
-            if (!IsConnected())
-                return null;
-
-            ArrayList imageObject = (ArrayList) videoProxy.getImageRemote(VideoSubscriberID);
-            int width = (int) imageObject[0];
-            int height = (int) imageObject[1];
-            byte[] imageBytes = (byte[]) imageObject[6];
-            var stride = 4 * ((width * 3 + 3) / 4);
-            return new Bitmap(width, height, stride,
-                                System.Drawing.Imaging.PixelFormat.Format24bppRgb,
-                                System.Runtime.InteropServices.Marshal.UnsafeAddrOfPinnedArrayElement(imageBytes, 0));
-        }
-
+        
         public static MotionProxy MotionProxy
         {
             get { return new MotionProxy(ip, port); /*motionProxy;*/ }

@@ -10,87 +10,79 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+
 using Aldebaran.Proxies;
 
-namespace Aldebaran.NaoCamCSharpExample
-{
-    public struct NaoCamImageFormat
-    {
-        public string name;
-        public int id;
-        public int width;
-        public int height;
-    }
+using Naovigate.Util;
 
+namespace Naovigate.Vision
+{
     public class Camera
     {
-        //private VideoDeviceProxy _videoDeviceProxy = null;
-        //private string _ip = "145.94.188.219";
+        private string subscriberID;
+        private VideoDeviceProxy videoProxy;
 
-        public List<NaoCamImageFormat> NaoCamImageFormats = new List<NaoCamImageFormat>();
-
-        public static byte[] GetImage(VideoDeviceProxy proxy)
+        public Camera(string subID)
         {
-            byte[] imageBytes = new byte[0];
-
-            try
-            {
-                if (proxy != null)
-                {
-                    Object imageObject = proxy.getImageRemote("dotNetExample");
-                    imageBytes = (byte[])((ArrayList)imageObject)[6];
-                }
-            }
-            catch (Exception e)
-            {
-                Console.Out.WriteLine("Camera.GetImage exception: " + e);
-            }
-            return imageBytes;
+            subscriberID = subID;
+            videoProxy = NaoState.VideoProxy;
         }
 
-        public static void AMain()
+        /*
+        * Inits the camera of the Nao with a specified subscriber ID.
+        */
+        private void StartVideo()
         {
-            String ip = "145.94.191.20";
-            TextToSpeechProxy tts = new TextToSpeechProxy(ip, 9559);
-            tts.say("Hello");
-            VideoDeviceProxy video = new VideoDeviceProxy(ip, 9559);
-            video.unsubscribe("dotNetExample");
-            video.subscribeCamera("dotNetExample", 0, 1 /*320*240*/, 13 /*kBGR*/, 30);
-            byte[] b = GetImage(video);
-            ByteArrayToFile("D:\\Testmap\\image.jpg",b);
-            MemoryStream stream = new MemoryStream(b);
-            Bitmap data = new Bitmap(stream);
-            Console.Write(data.GetPixel(3,3));
-            //Image img = Image.FromStream(stream);
+            StopVideo();
+            videoProxy.subscribeCamera(subscriberID, 0, 1 /*kQVGA*/, 13 /*kRGB*/, 30);
+        }
+
+        /*
+        * unsubscribe the camera of the nao with a specified name
+        */
+        private void StopVideo()
+        {
+            try
+            {
+                videoProxy.unsubscribe(subscriberID);
+            }
+            catch
+            {
+                Console.WriteLine("DisposeVideo: No Camera subscribed.");
+            }
+        }
+
+        /**
+         * Fetches the current image from Nao's camera, in raw form.
+         * @throws an exception if not connected to any Nao.
+         **/
+        private ArrayList GetRawImage()
+        {
+            StartVideo();
+            ArrayList imageObject = (ArrayList)videoProxy.getImageRemote(subscriberID);
+            StopVideo();
+            return imageObject;
+
+        }
+
+        /**
+         * Fetches the current image from Nao's camera.
+         * @returns null if not connected to any Nao.
+         **/
+        public Image GetImage()
+        {
+            if (!NaoState.IsConnected())
+                return null;
+
+            ArrayList imageObject = GetRawImage();
+            int width = (int)imageObject[0];
+            int height = (int)imageObject[1];
+            byte[] imageBytes = (byte[])imageObject[6];
+            var stride = 4 * ((width * 3 + 3) / 4);
+            return new Bitmap(width, height, stride,
+                                System.Drawing.Imaging.PixelFormat.Format24bppRgb,
+                                System.Runtime.InteropServices.Marshal.UnsafeAddrOfPinnedArrayElement(imageBytes, 0));
             
-        }
-
-        public static bool ByteArrayToFile(string FileName, byte[] ByteArray)
-        {
-            try
-            {
-                // Open file for reading
-                System.IO.FileStream FileStream =
-                   new System.IO.FileStream(FileName, System.IO.FileMode.Create,
-                                            System.IO.FileAccess.Write);
-                // Writes a block of bytes to this stream using data from
-                // a byte array.
-                FileStream.Write(ByteArray, 0, ByteArray.Length);
-
-                // close file stream
-                FileStream.Close();
-
-                return true;
-            }
-            catch (Exception e)
-            {
-                // Error
-                Console.WriteLine("Exception caught in process: {0}",
-                                  e.ToString());
-            }
-
-            // error occured, return false
-            return false;
         }
     }
 }
