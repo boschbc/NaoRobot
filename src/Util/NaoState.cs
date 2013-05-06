@@ -46,15 +46,6 @@ namespace Naovigate.Util
             }
             ip = endPoint.Address;
             port = endPoint.Port;
-
-<<<<<<< HEAD
-            ip = ip_;
-            port = port_;
-            CreateProxies();
-            UnsubscribeVideo();
-            Sonar.Sonar.GetInstance().StartChecking();
-=======
->>>>>>> de997621ed0a44668b9614b5912daec51f1188b4
             connected = true;
             Update();
         }
