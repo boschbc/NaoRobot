@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Aldebaran.Proxies;
+using System.Timers;
+using Naovigate.Event;
 
 namespace Naovigate.Sonar
 {
@@ -10,6 +12,7 @@ namespace Naovigate.Sonar
     {
         private SonarProxy sonarProxy;
         private MemoryProxy memoryProxy;
+        private Timer timer;
 
         private static Sonar instance = null;
 
@@ -20,6 +23,12 @@ namespace Naovigate.Sonar
         {
                 sonarProxy = new SonarProxy(ip, 9559);
                 memoryProxy = new MemoryProxy(ip, 9559);
+
+                activateSonar();
+
+                timer = new Timer();
+                timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
+                timer.Interval = 500;
         }
 
         public static Sonar GetInstance()
@@ -48,13 +57,50 @@ namespace Naovigate.Sonar
          */
         public void deactivateSonar()
         {
+            StopChecking();
             sonarProxy.unsubscribe("Nao");
             Console.WriteLine("Deactivating sonar");
         }
 
         /*
+         * Check if the Nao is too close (within 0.3 metres) to a wall (or other object)
+         * If the Nao is too close, raise a NaoCollidingEvent and stop checking
+         * */
+        public void OnTimedEvent(object source, ElapsedEventArgs ev) {
+            if (timer.Enabled)
+            {
+                float left = getSonarDataLeft();
+                float right = getSonarDataRight();
+
+                bool collidingLeft = left <= 0.3;
+                bool collidingRight = right <= 0.3;
+
+                if (collidingLeft || collidingRight)
+                {
+                    EventQueue.Instance.Enqueue(new NaoCollidingEvent(collidingLeft, collidingRight));
+                    StopChecking();
+                }
+            }
+        }
+
+        /**
+         * Start checking for collisions
+         * */
+        public void StartChecking()
+        {
+            timer.Start();
+        }
+
+        /**
+         * Stop checking for collisions
+         * */
+        public void StopChecking()
+        {
+            timer.Stop();
+        }
+
+        /*
          * get value of sonar left
-         * not done yet
          * */
         public float getSonarDataLeft()
         { 
@@ -63,7 +109,6 @@ namespace Naovigate.Sonar
 
         /*
          * get value of sonar left
-         * not done yet
          * */
         public float getSonarDataRight()
         {

@@ -48,6 +48,7 @@ namespace Naovigate.Util
             port = port_;
             CreateProxies();
             UnsubscribeVideo();
+            Sonar.Sonar.GetInstance().StartChecking();
             connected = true;
             Update();
         }
