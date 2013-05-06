@@ -52,6 +52,11 @@ namespace Naovigate.Event
         public abstract void Fire();
         
         /**
+         * See the INaoEvent class docs for documentation of this method.
+         **/
+        public void Abort() { };
+
+        /**
          * Takes a communication stream and extracts different parameters as required.
          * All subclasses should provide an implementation of this method.
          **/
