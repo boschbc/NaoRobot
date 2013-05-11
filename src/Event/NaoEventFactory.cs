@@ -16,10 +16,10 @@ namespace Naovigate.Event
         {
             Move = 0,
         }
-        private static Dictionary<byte, Func<CommunicationStream, NaoEvent>> CodeConverter = 
-            new Dictionary<byte, Func<CommunicationStream, NaoEvent>>()
+        private static Dictionary<byte, Func<NaoEvent>> CodeConverter = 
+            new Dictionary<byte, Func<NaoEvent>>()
             {
-                {(byte) ActionCode.Move, stream => new MoveNaoEvent(stream)},
+                {(byte) ActionCode.Move, delegate() {return new MoveNaoEvent();}},
             };
 
         /**
@@ -28,11 +28,11 @@ namespace Naovigate.Event
          * @param stream: A communication stream representing additional parameters specific to the given action-code event type.
          * @throws InvalidActionCodeException if the given action code byte is not recognised.
          **/
-        public static INaoEvent NewEvent(byte acb, CommunicationStream stream)
+        public static INaoEvent NewEvent(byte acb)
         {
            if (!CodeConverter.ContainsKey(acb))
                 throw new InvalidActionCodeException(InvalidActionCodeMsg);
-           return CodeConverter[acb](stream);
+           return CodeConverter[acb]();
         }
     }
 }

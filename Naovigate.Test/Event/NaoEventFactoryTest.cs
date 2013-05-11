@@ -3,6 +3,7 @@ using System.IO;
 
 using NUnit.Framework;
 
+using Naovigate.Test.Communication;
 using Naovigate.Communication;
 using Naovigate.Event;
 
@@ -14,6 +15,7 @@ namespace Naovigate.Testing.Event
     [TestFixture]
     public class NaoEventFactoryTests
     {
+        private GoalComsStub goalComs;
         private CommunicationStream moveCommand;
         private CommunicationStream grabCommand;
         private CommunicationStream lookCommand;
@@ -36,6 +38,12 @@ namespace Naovigate.Testing.Event
             return com;
         }
 
+        [TestFixtureSetUp]
+        public void initOnce()
+        {
+            goalComs = new GoalComsStub(null);
+        }
+
         [SetUp]
         public void Init()
         {
@@ -49,9 +57,9 @@ namespace Naovigate.Testing.Event
         [Test]
         public void NewEventValidMoveTest()
         {
+            goalComs.SetStream(moveCommand);
             INaoEvent result = NaoEventFactory.NewEvent(
-                                (byte)NaoEventFactory.ActionCode.Move, 
-                                moveCommand);
+                                (byte)NaoEventFactory.ActionCode.Move);
             Assert.IsInstanceOf(typeof(MoveNaoEvent), result);
         }
 
@@ -60,8 +68,7 @@ namespace Naovigate.Testing.Event
         public void NewEventInvalidExceptionThrown()
         {
             INaoEvent result = NaoEventFactory.NewEvent(
-                                invalidActionCode,
-                                invalidCommand);
+                                invalidActionCode);
         }
     }
 }
