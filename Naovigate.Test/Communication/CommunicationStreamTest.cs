@@ -20,7 +20,7 @@ namespace Naovigate.Testing
             stream = new CommunicationStream(internalStream);
         }
 
-        /**
+        /*
          * Set the stream ready for reading
          */
         private void StartRead()

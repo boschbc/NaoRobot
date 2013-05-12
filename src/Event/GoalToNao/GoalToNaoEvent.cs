@@ -1,46 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 using Naovigate.Communication;
 
 namespace Naovigate.Event.GoalToNao
 {
+    /*
+     * Describes a NaoEvent from the Goal client to the Nao client.
+     */
     public abstract class GoalToNaoEvent : NaoEvent
     {
-        private CommunicationStream stream;
-
         /*
-         * default constructor used for extending wihtout using a stream
+         * Default constructor.
          */
-        public GoalToNaoEvent()
-        {
-
-        }
+        public GoalToNaoEvent() { }
 
         /*
-         * 
+         * A constructor which extracts this event's parameters from a stream.
          */
         public GoalToNaoEvent(CommunicationStream stream)
         {
-            this.stream = stream;
-            Unpack(stream);
+            Read(stream);
         }
 
-        /**
-        * See the INaoEvent class docs for documentation of this method.
-        **/
+        /*
+         * See the INaoEvent class docs for documentation of this method.
+         */
         public override abstract void Fire();
 
-        /**
+        /*
          * See the INaoEvent class docs for documentation of this method.
-         **/
+         */
         public override abstract void Abort();
 
-        /**
-        * Takes a communication stream and extracts different parameters as required.
-        * All subclasses should provide an implementation of this method.
-        **/
-        protected abstract void Unpack(CommunicationStream stream);        
+        /*
+         * Takes a communication stream and extracts different parameters as required.
+         * All subclasses should provide an implementation of this method.
+         */
+        protected virtual void Read(CommunicationStream stream) { }
     }
 }

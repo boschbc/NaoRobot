@@ -22,7 +22,7 @@ namespace Naovigate.Communication
             Write(data, 0, data.Length);
         }
         
-        /**
+        /*
          * write from data to the socket, starting from off, writing len bytes
          */
         public void Write(byte[] data, int off, int len)
@@ -30,14 +30,14 @@ namespace Naovigate.Communication
             stream.Write(data, off, len);
         }
 
-        /**
+        /*
          * write an integer to the socket
          */
         public void WriteInt(int x)
         {
             WriteBytesFromValue(x, 4);
         }
-        /**
+        /*
          * write a long to the socket
          */
         public void WriteLong(long x)
@@ -45,7 +45,7 @@ namespace Naovigate.Communication
             WriteBytesFromValue(x, 8);
         }
 
-        /**
+        /*
          * write the last "bytes" bytes from x
          */
         public void WriteBytesFromValue(long x, int bytes)
@@ -60,7 +60,7 @@ namespace Naovigate.Communication
         }
 
         // read from the socket.
-        /**
+        /*
          * fill the buffer buf with data from the socket
          */
         public int Read(byte[] buf)
@@ -68,7 +68,7 @@ namespace Naovigate.Communication
             return Read(buf, 0, buf.Length);
         }
 
-        /**
+        /*
          * fill the buffer buf with data from the socket, starting at off
          * blocks until the bytes are available
          */
@@ -87,21 +87,21 @@ namespace Naovigate.Communication
             return pos - off;
         }
 
-        /**
+        /*
          * read an integer
          */
         public int ReadInt()
         {
             return (int)ReadBytesToValue(4);
         }
-        /**
+        /*
          * read a long
          */
         public long ReadLong()
         {
             return ReadBytesToValue(8);
         }
-        /**
+        /*
          * read a number of bytes from the socket and return them as a long
          * read maximum of 8 bytes
          */
@@ -119,7 +119,7 @@ namespace Naovigate.Communication
             return res;
         }
 
-        /**
+        /*
          * return the underlying stream
          */
         public Stream Stream {

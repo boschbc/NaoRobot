@@ -85,7 +85,7 @@ namespace Naovigate.Vision
             }
         }
 
-        /**
+        /*
          * Start checking for collisions
          * */
         public void StartChecking()
@@ -93,7 +93,7 @@ namespace Naovigate.Vision
             timer.Start();
         }
 
-        /**
+        /*
          * Stop checking for collisions
          * */
         public void StopChecking()

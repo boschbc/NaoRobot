@@ -48,26 +48,28 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Compile Include="Communication\UnavailableConnectionException.cs" />
+    <Compile Include="Event\GoalToNao\ExitEvent.cs" />
     <Compile Include="Event\GoalToNao\GoalToNaoEvent.cs" />
-    <Compile Include="Event\NaoCollidingEvent.cs" />
+    <Compile Include="Event\Internal\NaoCollidingEvent.cs" />
     <Compile Include="Event\EventQueue.cs" />
     <Compile Include="Communication\CommunicationStream.cs" />
-    <Compile Include="Event\GoalToNao\DropObjectNaoEvent.cs" />
-    <Compile Include="Event\GoalToNao\GoToNaoEvent.cs" />
-    <Compile Include="Event\GoalToNao\PickupNaoEvent.cs" />
-    <Compile Include="Event\GoalToNao\StopNaoEvent.cs" />
+    <Compile Include="Event\GoalToNao\PutDownEvent.cs" />
+    <Compile Include="Event\GoalToNao\GoToEvent.cs" />
+    <Compile Include="Event\GoalToNao\PickupEvent.cs" />
+    <Compile Include="Event\GoalToNao\HaltEvent.cs" />
     <Compile Include="Event\INaoEvent.cs" />
-    <Compile Include="Event\InvalidActionCodeException.cs" />
-    <Compile Include="Event\MoveNaoEvent.cs" />
+    <Compile Include="Event\InvalidEventCodeException.cs" />
+    <Compile Include="Event\Internal\MoveNaoEvent.cs" />
     <Compile Include="Event\NaoEvent.cs" />
     <Compile Include="Event\NaoEventFactory.cs" />
-    <Compile Include="Event\NaoToGoal\AtBlockNaoEvent.cs" />
-    <Compile Include="Event\NaoToGoal\AtNaoEvent.cs" />
-    <Compile Include="Event\NaoToGoal\BlockAtNaoEvent.cs" />
-    <Compile Include="Event\NaoToGoal\HoldingNaoEvent.cs" />
-    <Compile Include="Event\NaoToGoal\PlaceNaoEvent.cs" />
-    <Compile Include="Event\NaoToGoal\PlayerNaoEvent.cs" />
-    <Compile Include="Event\NaoToGoal\StateNaoEvent.cs" />
+    <Compile Include="Event\NaoToGoal\AtObjectEvent.cs" />
+    <Compile Include="Event\NaoToGoal\DistanceToEvent.cs" />
+    <Compile Include="Event\NaoToGoal\NaoToGoalEvent.cs" />
+    <Compile Include="Event\NaoToGoal\SeeEvent.cs" />
+    <Compile Include="Event\NaoToGoal\HoldingEvent.cs" />
+    <Compile Include="Event\NaoToGoal\LocationEvent.cs" />
+    <Compile Include="Event\NaoToGoal\AgentEvent.cs" />
+    <Compile Include="Event\NaoToGoal\StateEvent.cs" />
     <Compile Include="GUI\BatteryMonitor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -190,7 +192,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Event\Local\" />
     <Folder Include="Sonar\" />
   </ItemGroup>
 </Project>

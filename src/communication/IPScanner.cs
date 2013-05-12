@@ -10,7 +10,7 @@ namespace Naovigate.Communication
 {
     public class IPScanner
     {
-        /**
+        /*
          * Finds a IP of a Nao by going through all the last numbers of
          * a Nao's ip
          */
@@ -30,7 +30,7 @@ namespace Naovigate.Communication
             return null;
         }
 
-        /**
+        /*
          * Test if the found ip a lissening ip is.
          */
         private static Boolean testIP(String ip)

@@ -19,7 +19,7 @@ namespace Naovigate.Testing{
 		    q.Enqueue(events);
 		}
 
-        /**
+        /*
          * Wait until all the events are fired
          */
         private void WaitFor()
