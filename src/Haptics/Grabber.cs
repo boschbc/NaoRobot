@@ -17,7 +17,6 @@ namespace Naovigate.Haptics
         public Grabber()
         {
             this.goal = GoalCommunicator.Instance;
-            this.goal.RegisterHandler("grab", this.OnGrabCommand);
         }
 
         /*

@@ -133,6 +133,16 @@ namespace Naovigate.Testing
         }
 
         [Test]
+        public void ReadByteTest()
+        {
+            byte[] buffer = { 3 };
+            stream.Write(buffer);
+            StartRead();
+            byte x = stream.ReadByte();
+            Assert.AreEqual(3, x);
+        }
+
+        [Test]
         public void GetStreamTest()
         {
             Assert.AreEqual(internalStream, stream.Stream);
