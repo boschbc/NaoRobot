@@ -8,7 +8,7 @@ namespace Naovigate.Event.NaoToGoal
     /*
      * Send the Nao id. The id consists of the last number of the ip address.
      */
-    public abstract class AgentEvent : DataSendingNaoEvent
+    public class AgentEvent : DataSendingNaoEvent
     {
         /*
          * Explicit constructor.

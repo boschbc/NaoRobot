@@ -61,6 +61,8 @@
     <Compile Include="Event\Internal\MoveNaoEvent.cs" />
     <Compile Include="Event\NaoEvent.cs" />
     <Compile Include="Event\NaoEventFactory.cs" />
+    <Compile Include="Event\NaoToGoal\ErrorEvent.cs" />
+    <Compile Include="Event\NaoToGoal\FailureEvent.cs" />
     <Compile Include="Event\NaoToGoal\SeeEvent.cs" />
     <Compile Include="Event\NaoToGoal\DistanceToEvent.cs" />
     <Compile Include="Event\NaoToGoal\NaoToGoalEvent.cs" />
@@ -69,6 +71,7 @@
     <Compile Include="Event\NaoToGoal\AgentEvent.cs" />
     <Compile Include="Event\NaoToGoal\StateEvent.cs" />
     <Compile Include="Event\NaoToGoal\DataSendingNaoEvent.cs" />
+    <Compile Include="Event\NaoToGoal\SuccessEvent.cs" />
     <Compile Include="GUI\BatteryMonitor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -116,11 +119,6 @@
     <Compile Include="GUI\UpdaterThread.cs" />
     <Compile Include="MainProgram.cs" />
     <Compile Include="Movement\Walk.cs" />
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Util\PriorityQueue.cs" />
     <Compile Include="Vision\Camera.cs" />
     <Compile Include="Communication\GoalCommunicator.cs" />
