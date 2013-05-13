@@ -70,7 +70,7 @@ namespace Naovigate.Event
             locker.Set();
         }
 
-        /**
+        /*
         * return the EventQueue instance for nao events
         */
         public static EventQueue Instance
@@ -85,7 +85,7 @@ namespace Naovigate.Event
             }
         }
 
-       /**
+       /*
        * return the EventQueue instance for sending 
        */
         public static EventQueue Goal

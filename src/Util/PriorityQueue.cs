@@ -19,7 +19,7 @@ namespace Naovigate.Util
             queues = new Queue<T>[maxPriority];
         }
 
-        /**
+        /*
          * return the first, highest priority item
          */
         public T Dequeue()

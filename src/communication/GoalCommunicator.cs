@@ -34,7 +34,7 @@ namespace Naovigate.Communication
             instance = this;
         }
 
-        /**
+        /*
          * construct a new GoalCommunicator instance from the specified ip
          */
         public GoalCommunicator(String ip, int port) : this()
@@ -44,7 +44,7 @@ namespace Naovigate.Communication
             this.endPoint = new IPEndPoint(this.ip, port);
         }
 
-        /**
+        /*
          * construct a new GoalCommunicator instance from the specified IPEndPoint
          */
         public GoalCommunicator(IPEndPoint end, int port) : this()
@@ -58,7 +58,7 @@ namespace Naovigate.Communication
             this.endPoint = end;
         }
 
-        /**
+        /*
          * return the GoalCommunicator instance
          */
         public static GoalCommunicator Instance
@@ -73,7 +73,7 @@ namespace Naovigate.Communication
             }
         }
 
-        /**
+        /*
          * Connect to the server
          */
         public void Connect()
@@ -83,7 +83,7 @@ namespace Naovigate.Communication
             this.coms = new CommunicationStream(this.stream);
         }
 
-        /**
+        /*
          * Start the main loop.
          */
         public void Start()
@@ -135,7 +135,7 @@ namespace Naovigate.Communication
             this.Start();
         }
 
-        /**
+        /*
          * close the GoalCommunicator
          */
         public void Dispose()
@@ -146,14 +146,14 @@ namespace Naovigate.Communication
             }
         }
 
-        /**
+        /*
          * returns stream
          */
         public virtual NetworkStream Stream {
             get { return this.stream; }
         }
 
-        /**
+        /*
         * returns stream
         */
         public virtual CommunicationStream Coms
@@ -168,21 +168,21 @@ namespace Naovigate.Communication
             get { return this.ip; }
         }
 
-        /**
+        /*
          * returns port
          */
         public int Port {
             get { return this.port; }
         }
 
-        /**
+        /*
          * returns bool running
          */
         public bool IsRunning {
             get { return this.running; }
         }
 
-        /**
+        /*
          * add a listener that will be notified when a request is made
          * that the listener can handle.
          */
