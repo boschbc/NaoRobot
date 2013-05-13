@@ -1,47 +1,43 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Naovigate.Communication;
+
 namespace Naovigate.Event.GoalToNao
 {
     /*
-     * @param ID
-     * Pick up the object with id ID
+     * Stop all actions the nao is doing.
      */
-    public class PickupEvent : GoalToNaoEvent
+    public class StopNaoEvent : GoalToNaoEvent
     {
-        private int id;
-
-        /*
-         * Explicit constructor.
-         */
-        public PickupEvent(int id)
+        public StopNaoEvent()
         {
-            this.id = id;
+
         }
 
-        /*
+        /**
          * See the INaoEvent class docs for documentation of this method.
-         */
+         **/
         public override void Fire()
         {
 
         }
 
-        /*
+        /**
          * See the INaoEvent class docs for documentation of this method.
-         */
-        public override  void Abort()
+         **/
+        public override void Abort()
         {
 
         }
 
-        /*
+        /**
         * Takes a communication stream and extracts different parameters as required.
-        **/
         **/
         protected override void Unpack()
         {
-            id = stream.ReadInt();
+            
         }
-
     }
 }

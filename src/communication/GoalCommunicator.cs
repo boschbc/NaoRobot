@@ -16,6 +16,7 @@ namespace Naovigate.Communication
         private IPAddress ip;
         private int port;
         private TcpClient client;
+        private CommunicationStream coms;
         private NetworkStream stream;
         private IPEndPoint endPoint;
         private Dictionary<String, Action> handlers;
@@ -30,6 +31,7 @@ namespace Naovigate.Communication
             this.handlers = new Dictionary<string, Action>();
             this.client = new TcpClient();
             this.receiveBuffer = new byte[this.client.ReceiveBufferSize];
+            instance = this;
         }
 
         /*
@@ -78,6 +80,7 @@ namespace Naovigate.Communication
         {
             this.client.Connect(this.endPoint);
             this.stream = this.client.GetStream();
+            this.coms = new CommunicationStream(this.stream);
         }
 
         /*
@@ -146,11 +149,19 @@ namespace Naovigate.Communication
         /*
          * returns stream
          */
-        public NetworkStream Stream {
+        public virtual NetworkStream Stream {
             get { return this.stream; }
         }
 
         /*
+        * returns stream
+        */
+        public virtual CommunicationStream Coms
+        {
+            get { return this.coms; }
+        }
+
+        /**
          * returns ip
          */
         public IPAddress IP {
@@ -175,7 +186,7 @@ namespace Naovigate.Communication
          * add a listener that will be notified when a request is made
          * that the listener can handle.
          */
-        public void RegisterHandler(String name, Action action)
+        public virtual void RegisterHandler(String name, Action action)
         {
             handlers.Add(name, action);
         }

@@ -13,15 +13,14 @@ namespace Naovigate.Event
     public class NaoEventFactory
     {
         private static string InvalidActionCodeMsg = "Attempting to construct a NaoEvent with a corrupt action-code.";
-
-        private static Dictionary<byte, Func<CommunicationStream, NaoEvent>> CodeConverter = 
-            new Dictionary<byte, Func<CommunicationStream, NaoEvent>>()
+        private static Dictionary<byte, Func<NaoEvent>> CodeConverter = 
+            new Dictionary<byte, Func<NaoEvent>>()
             {
-                {(byte) EventCode.Exit, stream => new ExitEvent()},
-                {(byte) EventCode.GoTo, stream => new GoToEvent(stream)},
-                {(byte) EventCode.Halt, stream => new HaltEvent()},
-                {(byte) EventCode.Pickup, stream => new PickupEvent(stream)},
-                {(byte) EventCode.PutDown, stream => new PutDownEvent()},
+                {(byte) EventCode.Exit, delegate() {return new ExitEvent();}},
+                {(byte) EventCode.GoTo, delegate() {new GoToEvent(stream);}},
+                {(byte) EventCode.Halt, delegate() {new HaltEvent();}},
+                {(byte) EventCode.Pickup, delegate() {new PickupEvent();}},
+                {(byte) EventCode.PutDown, delegate() {new PutDownEvent();}},
             };
 
         /*
@@ -30,11 +29,11 @@ namespace Naovigate.Event
          * @param stream: A communication stream representing additional parameters specific to the given action-code event type.
          * @throws InvalidActionCodeException if the given action code byte is not recognised.
          */
-        public static INaoEvent NewEvent(byte acb, CommunicationStream stream)
+        public static INaoEvent NewEvent(byte acb)
         {
            if (!CodeConverter.ContainsKey(acb))
                 throw new InvalidEventCodeException(InvalidActionCodeMsg);
-           return CodeConverter[acb](stream);
+           return CodeConverter[acb]();
         }
     }
 }

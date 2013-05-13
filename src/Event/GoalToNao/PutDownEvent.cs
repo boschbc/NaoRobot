@@ -8,8 +8,12 @@ namespace Naovigate.Event.GoalToNao
      */
     public class PutDownEvent : GoalToNaoEvent
     {
-        
-        /*
+        public PutDownEvent()
+        {
+
+        }
+
+        /**
          * See the INaoEvent class docs for documentation of this method.
          */
         public override void Fire()
@@ -21,6 +25,14 @@ namespace Naovigate.Event.GoalToNao
          * See the INaoEvent class docs for documentation of this method.
          */
         public override void Abort()
+        {
+
+        }
+
+        /**
+        * Takes a communication stream and extracts different parameters as required.
+        **/
+        protected override void Unpack()
         {
 
         }

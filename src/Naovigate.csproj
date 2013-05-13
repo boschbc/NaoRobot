@@ -70,6 +70,14 @@
     <Compile Include="Event\NaoToGoal\LocationEvent.cs" />
     <Compile Include="Event\NaoToGoal\AgentEvent.cs" />
     <Compile Include="Event\NaoToGoal\StateEvent.cs" />
+    <Compile Include="Event\NaoToGoal\AtBlockNaoEvent.cs" />
+    <Compile Include="Event\NaoToGoal\AtNaoEvent.cs" />
+    <Compile Include="Event\NaoToGoal\BlockAtNaoEvent.cs" />
+    <Compile Include="Event\NaoToGoal\HoldingNaoEvent.cs" />
+    <Compile Include="Event\NaoToGoal\DataSendingNaoEvent.cs" />
+    <Compile Include="Event\NaoToGoal\LocationNaoEvent.cs" />
+    <Compile Include="Event\NaoToGoal\AgentNaoEvent.cs" />
+    <Compile Include="Event\NaoToGoal\StateNaoEvent.cs" />
     <Compile Include="GUI\BatteryMonitor.cs">
       <SubType>UserControl</SubType>
     </Compile>

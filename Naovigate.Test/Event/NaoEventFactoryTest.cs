@@ -3,6 +3,7 @@ using System.IO;
 
 using NUnit.Framework;
 
+using Naovigate.Test.Communication;
 using Naovigate.Communication;
 using Naovigate.Event;
 using Naovigate.Event.GoalToNao;
@@ -15,6 +16,8 @@ namespace Naovigate.Testing.Event
     [TestFixture]
     public class NaoEventFactoryTests
     {
+
+        private GoalComsStub goalComs;
         private CommunicationStream exitInputStream;
         private CommunicationStream putDownInputStream;
         private CommunicationStream goToInputStream;
@@ -39,9 +42,16 @@ namespace Naovigate.Testing.Event
             return com;
         }
 
+        [TestFixtureSetUp]
+        public void initOnce()
+        {
+            goalComs = new GoalComsStub(null);
+        }
+
         [SetUp]
         public void Init()
         {
+
             int objectID = 43;  //Dummy
             exitInputStream = BuildStream();
             putDownInputStream = BuildStream();
@@ -53,8 +63,9 @@ namespace Naovigate.Testing.Event
         }
 
         [Test]
-        public void NewEvent_Valid_ExitEvent()
+        public void NewExitEventTest()
         {
+            goalComs.SetStream(exitInputStream);
             INaoEvent result = NaoEventFactory.NewEvent(
                                 (byte)EventCode.Exit,
                                 exitInputStream);
@@ -62,7 +73,7 @@ namespace Naovigate.Testing.Event
         }
 
         [Test]
-        public void NewEvent_Valid_PutDownEvent()
+        public void NewPutDownEvent()
         {
             INaoEvent result = NaoEventFactory.NewEvent(
                                 (byte)EventCode.PutDown, 

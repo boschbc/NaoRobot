@@ -11,17 +11,10 @@ namespace Naovigate.Event.GoalToNao
     public abstract class GoalToNaoEvent : NaoEvent
     {
         /*
-         * Default constructor.
+         * default constructor used for extending wihtout using a stream
          */
-        public GoalToNaoEvent() { }
+            Unpack();
 
-        /*
-         * A constructor which extracts this event's parameters from a stream.
-         */
-        public GoalToNaoEvent(CommunicationStream stream)
-        {
-            Read(stream);
-        }
 
         /*
          * See the INaoEvent class docs for documentation of this method.
@@ -33,10 +26,9 @@ namespace Naovigate.Event.GoalToNao
          */
         public override abstract void Abort();
 
-        /*
-         * Takes a communication stream and extracts different parameters as required.
-         * All subclasses should provide an implementation of this method.
-         */
-        protected virtual void Read(CommunicationStream stream) { }
+        /**
+        * Uses the CommunicationStream to extracts different parameters as required.
+        **/
+        protected abstract void Unpack();        
     }
 }
