@@ -21,6 +21,7 @@ namespace Naovigate.Movement
         private int markerID = -1;
         private Thread t = null;
         private Boolean found = false;
+        private double dist = 1;
 
         public Walk()
         {
@@ -77,15 +78,16 @@ namespace Naovigate.Movement
         }
 
         /**
-         * Turn (normalized) dir and walk till the Nao sees the marker with MarkID = markerID
+         * Turn (normalized) dir and walk till the Nao is within dist pieces of wall of the marker with MarkID = markerID
          * */
-        public void WalkTowards(float dir, int markerID)
+        public void WalkTowards(float dir, int markerID, double dist)
         {
             StopLooking();
             WalkTo(0, 0, dir);
             StartWalking(0.5F, 0, 0);
             this.markerID = markerID;
             found = false;
+            this.dist = dist;
             
             t = new Thread(new ThreadStart(LookForMarker));
             t.Start();
@@ -94,28 +96,17 @@ namespace Naovigate.Movement
         /**
          * Try to detect the marker with MarkID = markerID.
          * When the Nao sees the marker, it heads towards the marker.
-         * When the Nao is within a meter of the marker, the Nao stops moving and found is set to true
+         * When the Nao is within dist pieces of wall of the marker, the Nao stops moving and found is set to true
          * */
         public void LookForMarker()
         {
             MarkerRecogniser rec = MarkerRecogniser.GetInstance();
-            Sonar sonar = Sonar.Instance;
             ArrayList markers;
-            sonar.ActivateSonar();
 
-            try
-            {
                 while (!found)
                 {
                     ArrayList data = rec.GetMarkerData();
                     markers = data.Count == 0 ? data : (ArrayList)data[1];
-                    Console.WriteLine("New Loop " + markers.Count);
-                    if (markers.Count == 0)
-                    {
-                        // Temp fix
-                        StopMove();
-                        return;
-                    }
                     for (int i = 0; i < markers.Count && !found; i++)
                     {
                         ArrayList marker = (ArrayList)markers[i];
@@ -124,23 +115,10 @@ namespace Naovigate.Movement
                             float angle = ((float)((ArrayList)marker[0])[1]) / 4F;
                             StartWalking(0.5F, 0, Math.Max(-1, Math.Min(1, angle)));
 
-                            Console.WriteLine("Alpha = " + ((float)((ArrayList)marker[0])[1]));
-                            Console.WriteLine("Angle = " + angle);
-                            float target = 0.40f;
-                            float sonarL = sonar.getSonarDataLeft();
-                            float sonarR = sonar.getSonarDataRight();
-                            Console.WriteLine("SonarL = " + sonarL);
-                            Console.WriteLine("SonarR = " + sonarR);
+                            float sizeY = ((float)((ArrayList)marker[0])[4]);
 
-                            Console.WriteLine("TestL = " + (sonarL - target) + " < " + 0.001);
-                            Console.WriteLine("TestR = " + (sonarR - target) + " < " + 0.001);
-                            Console.WriteLine("Markerfound");
-
-                            if (sonarL >= 0.20f && sonarL - target < 0.001 && sonarR >= 0.20f && sonarR - target < 0.001)
+                            if (MarkerRecogniser.estimateDistance(sizeY) <= dist)
                             {
-                                Console.WriteLine("stopping");
-                                Console.WriteLine("SonarL was = " + sonarL);
-                                Console.WriteLine("SonarR was = " + sonarR);
                                 StopMove();
                                 found = true;
                             }
@@ -149,11 +127,6 @@ namespace Naovigate.Movement
                     Thread.Sleep(250);
                 }
                 Console.WriteLine("Exit LookForMarker");
-            }
-            finally
-            {
-                sonar.Deactivate();
-            }
         }
 
         /**
