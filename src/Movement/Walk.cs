@@ -77,17 +77,9 @@ namespace Naovigate.Movement
             motion.moveToward(x, y, theta);
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        /**
-         * Turn (normalized) dir and walk till the Nao is within dist pieces of wall of the marker with MarkID = markerID
-=======
-=======
->>>>>>> ec51487084c0175e382601f82f1a68a02e9f8324
         /*
-         * Turn (normalized) dir and walk till the Nao sees the marker with MarkID = markerID
->>>>>>> ec51487084c0175e382601f82f1a68a02e9f8324
-         * */
+         * Turn (normalized) dir and walk till the Nao is within dist pieces of wall of the marker with MarkID = markerID
+         */
         public void WalkTowards(float dir, int markerID, double dist)
         {
             StopLooking();
