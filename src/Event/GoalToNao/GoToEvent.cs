@@ -8,10 +8,15 @@ namespace Naovigate.Event.GoalToNao
      * Move to the marker MarkerID, if it is in range of the Nao.
      * The Nao will stop Distance rooms away from the marker.
      */
-    public class GoToEvent : GoalToNaoEvent
+    public class GoToEvent : NaoEvent
     {
         private int markerID;
         private int distance;
+
+        /*
+         * Default constructor.
+         */
+        public GoToEvent() { }
 
         /*
          * Explicit constructor.
@@ -23,10 +28,13 @@ namespace Naovigate.Event.GoalToNao
         }
 
         /*
-         * Inherited constructor.
+         * Extract the MarkerID and Distance parameters from a communication stream.
          */
-        public GoToEvent(CommunicationStream stream)
-            : base(stream) { }
+        private void Unpack()
+        {
+            markerID = stream.ReadInt();
+            distance = stream.ReadInt();
+        }
 
         /*
          * See the INaoEvent class docs for documentation of this method.
@@ -44,13 +52,6 @@ namespace Naovigate.Event.GoalToNao
 
         }
 
-        /*
-        * Extract the MarkerID and Distance parameters from a communication stream.
-        */
-        protected override void Read(CommunicationStream stream)
-        {
-            markerID = stream.ReadInt();
-            distance = stream.ReadInt();
-        }
+        
     }
 }

@@ -4,26 +4,14 @@ using System.Collections.Generic;
 namespace Naovigate.Event.NaoToGoal
 {
     /*
-     * Nao sees object ID at marker MarkerID
+     * Nao is at object ID
      */
-    public class SeeEvent : NaoToGoalEvent
+    public class SeeEvent : DataSendingNaoEvent
     {
-        private int objectID;
-
         /*
          * Explicit constructor.
          */
-        public SeeEvent(int objectID)
-        {
-            this.objectID = objectID;
-        }
+        public SeeEvent(int objectID, int distance) : base((byte) EventCode.See, objectID, distance) { }
 
-        /*
-         * See the INaoEvent class docs for documentation of this method.
-         */
-        public override void Fire()
-        {
-            //Send over the network to goal
-        }
     }
 }

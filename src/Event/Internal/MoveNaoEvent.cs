@@ -11,12 +11,18 @@ namespace Naovigate.Event
     /*
      * A class representing the "move" Nao-event.
      */
-    public class MoveNaoEvent : GoalToNaoEvent
+    public class MoveNaoEvent : NaoEvent
     {
        
         private PointF delta;
 
-        public MoveNaoEvent() { }
+        /*
+         * Default contructor.
+         */
+        public MoveNaoEvent() 
+        {
+            Unpack();
+        }
 
         public MoveNaoEvent(float deltaX, float deltaY)
         {
@@ -25,8 +31,8 @@ namespace Naovigate.Event
 
         /*
          * Extracts the destination parameter from a communication stream.
-         **/
-        protected override void Unpack()
+         */
+        private void Unpack()
         {
             SetDelta(stream.ReadInt(), stream.ReadInt());
         }

@@ -8,34 +8,19 @@ namespace Naovigate.Event.NaoToGoal
     /*
      * Send the Nao id. The id consists of the last number of the ip address.
      */
-    public abstract class AgentEvent : NaoEvent
+    public abstract class AgentEvent : DataSendingNaoEvent
     {
-        
-        private int id;
-
         /*
          * Explicit constructor.
          */
-        public AgentEvent(int id)
-        {
-            this.id = id;
-        }
+        public AgentEvent(int id) : base((byte) EventCode.Agent, AgentEvent.ID) { }
 
         /*
-         * Implicit constructor.
+         * Get the ID of the currently connected to Nao agent.
          */
-        public AgentEvent()
+        private static int ID
         {
-            byte[] bytes = NaoState.IP.GetAddressBytes();
-            id = bytes[bytes.Length - 1];
-        }
-
-        /*
-         * See the INaoEvent class docs for documentation of this method.
-         */
-        public override void Fire()
-        {
-            //Send over the network to goal
+            get { return NaoState.IP.GetHashCode(); }
         }
     }
 }

@@ -49,7 +49,6 @@
   <ItemGroup>
     <Compile Include="Communication\UnavailableConnectionException.cs" />
     <Compile Include="Event\GoalToNao\ExitEvent.cs" />
-    <Compile Include="Event\GoalToNao\GoalToNaoEvent.cs" />
     <Compile Include="Event\Internal\NaoCollidingEvent.cs" />
     <Compile Include="Event\EventQueue.cs" />
     <Compile Include="Communication\CommunicationStream.cs" />
@@ -62,22 +61,14 @@
     <Compile Include="Event\Internal\MoveNaoEvent.cs" />
     <Compile Include="Event\NaoEvent.cs" />
     <Compile Include="Event\NaoEventFactory.cs" />
-    <Compile Include="Event\NaoToGoal\AtObjectEvent.cs" />
+    <Compile Include="Event\NaoToGoal\SeeEvent.cs" />
     <Compile Include="Event\NaoToGoal\DistanceToEvent.cs" />
     <Compile Include="Event\NaoToGoal\NaoToGoalEvent.cs" />
-    <Compile Include="Event\NaoToGoal\SeeEvent.cs" />
     <Compile Include="Event\NaoToGoal\HoldingEvent.cs" />
     <Compile Include="Event\NaoToGoal\LocationEvent.cs" />
     <Compile Include="Event\NaoToGoal\AgentEvent.cs" />
     <Compile Include="Event\NaoToGoal\StateEvent.cs" />
-    <Compile Include="Event\NaoToGoal\AtBlockNaoEvent.cs" />
-    <Compile Include="Event\NaoToGoal\AtNaoEvent.cs" />
-    <Compile Include="Event\NaoToGoal\BlockAtNaoEvent.cs" />
-    <Compile Include="Event\NaoToGoal\HoldingNaoEvent.cs" />
     <Compile Include="Event\NaoToGoal\DataSendingNaoEvent.cs" />
-    <Compile Include="Event\NaoToGoal\LocationNaoEvent.cs" />
-    <Compile Include="Event\NaoToGoal\AgentNaoEvent.cs" />
-    <Compile Include="Event\NaoToGoal\StateNaoEvent.cs" />
     <Compile Include="GUI\BatteryMonitor.cs">
       <SubType>UserControl</SubType>
     </Compile>

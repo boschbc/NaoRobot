@@ -6,9 +6,17 @@ namespace Naovigate.Event.GoalToNao
      * @param ID
      * Pick up the object with id ID
      */
-    public class PickupEvent : GoalToNaoEvent
+    public class PickupEvent : NaoEvent
     {
         private int id;
+
+        /*
+         * Default constructor.
+         */
+        public PickupEvent()
+        {
+            Unpack();
+        }
 
         /*
          * Explicit constructor.
@@ -16,6 +24,14 @@ namespace Naovigate.Event.GoalToNao
         public PickupEvent(int id)
         {
             this.id = id;
+        }
+
+        /*
+         * Takes a communication stream and extracts different parameters as required.
+         */
+        private void Unpack()
+        {
+            id = stream.ReadInt();
         }
 
         /*
@@ -34,14 +50,7 @@ namespace Naovigate.Event.GoalToNao
 
         }
 
-        /*
-        * Takes a communication stream and extracts different parameters as required.
-        **/
-        **/
-        protected override void Unpack()
-        {
-            id = stream.ReadInt();
-        }
+       
 
     }
 }

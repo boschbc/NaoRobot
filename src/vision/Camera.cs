@@ -25,7 +25,7 @@ namespace Naovigate.Vision
         /*
         * Inits the camera of the Nao with a specified subscriber ID.
         */
-        private void StartVideo()
+        public void StartVideo()
         {
             StopVideo();
             videoProxy.subscribeCamera(subscriberID, 0, 1 /*kQVGA*/, 13 /*kRGB*/, 30);
@@ -34,7 +34,7 @@ namespace Naovigate.Vision
         /*
         * unsubscribe the camera of the nao with a specified name
         */
-        private void StopVideo()
+        public void StopVideo()
         {
             try
             {

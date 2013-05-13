@@ -17,10 +17,10 @@ namespace Naovigate.Event
             new Dictionary<byte, Func<NaoEvent>>()
             {
                 {(byte) EventCode.Exit, delegate() {return new ExitEvent();}},
-                {(byte) EventCode.GoTo, delegate() {new GoToEvent(stream);}},
-                {(byte) EventCode.Halt, delegate() {new HaltEvent();}},
-                {(byte) EventCode.Pickup, delegate() {new PickupEvent();}},
-                {(byte) EventCode.PutDown, delegate() {new PutDownEvent();}},
+                {(byte) EventCode.GoTo, delegate() {return new GoToEvent();}},
+                {(byte) EventCode.Halt, delegate() {return new HaltEvent();}},
+                {(byte) EventCode.Pickup, delegate() {return new PickupEvent();}},
+                {(byte) EventCode.PutDown, delegate() {return new PutDownEvent();}},
             };
 
         /*

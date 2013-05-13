@@ -13,8 +13,8 @@ namespace Naovigate.Movement
 {
     class Walk
     {
-        private MotionProxy motion; //deprecated
-        private RobotPostureProxy posture; //deprecated
+        private MotionProxy motion; 
+        private RobotPostureProxy posture; 
 
         private static Walk instance = null;
 

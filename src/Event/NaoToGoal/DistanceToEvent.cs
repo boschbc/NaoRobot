@@ -6,24 +6,25 @@ namespace Naovigate.Event.NaoToGoal
     /*
      * The Nao is Distance rooms away from MarkerID
      */
-    public class DistanceToEvent : NaoToGoalEvent
+    public class DistanceToEvent : DataSendingNaoEvent
     {
-        private float distance;
-
         /*
          * Implicit constructor.
          */
-        public DistanceToEvent(int markerID)
-        {
-            distance = 0;//distance = get the Nao's distance from a marker.
-        }
+        public DistanceToEvent(int markerID) : base((byte) EventCode.DistanceTo, markerID, GetDistance(markerID)) { }
 
         /*
-         * See the INaoEvent class docs for documentation of this method.
+         * Explicit constructor.
          */
-        public override void Fire()
+        public DistanceToEvent(int markerID, int distance) : base((byte) EventCode.DistanceTo, markerID, distance) { }
+
+        /*
+         * Calculates distance to given marker.
+         */
+        private static int GetDistance(int markerID)
         {
-            //Send over the network to goal
+            //calculate distance
+            return 0;
         }
     }
 }
