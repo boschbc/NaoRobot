@@ -115,22 +115,32 @@ namespace Naovigate.Event
             }
         }
 
+        /**
+         * return the next event
+         */
+        INaoEvent NextEvent
+        {
+            get
+            {
+                // lock queue, we dont want concurrent modifications
+                lock (q)
+                {
+                    if (!q.IsEmpty())
+                    {
+                        return q.Dequeue();
+                    }
+                }
+                return null;
+            }
+        }
+
         /*
          * exectues the event
          */
         private void FireEvent()
         {
             inAction = true;
-            INaoEvent e = null;
-
-            // lock queue, we dont want concurrent modifications
-            lock (q)
-            {
-                if (!q.IsEmpty())
-                {
-                    e = q.Dequeue();
-                }
-            }
+            INaoEvent e = NextEvent;
             if (e != null)
             {
                 // there was an event available, fire it

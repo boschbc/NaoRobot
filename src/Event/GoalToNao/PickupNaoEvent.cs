@@ -8,8 +8,7 @@ namespace Naovigate.Event.GoalToNao
      */
     public class PickupNaoEvent : GoalToNaoEvent
     {
-        public PickupNaoEvent(CommunicationStream stream)
-            : base(stream)
+        public PickupNaoEvent()
         {
 
         }
@@ -33,7 +32,7 @@ namespace Naovigate.Event.GoalToNao
         /**
         * Takes a communication stream and extracts different parameters as required.
         **/
-        protected override void Unpack(CommunicationStream stream)
+        protected override void Unpack()
         {
 
         }

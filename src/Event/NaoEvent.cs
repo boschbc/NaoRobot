@@ -8,12 +8,15 @@ namespace Naovigate.Event
     public abstract class NaoEvent : INaoEvent
     {
         private Priority priority;
+        protected CommunicationStream stream;
 
         /**
          * Creates an empty NaoEvent.
          **/
         public NaoEvent()
         {
+            Console.WriteLine("Set Stream of event "+this);
+            stream = GoalCommunicator.Instance.Coms;
             priority = Priority.Medium;
         }
 
@@ -21,9 +24,18 @@ namespace Naovigate.Event
          * Creates an empty NaoEvent instance with the specified priority.
          * @param p - The priority this event will initially be set to.
          **/
-        public NaoEvent(Priority p)
+        public NaoEvent(Priority p) : this()
         {
             priority = p;
+        }
+
+        /**
+         * 
+         */
+        public CommunicationStream Stream
+        {
+            get{ return stream; }
+            set{ stream = value; }
         }
 
         /**

@@ -11,7 +11,7 @@ namespace Naovigate.Event.GoalToNao
      */
     public class StopNaoEvent : GoalToNaoEvent
     {
-        public StopNaoEvent(CommunicationStream stream) : base(stream)
+        public StopNaoEvent()
         {
 
         }
@@ -35,9 +35,9 @@ namespace Naovigate.Event.GoalToNao
         /**
         * Takes a communication stream and extracts different parameters as required.
         **/
-        protected override void Unpack(CommunicationStream stream)
+        protected override void Unpack()
         {
-
+            
         }
     }
 }

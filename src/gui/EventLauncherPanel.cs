@@ -42,7 +42,7 @@ namespace Naovigate.GUI
         }
         private void LaunchLookEvent()
         {
-            
+
         }
 
         private void LaunchGrabEvent()

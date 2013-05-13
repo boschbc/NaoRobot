@@ -126,6 +126,11 @@ namespace Naovigate.Communication
             get { return stream; }
         }
 
+        public void Close()
+        {
+            stream.Close();
+        }
+
         //debugging help function
         public static String ToBitString(long x)
         {

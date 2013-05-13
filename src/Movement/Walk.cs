@@ -101,7 +101,7 @@ namespace Naovigate.Movement
             MarkerRecogniser rec = MarkerRecogniser.GetInstance();
             Sonar sonar = Sonar.Instance;
             ArrayList markers;
-            sonar.Activate();
+            sonar.ActivateSonar();
 
             try
             {
@@ -127,8 +127,8 @@ namespace Naovigate.Movement
                             Console.WriteLine("Alpha = " + ((float)((ArrayList)marker[0])[1]));
                             Console.WriteLine("Angle = " + angle);
                             float target = 0.40f;
-                            float sonarL = sonar.LeftData;
-                            float sonarR = sonar.RightData;
+                            float sonarL = sonar.getSonarDataLeft();
+                            float sonarR = sonar.getSonarDataRight();
                             Console.WriteLine("SonarL = " + sonarL);
                             Console.WriteLine("SonarR = " + sonarR);
 

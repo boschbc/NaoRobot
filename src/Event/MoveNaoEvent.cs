@@ -15,7 +15,7 @@ namespace Naovigate.Event
     {
         private PointF delta;
 
-        public MoveNaoEvent(CommunicationStream stream) : base(stream) { }
+        public MoveNaoEvent() { }
 
         public MoveNaoEvent(float deltaX, float deltaY)
         {
@@ -25,7 +25,7 @@ namespace Naovigate.Event
         /**
          * Extracts the destination parameter from a communication stream.
          **/
-        protected override void Unpack(CommunicationStream stream)
+        protected override void Unpack()
         {
             SetDelta(stream.ReadInt(), stream.ReadInt());
         }

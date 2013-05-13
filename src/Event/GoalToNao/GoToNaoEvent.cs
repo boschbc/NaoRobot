@@ -10,8 +10,7 @@ namespace Naovigate.Event.GoalToNao
      */
     public class GoToNaoEvent : GoalToNaoEvent
     {
-        public GoToNaoEvent(CommunicationStream stream)
-            : base(stream)
+        public GoToNaoEvent()
         {
 
         }
@@ -35,7 +34,7 @@ namespace Naovigate.Event.GoalToNao
         /**
         * Takes a communication stream and extracts different parameters as required.
         **/
-        protected override void Unpack(CommunicationStream stream)
+        protected override void Unpack()
         {
 
         }

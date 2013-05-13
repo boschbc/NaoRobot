@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Communication\CommunicationStreamTest.cs" />
+    <Compile Include="Communication\GoalComsStub.cs" />
     <Compile Include="Util\PriorityQueueTest.cs" />
     <Compile Include="Event\EventQueueTest.cs" />
     <Compile Include="Event\NaoEventFactoryTest.cs" />

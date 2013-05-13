@@ -19,7 +19,7 @@ namespace Naovigate.Testing.GUI
             
             int port = 9559;
             NaoState.Connect(ip, port);
-            Vision.Sonar.GetInstance().StartChecking();
+            Vision.Sonar.Instance.StartChecking();
             Application.Run(new NaoDebugger());
         }
     }

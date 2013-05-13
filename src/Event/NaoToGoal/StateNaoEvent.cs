@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Naovigate.Communication;
 
 namespace Naovigate.Event.NaoToGoal
 {
@@ -10,8 +8,24 @@ namespace Naovigate.Event.NaoToGoal
      *      walking
      *      looking
      *      stopped
+     *      
+     * Note: which byte represents which state has not been defined yet
      */
-    public class StateNaoEvent
+    public class StateNaoEvent : DataSendingNaoEvent
     {
+        private static readonly byte eventID = 0x8f;
+
+        /**
+         * create a new StateNaoEvent, with the specified state to be sent
+         */
+        public StateNaoEvent(byte state) : base(eventID, state) { }
+
+        /**
+         * Fires the event.
+         **/
+        public override void Fire()
+        {
+            SendAsByte();
+        }
     }
 }

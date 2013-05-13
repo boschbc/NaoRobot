@@ -9,9 +9,6 @@ using NUnit.Framework;
 using Naovigate.Event;
 
 namespace Naovigate.Testing{
-	// test if events are fired
-	// test if events are fired in order
-	// test if events are fired according to priority
 	class EventQueueTest{
         private Tracker t;
         private EventQueue q;

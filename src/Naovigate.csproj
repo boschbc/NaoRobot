@@ -65,8 +65,9 @@
     <Compile Include="Event\NaoToGoal\AtNaoEvent.cs" />
     <Compile Include="Event\NaoToGoal\BlockAtNaoEvent.cs" />
     <Compile Include="Event\NaoToGoal\HoldingNaoEvent.cs" />
-    <Compile Include="Event\NaoToGoal\PlaceNaoEvent.cs" />
-    <Compile Include="Event\NaoToGoal\PlayerNaoEvent.cs" />
+    <Compile Include="Event\NaoToGoal\DataSendingNaoEvent.cs" />
+    <Compile Include="Event\NaoToGoal\LocationNaoEvent.cs" />
+    <Compile Include="Event\NaoToGoal\AgentNaoEvent.cs" />
     <Compile Include="Event\NaoToGoal\StateNaoEvent.cs" />
     <Compile Include="GUI\BatteryMonitor.cs">
       <SubType>UserControl</SubType>
@@ -124,6 +125,7 @@
     <Compile Include="Vision\Camera.cs" />
     <Compile Include="Communication\GoalCommunicator.cs" />
     <Compile Include="Vision\MarkerRecogniser.cs" />
+    <Compile Include="Vision\ObjectRecogniser.cs" />
     <Compile Include="Vision\Processing.cs" />
     <Compile Include="Haptics\Grabber.cs" />
     <Compile Include="Util\NaoState.cs" />
