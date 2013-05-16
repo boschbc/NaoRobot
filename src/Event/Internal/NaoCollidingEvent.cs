@@ -23,7 +23,7 @@ namespace Naovigate.Event
             Walk.Instance.StopMove();
         }
 
-        /**
+        /*
          * unimplemented
          */
         public override void Abort()

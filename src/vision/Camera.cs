@@ -46,10 +46,10 @@ namespace Naovigate.Vision
             }
         }
 
-        /**
+        /*
          * Fetches the current image from Nao's camera, in raw form.
          * @throws an exception if not connected to any Nao.
-         **/
+         */
         private ArrayList GetRawImage()
         {
             StartVideo();
@@ -59,10 +59,10 @@ namespace Naovigate.Vision
 
         }
 
-        /**
+        /*
          * Fetches the current image from Nao's camera.
          * @returns null if not connected to any Nao.
-         **/
+         */
         public Image GetImage()
         {
             if (!NaoState.Connected)

@@ -6,24 +6,28 @@ using NUnit.Framework;
 using Naovigate.Test.Communication;
 using Naovigate.Communication;
 using Naovigate.Event;
+using Naovigate.Event.GoalToNao;
 
 namespace Naovigate.Testing.Event
 {
-    /**
+    /*
      * A test-suite for testing of the NaoEventFactory class.
-     **/
+     */
     [TestFixture]
     public class NaoEventFactoryTests
     {
-        private GoalComsStub goalComs;
-        private CommunicationStream moveCommand;
-        private CommunicationStream grabCommand;
-        private CommunicationStream lookCommand;
-        private CommunicationStream invalidCommand;
-        private byte invalidActionCode;
 
-        /**
-         * create the stream and fill it with data
+        private GoalComsStub goalComs;
+        private CommunicationStream exitInputStream;
+        private CommunicationStream putDownInputStream;
+        private CommunicationStream goToInputStream;
+        private CommunicationStream pickupInputStream;
+        private CommunicationStream haltInputStream;
+        private CommunicationStream invalidInputStream;
+        private byte invalidEventCode;
+
+        /*
+         * Creates a stream and fill it with data.
          */
         private CommunicationStream BuildStream(params int[] input)
         {
@@ -34,7 +38,7 @@ namespace Naovigate.Testing.Event
             {
                 com.WriteInt(i);
             }
-            mem.Position = 0;
+            mem.Position = 0;  //Bring the seeker back to the start.
             return com;
         }
 
@@ -47,28 +51,69 @@ namespace Naovigate.Testing.Event
         [SetUp]
         public void Init()
         {
-            moveCommand = BuildStream(1, 1);
-            grabCommand = BuildStream();
-            lookCommand = BuildStream(3);
-            invalidCommand = BuildStream(-1);
-            invalidActionCode = 99;
+
+            int objectID = 43;  //Dummy
+            exitInputStream = BuildStream();
+            putDownInputStream = BuildStream();
+            goToInputStream = BuildStream(objectID, 0);
+            pickupInputStream = BuildStream(objectID);
+            haltInputStream = BuildStream();
+            invalidInputStream = BuildStream(-1);
+            invalidEventCode = 99;
         }
 
         [Test]
-        public void NewEventValidMoveTest()
+        public void NewExitEventTest()
         {
-            goalComs.SetStream(moveCommand);
+            goalComs.SetStream(exitInputStream);
             INaoEvent result = NaoEventFactory.NewEvent(
-                                (byte)NaoEventFactory.ActionCode.Move);
-            Assert.IsInstanceOf(typeof(MoveNaoEvent), result);
+                               (byte)EventCode.Exit);
+            Assert.IsInstanceOf(typeof(ExitEvent), result);
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidActionCodeException))]
-        public void NewEventInvalidExceptionThrown()
+        public void NewPutDownEventTest()
         {
+            goalComs.SetStream(putDownInputStream);
             INaoEvent result = NaoEventFactory.NewEvent(
-                                invalidActionCode);
+                                (byte)EventCode.PutDown);
+            Assert.IsInstanceOf(typeof(PutDownEvent), result);
+        }
+
+        [Test]
+        public void NewGoToEventTest()
+        {
+            goalComs.SetStream(goToInputStream);
+            INaoEvent result = NaoEventFactory.NewEvent(
+                                (byte)EventCode.GoTo);
+            Assert.IsInstanceOf(typeof(GoToEvent), result);
+        }
+
+        [Test]
+        public void NewPickupEventTest()
+        {
+            goalComs.SetStream(pickupInputStream);
+            INaoEvent result = NaoEventFactory.NewEvent(
+                                (byte)EventCode.Pickup);
+            Assert.IsInstanceOf(typeof(PickupEvent), result);
+        }
+
+        [Test]
+        public void NewHaltEventTest()
+        {
+            goalComs.SetStream(haltInputStream);
+            INaoEvent result = NaoEventFactory.NewEvent(
+                                (byte)EventCode.Halt);
+            Assert.IsInstanceOf(typeof(HaltEvent), result);
+        }
+
+        [Test]
+        [ExpectedException(typeof(InvalidEventCodeException))]
+        public void NewInvalidEventTest()
+        {
+            goalComs.SetStream(invalidInputStream);
+            INaoEvent result = NaoEventFactory.NewEvent(
+                                invalidEventCode);
         }
     }
 }

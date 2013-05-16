@@ -1,43 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 using Naovigate.Communication;
 
 namespace Naovigate.Event.GoalToNao
 {
     /*
-     * Stop all actions the nao is doing.
+     * The exit events signals that the program should be terminated.
      */
-    public class StopNaoEvent : GoalToNaoEvent
+    public class ExitEvent : NaoEvent
     {
-        public StopNaoEvent()
-        {
-
-        }
-
-        /**
+        /*
          * See the INaoEvent class docs for documentation of this method.
-         **/
+         */
         public override void Fire()
         {
 
         }
 
-        /**
+        /*
          * See the INaoEvent class docs for documentation of this method.
-         **/
+         */
         public override void Abort()
         {
 
-        }
-
-        /**
-        * Takes a communication stream and extracts different parameters as required.
-        **/
-        protected override void Unpack()
-        {
-            
         }
     }
 }

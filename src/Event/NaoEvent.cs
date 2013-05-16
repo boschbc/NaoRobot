@@ -1,18 +1,19 @@
 ﻿using System;
 using Naovigate.Communication;
+
 namespace Naovigate.Event
 {
-    /**
+    /*
      * An abstract class implementing a simple NaoEvent interface.
-     **/
+     */
     public abstract class NaoEvent : INaoEvent
     {
         private Priority priority;
         protected CommunicationStream stream;
 
-        /**
+        /*
          * Creates an empty NaoEvent.
-         **/
+         */
         public NaoEvent()
         {
             Console.WriteLine("Set Stream of event "+this);
@@ -20,16 +21,16 @@ namespace Naovigate.Event
             priority = Priority.Medium;
         }
 
-        /**
+        /*
          * Creates an empty NaoEvent instance with the specified priority.
          * @param p - The priority this event will initially be set to.
-         **/
+         */
         public NaoEvent(Priority p) : this()
         {
             priority = p;
         }
 
-        /**
+        /*
          * 
          */
         public CommunicationStream Stream
@@ -40,21 +41,21 @@ namespace Naovigate.Event
 
         /**
          * See the INaoEvent class docs for documentation of this method.
-         **/
+         */
         public Priority Priority
         {
             get { return priority; }
             set { priority = value; }
         }
 
-        /**
+        /*
          * See the INaoEvent class docs for documentation of this method.
-         **/
+         */
         public abstract void Fire();
         
-        /**
+        /*
          * See the INaoEvent class docs for documentation of this method.
-         **/
+         */
         public abstract void Abort();
     }
 }

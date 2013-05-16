@@ -49,9 +49,9 @@ namespace Naovigate.GUI
             get { return 1000 / fps; }
         }
 
-        /**
+        /*
          * Update the debug data displayed in all debug fiels.
-         **/
+         */
         private void UpdateContent()
         {
             if (NaoState.OutOfDate(Interval))

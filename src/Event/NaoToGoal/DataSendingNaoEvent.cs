@@ -8,7 +8,7 @@ namespace Naovigate.Event.NaoToGoal
      */
     public abstract class DataSendingNaoEvent : NaoEvent
     {
-        private byte eventID = 0x8d;
+        private byte eventID = 0x00;
         private int[] data;
         private bool aborted;
 
@@ -47,9 +47,17 @@ namespace Naovigate.Event.NaoToGoal
             }
         }
 
-        /**
-        * Aborts this event's operation.
-        **/
+        /*
+         * Fire this event.
+         */
+        public override void Fire()
+        {
+            SendAsInt();
+        }
+
+        /*
+         * Aborts this event's operation.
+         */
         public override void Abort()
         {
             aborted = true;

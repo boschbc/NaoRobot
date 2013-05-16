@@ -18,7 +18,7 @@ namespace Naovigate.GUI
 
         private void launchSonarDemo_Click(object sender, EventArgs e)
         {
-            Walk.Instance.WalkTowards(0.0f, 143);
+            Walk.Instance.WalkTowards(0.0f, 143, 1);
         }
     }
 }

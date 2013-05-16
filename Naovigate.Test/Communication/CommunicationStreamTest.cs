@@ -20,7 +20,7 @@ namespace Naovigate.Testing
             stream = new CommunicationStream(internalStream);
         }
 
-        /**
+        /*
          * Set the stream ready for reading
          */
         private void StartRead()
@@ -130,6 +130,16 @@ namespace Naovigate.Testing
             int x = stream.Read(res, 4, 5);
             Assert.AreEqual(5, x);
             Assert.AreEqual(buffer, res);
+        }
+
+        [Test]
+        public void ReadByteTest()
+        {
+            byte[] buffer = { 3 };
+            stream.Write(buffer);
+            StartRead();
+            byte x = stream.ReadByte();
+            Assert.AreEqual(3, x);
         }
 
         [Test]
