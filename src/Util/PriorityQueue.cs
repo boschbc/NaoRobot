@@ -30,19 +30,16 @@ namespace Naovigate.Util
             // look for the highest priority queue
             for (int i = maxPriority - 1; i >= 0; i--)
             {
-                // queue exists (had an element some time in its life)
+                // queue exists
                 if (queues[i] != null)
                 {
                     // check if its empty
                     Queue<T> q = queues[i];
-                    if (q.Count == 0)
-                    {
-                        continue;
-                    }
-                    else
+                    if (q.Count != 0)
                     {
                         size--;
                         T t = q.Dequeue();
+
                         // no more elements in the queue, save some memory
                         if (q.Count == 0) queues[i] = null;
                         return t;
