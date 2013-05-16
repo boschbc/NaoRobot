@@ -90,10 +90,19 @@ namespace Naovigate.Communication
         /*
          * read an integer
          */
+        public byte ReadByte()
+        {
+            return (byte)ReadBytesToValue(1);
+        }
+
+        /*
+         * read an integer
+         */
         public int ReadInt()
         {
             return (int)ReadBytesToValue(4);
         }
+
         /*
          * read a long
          */
