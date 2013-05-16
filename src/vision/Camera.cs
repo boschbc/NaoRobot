@@ -25,7 +25,7 @@ namespace Naovigate.Vision
         /*
         * Inits the camera of the Nao with a specified subscriber ID.
         */
-        private void StartVideo()
+        public void StartVideo()
         {
             StopVideo();
             videoProxy.subscribeCamera(subscriberID, 0, 1 /*kQVGA*/, 13 /*kRGB*/, 30);
@@ -34,7 +34,7 @@ namespace Naovigate.Vision
         /*
         * unsubscribe the camera of the nao with a specified name
         */
-        private void StopVideo()
+        public void StopVideo()
         {
             try
             {
@@ -77,6 +77,22 @@ namespace Naovigate.Vision
                                 System.Drawing.Imaging.PixelFormat.Format24bppRgb,
                                 System.Runtime.InteropServices.Marshal.UnsafeAddrOfPinnedArrayElement(imageBytes, 0));
             
+        }
+        public void CallibrateCamera(int p)
+        {
+            //kCameraBrightnessID  0
+            //int brightness = videoProxy.getCameraParameter(subscriberID, 0);
+            //videoProxy.setCameraParameter(subscriberID, 0, brightness);
+            //kCameraContrastID     1
+            //int contrast = videoProxy.getCameraParameter(subscriberID, 1);
+            //videoProxy.setCameraParameter(subscriberID, 1, contrast);
+            //kCameraSaturationID   2
+            //int saturation = videoProxy.getCameraParameter(subscriberID, 1);
+            //videoProxy.setCameraParameter(subscriberID, 2, saturation);
+            //int gain = videoProxy.getCameraParameter(subscriberID, 6);
+            //videoProxy.setCameraParameter(subscriberID, 6, gain);
+            //kCameraExposureAlgorithmID
+            videoProxy.setCameraParameter(subscriberID, 22,p);
         }
     }
 }

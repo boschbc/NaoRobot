@@ -25,7 +25,6 @@ namespace Naovigate.Vision
         {
             objectRecognizer = new VisionRecognitionProxy(ip, port);
             objectRecognizer.subscribe("VisionRecognizer", 1000, 0F);
-
             memory = new MemoryProxy(ip, port);
         }
 
