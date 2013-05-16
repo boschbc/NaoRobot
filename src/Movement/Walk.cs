@@ -46,13 +46,9 @@ namespace Naovigate.Movement
         public void WalkTo(float x, float y, float theta)
         {
             InitMove();
-            using (MotionProxy motion = NaoState.MotionProxy)
-            {
-                if (!motion.moveIsActive())
-                    motion.moveInit();
-                motion.moveTo(x, y, theta);
-                //motion.stopMove();
-            }
+            if (!motion.moveIsActive())
+                motion.moveInit();
+            motion.moveTo(x, y, theta);
         }
 
         /*
@@ -60,11 +56,8 @@ namespace Naovigate.Movement
          */
         public void InitMove()
         {
-            using (MotionProxy motion = NaoState.MotionProxy)
-            {
-                if (!motion.robotIsWakeUp())
-                    motion.wakeUp();
-            }
+            if (!motion.robotIsWakeUp())
+                motion.wakeUp();
         }
 
         /*

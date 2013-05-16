@@ -110,11 +110,23 @@
     <Compile Include="GUI\NaoDebugger.Designer.cs">
       <DependentUpon>NaoDebugger.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\NaoDebugger2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\NaoDebugger2.Designer.cs">
+      <DependentUpon>NaoDebugger2.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\StateMonitorPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GUI\StateMonitorPanel.Designer.cs">
       <DependentUpon>StateMonitorPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\TemperatureMonitor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\TemperatureMonitor.Designer.cs">
+      <DependentUpon>TemperatureMonitor.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\UpdaterThread.cs" />
     <Compile Include="MainProgram.cs" />
@@ -184,8 +196,14 @@
     <EmbeddedResource Include="GUI\NaoDebugger.resx">
       <DependentUpon>NaoDebugger.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\NaoDebugger2.resx">
+      <DependentUpon>NaoDebugger2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\StateMonitorPanel.resx">
       <DependentUpon>StateMonitorPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\TemperatureMonitor.resx">
+      <DependentUpon>TemperatureMonitor.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

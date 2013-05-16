@@ -28,9 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             this.imageContainer = new System.Windows.Forms.PictureBox();
-            this.updateTimer = new System.Windows.Forms.Timer(this.components);
             this.cameraEnabler = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.imageContainer)).BeginInit();
             this.SuspendLayout();
@@ -69,7 +67,6 @@
         #endregion
 
         private System.Windows.Forms.PictureBox imageContainer;
-        private System.Windows.Forms.Timer updateTimer;
         private System.Windows.Forms.CheckBox cameraEnabler;
     }
 }

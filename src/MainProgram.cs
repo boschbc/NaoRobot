@@ -15,7 +15,8 @@ namespace Naovigate
             //Use this switch to deactivate debugger invocation:
             bool Debug = true;
             string localhost = "127.0.0.1";
-            string Nao = "192.168.0.109";
+            string Franke = "192.168.0.126";
+            string robotutor = "192.168.0.125";
 
 
             //ObjectRecogniser recognizer = new ObjectRecogniser(Nao,9559);
@@ -40,9 +41,9 @@ namespace Naovigate
             //    }
             //    System.Threading.Thread.Sleep(300);
             //}
-
+            
             if (Debug)
-                LaunchDebugger.DebugMain(localhost);
+                LaunchDebugger.DebugMain(robotutor);
 
         }
 

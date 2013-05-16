@@ -15,6 +15,7 @@ namespace Naovigate.GUI
     public partial class CameraMonitor : UserControl, IRealtimeField
     {
         private static int DefaultFps = 5;
+        private static string SubscriberID = "CameraMonitor";
 
         private int fps;
         private Camera camera;
@@ -34,7 +35,13 @@ namespace Naovigate.GUI
 
         private void Init()
         {
-            camera = new Camera("CameraMonitor");
+            if (NaoState.Connected)
+            {
+                camera = new Camera(SubscriberID);
+                camera.Enabled = true;
+            }
+            else
+                camera = null;
             worker = new UpdaterThread(Interval, UpdateContent);
             InitializeComponent();
             HookEventHandlers();
@@ -62,8 +69,23 @@ namespace Naovigate.GUI
             }
         }
 
+        /*
+         * Stops updating this component.
+         */
+        public void StopUpdate()
+        {
+            worker.Enabled = false;
+        }
+
         public void UpdateContent()
         {
+            if (!NaoState.Connected)
+                return;
+            else if (camera == null)
+            {
+                camera = new Camera(SubscriberID);
+                camera.Enabled = true;
+            }
             if (NaoState.OutOfDate(Interval))
             {
                 try

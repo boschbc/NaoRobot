@@ -42,6 +42,7 @@ namespace Naovigate.GUI
             debugWidgets = new List<IRealtimeField>();
             debugWidgets.Add(locationMonitor);
             debugWidgets.Add(batteryMonitor);
+            debugWidgets.Add(temperatureMonitor);
         }
 
         public int Interval
@@ -50,11 +51,21 @@ namespace Naovigate.GUI
         }
 
         /*
+         * Stops updating this component.
+         */
+        public void StopUpdate()
+        {
+            worker.Enabled = false;
+        }
+
+        /*
          * Update the debug data displayed in all debug fiels.
          */
         private void UpdateContent()
         {
-            if (NaoState.OutOfDate(Interval))
+            if (!NaoState.Connected)
+                return;
+            else if (NaoState.OutOfDate(Interval))
             {
                 try
                 {

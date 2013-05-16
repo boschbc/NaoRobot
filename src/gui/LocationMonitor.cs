@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
-using Aldebaran.Proxies;
-
 using Naovigate.Communication;
 using Naovigate.Util;
 
@@ -29,12 +27,15 @@ namespace Naovigate.GUI
             {
                 label.Invoke(new MethodInvoker(UpdateContent));
             }
-            PointF location = NaoState.Location;
-            float rotation = NaoState.Rotation;
-            label.Text = String.Format(Format,
+            else
+            {
+                PointF location = NaoState.Location;
+                float rotation = NaoState.Rotation;
+                label.Text = String.Format(Format,
                                     Math.Round(location.X, 2),
                                     Math.Round(location.Y, 2),
-                                    Math.Round(rotation, 2));     
+                                    Math.Round(rotation, 2));
+            }
         }
     }
 }
