@@ -116,6 +116,12 @@
     <Compile Include="GUI\StateMonitorPanel.Designer.cs">
       <DependentUpon>StateMonitorPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\TemperatureMonitor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\TemperatureMonitor.Designer.cs">
+      <DependentUpon>TemperatureMonitor.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\UpdaterThread.cs" />
     <Compile Include="MainProgram.cs" />
     <Compile Include="Movement\Walk.cs" />
@@ -186,6 +192,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\StateMonitorPanel.resx">
       <DependentUpon>StateMonitorPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\TemperatureMonitor.resx">
+      <DependentUpon>TemperatureMonitor.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

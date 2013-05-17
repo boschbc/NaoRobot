@@ -9,8 +9,9 @@ namespace Naovigate.Event.NaoToGoal
     {
         /*
          * Explicit constructor.
+         * @param id The ID of the event which was successfully completed.
          */
-        public SuccessEvent(EventCode code) : base((byte)EventCode.Success, (int)code) { }
+        public SuccessEvent(int eventID) : base((byte)EventCode.Success, eventID) { }
 
         /*
          * Fires the event.

@@ -6,7 +6,7 @@ namespace Naovigate.Event.NaoToGoal
     /**
      * 
      */
-    public abstract class DataSendingNaoEvent : NaoEvent
+    public class DataSendingNaoEvent : NaoEvent
     {
         private byte eventID = 0x00;
         private int[] data;

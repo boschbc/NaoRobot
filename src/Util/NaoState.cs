@@ -19,10 +19,17 @@ namespace Naovigate.Util
         private static PointF location;
         private static float rotation;
         private static int batteryLeft;
+        private static float temperature;
 
         private static List<IDisposable> proxies = new List<IDisposable>();
         private static bool connected = false;
         private static Stopwatch Stopwatch = new Stopwatch();
+
+        private static TextToSpeechProxy speech;
+        private static MotionProxy motion;
+        private static BatteryProxy battery;
+        private static SensorsProxy sensors;
+        private static MemoryProxy memory;
 
         /// <summary>
         /// Connect to a Nao. Will disconnect from any already connected-to Nao.
@@ -47,6 +54,7 @@ namespace Naovigate.Util
             ip = endPoint.Address;
             port = endPoint.Port;
             connected = true;
+            CreateMyProxies();
             Update();
         }
 
@@ -64,6 +72,21 @@ namespace Naovigate.Util
             TeardownProxies();
         }
 
+
+        ///<summary>
+        /// Creates proxes to be used by this class only.
+        /// </summary>
+        private static void CreateMyProxies()
+        {
+            if (!Connected)
+                return;
+            motion = MotionProxy;
+            battery = BatteryProxy;
+            sensors = SensorsProxy;
+            memory = MemoryProxy;
+            speech = SpeechProxy;
+        }
+
         /// <summary>
         /// Disconnect all the proxies used currently.
         /// </summary>
@@ -77,11 +100,11 @@ namespace Naovigate.Util
                 {
                     d.Dispose();
                 }
-                proxies = new List<IDisposable>();
+                proxies.Clear();
             }
             catch
             {
-                throw new UnavailableConnectionException("Error while disconnecting proxies.", ip.ToString(), port);
+                throw new UnavailableConnectionException("Error while disconnecting proxies.", IP.ToString(), port);
             }
         }
 
@@ -122,6 +145,15 @@ namespace Naovigate.Util
         }
 
         /// <summary>
+        /// The temperature of the currently connected to nao's joints.
+        /// </summary>
+        /// <value>The temperature level.</value>
+        public static float Temperature
+        {
+            get { return temperature; }
+        }
+
+        /// <summary>
         /// The battery charge left of the currently connected-to Nao.
         /// </summary>
         /// <value>The battery percentage left.</value>
@@ -145,6 +177,20 @@ namespace Naovigate.Util
         }
 
         /// <summary>
+        /// Gets the speech proxy.
+        /// </summary>
+        /// <value>The speech proxy.</value>
+        public static TextToSpeechProxy SpeechProxy
+        {
+            get
+            {
+                TextToSpeechProxy res = new TextToSpeechProxy(ip.ToString(), port);
+                proxies.Add(res);
+                return res;
+            }
+        }
+
+        /// <summary>
         /// Gets the posture proxy.
         /// </summary>
         /// <value>The posture proxy.</value>
@@ -153,6 +199,20 @@ namespace Naovigate.Util
             get
             {
                 RobotPostureProxy res = new RobotPostureProxy(ip.ToString(), port);
+                proxies.Add(res);
+                return res;
+            }
+        }
+
+        /// <summary>
+        /// Gets the sensors proxy.
+        /// </summary>
+        /// <value>The sensors proxy.</value>
+        public static SensorsProxy SensorsProxy
+        {
+            get
+            {
+                SensorsProxy res = new SensorsProxy(ip.ToString(), port);
                 proxies.Add(res);
                 return res;
             }
@@ -242,13 +302,11 @@ namespace Naovigate.Util
 
             try
             {
-                using (MotionProxy motion = MotionProxy)
-                {
-                    List<float> vector = motion.getRobotPosition(false);
-                    location = new PointF(vector[0], vector[1]);
-                    rotation = vector[2];
-                }
-                batteryLeft = BatteryProxy.getBatteryCharge();
+                List<float> vector = motion.getRobotPosition(false);
+                location = new PointF(vector[0], vector[1]);
+                rotation = vector[2];  
+                batteryLeft = battery.getBatteryCharge();
+                temperature = (float) memory.getData("Device/SubDeviceList/Battery/Temperature/Sensor/Value");
             }
             catch(Exception e)
             {

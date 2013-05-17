@@ -15,13 +15,28 @@ namespace Naovigate.Vision
     {
         private string subscriberID;
         private VideoDeviceProxy videoProxy;
+        private bool enabled;
 
         public Camera(string subID)
         {
             subscriberID = subID;
             videoProxy = NaoState.VideoProxy;
+            Enabled = false;
         }
 
+
+        public bool Enabled
+        {
+            get { return enabled; }
+            set
+            {
+                enabled = value;
+                if (value)
+                    StartVideo();
+                else
+                    StopVideo();
+            }
+        }
         /*
         * Inits the camera of the Nao with a specified subscriber ID.
         */
@@ -48,15 +63,13 @@ namespace Naovigate.Vision
 
         /*
          * Fetches the current image from Nao's camera, in raw form.
+         * Pre: The video subscription was initiated using StartVideo()
          * @throws an exception if not connected to any Nao.
          */
         private ArrayList GetRawImage()
         {
-            StartVideo();
             ArrayList imageObject = (ArrayList)videoProxy.getImageRemote(subscriberID);
-            StopVideo();
             return imageObject;
-
         }
 
         /*
@@ -67,7 +80,6 @@ namespace Naovigate.Vision
         {
             if (!NaoState.Connected)
                 return null;
-
             ArrayList imageObject = GetRawImage();
             int width = (int)imageObject[0];
             int height = (int)imageObject[1];

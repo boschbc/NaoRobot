@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 using Naovigate.Util;
@@ -19,7 +16,6 @@ namespace Naovigate.Testing.GUI
             
             int port = 9559;
             NaoState.Connect(ip, port);
-            Vision.Sonar.Instance.StartChecking();
             Application.Run(new NaoDebugger());
         }
     }

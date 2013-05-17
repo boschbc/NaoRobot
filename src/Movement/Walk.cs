@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Collections;
 using System.Threading;
@@ -46,13 +45,9 @@ namespace Naovigate.Movement
         public void WalkTo(float x, float y, float theta)
         {
             InitMove();
-            using (MotionProxy motion = NaoState.MotionProxy)
-            {
-                if (!motion.moveIsActive())
-                    motion.moveInit();
-                motion.moveTo(x, y, theta);
-                //motion.stopMove();
-            }
+            if (!motion.moveIsActive())
+                motion.moveInit();
+            motion.moveTo(x, y, theta);
         }
 
         /*
@@ -60,11 +55,8 @@ namespace Naovigate.Movement
          */
         public void InitMove()
         {
-            using (MotionProxy motion = NaoState.MotionProxy)
-            {
-                if (!motion.robotIsWakeUp())
-                    motion.wakeUp();
-            }
+            if (!motion.robotIsWakeUp())
+                motion.wakeUp();
         }
 
         /*
@@ -80,7 +72,7 @@ namespace Naovigate.Movement
         /*
          * Turn (normalized) dir and walk till the Nao is within dist pieces of wall of the marker with MarkID = markerID
          */
-        public void WalkTowards(float dir, int markerID, double dist)
+        public void WalkTowardsMarker(float dir, int markerID, double dist)
         {
             StopLooking();
             WalkTo(0, 0, dir);
@@ -130,6 +122,19 @@ namespace Naovigate.Movement
         }
 
         /*
+         * Turn (normalized) dir and walk till the Nao is within dist pieces of wall of the object with id ObjectID
+         */
+        public void WalkTowardsObject(float dir, int objectID, double dist)
+        {
+            
+        }
+
+        public void LookForObject()
+        {
+
+        }
+
+        /*
          * return found
          * found is true when the marker with MarkID = markerID has been found and reached
          * */
@@ -162,6 +167,7 @@ namespace Naovigate.Movement
             }
             catch
             {
+                // proxy is busy (moving) so return true
                 return true;
             }
         }
@@ -172,6 +178,11 @@ namespace Naovigate.Movement
         public void StopMove()
         {
             motion.stopMove();
+        }
+
+        public void Abort()
+        {
+            throw new NotImplementedException();
         }
     }
 }
