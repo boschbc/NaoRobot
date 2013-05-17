@@ -2,6 +2,7 @@
 using Naovigate.Communication;
 using Naovigate.Haptics;
 using Naovigate.Movement;
+using Naovigate.Util;
 namespace Naovigate.Event.GoalToNao
 {
     /*

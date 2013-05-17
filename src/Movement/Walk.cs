@@ -77,9 +77,6 @@ namespace Naovigate.Movement
             StopLooking();
             WalkTo(0, 0, dir);
             StartWalking(0.5F, 0, 0);
-            //this.markerID = markerID;
-            //found = false;
-            //this.dist = dist;
             MarkerSearchThread t = new MarkerSearchThread(markerID,dist);
             t.Start();
             return t;
@@ -168,7 +165,7 @@ namespace Naovigate.Movement
 
         public void Abort()
         {
-            throw new NotImplementedException();
+            StopMove();
         }
     }
 }
