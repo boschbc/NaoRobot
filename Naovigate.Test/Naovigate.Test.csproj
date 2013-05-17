@@ -51,6 +51,7 @@
     <Compile Include="Communication\GoalComsStub.cs" />
     <Compile Include="Event\GoalToNao\PickupEventTest.cs" />
     <Compile Include="Event\EventTestingUtilities.cs" />
+    <Compile Include="Event\DataSendingNaoEventTest.cs" />
     <Compile Include="Util\PriorityQueueTest.cs" />
     <Compile Include="Event\EventQueueTest.cs" />
     <Compile Include="Event\NaoEventFactoryTest.cs" />

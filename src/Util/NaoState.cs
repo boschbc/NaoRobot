@@ -25,6 +25,7 @@ namespace Naovigate.Util
         private static bool connected = false;
         private static Stopwatch Stopwatch = new Stopwatch();
 
+        private static TextToSpeechProxy speech;
         private static MotionProxy motion;
         private static BatteryProxy battery;
         private static SensorsProxy sensors;
@@ -83,6 +84,7 @@ namespace Naovigate.Util
             battery = BatteryProxy;
             sensors = SensorsProxy;
             memory = MemoryProxy;
+            speech = SpeechProxy;
         }
 
         /// <summary>
@@ -98,11 +100,11 @@ namespace Naovigate.Util
                 {
                     d.Dispose();
                 }
-                proxies = new List<IDisposable>();
+                proxies.Clear();
             }
             catch
             {
-                throw new UnavailableConnectionException("Error while disconnecting proxies.", ip.ToString(), port);
+                throw new UnavailableConnectionException("Error while disconnecting proxies.", IP.ToString(), port);
             }
         }
 
@@ -169,6 +171,20 @@ namespace Naovigate.Util
             get
             {
                 MotionProxy res = new MotionProxy(ip.ToString(), port);
+                proxies.Add(res);
+                return res;
+            }
+        }
+
+        /// <summary>
+        /// Gets the speech proxy.
+        /// </summary>
+        /// <value>The speech proxy.</value>
+        public static TextToSpeechProxy SpeechProxy
+        {
+            get
+            {
+                TextToSpeechProxy res = new TextToSpeechProxy(ip.ToString(), port);
                 proxies.Add(res);
                 return res;
             }

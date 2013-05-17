@@ -1,5 +1,7 @@
 ﻿using System;
 using Naovigate.Communication;
+using Naovigate.Haptics;
+using Naovigate.Movement;
 namespace Naovigate.Event.GoalToNao
 {
     /*
@@ -9,6 +11,7 @@ namespace Naovigate.Event.GoalToNao
     public class PickupEvent : NaoEvent
     {
         private int id;
+        private ObjectSearchThread searchThread;
 
         /*
          * Default constructor.
@@ -39,7 +42,11 @@ namespace Naovigate.Event.GoalToNao
          */
         public override void Fire()
         {
+            // go to the object first
+            Walk.Instance.WalkTowardsObject(0,0,0);
 
+            // grab the object
+            Grabber.Instance.Grab();
         }
 
         /*
@@ -47,10 +54,10 @@ namespace Naovigate.Event.GoalToNao
          */
         public override  void Abort()
         {
-
+            if (searchThread != null)
+            {
+                searchThread.Abort();
+            }
         }
-
-       
-
     }
 }

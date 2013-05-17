@@ -10,6 +10,15 @@ namespace Naovigate.Haptics
     class Grabber
     {
         private GoalCommunicator goal;
+        private static Grabber instance;
+
+        public static Grabber Instance
+        {
+            get
+            {
+                return instance == null ? instance = new Grabber() : instance;
+            }
+        }
 
         /*
          * Constructor
@@ -22,7 +31,7 @@ namespace Naovigate.Haptics
         /*
          * The movemont for the grabbing
          */
-        public void OnGrabCommand()
+        public void Grab()
         {
             MotionProxy motionProxy = NaoState.MotionProxy;
             RobotPostureProxy postureProxy = NaoState.PostureProxy;
@@ -47,6 +56,11 @@ namespace Naovigate.Haptics
                 false                               // No absolute movement.
             );
             NaoState.Update();
+        }
+
+        public void PutDown()
+        {
+
         }
 
         internal static void Abort()
