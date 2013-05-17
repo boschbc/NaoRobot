@@ -18,6 +18,8 @@ namespace Naovigate.Event.GoalToNao
         private int markerID;
         private int distance;
 
+        private MarkerSearchThread worker;
+
         /*
          * Default constructor.
          */
@@ -54,7 +56,7 @@ namespace Naovigate.Event.GoalToNao
             NaoEvent statusEvent = new SuccessEvent(EventQueue.Instance.GetID(this)); ;
             try
             {
-                Walk.Instance.WalkTowardsMarker(theta, markerID, distance);
+                worker = Walk.Instance.WalkTowardsMarker(theta, markerID, distance);
             }
             catch
             {
@@ -70,7 +72,7 @@ namespace Naovigate.Event.GoalToNao
         {
             try
             {
-                Walk.Instance.Abort();
+                worker.Abort();
             }
             catch
             {
