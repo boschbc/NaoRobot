@@ -41,7 +41,14 @@ namespace Naovigate.Event.GoalToNao
          */
         public override void Abort()
         {
-            Grabber.Abort();
+            try
+            {
+                Grabber.Abort();
+            }
+            catch
+            {
+                EventQueue.Instance.Enqueue(new ErrorEvent());
+            }
         }
     }
 }

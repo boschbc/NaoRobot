@@ -1,5 +1,9 @@
 ﻿using System;
+
 using Naovigate.Communication;
+using Naovigate.Event.NaoToGoal;
+using Naovigate.Movement;
+
 namespace Naovigate.Event.GoalToNao
 {
     /*
@@ -10,19 +14,24 @@ namespace Naovigate.Event.GoalToNao
      */
     public class GoToEvent : NaoEvent
     {
+        private int theta;
         private int markerID;
         private int distance;
 
         /*
          * Default constructor.
          */
-        public GoToEvent() { }
+        public GoToEvent()
+        {
+            Unpack();
+        }
 
         /*
          * Explicit constructor.
          */
-        public GoToEvent(int markerID, int distance)
+        public GoToEvent(int theta, int markerID, int distance)
         {
+            this.theta = theta;
             this.markerID = markerID;
             this.distance = distance;
         }
@@ -32,6 +41,7 @@ namespace Naovigate.Event.GoalToNao
          */
         private void Unpack()
         {
+            theta = stream.ReadInt();
             markerID = stream.ReadInt();
             distance = stream.ReadInt();
         }
@@ -41,7 +51,16 @@ namespace Naovigate.Event.GoalToNao
          */
         public override void Fire()
         {
-
+            NaoEvent statusEvent = new SuccessEvent(EventQueue.Instance.GetID(this)); ;
+            try
+            {
+                Walk.Instance.WalkTowardsMarker(theta, markerID, distance);
+            }
+            catch
+            {
+                statusEvent = new FailureEvent(EventQueue.Instance.GetID(this));
+            }
+            EventQueue.Instance.Enqueue(statusEvent);
         }
 
         /*
@@ -49,7 +68,14 @@ namespace Naovigate.Event.GoalToNao
          */
         public override void Abort()
         {
-
+            try
+            {
+                Walk.Instance.Abort();
+            }
+            catch
+            {
+                EventQueue.Instance.Enqueue(new ErrorEvent());
+            }
         }
 
         
