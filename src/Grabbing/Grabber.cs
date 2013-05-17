@@ -4,7 +4,7 @@ using Aldebaran.Proxies;
 using Naovigate.Communication;
 using Naovigate.Util;
 
-namespace Naovigate.Haptics
+namespace Naovigate.Grabbing
 {
     /// <description>Class that handles the 'grab' command. Grab an element right in front of the robot</description>
     class Grabber
