@@ -18,7 +18,6 @@ namespace Naovigate.Movement
         private static Walk instance = null;
 
         private int markerID = -1;
-        private Thread t = null;
         private Boolean found = false;
         private double dist = 1;
 

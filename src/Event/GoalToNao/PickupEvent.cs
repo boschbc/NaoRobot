@@ -12,7 +12,7 @@ namespace Naovigate.Event.GoalToNao
     public class PickupEvent : NaoEvent
     {
         private int id;
-       // private ObjectSearchThread searchThread;
+        private ObjectSearchThread searchThread;
 
         /*
          * Default constructor.
@@ -55,10 +55,10 @@ namespace Naovigate.Event.GoalToNao
          */
         public override  void Abort()
         {
-           // if (searchThread != null)
-           // {
-           //     searchThread.Abort();
-           // }
+            if (searchThread != null)
+            {
+                searchThread.Abort();
+            }
         }
     }
 }
