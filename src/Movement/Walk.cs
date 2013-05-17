@@ -73,7 +73,7 @@ namespace Naovigate.Movement
         /*
          * Turn (normalized) dir and walk till the Nao is within dist pieces of wall of the marker with MarkID = markerID
          */
-        public void WalkTowards(float dir, int markerID, double dist)
+        public void WalkTowardsMarker(float dir, int markerID, double dist)
         {
             StopLooking();
             WalkTo(0, 0, dir);
@@ -123,6 +123,19 @@ namespace Naovigate.Movement
         }
 
         /*
+         * Turn (normalized) dir and walk till the Nao is within dist pieces of wall of the object with id ObjectID
+         */
+        public void WalkTowardsObject(float dir, int objectID, double dist)
+        {
+            
+        }
+
+        public void LookForObject()
+        {
+
+        }
+
+        /*
          * return found
          * found is true when the marker with MarkID = markerID has been found and reached
          * */
@@ -155,6 +168,7 @@ namespace Naovigate.Movement
             }
             catch
             {
+                // proxy is busy (moving) so return true
                 return true;
             }
         }
