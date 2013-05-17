@@ -72,6 +72,7 @@
     <Compile Include="Event\NaoToGoal\StateEvent.cs" />
     <Compile Include="Event\NaoToGoal\DataSendingNaoEvent.cs" />
     <Compile Include="Event\NaoToGoal\SuccessEvent.cs" />
+    <Compile Include="Grabbing\CoolGrabber.cs" />
     <Compile Include="GUI\BatteryMonitor.cs">
       <SubType>UserControl</SubType>
     </Compile>
