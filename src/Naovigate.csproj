@@ -124,8 +124,6 @@
     </Compile>
     <Compile Include="GUI\UpdaterThread.cs" />
     <Compile Include="MainProgram.cs" />
-    <Compile Include="Movement\MarkerSearchThread.cs" />
-    <Compile Include="Movement\ObjectSearchThread.cs" />
     <Compile Include="Movement\Walk.cs" />
     <Compile Include="Util\PriorityQueue.cs" />
     <Compile Include="Vision\Camera.cs" />
