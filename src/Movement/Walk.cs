@@ -72,17 +72,17 @@ namespace Naovigate.Movement
         /*
          * Turn (normalized) dir and walk till the Nao is within dist pieces of wall of the marker with MarkID = markerID
          */
-        public void WalkTowardsMarker(float dir, int markerID, double dist)
+        public MarkerSearchThread WalkTowardsMarker(float dir, int markerID, double dist)
         {
             StopLooking();
             WalkTo(0, 0, dir);
             StartWalking(0.5F, 0, 0);
-            this.markerID = markerID;
-            found = false;
-            this.dist = dist;
-            
-            t = new Thread(new ThreadStart(LookForMarker));
+            //this.markerID = markerID;
+            //found = false;
+            //this.dist = dist;
+            MarkerSearchThread t = new MarkerSearchThread(markerID,dist);
             t.Start();
+            return t;
         }
 
         /*
@@ -124,23 +124,14 @@ namespace Naovigate.Movement
         /*
          * Turn (normalized) dir and walk till the Nao is within dist pieces of wall of the object with id ObjectID
          */
-        public void WalkTowardsObject(float dir, int objectID, double dist)
+        public ObjectSearchThread WalkTowardsObject(float dir, int objectID, double dist)
         {
-            
-        }
-
-        public void LookForObject()
-        {
-
-        }
-
-        /*
-         * return found
-         * found is true when the marker with MarkID = markerID has been found and reached
-         * */
-        public Boolean IsFound()
-        {
-            return found;
+            StopLooking();
+            WalkTo(0, 0, dir);
+            StartWalking(0.5F, 0, 0);
+            ObjectSearchThread t = new ObjectSearchThread(objectID, dist);
+            t.Start();
+            return t;
         }
 
         /*
@@ -148,11 +139,6 @@ namespace Naovigate.Movement
          * */
         public void StopLooking()
         {
-            if (t != null)
-            {
-                t.Abort();
-                t = null;
-            }
             StopMove();
         }
 
