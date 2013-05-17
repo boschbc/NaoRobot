@@ -43,7 +43,7 @@ namespace Naovigate.Event.GoalToNao
         public override void Fire()
         {
             // go to the object first
-            Walk.Instance.WalkTowardsObject(0,0,0);
+            searchThread = Walk.Instance.WalkTowardsObject(0,0,0);
 
             // grab the object
             Grabber.Instance.Grab();
