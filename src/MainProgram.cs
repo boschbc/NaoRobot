@@ -18,7 +18,7 @@ namespace Naovigate
             //Use this switch to deactivate debugger invocation:
             //bool Debug = true;
             //string localhost = "127.0.0.1";
-            string Nao = "192.168.0.126";
+            string Nao = "192.168.0.128";
 
             //NaoState.Connect(Nao, 9559);
             //Camera cm = new Camera("awesome");
