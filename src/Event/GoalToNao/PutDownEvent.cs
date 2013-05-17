@@ -1,5 +1,8 @@
 ﻿using System;
+
 using Naovigate.Communication;
+using Naovigate.Event.NaoToGoal;
+using Naovigate.Haptics;
 
 namespace Naovigate.Event.GoalToNao
 {
@@ -21,7 +24,16 @@ namespace Naovigate.Event.GoalToNao
          */
         public override void Fire()
         {
-
+            NaoEvent statusEvent = new SuccessEvent(EventQueue.Instance.GetID(this)); ;
+            try
+            {
+                Grabber.Instance.PutDown();
+            }
+            catch
+            {
+                statusEvent = new FailureEvent(EventQueue.Instance.GetID(this));
+            }
+            EventQueue.Instance.Enqueue(statusEvent);
         }
 
         /*
@@ -29,7 +41,14 @@ namespace Naovigate.Event.GoalToNao
          */
         public override void Abort()
         {
-
+            try
+            {
+                Grabber.Abort();
+            }
+            catch
+            {
+                EventQueue.Instance.Enqueue(new ErrorEvent());
+            }
         }
     }
 }

@@ -16,6 +16,8 @@ namespace Naovigate.Event.GoalToNao
      */
     public class HaltEvent : NaoEvent
     {
+        public HaltEvent() : base(Priority.Medium) { }
+        
         /*
          * See the INaoEvent class docs for documentation of this method.
          */
@@ -37,10 +39,8 @@ namespace Naovigate.Event.GoalToNao
 
         /*
          * See the INaoEvent class docs for documentation of this method.
+         * The Halt Event cannot be aborted (has no effect).
          */
-        public override void Abort()
-        {
-            // The halt event cannot be aborted and therefore this method remains empty.
-        }
+        public override void Abort() { }
     }
 }

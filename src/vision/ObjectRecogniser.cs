@@ -25,14 +25,24 @@ namespace Naovigate.Vision
         {
             objectRecognizer = new VisionRecognitionProxy(ip, port);
             objectRecognizer.subscribe("VisionRecognizer", 1000, 0F);
-
             memory = new MemoryProxy(ip, port);
+            
         }
 
         //returns object data
         public ArrayList GetObjectData()
         {
-            return (ArrayList)memory.getData("PictureDetected");
+            try
+            {
+                return (ArrayList)memory.getData("PictureDetected");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                ArrayList res = new ArrayList();
+                return res;
+
+            }
         }
 
         public void InsertVisionDataBase()

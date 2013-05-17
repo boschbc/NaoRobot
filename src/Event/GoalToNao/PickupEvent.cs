@@ -2,6 +2,7 @@
 using Naovigate.Communication;
 using Naovigate.Haptics;
 using Naovigate.Movement;
+using Naovigate.Util;
 namespace Naovigate.Event.GoalToNao
 {
     /*
@@ -43,7 +44,7 @@ namespace Naovigate.Event.GoalToNao
         public override void Fire()
         {
             // go to the object first
-            Walk.Instance.WalkTowardsObject(0,0,0);
+            searchThread = Walk.Instance.WalkTowardsObject(0,0,0);
 
             // grab the object
             Grabber.Instance.Grab();

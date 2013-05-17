@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Naovigate.Util;
 using Naovigate.Communication;
 
@@ -9,18 +10,16 @@ namespace Naovigate.Event.GoalToNao
      */
     public class ExitEvent : NaoEvent
     {
-        private static readonly String exitMessage = "Never Gona Give You Up. Shutting down";
+        private static readonly String ExitMessage = "Never gonna give you up. Shutting down.";
+        
+        public ExitEvent() : base(Priority.High) { }
+
         /*
          * See the INaoEvent class docs for documentation of this method.
          */
-        public ExitEvent()
-        {
-            this.Priority = Priority.High;
-        }
-
         public override void Fire()
         {
-            NaoState.SpeechProxy.say(exitMessage);
+            NaoState.SpeechProxy.say(ExitMessage);
             Environment.Exit(0);
         }
 
