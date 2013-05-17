@@ -63,7 +63,7 @@ namespace Naovigate.Haptics
 
         }
 
-        internal static void Abort()
+        public static void Abort()
         {
             throw new NotImplementedException();
         }
