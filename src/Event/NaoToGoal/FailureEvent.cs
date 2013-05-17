@@ -9,8 +9,9 @@ namespace Naovigate.Event.NaoToGoal
     {
         /*
          * Explicit constructor.
+         * @param id The ID of the event which failed.
          */
-        public FailureEvent(EventCode code) : base((byte)EventCode.Failure, (int)code) { }
+        public FailureEvent(int eventID) : base((byte)EventCode.Failure, eventID) { }
 
         /*
          * Fires the event.

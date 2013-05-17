@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>..\src\lib\Moq.4.0.10827\NET40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\src\lib\NUnit-2.6.2\bin\nunit.framework.dll</HintPath>
     </Reference>
@@ -46,6 +49,8 @@
   <ItemGroup>
     <Compile Include="Communication\CommunicationStreamTest.cs" />
     <Compile Include="Communication\GoalComsStub.cs" />
+    <Compile Include="Event\GoalToNao\PickupEventTest.cs" />
+    <Compile Include="Event\EventTestingUtilities.cs" />
     <Compile Include="Util\PriorityQueueTest.cs" />
     <Compile Include="Event\EventQueueTest.cs" />
     <Compile Include="Event\NaoEventFactoryTest.cs" />

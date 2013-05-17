@@ -9,6 +9,7 @@ namespace Naovigate.Event.NaoToGoal
     {
         /*
          * Explicit constructor.
+         * @param id Error-ID
          */
         public ErrorEvent(int id) : base((byte)EventCode.Error, id) { }
     }

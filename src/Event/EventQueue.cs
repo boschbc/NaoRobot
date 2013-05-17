@@ -162,5 +162,10 @@ namespace Naovigate.Event
         {
             return EventsQueuedCount() == 0 && !inAction;
         }
+
+        public int GetID(INaoEvent e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

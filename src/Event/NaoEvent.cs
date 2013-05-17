@@ -16,7 +16,6 @@ namespace Naovigate.Event
          */
         public NaoEvent()
         {
-            Console.WriteLine("Set Stream of event "+this);
             stream = GoalCommunicator.Instance.Coms;
             priority = Priority.Medium;
         }
@@ -31,7 +30,7 @@ namespace Naovigate.Event
         }
 
         /*
-         * 
+         * The internal CommunicationStream of this event.
          */
         public CommunicationStream Stream
         {

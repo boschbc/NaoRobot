@@ -1,12 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 
 using Naovigate.Communication;
+using Naovigate.Event.NaoToGoal;
+using Naovigate.Haptics;
+using Naovigate.Movement;
+using Naovigate.Vision;
 
 namespace Naovigate.Event.GoalToNao
 {
     /*
-     * Stop all actions the Nao is doing.
+     * Stop all actions the Nao is doing:
+     *  - Aborts any grabbing operations.
+     *  - Aborts any movement operations.
+     *  - Deactivates the sonar.
      */
     public class HaltEvent : NaoEvent
     {
@@ -15,7 +21,18 @@ namespace Naovigate.Event.GoalToNao
          */
         public override void Fire()
         {
-
+            NaoEvent statusEvent = new SuccessEvent(EventQueue.Instance.GetID(this)); ;
+            try
+            {
+                Grabber.Abort();
+                Walk.Instance.Abort();
+                Sonar.Instance.Deactivate();
+            }
+            catch
+            {
+                statusEvent = new FailureEvent(EventQueue.Instance.GetID(this));
+            }
+            EventQueue.Instance.Enqueue(statusEvent);
         }
 
         /*
@@ -23,7 +40,7 @@ namespace Naovigate.Event.GoalToNao
          */
         public override void Abort()
         {
-
+            // The halt event cannot be aborted and therefore this method remains empty.
         }
     }
 }

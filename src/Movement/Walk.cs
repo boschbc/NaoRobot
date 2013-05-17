@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Collections;
 using System.Threading;
@@ -165,6 +164,11 @@ namespace Naovigate.Movement
         public void StopMove()
         {
             motion.stopMove();
+        }
+
+        public void Abort()
+        {
+            throw new NotImplementedException();
         }
     }
 }

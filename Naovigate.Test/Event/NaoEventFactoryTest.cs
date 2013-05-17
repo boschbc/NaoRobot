@@ -3,10 +3,12 @@ using System.IO;
 
 using NUnit.Framework;
 
-using Naovigate.Test.Communication;
 using Naovigate.Communication;
 using Naovigate.Event;
 using Naovigate.Event.GoalToNao;
+
+using Naovigate.Test.Communication;
+using Naovigate.Test.Event;
 
 namespace Naovigate.Testing.Event
 {
@@ -26,22 +28,6 @@ namespace Naovigate.Testing.Event
         private CommunicationStream invalidInputStream;
         private byte invalidEventCode;
 
-        /*
-         * Creates a stream and fill it with data.
-         */
-        private CommunicationStream BuildStream(params int[] input)
-        {
-            MemoryStream mem = new MemoryStream();
-            CommunicationStream com = new CommunicationStream(mem);
-
-            foreach (int i in input)
-            {
-                com.WriteInt(i);
-            }
-            mem.Position = 0;  //Bring the seeker back to the start.
-            return com;
-        }
-
         [TestFixtureSetUp]
         public void initOnce()
         {
@@ -53,12 +39,12 @@ namespace Naovigate.Testing.Event
         {
 
             int objectID = 43;  //Dummy
-            exitInputStream = BuildStream();
-            putDownInputStream = BuildStream();
-            goToInputStream = BuildStream(objectID, 0);
-            pickupInputStream = BuildStream(objectID);
-            haltInputStream = BuildStream();
-            invalidInputStream = BuildStream(-1);
+            exitInputStream = EventTestingUtilities.BuildStream();
+            putDownInputStream = EventTestingUtilities.BuildStream();
+            goToInputStream = EventTestingUtilities.BuildStream(objectID, 0);
+            pickupInputStream = EventTestingUtilities.BuildStream(objectID);
+            haltInputStream = EventTestingUtilities.BuildStream();
+            invalidInputStream = EventTestingUtilities.BuildStream(-1);
             invalidEventCode = 99;
         }
 

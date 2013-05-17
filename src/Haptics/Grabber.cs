@@ -48,5 +48,10 @@ namespace Naovigate.Haptics
             );
             NaoState.Update();
         }
+
+        internal static void Abort()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

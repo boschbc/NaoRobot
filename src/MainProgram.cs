@@ -43,7 +43,7 @@ namespace Naovigate
             //}
             
             if (Debug)
-                LaunchDebugger.DebugMain(robotutor);
+                LaunchDebugger.DebugMain(localhost);
 
         }
 
