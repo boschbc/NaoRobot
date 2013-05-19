@@ -5,11 +5,11 @@ using System.Text;
 using System.Diagnostics;
 using Naovigate.Util;
 using NUnit.Framework;
-namespace Naovigate.Testing
+namespace Naovigate.Test
 {
-   
-    [TestFixture]
-    class PriorityQueueTest
+
+    [TestFixture, Timeout(2500)]
+    public class PriorityQueueTest
     {
         private static PriorityQueue<int> q;
 

@@ -8,14 +8,13 @@ using Naovigate.Event;
 using Naovigate.Event.GoalToNao;
 
 using Naovigate.Test.Communication;
-using Naovigate.Test.Event;
 
-namespace Naovigate.Testing.Event
+namespace Naovigate.Test.Event
 {
     /*
      * A test-suite for testing of the NaoEventFactory class.
      */
-    [TestFixture]
+    [TestFixture, Timeout(2500)]
     public class NaoEventFactoryTests
     {
 

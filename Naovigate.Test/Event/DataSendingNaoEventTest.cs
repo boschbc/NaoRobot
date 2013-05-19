@@ -7,6 +7,7 @@ using System.IO;
 
 namespace Naovigate.Test.Event
 {
+    [TestFixture, Timeout(2500)]
     public class DataSendingNaoEventTest
     {
         private GoalComsStub coms;

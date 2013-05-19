@@ -8,8 +8,10 @@ using NUnit.Framework;
 
 using Naovigate.Event;
 
-namespace Naovigate.Testing{
-	class EventQueueTest{
+namespace Naovigate.Test
+{
+    [TestFixture, Timeout(2500)]
+	public class EventQueueTest{
         private Tracker t;
         private EventQueue q;
 		private void Add(params INaoEvent[] events){

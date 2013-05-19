@@ -5,7 +5,7 @@ using Naovigate.Communication;
 
 namespace Naovigate.Test.Event
 {
-    class EventTestingUtilities
+    public class EventTestingUtilities
     {
         /*
          * Creates a stream and fill it with data.

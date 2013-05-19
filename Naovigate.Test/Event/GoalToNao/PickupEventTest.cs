@@ -19,7 +19,7 @@ namespace Naovigate.Test.Event.GoalToNao
     /*
      * A test-suite for testing of the PickupEvent class.
      */
-    [TestFixture]
+    [TestFixture, Timeout(2500)]
     public class PickupEventTest
     {
         private static int ExpectedID = 43;

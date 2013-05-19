@@ -6,7 +6,7 @@ using System.IO;
 using Naovigate.Communication;
 using NUnit.Framework;
 
-namespace Naovigate.Testing
+namespace Naovigate.Test
 {
     class CommunicationStreamTest
     {
