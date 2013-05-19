@@ -24,6 +24,7 @@ namespace Naovigate.Event
          */
         private PriorityQueue<INaoEvent> q;
         private Thread thread;
+        private bool suspended;
 
         private EventWaitHandle locker = new AutoResetEvent(false);
 
@@ -71,6 +72,24 @@ namespace Naovigate.Event
         }
 
         /*
+         * Suspends the firing of events. events can still be added to the queue.
+         */
+        public void Suspend()
+        {
+            suspended = true;
+        }
+
+        /*
+         * Continue firing events.
+         * if the EventQueue was not suspended, this has no effect.
+         */
+        public void Resume()
+        {
+            suspended = false;
+            locker.Set();
+        }
+
+        /*
         * return the EventQueue instance for nao events
         */
         public static EventQueue Instance
@@ -107,7 +126,7 @@ namespace Naovigate.Event
         {
             while (true)
             {
-                while (!IsEmpty())
+                while (!IsEmpty() && !suspended)
                 {
                     FireEvent();
                 }
@@ -146,6 +165,7 @@ namespace Naovigate.Event
                 // there was an event available, fire it
                 Console.WriteLine("Firing " + e + "\n" + EventsQueuedCount()+" Events left.");
                 e.Fire();
+                Console.WriteLine("Fired");
             }
             inAction = false;
         }

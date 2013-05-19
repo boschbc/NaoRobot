@@ -65,7 +65,6 @@
     <Compile Include="Event\NaoToGoal\FailureEvent.cs" />
     <Compile Include="Event\NaoToGoal\SeeEvent.cs" />
     <Compile Include="Event\NaoToGoal\DistanceToEvent.cs" />
-    <Compile Include="Event\NaoToGoal\NaoToGoalEvent.cs" />
     <Compile Include="Event\NaoToGoal\HoldingEvent.cs" />
     <Compile Include="Event\NaoToGoal\LocationEvent.cs" />
     <Compile Include="Event\NaoToGoal\AgentEvent.cs" />

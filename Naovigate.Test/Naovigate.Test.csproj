@@ -49,17 +49,18 @@
   <ItemGroup>
     <Compile Include="Communication\CommunicationStreamTest.cs" />
     <Compile Include="Communication\GoalComsStub.cs" />
+    <Compile Include="Event\GoalToNao\GoToEventTest.cs" />
+    <Compile Include="Event\GoalToNao\HaltEventTest.cs" />
     <Compile Include="Event\GoalToNao\PickupEventTest.cs" />
     <Compile Include="Event\EventTestingUtilities.cs" />
     <Compile Include="Event\DataSendingNaoEventTest.cs" />
+    <Compile Include="Event\GoalToNao\PutDownEventTest.cs" />
     <Compile Include="Util\PriorityQueueTest.cs" />
     <Compile Include="Event\EventQueueTest.cs" />
-    <Compile Include="Event\NaoEventFactoryTest.cs" />
+    <Compile Include="GUI\NaoEventFactoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="GUI\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\src\Naovigate.csproj">
       <Project>{E716A50D-7773-4AE2-B73F-9FC95F72C798}</Project>
