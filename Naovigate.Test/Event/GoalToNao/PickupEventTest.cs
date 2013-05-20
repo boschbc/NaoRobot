@@ -61,6 +61,7 @@ namespace Naovigate.Test.Event.GoalToNao
         public void AbortTest()
         {
             //TODO
+            Assert.IsTrue(false);
         }
     }
 }

@@ -12,22 +12,22 @@ namespace Naovigate
 {
     class MainProgram
     {
+        public static readonly int port = 9559;
+        public static readonly string localhost = "127.0.0.1";
+        public static readonly string nao = "192.168.0.128";
+
+        // Use this switch to deactivate debugger invocation:
+        public static readonly bool useDebugGui = false;
         public static void Main(String[] args)
         {
             ShutDownHook();
-            //Use this switch to deactivate debugger invocation:
-            //bool Debug = true;
-            //string localhost = "127.0.0.1";
-            string Nao = "192.168.0.128";
 
-            //NaoState.Connect(Nao, 9559);
-            //Camera cm = new Camera("awesome");
-            //cm.StartVideo();
-            //cm.CallibrateCamera(3);
-            //System.Threading.Thread.Sleep(1000);
-            //cm.StopVideo();
+            Stuff();
+        }
 
-            ObjectRecogniser recognizer = new ObjectRecogniser(Nao, 9559);
+        public static void Stuff()
+        {
+            ObjectRecogniser recognizer = new ObjectRecogniser(nao, 9559);
             //recognizer.InsertVisionDataBase();
             Console.WriteLine("Connected");
             bool found = false;
@@ -54,6 +54,20 @@ namespace Naovigate
                 }
                 System.Threading.Thread.Sleep(3000);
             }
+        }
+
+        private static void TmpTest()
+        {
+            Console.WriteLine("Connect");
+            NaoState.Connect(nao, port);
+
+            NaoState.MotionProxy.wakeUp();
+            Console.WriteLine("Put Down");
+            Naovigate.Movement.Pose.Instance.Welcome();
+            Naovigate.Grabbing.Grabber.Instance.PutDown();
+            
+            Console.WriteLine("End");
+            System.Threading.Thread.Sleep(1000);
         }
 
         private static void ShutDownHook()

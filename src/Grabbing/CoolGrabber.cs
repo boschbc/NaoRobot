@@ -5,7 +5,7 @@ using System.Text;
 using System.Collections;
 using Aldebaran.Proxies;
 
-namespace Naovigate.Haptics
+namespace Naovigate.Grabbing
 {
     class CoolGrabber
     {

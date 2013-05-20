@@ -40,7 +40,7 @@ namespace Naovigate.Test.Event
             int objectID = 43;  //Dummy
             exitInputStream = EventTestingUtilities.BuildStream();
             putDownInputStream = EventTestingUtilities.BuildStream();
-            goToInputStream = EventTestingUtilities.BuildStream(objectID, 0);
+            goToInputStream = EventTestingUtilities.BuildStream(0, objectID, 0);
             pickupInputStream = EventTestingUtilities.BuildStream(objectID);
             haltInputStream = EventTestingUtilities.BuildStream();
             invalidInputStream = EventTestingUtilities.BuildStream(-1);
