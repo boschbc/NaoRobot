@@ -29,8 +29,8 @@ namespace Naovigate.GUI
             }
             else
             {
-                PointF location = NaoState.Location;
-                float rotation = NaoState.Rotation;
+                PointF location = NaoState.Instance.Location;
+                float rotation = NaoState.Instance.Rotation;
                 label.Text = String.Format(Format,
                                     Math.Round(location.X, 2),
                                     Math.Round(location.Y, 2),

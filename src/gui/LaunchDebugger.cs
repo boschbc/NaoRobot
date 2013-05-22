@@ -15,7 +15,7 @@ namespace Naovigate.Testing.GUI
                 ip = args[0];
             
             int port = 9559;
-            NaoState.Connect(ip, port);
+            NaoState.Instance.Connect(ip, port);
             Application.Run(new NaoDebugger());
         }
     }

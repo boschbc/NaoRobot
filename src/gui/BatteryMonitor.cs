@@ -23,7 +23,7 @@ namespace Naovigate.GUI
             {
                 batteryGauge.Invoke(new MethodInvoker(UpdateContent));
             }
-            batteryGauge.Value = NaoState.BatteryPercentageLeft;
+            batteryGauge.Value = NaoState.Instance.BatteryPercentageLeft;
         }
     }
 }

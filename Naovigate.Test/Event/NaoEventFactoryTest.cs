@@ -10,7 +10,7 @@ using Naovigate.Event.GoalToNao;
 using Naovigate.Test.Communication;
 using Naovigate.Test.Event;
 
-namespace Naovigate.Testing.Event
+namespace Naovigate.Test.Event
 {
     /*
      * A test-suite for testing of the NaoEventFactory class.
@@ -41,7 +41,7 @@ namespace Naovigate.Testing.Event
             int objectID = 43;  //Dummy
             exitInputStream = EventTestingUtilities.BuildStream();
             putDownInputStream = EventTestingUtilities.BuildStream();
-            goToInputStream = EventTestingUtilities.BuildStream(objectID, 0);
+            goToInputStream = EventTestingUtilities.BuildStream(0, objectID, 0);
             pickupInputStream = EventTestingUtilities.BuildStream(objectID);
             haltInputStream = EventTestingUtilities.BuildStream();
             invalidInputStream = EventTestingUtilities.BuildStream(-1);

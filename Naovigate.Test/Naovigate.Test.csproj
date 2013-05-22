@@ -35,6 +35,10 @@
     <Reference Include="Moq">
       <HintPath>..\src\lib\Moq.4.0.10827\NET40\Moq.dll</HintPath>
     </Reference>
+    <Reference Include="naoqi-dotnet4, Version=1.14.1.16, Culture=neutral, PublicKeyToken=b9b4e24bd78100d6, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Aldebaran\NAOqi.Net 1.14.1.16\naoqi-dotnet4.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\src\lib\NUnit-2.6.2\bin\nunit.framework.dll</HintPath>
     </Reference>

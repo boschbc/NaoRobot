@@ -19,7 +19,7 @@ namespace Naovigate.Event.GoalToNao
          */
         public override void Fire()
         {
-            NaoState.SpeechProxy.say(ExitMessage);
+            NaoState.Instance.SpeechProxy.say(ExitMessage);
             Environment.Exit(0);
         }
 

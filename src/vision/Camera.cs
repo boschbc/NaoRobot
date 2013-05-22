@@ -20,7 +20,7 @@ namespace Naovigate.Vision
         public Camera(string subID)
         {
             subscriberID = subID;
-            videoProxy = NaoState.VideoProxy;
+            videoProxy = NaoState.Instance.VideoProxy;
             Enabled = false;
         }
 
@@ -78,7 +78,7 @@ namespace Naovigate.Vision
          */
         public Image GetImage()
         {
-            if (!NaoState.Connected)
+            if (!NaoState.Instance.Connected)
                 return null;
             ArrayList imageObject = GetRawImage();
             int width = (int)imageObject[0];

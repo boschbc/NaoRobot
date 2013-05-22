@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+
 using Aldebaran.Proxies;
+
 using System.Collections;
 using Naovigate.Util;
 
@@ -19,15 +19,15 @@ namespace Naovigate.Vision
 
         public static MarkerRecogniser GetInstance()
         {
-            return instance == null ? instance = new MarkerRecogniser(NaoState.IP.ToString(), NaoState.Port) : instance;
+            return instance == null ? instance = new MarkerRecogniser() : instance;
         }
 
-        public MarkerRecogniser(String ip, int port)
+        public MarkerRecogniser()
         {
-            detector = new LandMarkDetectionProxy(ip, port);
+            detector = NaoState.Instance.LandMarkDetectionProxy;
             detector.subscribe("MarkerRecogniser", 1000, 0F);
 
-            memory = new MemoryProxy(ip, port);
+            memory = NaoState.Instance.MemoryProxy;
         }
 
         public static double estimateDistance(float sizeY)

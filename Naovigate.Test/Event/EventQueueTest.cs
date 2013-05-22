@@ -8,7 +8,7 @@ using NUnit.Framework;
 
 using Naovigate.Event;
 
-namespace Naovigate.Testing{
+namespace Naovigate.Test.Event {
 	class EventQueueTest{
         private Tracker t;
         private EventQueue q;

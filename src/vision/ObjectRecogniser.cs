@@ -18,7 +18,7 @@ namespace Naovigate.Vision
 
         public static VisionRecognitionProxy GetInstance()
         {
-            return instance == null ? instance = new VisionRecognitionProxy(NaoState.IP.ToString(), NaoState.Port) : instance;
+            return instance == null ? instance = new VisionRecognitionProxy(NaoState.Instance.IP.ToString(), NaoState.Instance.Port) : instance;
         }
 
         public ObjectRecogniser(String ip, int port)

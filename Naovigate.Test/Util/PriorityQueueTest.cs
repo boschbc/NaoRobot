@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Diagnostics;
-using Naovigate.Util;
+
 using NUnit.Framework;
-namespace Naovigate.Testing
+
+using Naovigate.Util;
+
+namespace Naovigate.Test.Util
 {
    
     [TestFixture]

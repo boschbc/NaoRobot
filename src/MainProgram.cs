@@ -16,11 +16,15 @@ namespace Naovigate
         {
             ShutDownHook();
             //Use this switch to deactivate debugger invocation:
-            //bool Debug = true;
-            //string localhost = "127.0.0.1";
+            bool Debug = false;
+            string localhost = "127.0.0.1";
             string Nao = "192.168.0.128";
-
-            //NaoState.Connect(Nao, 9559);
+            if (Debug)
+            {
+                LaunchDebugger.DebugMain(localhost);
+                return;
+            }
+            //NaoState.Instance.Connect(Nao, 9559);
             //Camera cm = new Camera("awesome");
             //cm.StartVideo();
             //cm.CallibrateCamera(3);
@@ -64,7 +68,7 @@ namespace Naovigate
         private static void Cleanup(object sender, EventArgs e)
         {
             Console.WriteLine("Shutting down...");
-            NaoState.Disconnect();
+            NaoState.Instance.Disconnect();
         }
     }
 }

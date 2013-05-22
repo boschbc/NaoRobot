@@ -63,13 +63,13 @@ namespace Naovigate.GUI
          */
         private void UpdateContent()
         {
-            if (!NaoState.Connected)
+            if (!NaoState.Instance.Connected)
                 return;
-            else if (NaoState.OutOfDate(Interval))
+            else if (NaoState.Instance.OutOfDate(Interval))
             {
                 try
                 {
-                    NaoState.Update();
+                    NaoState.Instance.Update();
                 }
                 catch (UnavailableConnectionException except)
                 {

@@ -9,6 +9,8 @@ using Naovigate.Communication;
 using Naovigate.Event;
 using Naovigate.Event.GoalToNao;
 using Naovigate.Event.NaoToGoal;
+using Naovigate.Haptics;
+using Naovigate.Movement;
 using Naovigate.Util;
 
 using Naovigate.Test.Communication;
@@ -16,9 +18,9 @@ using Naovigate.Test.Event;
 
 namespace Naovigate.Test.Event.GoalToNao
 {
-    /*
-     * A test-suite for testing of the PickupEvent class.
-     */
+    /// <summary>
+    /// A test-suite for testing of the PickupEvent class.
+    /// </summary>
     [TestFixture]
     public class PickupEventTest
     {
@@ -36,7 +38,7 @@ namespace Naovigate.Test.Event.GoalToNao
         /// <param name="fieldName">The field's name which is to be fetched.</param>
         ///
         /// <returns>The field value from the object.</returns>
-        internal static object GetInstanceField(Type type, object instance, string fieldName)
+        private static object GetInstanceField(Type type, object instance, string fieldName)
         {
             BindingFlags bindFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic
                 | BindingFlags.Static;
@@ -68,16 +70,22 @@ namespace Naovigate.Test.Event.GoalToNao
         [Test]
         public void FireTest()
         {
+            EventTestingUtilities.RequireWebots();
+
             Type[] expectedResults = new Type[2] {typeof(SuccessEvent), typeof(FailureEvent)};
-            PriorityQueue<INaoEvent> q = (PriorityQueue<INaoEvent>)GetInstanceField(typeof(EventQueue), EventQueue.Instance, "q");
             pickupEvent.Fire();
+            PriorityQueue<INaoEvent> q = (PriorityQueue<INaoEvent>)GetInstanceField(typeof(EventQueue), EventQueue.Instance, "q");
             Assert.Contains(q.Dequeue(), expectedResults);
         }
 
         [Test]
         public void AbortTest()
         {
-            //TODO
+            EventTestingUtilities.RequireWebots();
+            pickupEvent.Fire();
+            pickupEvent.Abort();
+            PriorityQueue<INaoEvent> q = (PriorityQueue<INaoEvent>)GetInstanceField(typeof(EventQueue), EventQueue.Instance, "q");
+            Assert.IsTrue(q.IsEmpty());
         }
     }
 }

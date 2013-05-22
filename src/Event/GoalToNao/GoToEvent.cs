@@ -72,7 +72,8 @@ namespace Naovigate.Event.GoalToNao
         {
             try
             {
-                worker.Abort();
+                if (worker != null)
+                    worker.Abort();
             }
             catch
             {

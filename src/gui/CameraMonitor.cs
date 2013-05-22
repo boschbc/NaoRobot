@@ -35,7 +35,7 @@ namespace Naovigate.GUI
 
         private void Init()
         {
-            if (NaoState.Connected)
+            if (NaoState.Instance.Connected)
             {
                 camera = new Camera(SubscriberID);
                 camera.Enabled = true;
@@ -79,18 +79,18 @@ namespace Naovigate.GUI
 
         public void UpdateContent()
         {
-            if (!NaoState.Connected)
+            if (!NaoState.Instance.Connected)
                 return;
             else if (camera == null)
             {
                 camera = new Camera(SubscriberID);
                 camera.Enabled = true;
             }
-            if (NaoState.OutOfDate(Interval))
+            if (NaoState.Instance.OutOfDate(Interval))
             {
                 try
                 {
-                    NaoState.Update();
+                    NaoState.Instance.Update();
                 }
                 catch (UnavailableConnectionException e)
                 {

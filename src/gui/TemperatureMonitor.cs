@@ -43,8 +43,8 @@ namespace Naovigate.GUI
             }
             else
             {
-                labelAlert.Text = String.Format(Format, NaoState.Temperature.ToString());
-                if (NaoState.Temperature > 75)
+                labelAlert.Text = String.Format(Format, NaoState.Instance.Temperature.ToString());
+                if (NaoState.Instance.Temperature > 75)
                     SetTemperatureHot();
                 else
                     SetTemperatureOK();

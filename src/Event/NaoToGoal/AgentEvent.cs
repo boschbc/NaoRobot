@@ -20,7 +20,7 @@ namespace Naovigate.Event.NaoToGoal
          */
         private static int ID
         {
-            get { return NaoState.IP.GetHashCode(); }
+            get { return NaoState.Instance.IP.GetHashCode(); }
         }
     }
 }
