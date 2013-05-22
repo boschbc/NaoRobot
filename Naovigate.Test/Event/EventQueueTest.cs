@@ -8,9 +8,9 @@ using NUnit.Framework;
 
 using Naovigate.Event;
 
-namespace Naovigate.Test.Event {
-	class EventQueueTest{
-        private Tracker t;
+namespace Naovigate.Test.Event
+{	[TestFixture, Timeout(2500)]
+	public class EventQueueTest{        private Tracker t;
         private EventQueue q;
 		private void Add(params INaoEvent[] events){
 		    q.Enqueue(events);
@@ -98,6 +98,29 @@ namespace Naovigate.Test.Event {
             Assert.AreEqual(15, t.events.Count());
         }
 
+        [Test]
+        public void SuspendAndResumeTest()
+        {
+            q.Suspend();
+            Add(new TEvent(t, Priority.Low),
+                    new TEvent(t, Priority.High),
+                    new TEvent(t, Priority.Medium),
+                    new TEvent(t, Priority.Low),
+                    new TEvent(t, Priority.Low));
+            Thread.Sleep(250);
+            // none fired, queue is suspended
+            Assert.AreEqual(0, t.events.Count());
+            q.Resume();
+            WaitFor();
+
+            // should all be fired as normal
+            Assert.AreEqual(5, t.events.Count());
+            Assert.AreEqual(Priority.High, t.events[0].Priority);
+            Assert.AreEqual(Priority.Medium, t.events[1].Priority);
+            Assert.AreEqual(Priority.Low, t.events[2].Priority);
+            Assert.AreEqual(Priority.Low, t.events[3].Priority);
+            Assert.AreEqual(Priority.Low, t.events[4].Priority);
+        }
 	}
 
     class Tracker{

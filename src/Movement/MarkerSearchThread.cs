@@ -7,6 +7,11 @@ using Naovigate.Vision;
 
 namespace Naovigate.Movement
 {
+    /*
+     * Try to detect the marker with MarkID = markerID.
+     * When the Nao sees the marker, it heads towards the marker.
+     * When the Nao is within dist pieces of wall of the marker, the Nao stops moving and found is set to true
+     */
     public class MarkerSearchThread : ActionExecutor
     {
         private bool found;

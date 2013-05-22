@@ -2,7 +2,7 @@
 
 using Naovigate.Communication;
 using Naovigate.Event.NaoToGoal;
-using Naovigate.Haptics;
+using Naovigate.Grabbing;
 using Naovigate.Movement;
 using Naovigate.Vision;
 

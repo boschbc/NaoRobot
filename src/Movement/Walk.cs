@@ -17,14 +17,11 @@ namespace Naovigate.Movement
 
         private static Walk instance = null;
 
-        private int markerID = -1;
-        private Boolean found = false;
-        private double dist = 1;
-
         public Walk()
         {
             motion = NaoState.Instance.MotionProxy;
             posture = NaoState.Instance.PostureProxy;
+            instance = this;
         }
 
         public static Walk Instance
@@ -80,42 +77,6 @@ namespace Naovigate.Movement
             MarkerSearchThread t = new MarkerSearchThread(markerID,dist);
             t.Start();
             return t;
-        }
-
-        /*
-         * Try to detect the marker with MarkID = markerID.
-         * When the Nao sees the marker, it heads towards the marker.
-         * When the Nao is within dist pieces of wall of the marker, the Nao stops moving and found is set to true
-         * */
-        public void LookForMarker()
-        {
-            MarkerRecogniser rec = MarkerRecogniser.GetInstance();
-            ArrayList markers;
-
-                while (!found)
-                {
-                    ArrayList data = rec.GetMarkerData();
-                    markers = data.Count == 0 ? data : (ArrayList)data[1];
-                    for (int i = 0; i < markers.Count && !found; i++)
-                    {
-                        ArrayList marker = (ArrayList)markers[i];
-                        if ((int)((ArrayList)marker[1])[0] == markerID)
-                        {
-                            float angle = ((float)((ArrayList)marker[0])[1]) / 4F;
-                            StartWalking(0.5F, 0, Math.Max(-1, Math.Min(1, angle)));
-
-                            float sizeY = ((float)((ArrayList)marker[0])[4]);
-
-                            if (MarkerRecogniser.estimateDistance(sizeY) <= dist)
-                            {
-                                StopMove();
-                                found = true;
-                            }
-                        }
-                    }
-                    Thread.Sleep(250);
-                }
-                Console.WriteLine("Exit LookForMarker");
         }
 
         /*

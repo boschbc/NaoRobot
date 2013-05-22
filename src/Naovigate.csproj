@@ -65,13 +65,13 @@
     <Compile Include="Event\NaoToGoal\FailureEvent.cs" />
     <Compile Include="Event\NaoToGoal\SeeEvent.cs" />
     <Compile Include="Event\NaoToGoal\DistanceToEvent.cs" />
-    <Compile Include="Event\NaoToGoal\NaoToGoalEvent.cs" />
     <Compile Include="Event\NaoToGoal\HoldingEvent.cs" />
     <Compile Include="Event\NaoToGoal\LocationEvent.cs" />
     <Compile Include="Event\NaoToGoal\AgentEvent.cs" />
     <Compile Include="Event\NaoToGoal\StateEvent.cs" />
     <Compile Include="Event\NaoToGoal\DataSendingNaoEvent.cs" />
     <Compile Include="Event\NaoToGoal\SuccessEvent.cs" />
+    <Compile Include="Grabbing\CoolGrabber.cs" />
     <Compile Include="GUI\BatteryMonitor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -126,6 +126,7 @@
     <Compile Include="MainProgram.cs" />
     <Compile Include="Movement\MarkerSearchThread.cs" />
     <Compile Include="Movement\ObjectSearchThread.cs" />
+    <Compile Include="Movement\Pose.cs" />
     <Compile Include="Movement\Walk.cs" />
     <Compile Include="Util\PriorityQueue.cs" />
     <Compile Include="Util\ActionExecutor.cs" />
@@ -134,7 +135,7 @@
     <Compile Include="Vision\MarkerRecogniser.cs" />
     <Compile Include="Vision\ObjectRecogniser.cs" />
     <Compile Include="Vision\Processing.cs" />
-    <Compile Include="Haptics\Grabber.cs" />
+    <Compile Include="Grabbing\Grabber.cs" />
     <Compile Include="Util\NaoState.cs" />
     <Compile Include="Communication\IPScanner.cs" />
     <Compile Include="Vision\Sonar.cs" />

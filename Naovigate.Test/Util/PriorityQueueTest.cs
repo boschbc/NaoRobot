@@ -7,9 +7,9 @@ using Naovigate.Util;
 
 namespace Naovigate.Test.Util
 {
-   
-    [TestFixture]
-    class PriorityQueueTest
+
+    [TestFixture, Timeout(2500)]
+    public class PriorityQueueTest
     {
         private static PriorityQueue<int> q;
 

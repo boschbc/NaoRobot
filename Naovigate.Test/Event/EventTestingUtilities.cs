@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-
+using System.Reflection;
 using NUnit.Framework;
 
 using Naovigate.Communication;
@@ -8,7 +8,7 @@ using Naovigate.Util;
 
 namespace Naovigate.Test.Event
 {
-    class EventTestingUtilities
+    public class EventTestingUtilities
     {
         /// <summary>
         /// Creates a stream and fill it with data.
