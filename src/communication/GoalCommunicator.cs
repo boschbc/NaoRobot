@@ -8,10 +8,9 @@ namespace Naovigate.Communication
 {
     public class GoalCommunicator : IDisposable
     {
-
         protected static GoalCommunicator instance = null;
-        private static readonly String defaultIp = "127.0.0.1";
-        private static readonly int defaultPort = 6747;
+        public static readonly String defaultIp = "127.0.0.1";
+        public static readonly int defaultPort = 6747;
 
         private IPAddress ip;
         private int port;

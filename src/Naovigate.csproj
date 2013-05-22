@@ -72,6 +72,7 @@
     <Compile Include="Event\NaoToGoal\DataSendingNaoEvent.cs" />
     <Compile Include="Event\NaoToGoal\SuccessEvent.cs" />
     <Compile Include="Grabbing\CoolGrabber.cs" />
+    <Compile Include="Grabbing\PutDownWorker.cs" />
     <Compile Include="GUI\BatteryMonitor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -93,6 +94,7 @@
     <Compile Include="GUI\EventLauncherPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="GUI\GoalStub.cs" />
     <Compile Include="GUI\IRealtimeField.cs" />
     <Compile Include="GUI\EventLauncherPanel.Designer.cs">
       <DependentUpon>EventLauncherPanel.cs</DependentUpon>

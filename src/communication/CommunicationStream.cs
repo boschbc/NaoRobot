@@ -29,7 +29,13 @@ namespace Naovigate.Communication
         {
             stream.Write(data, off, len);
         }
-
+        /*
+         * write a byte to the socket
+         */
+        public void WriteByte(byte x)
+        {
+            WriteBytesFromValue(x, 1);
+        }
         /*
          * write an integer to the socket
          */
