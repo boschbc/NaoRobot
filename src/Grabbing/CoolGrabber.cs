@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Collections;
+using System.Collections.Generic;
+
 using Aldebaran.Proxies;
+
+using Naovigate.Util;
 
 namespace Naovigate.Grabbing
 {
@@ -15,8 +16,8 @@ namespace Naovigate.Grabbing
 
         public CoolGrabber()
         {
-            motion = Naovigate.Util.NaoState.MotionProxy;
-            posture = Naovigate.Util.NaoState.PostureProxy;
+            motion = NaoState.Instance.MotionProxy;
+            posture = NaoState.Instance.PostureProxy;
         }
 
         public static CoolGrabber Instance

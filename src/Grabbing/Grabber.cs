@@ -20,8 +20,8 @@ namespace Naovigate.Grabbing
          */
         public Grabber()
         {
-            motion = NaoState.MotionProxy;
-            posture = NaoState.PostureProxy;
+            motion = NaoState.Instance.MotionProxy;
+            posture = NaoState.Instance.PostureProxy;
             instance = this;
         }
         
@@ -48,7 +48,7 @@ namespace Naovigate.Grabbing
             CoolGrabber.Instance.doSomething();
 
             Walk.Instance.InitMove();
-            NaoState.SpeechProxy.say("Put Down Object");
+            NaoState.Instance.SpeechProxy.say("Put Down Object");
             ArrayList names = new ArrayList(2);
             names.Add("LArm");
             names.Add("RArm");

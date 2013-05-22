@@ -9,7 +9,6 @@ using Naovigate.Communication;
 using Naovigate.Event;
 using Naovigate.Event.GoalToNao;
 using Naovigate.Event.NaoToGoal;
-using Naovigate.Haptics;
 using Naovigate.Movement;
 using Naovigate.Util;
 
@@ -46,7 +45,7 @@ namespace Naovigate.Test.Event.GoalToNao
         [Test]
         public void UnpackTest()
         {
-            int id = (int) GetInstanceField(typeof(PickupEvent), pickupEvent, "id");
+            int id = (int)EventTestingUtilities.GetInstanceField(typeof(PickupEvent), pickupEvent, "id");
             Assert.AreEqual(id, ExpectedID);
         }
 
@@ -57,7 +56,7 @@ namespace Naovigate.Test.Event.GoalToNao
 
             Type[] expectedResults = new Type[2] {typeof(SuccessEvent), typeof(FailureEvent)};
             pickupEvent.Fire();
-            PriorityQueue<INaoEvent> q = (PriorityQueue<INaoEvent>)GetInstanceField(typeof(EventQueue), EventQueue.Instance, "q");
+            PriorityQueue<INaoEvent> q = (PriorityQueue<INaoEvent>)EventTestingUtilities.GetInstanceField(typeof(EventQueue), EventQueue.Instance, "q");
             Assert.Contains(q.Dequeue(), expectedResults);
         }
 
@@ -67,7 +66,7 @@ namespace Naovigate.Test.Event.GoalToNao
             EventTestingUtilities.RequireWebots();
             pickupEvent.Fire();
             pickupEvent.Abort();
-            PriorityQueue<INaoEvent> q = (PriorityQueue<INaoEvent>)GetInstanceField(typeof(EventQueue), EventQueue.Instance, "q");
+            PriorityQueue<INaoEvent> q = (PriorityQueue<INaoEvent>)EventTestingUtilities.GetInstanceField(typeof(EventQueue), EventQueue.Instance, "q");
             Assert.IsTrue(q.IsEmpty());
         }
     }

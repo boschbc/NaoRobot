@@ -17,20 +17,16 @@ namespace Naovigate
         public static readonly string nao = "192.168.0.128";
 
         // Use this switch to deactivate debugger invocation:
-        public static readonly bool useDebugGui = false;
+        public static readonly bool useDebugGui = true;
+
         public static void Main(String[] args)
         {
             ShutDownHook();
-            //Use this switch to deactivate debugger invocation:
-            bool Debug = false;
-            string localhost = "127.0.0.1";
-            string Nao = "192.168.0.128";
-            if (Debug)
-            {
+            if (useDebugGui)
                 LaunchDebugger.DebugMain(localhost);
-                return;
-            }
-			Stuff();
+            else
+                Stuff();
+        }
 
         public static void Stuff()
         {
@@ -66,9 +62,9 @@ namespace Naovigate
         private static void TmpTest()
         {
             Console.WriteLine("Connect");
-            NaoState.Connect(nao, port);
+            NaoState.Instance.Connect(nao, port);
 
-            NaoState.MotionProxy.wakeUp();
+            NaoState.Instance.MotionProxy.wakeUp();
             Console.WriteLine("Put Down");
             Naovigate.Movement.Pose.Instance.Welcome();
             Naovigate.Grabbing.Grabber.Instance.PutDown();
@@ -84,7 +80,7 @@ namespace Naovigate
 
         private static void Cleanup(object sender, EventArgs e)
         {
-            Console.WriteLine("Shutting down...");           NaoState.Disconnect();
+            Console.WriteLine("Shutting down...");
             NaoState.Instance.Disconnect();
         }
     }

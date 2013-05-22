@@ -19,8 +19,8 @@ namespace Naovigate.Movement
          */
         public Pose()
         {
-            motion = NaoState.MotionProxy;
-            posture = NaoState.PostureProxy;
+            motion = NaoState.Instance.MotionProxy;
+            posture = NaoState.Instance.PostureProxy;
             instance = this;
         }
 
@@ -87,7 +87,7 @@ namespace Naovigate.Movement
 
             motion.angleInterpolationWithSpeed(names, angles, 0.3F);
             Thread.Sleep(500);
-            NaoState.SpeechProxy.say("Welcome");
+            NaoState.Instance.SpeechProxy.say("Welcome");
             Thread.Sleep(1000);
             posture.goToPosture("Stand", 1F);
         }
