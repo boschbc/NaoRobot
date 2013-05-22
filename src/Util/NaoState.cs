@@ -16,22 +16,22 @@ namespace Naovigate.Util
     {
         private static NaoState instance = null;
 
-        private IPAddress ip;
-        private int port;
-        private PointF location;
-        private float rotation;
-        private int batteryLeft;
-        private float temperature;
+        protected IPAddress ip;
+        protected int port;
+        protected PointF location;
+        protected float rotation;
+        protected int batteryLeft;
+        protected float temperature;
 
-        private List<IDisposable> proxies = new List<IDisposable>();
-        private bool connected = false;
-        private Stopwatch Stopwatch = new Stopwatch();
+        protected List<IDisposable> proxies = new List<IDisposable>();
+        protected bool connected = false;
+        protected Stopwatch Stopwatch = new Stopwatch();
 
-        private TextToSpeechProxy speech;
-        private MotionProxy motion;
-        private BatteryProxy battery;
-        private SensorsProxy sensors;
-        private MemoryProxy memory;
+        protected TextToSpeechProxy speech;
+        protected MotionProxy motion;
+        protected BatteryProxy battery;
+        protected SensorsProxy sensors;
+        protected MemoryProxy memory;
 
         public static NaoState Instance
         {
@@ -51,7 +51,7 @@ namespace Naovigate.Util
         /// </summary>
         /// <param name="ip">IP to connect to.</param>
         /// <param name="port">Port to connect to.</param>
-        public void Connect(string ip, int port)
+        public virtual void Connect(string ip, int port)
         {
             IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(ip), port);
             Connect(endPoint);
@@ -61,7 +61,7 @@ namespace Naovigate.Util
         /// Connect to a Nao. Will disconnect from any already connected-to Nao.
         /// </summary>
         /// <param name="endPoint">IP end point to connect to.</param>
-        public void Connect(IPEndPoint endPoint)
+        public virtual void Connect(IPEndPoint endPoint)
         {
             if (Connected) {
                 Disconnect();
@@ -76,7 +76,7 @@ namespace Naovigate.Util
         /// <summary>
         /// Disconnect from the currently connected-to Nao. Will do nothing if not connected.
         /// </summary>
-        public void Disconnect()
+        public virtual void Disconnect()
         {
             if (Connected) {
                 return;
@@ -184,7 +184,7 @@ namespace Naovigate.Util
         /// <typeparam name="TProxy"></typeparam>
         /// <param name="factory"></param>
         /// <returns></returns>
-        private TProxy createProxy<TProxy>(Func<string, int, TProxy> proxy)
+        protected virtual TProxy createProxy<TProxy>(Func<string, int, TProxy> proxy)
         {
             try
             {

@@ -7,6 +7,6 @@ namespace Naovigate.Test.Event.GoalToNao
 {
     public class PutDownEventTest
     {
-
+        
     }
 }
