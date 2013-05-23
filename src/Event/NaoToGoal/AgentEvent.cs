@@ -10,6 +10,8 @@ namespace Naovigate.Event.NaoToGoal
      */
     public class AgentEvent : DataSendingNaoEvent
     {
+        public new static readonly EventCode code = EventCode.Agent;
+
         /*
          * Explicit constructor.
          */

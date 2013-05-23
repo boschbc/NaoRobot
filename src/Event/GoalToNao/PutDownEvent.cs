@@ -11,6 +11,7 @@ namespace Naovigate.Event.GoalToNao
      */
     public class PutDownEvent : NaoEvent
     {
+        public new static readonly EventCode code = EventCode.PutDown;
         /*
          * Default constructor.
          */
@@ -24,16 +25,16 @@ namespace Naovigate.Event.GoalToNao
          */
         public override void Fire()
         {
-            NaoEvent statusEvent = new SuccessEvent(EventQueue.Instance.GetID(this)); ;
+            NaoEvent statusEvent = new SuccessEvent(code); ;
             try
             {
                 Grabber.Instance.PutDown();
             }
             catch
             {
-                statusEvent = new FailureEvent(EventQueue.Instance.GetID(this));
+                statusEvent = new FailureEvent(code);
             }
-            EventQueue.Instance.Enqueue(statusEvent);
+            EventQueue.Nao.Enqueue(statusEvent);
         }
 
         /*
@@ -47,7 +48,7 @@ namespace Naovigate.Event.GoalToNao
             }
             catch
             {
-                EventQueue.Instance.Enqueue(new ErrorEvent());
+                EventQueue.Nao.Enqueue(new ErrorEvent());
             }
         }
     }

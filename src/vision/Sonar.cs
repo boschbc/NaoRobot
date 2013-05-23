@@ -79,7 +79,7 @@ namespace Naovigate.Vision
 
                 if (collidingLeft || collidingRight)
                 {
-                    EventQueue.Instance.Enqueue(new NaoCollidingEvent(collidingLeft, collidingRight));
+                    EventQueue.Nao.Enqueue(new NaoCollidingEvent(collidingLeft, collidingRight));
                     StopChecking();
                 }
             }

@@ -8,6 +8,7 @@ namespace Naovigate.Event
 {
     class NaoCollidingEvent : NaoEvent 
     {
+        public new static readonly EventCode code = EventCode.Colliding;
         private bool left, right;
 
         public NaoCollidingEvent(bool left, bool right)

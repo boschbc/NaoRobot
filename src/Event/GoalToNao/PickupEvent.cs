@@ -11,6 +11,7 @@ namespace Naovigate.Event.GoalToNao
      */
     public class PickupEvent : NaoEvent
     {
+        public new static readonly EventCode code = EventCode.Pickup;
         private int id;
         private ObjectSearchThread searchThread;
 

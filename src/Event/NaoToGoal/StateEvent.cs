@@ -11,6 +11,7 @@ namespace Naovigate.Event.NaoToGoal
      */
     public class StateEvent : DataSendingNaoEvent
     {
+        public new static readonly EventCode code = EventCode.State;
         /*
          * Explicit constructor.
          */

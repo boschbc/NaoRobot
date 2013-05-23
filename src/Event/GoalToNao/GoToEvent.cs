@@ -14,6 +14,7 @@ namespace Naovigate.Event.GoalToNao
      */
     public class GoToEvent : NaoEvent
     {
+        public new static readonly EventCode code = EventCode.GoTo;
         private int theta;
         private int markerID;
         private int distance;
@@ -53,16 +54,16 @@ namespace Naovigate.Event.GoalToNao
          */
         public override void Fire()
         {
-            NaoEvent statusEvent = new SuccessEvent(EventQueue.Instance.GetID(this)); ;
+            NaoEvent statusEvent = new SuccessEvent(code);
             try
             {
                 worker = Walk.Instance.WalkTowardsMarker(theta, markerID, distance);
             }
             catch
             {
-                statusEvent = new FailureEvent(EventQueue.Instance.GetID(this));
+                statusEvent = new FailureEvent(code);
             }
-            EventQueue.Instance.Enqueue(statusEvent);
+            EventQueue.Nao.Enqueue(statusEvent);
         }
 
         /*
@@ -77,7 +78,7 @@ namespace Naovigate.Event.GoalToNao
             }
             catch
             {
-                EventQueue.Instance.Enqueue(new ErrorEvent());
+                EventQueue.Nao.Enqueue(new ErrorEvent());
             }
         }
 

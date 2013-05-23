@@ -8,6 +8,8 @@ namespace Naovigate.Event.NaoToGoal
      */
     public class DistanceToEvent : DataSendingNaoEvent
     {
+        public new static readonly EventCode code = EventCode.DistanceTo;
+
         /*
          * Implicit constructor.
          */
