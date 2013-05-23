@@ -20,7 +20,7 @@ namespace Naovigate
         public static readonly string nao2 = "192.168.0.125";
 
         // Use this switch to deactivate debugger invocation:
-        public static readonly bool useDebugGui = true;
+        public static readonly bool useDebugGui = false;
 
         public static void Main(String[] args)
         {
@@ -38,33 +38,13 @@ namespace Naovigate
 
         public static void Stuff()
         {
-            ObjectRecogniser recognizer = new ObjectRecogniser(nao, 9559);
-            //recognizer.InsertVisionDataBase();
-            Console.WriteLine("Connected");
-            bool found = false;
-            while (found == false)
-            {
-                Console.WriteLine("Starting");
-                ArrayList objectdata = (ArrayList)recognizer.GetObjectData();
-                Console.WriteLine(objectdata.Count);
-                if (objectdata.Count != 0)
-                {
-                    Console.WriteLine("got it");
-                    //ArrayList pictureInfo = (ArrayList)objectdata[1];
-                    //Console.WriteLine("pictureinfo count:" + pictureInfo.Count);
-                    //ArrayList labels = (ArrayList)pictureInfo[0];
-                    //Console.WriteLine("labels count: " + labels.Count);
-                    //ArrayList labels0 = (ArrayList)labels[0];
-                    //Console.WriteLine("labels0 count: " + labels0.Count);
-                    //Console.WriteLine("labels0 0: " + labels0[0]);
-                    //Console.WriteLine("labels0 0: " + labels0[1]);
-                }
-                else
-                {
-                    Console.WriteLine("fail");
-                }
-                System.Threading.Thread.Sleep(3000);
-            }
+            NaoState.Instance.Connect(nao, 9559);
+            //Grabbing.CoolGrabber grabber = Grabbing.CoolGrabber.Instance;
+            //grabber.doSomething();
+
+            MotionProxy motion = NaoState.Instance.MotionProxy;
+            motion.setWalkArmsEnable(false, false);
+            motion.moveToward(0.2F, 0, 0);
         }
 
         private static void TmpTest()
