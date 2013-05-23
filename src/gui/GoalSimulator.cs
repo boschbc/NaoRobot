@@ -20,6 +20,7 @@ namespace Naovigate.GUI
         /// <param name="e">Event arguments</param>
         private void simulateButton_Click(object sender, EventArgs e)
         {
+            Console.WriteLine("Executing command: " + commandBox.Text);
             GoalStub.Execute(commandBox.Text);
         }
     }

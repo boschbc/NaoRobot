@@ -82,6 +82,8 @@ namespace Naovigate.Communication
             {
                 this.Connect();
             }
+            running = true;
+            Console.WriteLine("GoalCom.Init");
             while (IsRunning)
             {
                 // the EventCode
@@ -102,6 +104,9 @@ namespace Naovigate.Communication
                     Console.WriteLine("InvalidActionCode: "+CommunicationStream.ToBitString(code));
                 }
             }
+            Console.WriteLine("GoalCom.Init2");
+            
+
         }
 
         public void Stop()

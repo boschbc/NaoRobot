@@ -89,6 +89,8 @@ namespace Naovigate.Communication
                 int len = stream.Read(buf, pos, off - pos + length);
                 pos += len;
             }
+            for (int i = off; i < off + length; i++)
+                Console.WriteLine(ToBitString(buf[i]));
             Debug.Assert(pos - off == length);
             return pos - off;
         }

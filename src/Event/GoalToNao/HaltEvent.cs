@@ -19,6 +19,7 @@ namespace Naovigate.Event.GoalToNao
         public new static readonly EventCode code = EventCode.Halt;
         public HaltEvent() : base(Priority.Medium) { }
         
+        
         /*
          * See the INaoEvent class docs for documentation of this method.
          */
@@ -27,9 +28,8 @@ namespace Naovigate.Event.GoalToNao
             NaoEvent statusEvent = new SuccessEvent(code); ;
             try
             {
-                Grabber.Abort();
                 Walk.Instance.Abort();
-                Sonar.Instance.Deactivate();
+                Grabber.Abort();
             }
             catch
             {

@@ -10,22 +10,27 @@ namespace Naovigate.GUI
     {
         private CommunicationStream goalStream;
         private static GoalStub instance;
+        private bool serverRunning = false;
+
         public GoalStub()
         {
-            StartServer();
+            StartServer(GoalCommunicator.defaultIp, GoalCommunicator.defaultPort);
         }
 
-        private void StartServer()
+        public void StartServer(string ip, int port)
         {
+            if (serverRunning)
+                return;
             Console.WriteLine("GoalStub.StartServer");
-            TcpListener l = new TcpListener(IPAddress.Parse(GoalCommunicator.defaultIp), GoalCommunicator.defaultPort);
+            TcpListener l = new TcpListener(IPAddress.Parse(ip), port);
             l.Start();
             TcpClient client = l.AcceptTcpClient();
             goalStream = new CommunicationStream(client.GetStream());
             l.Stop();
+            serverRunning = true;
         }
 
-        private static GoalStub Instance
+        public static GoalStub Instance
         {
             get { return instance == null ? instance = new GoalStub() : instance; }
         }
