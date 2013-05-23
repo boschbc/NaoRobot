@@ -46,7 +46,6 @@ namespace Naovigate.Grabbing
          */
         public void PutDown()
         {
-            Walk.Instance.InitMove();
             NaoState.Instance.SpeechProxy.say("Put Down Object");
             ArrayList names = new ArrayList(2);
             names.Add("LArm");
@@ -89,8 +88,12 @@ namespace Naovigate.Grabbing
 
             names.Add("RShoulderRoll");
             names.Add("LShoulderRoll");
+            names.Add("RHand");
+            names.Add("LHand");
             angles.Add(-0.25f);
             angles.Add(0.25f);
+            angles.Add(1);
+            angles.Add(1);
 
             motion.angleInterpolationWithSpeed(names, angles, 0.3F);
         }

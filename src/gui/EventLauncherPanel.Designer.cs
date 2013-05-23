@@ -34,6 +34,7 @@
             this.radioGrab = new System.Windows.Forms.RadioButton();
             this.radioMove = new System.Windows.Forms.RadioButton();
             this.launchButton = new System.Windows.Forms.Button();
+            this.radioPutDown = new System.Windows.Forms.RadioButton();
             this.tableContainer.SuspendLayout();
             this.eventTypeBox.SuspendLayout();
             this.SuspendLayout();
@@ -57,12 +58,13 @@
             // eventTypeBox
             // 
             this.eventTypeBox.AutoSize = true;
+            this.eventTypeBox.Controls.Add(this.radioPutDown);
             this.eventTypeBox.Controls.Add(this.radioLook);
             this.eventTypeBox.Controls.Add(this.radioGrab);
             this.eventTypeBox.Controls.Add(this.radioMove);
             this.eventTypeBox.Location = new System.Drawing.Point(3, 3);
             this.eventTypeBox.Name = "eventTypeBox";
-            this.eventTypeBox.Size = new System.Drawing.Size(64, 101);
+            this.eventTypeBox.Size = new System.Drawing.Size(81, 124);
             this.eventTypeBox.TabIndex = 5;
             this.eventTypeBox.TabStop = false;
             this.eventTypeBox.Text = "Event";
@@ -101,13 +103,24 @@
             // 
             // launchButton
             // 
-            this.launchButton.Location = new System.Drawing.Point(3, 110);
+            this.launchButton.Location = new System.Drawing.Point(3, 133);
             this.launchButton.Name = "launchButton";
             this.launchButton.Size = new System.Drawing.Size(94, 23);
             this.launchButton.TabIndex = 4;
             this.launchButton.Text = "Launch Event";
             this.launchButton.UseVisualStyleBackColor = true;
             this.launchButton.Click += new System.EventHandler(this.launchButton_Click);
+            // 
+            // radioPutDown
+            // 
+            this.radioPutDown.AutoSize = true;
+            this.radioPutDown.Location = new System.Drawing.Point(6, 88);
+            this.radioPutDown.Name = "radioPutDown";
+            this.radioPutDown.Size = new System.Drawing.Size(69, 17);
+            this.radioPutDown.TabIndex = 3;
+            this.radioPutDown.TabStop = true;
+            this.radioPutDown.Text = "PutDown";
+            this.radioPutDown.UseVisualStyleBackColor = true;
             // 
             // EventLauncherPanel
             // 
@@ -134,6 +147,7 @@
         private System.Windows.Forms.RadioButton radioLook;
         private System.Windows.Forms.RadioButton radioGrab;
         private System.Windows.Forms.RadioButton radioMove;
+        private System.Windows.Forms.RadioButton radioPutDown;
 
     }
 }
