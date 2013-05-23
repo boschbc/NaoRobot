@@ -33,7 +33,7 @@ namespace Naovigate.Vision
 
         public static Sonar Instance
         {
-            get{
+            get {
                 return instance == null ? instance = new Sonar(Util.NaoState.Instance.IP.ToString()) : instance;
             }
         }

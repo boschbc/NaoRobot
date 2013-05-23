@@ -90,7 +90,7 @@ namespace Naovigate.Vision
                                 System.Runtime.InteropServices.Marshal.UnsafeAddrOfPinnedArrayElement(imageBytes, 0));
             
         }
-        public void CallibrateCamera(int p)
+        public void CalibrateCamera(int p)
         {
             //kCameraBrightnessID  0
             //int brightness = videoProxy.getCameraParameter(subscriberID, 0);
@@ -104,7 +104,7 @@ namespace Naovigate.Vision
             //int gain = videoProxy.getCameraParameter(subscriberID, 6);
             //videoProxy.setCameraParameter(subscriberID, 6, gain);
             //kCameraExposureAlgorithmID
-            videoProxy.setCameraParameter(subscriberID, 22,p);
+            videoProxy.setCameraParameter(subscriberID, 22, p);
         }
     }
 }

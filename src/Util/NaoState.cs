@@ -184,11 +184,11 @@ namespace Naovigate.Util
         /// <typeparam name="TProxy"></typeparam>
         /// <param name="factory"></param>
         /// <returns></returns>
-        protected virtual TProxy createProxy<TProxy>(Func<string, int, TProxy> proxy)
+        protected virtual TProxy createProxy<TProxy>()
         {
             try
             {
-                return proxy(IP.ToString(), Port);
+                return Activator.CreateInstance(TProxy, IP.ToString(), Port);
             }
             catch
             {
@@ -204,7 +204,7 @@ namespace Naovigate.Util
         {
             get
             {
-                BatteryProxy res = createProxy<BatteryProxy>((ip, port) => new BatteryProxy(ip, port));
+                BatteryProxy res = createProxy<BatteryProxy>();
                 proxies.Add(res);
                 return res;
             }
@@ -218,7 +218,7 @@ namespace Naovigate.Util
         {
             get
             {
-                LandMarkDetectionProxy res = createProxy<LandMarkDetectionProxy>((ip, port) => new LandMarkDetectionProxy(ip, port));
+                LandMarkDetectionProxy res = createProxy<LandMarkDetectionProxy>();
                 proxies.Add(res);
                 return res;
             }
@@ -232,7 +232,7 @@ namespace Naovigate.Util
         {
             get
             {
-                MemoryProxy res = createProxy<MemoryProxy>((ip, port) => new MemoryProxy(ip, port));
+                MemoryProxy res = createProxy<MemoryProxy>();
                 proxies.Add(res);
                 return res;
             }
@@ -246,7 +246,7 @@ namespace Naovigate.Util
         {
             get
             {
-                MotionProxy res = createProxy<MotionProxy>((ip, port) => new MotionProxy(ip, port));
+                MotionProxy res = createProxy<MotionProxy>();
                 proxies.Add(res);
                 return res;
             }
@@ -260,7 +260,7 @@ namespace Naovigate.Util
         {
             get
             {
-                RobotPostureProxy res = createProxy<RobotPostureProxy>((ip, port) => new RobotPostureProxy(ip, port));
+                RobotPostureProxy res = createProxy<RobotPostureProxy>();
                 proxies.Add(res);
                 return res;
             }
@@ -274,7 +274,7 @@ namespace Naovigate.Util
         {
             get
             {
-                SensorsProxy res = createProxy<SensorsProxy>((ip, port) => new SensorsProxy(ip, port));
+                SensorsProxy res = createProxy<SensorsProxy>();
                 proxies.Add(res);
                 return res;
             }
@@ -288,7 +288,7 @@ namespace Naovigate.Util
         {
             get
             {
-                SonarProxy res = createProxy<SonarProxy>((ip, port) => new SonarProxy(ip, port));
+                SonarProxy res = createProxy<SonarProxy>();
                 proxies.Add(res);
                 return res;
             }
@@ -302,7 +302,7 @@ namespace Naovigate.Util
         {
             get
             {
-                TextToSpeechProxy res = createProxy<TextToSpeechProxy>((ip, port) => new TextToSpeechProxy(ip, port));
+                TextToSpeechProxy res = createProxy<TextToSpeechProxy>();
                 proxies.Add(res);
                 return res;
             }
@@ -316,7 +316,7 @@ namespace Naovigate.Util
         {
             get
             {
-                VideoDeviceProxy res = createProxy<VideoDeviceProxy>((ip, port) => new VideoDeviceProxy(ip, port));
+                VideoDeviceProxy res = createProxy<VideoDeviceProxy>();
                 proxies.Add(res);
                 return res;
             }
