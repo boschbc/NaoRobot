@@ -1,5 +1,7 @@
 ﻿using System;
+
 using NUnit.Framework;
+
 using Naovigate.Movement;
 using Naovigate.Event;
 using Naovigate.Event.GoalToNao;
