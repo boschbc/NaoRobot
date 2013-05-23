@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.Threading;
 using Naovigate.Event;
+using Naovigate.Grabbing;
 
 namespace Naovigate.GUI
 {
@@ -18,13 +19,14 @@ namespace Naovigate.GUI
             {
                 {radioMove, LaunchMoveEvent},
                 {radioLook, LaunchLookEvent},
-                {radioGrab, LaunchGrabEvent}
+                {radioGrab, LaunchGrabEvent},
+                {radioPutDown, LaunchPutDownEvent}
             };
         }
 
         private void launchButton_Click(object sender, EventArgs e)
         {
-            RadioButton[] radios = new RadioButton[3] {radioMove, radioLook, radioGrab};
+            RadioButton[] radios = new RadioButton[4] {radioMove, radioLook, radioGrab, radioPutDown};
             foreach (RadioButton rb in radios)
             {
                 if (rb.Checked)
@@ -47,7 +49,12 @@ namespace Naovigate.GUI
 
         private void LaunchGrabEvent()
         {
-            
+            CoolGrabber.Instance.Grab();
+        }
+
+        private void LaunchPutDownEvent()
+        {
+            Grabber.Instance.PutDown();
         }
     }
 }

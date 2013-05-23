@@ -24,14 +24,14 @@ namespace Naovigate.Event.GoalToNao
             int width = this.stream.ReadByte();
             int height = this.stream.ReadByte();
 
-            List<Map.FieldType> mapOverview = new List<Map.FieldType>(width * height);
+            List<Map.Tile> mapOverview = new List<Map.Tile>(width * height);
             for (int i = 0; i < width * height; i++) {
                 byte value = this.stream.ReadByte();
-                if (!Enum.IsDefined(typeof(Map.FieldType), value)) {
+                if (!Enum.IsDefined(typeof(Map.Tile), value)) {
                     return;
                 }
 
-                mapOverview[i] = (Map.FieldType)Enum.ToObject(typeof(Map.FieldType), value);
+                mapOverview[i] = (Map.Tile)Enum.ToObject(typeof(Map.Tile), value);
             }
         }
 
