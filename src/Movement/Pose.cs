@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections;
+using System.Collections.Generic;
 using System.Threading;
 using Aldebaran.Proxies;
 using Naovigate.Util;
@@ -10,6 +11,12 @@ namespace Naovigate.Movement
 {
     public class Pose
     {
+        private static readonly float maxAllowedDifference = 0.001f;
+        private static readonly float attemptStabaliseLimit = 0.3f;
+
+        private static readonly ArrayList rLegNames = new ArrayList(new string[]{"RHipYawPitch", "RHipRoll", "RHipPitch", "RKneePitch", "RAnklePitch", "RAnkleRoll"});
+        private static readonly ArrayList lLegNames = new ArrayList(new string[] { "LHipYawPitch", "LHipRoll", "LHipPitch", "LKneePitch", "LAnklePitch", "LAnkleRoll" });
+
         private static Pose instance;
         MotionProxy motion;
         RobotPostureProxy posture;
@@ -90,6 +97,55 @@ namespace Naovigate.Movement
             NaoState.Instance.SpeechProxy.say("Welcome");
             Thread.Sleep(1000);
             posture.goToPosture("Stand", 1F);
+        }
+
+        public bool Balanced
+        {
+            get
+            {
+                Console.WriteLine();
+                if (!IsStable()) AttemptStabalise();
+                return IsStable();
+            }
+        }
+
+        public bool IsStable()
+        {
+            List<float> rAngles = motion.getAngles(rLegNames, false);
+            List<float> lAngles = motion.getAngles(lLegNames, false);
+            
+            bool stable = true;
+            for (int i = 0; stable && i < 6; i++)
+            {
+                Console.WriteLine(lAngles[i] + " - " + rAngles[i] + " Diff = " + (lAngles[i] - rAngles[i]));
+                stable = stable && Math.Abs(lAngles[i] - rAngles[i]) < maxAllowedDifference;
+            }
+            return stable;
+        }
+
+        /*
+         * Attempt to stabalise the robot if the angles dont differ to much.
+         */
+        private bool AttemptStabalise()
+        {
+            List<float> left = motion.getAngles(lLegNames, false);
+            List<float> right = motion.getAngles(rLegNames, false);
+            ArrayList angles = new ArrayList();
+            for (int i = 0; i < 6;i++ )
+            {
+                if (Math.Abs(left[i] - right[i]) < attemptStabaliseLimit)
+                {
+                    angles.Add((left[i]+right[i])/2);
+                }
+            }
+            if (angles.Count == 6)
+            {
+                ArrayList names = new ArrayList(lLegNames);
+                names.AddRange(rLegNames);
+                angles.AddRange(angles);
+                motion.setAngles(names, angles, 0.1f);
+            }
+            return angles.Count == 6;
         }
     }
 }

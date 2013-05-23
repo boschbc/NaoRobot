@@ -61,6 +61,7 @@ namespace Naovigate.Test.Event.GoalToNao
         [Test]
         public void FireTest()
         {
+            EventTestingUtilities.RequireWebots();
             EventQueue.Nao.Post(goToEvent);
             while(!EventQueue.Nao.IsEmpty()) System.Threading.Thread.Sleep(100);
             Assert.IsTrue(Walk.Instance.IsMoving());

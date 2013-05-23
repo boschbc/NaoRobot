@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections;
+using System.Collections.Generic;
 using Aldebaran.Proxies;
 using Naovigate.Communication;
 using Naovigate.Util;
@@ -46,18 +47,13 @@ namespace Naovigate.Grabbing
          */
         public void PutDown()
         {
-            NaoState.Instance.SpeechProxy.say("Put Down Object");
-            ArrayList names = new ArrayList(2);
-            names.Add("LArm");
-            names.Add("RArm");
-            motion.setStiffnesses(names, 1F);
-
-            float armsDown = 0.5f;
             float kneelDepth = 1f;
-            Pose.Instance.Kneel(kneelDepth);
-            //LowerArms(armsDown);
+            NaoState.Instance.SpeechProxy.say("Put Down");
+
+            if(Pose.Instance.Balanced)
+                Pose.Instance.Kneel(kneelDepth);
             Release();
-            posture.goToPosture("Stand", 1F);
+            posture.goToPosture("StandInit", 1f);
         }
 
         /*
@@ -82,7 +78,7 @@ namespace Naovigate.Grabbing
          */
         private void Release()
         {
-            // spread arms
+            
             ArrayList names = new ArrayList();
             ArrayList angles = new ArrayList();
 
@@ -90,8 +86,10 @@ namespace Naovigate.Grabbing
             names.Add("LShoulderRoll");
             names.Add("RHand");
             names.Add("LHand");
+            // spread arms
             angles.Add(-0.25f);
             angles.Add(0.25f);
+            // release hands
             angles.Add(1);
             angles.Add(1);
 

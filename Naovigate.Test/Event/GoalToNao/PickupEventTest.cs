@@ -49,25 +49,24 @@ namespace Naovigate.Test.Event.GoalToNao
             Assert.AreEqual(id, ExpectedID);
         }
 
-        [Test]
+        [Test, Timeout(10000)]
         public void FireTest()
         {
             EventTestingUtilities.RequireWebots();
-
+            EventQueue.Goal.Suspend();
             Type[] expectedResults = new Type[2] {typeof(SuccessEvent), typeof(FailureEvent)};
             pickupEvent.Fire();
-            PriorityQueue<INaoEvent> q = (PriorityQueue<INaoEvent>)EventTestingUtilities.GetInstanceField(typeof(EventQueue), EventQueue.Nao, "q");
-            Assert.Contains(q.Dequeue(), expectedResults);
+            PriorityQueue<INaoEvent> q = (PriorityQueue<INaoEvent>)EventTestingUtilities.GetInstanceField(typeof(EventQueue), EventQueue.Goal, "q");
+            Assert.Contains(q.Dequeue().GetType(), expectedResults);
         }
 
-        [Test]
+        [Test, Timeout(10000)]
         public void AbortTest()
         {
             EventTestingUtilities.RequireWebots();
             pickupEvent.Fire();
             pickupEvent.Abort();
-            PriorityQueue<INaoEvent> q = (PriorityQueue<INaoEvent>)EventTestingUtilities.GetInstanceField(typeof(EventQueue), EventQueue.Nao, "q");
-            Assert.IsTrue(q.IsEmpty());
+            Assert.IsTrue(EventQueue.Nao.IsEmpty());
         }
     }
 }

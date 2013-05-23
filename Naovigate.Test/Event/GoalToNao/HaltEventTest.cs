@@ -20,6 +20,7 @@ namespace Naovigate.Test.Event.GoalToNao
         [Test]
         public void FireTest()
         {
+            EventTestingUtilities.RequireWebots();
             EventQueue.Nao.Post(haltEvent);
             // check not moving
             Assert.IsFalse(Walk.Instance.IsMoving());
@@ -28,6 +29,8 @@ namespace Naovigate.Test.Event.GoalToNao
         [Test]
         public void AbortTest()
         {
+            EventTestingUtilities.RequireWebots();
+            Walk.Instance.StartWalking(1, 1, 0);
             EventQueue.Nao.Suspend();
             EventQueue.Nao.Post(haltEvent);
             haltEvent.Abort();
