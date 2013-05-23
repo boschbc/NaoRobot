@@ -42,7 +42,7 @@ namespace Naovigate.Movement
         public void WalkTo(float x, float y, float theta)
         {
             InitMove();
-            motion.moveTo(x, y, theta);
+            motion.post.moveTo(x, y, theta);
         }
 
         /*

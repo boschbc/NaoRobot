@@ -20,13 +20,13 @@ namespace Naovigate
         public static readonly string nao2 = "192.168.0.125";
 
         // Use this switch to deactivate debugger invocation:
-        public static readonly bool useDebugGui = false;
+        public static readonly bool useDebugGui = true;
 
         public static void Main(String[] args)
         {
             ShutDownHook();
             if (useDebugGui)
-                LaunchDebugger.DebugMain(nao2);
+                LaunchDebugger.DebugMain();
             else
             {
                 //NaoState.Instance.Connect(nao, port);

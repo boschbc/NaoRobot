@@ -10,21 +10,32 @@ namespace Naovigate.Testing.GUI
 {
     class LaunchDebugger
     {
-        public static void DebugMain(params String[] args)
+        private static string goalserverIP = "127.0.0.1";
+        private static string naoIP = "127.0.0.1";
+        private static int port = 9559;
+
+        public static void DebugMain()
         {
-            string ip= "127.0.0.1";
-            if (args.Length > 0)
-                ip = args[0];
-            
-            int port = 9559;
-            NaoState.Instance.Connect(ip, port);
-            new Thread(new ThreadStart(StartGoalCommunicator)).Start();
-            Application.Run(new NaoDebugger());
+            new Thread (new ThreadStart(StartGoalServer)).Start();
+            new Thread (new ThreadStart(StartGoalCommunication)).Start();
+            StartDebugger();
         }
 
-        public static void StartGoalCommunicator()
+        private static void StartGoalServer()
         {
-            GoalCommunicator.Instance.Connect();
+            GoalStub.Instance.StartServer();
+        }
+
+        private static void StartGoalCommunication()
+        {
+            //GoalCommunicator.Instance.Connect();
+            GoalCommunicator.Instance.Start();
+        }
+
+        private static void StartDebugger()
+        {
+            NaoState.Instance.Connect(naoIP, port);
+            Application.Run(new NaoDebugger());
         }
     }
 }

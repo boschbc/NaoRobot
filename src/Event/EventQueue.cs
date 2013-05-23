@@ -185,7 +185,7 @@ namespace Naovigate.Event
 
         public int GetID(INaoEvent e)
         {
-            throw new NotImplementedException();
+            return 42;//throw new NotImplementedException();
         }
     }
 }
