@@ -3,6 +3,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.IO;
 using Naovigate.Event;
+using Naovigate.Event.NaoToGoal;
 
 namespace Naovigate.Communication
 {
@@ -90,8 +91,13 @@ namespace Naovigate.Communication
                 try
                 {
                     // create the event
-                    INaoEvent e = NaoEventFactory.NewEvent(code);
-                    EventQueue.Instance.Post(e);
+                    try {
+                        INaoEvent e = NaoEventFactory.NewEvent(code);
+                        EventQueue.Nao.Post(e);
+                    } catch (Exception) {
+                        NaoEvent failureEvent = new FailureEvent((EventCode)Enum.ToObject(typeof(EventCode), code));
+                        EventQueue.Goal.Post(failureEvent);
+                    }
                 }
                 catch
                 {

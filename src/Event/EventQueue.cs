@@ -45,7 +45,7 @@ namespace Naovigate.Event
         }
 
         /*
-         * Post an evend to the queue
+         * Post an event to the queue
          */
         public void Post(params INaoEvent[] events)
         {
@@ -55,7 +55,7 @@ namespace Naovigate.Event
         }
 
         /*
-         * Enque the events
+         * Enqueue the events
          */
         public void Enqueue(params INaoEvent[] events)
         {
@@ -92,7 +92,7 @@ namespace Naovigate.Event
         /*
         * return the EventQueue instance for nao events
         */
-        public static EventQueue Instance
+        public static EventQueue Nao
         {
             get
             {

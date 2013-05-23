@@ -7,11 +7,13 @@ namespace Naovigate.Event.NaoToGoal
     */
     public class FailureEvent : DataSendingNaoEvent
     {
+        public new static readonly EventCode code = EventCode.Failure;
+
         /*
          * Explicit constructor.
-         * @param id The ID of the event which failed.
+         * @param id The code of the event which failed.
          */
-        public FailureEvent(int eventID) : base((byte)EventCode.Failure, eventID) { }
+        public FailureEvent(EventCode eventCode) : base((byte)EventCode.Failure, (int)eventCode) { }
 
         /*
          * Fires the event.

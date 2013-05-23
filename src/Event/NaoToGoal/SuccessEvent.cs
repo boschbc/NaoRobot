@@ -7,11 +7,13 @@ namespace Naovigate.Event.NaoToGoal
      */
     public class SuccessEvent : DataSendingNaoEvent
     {
+        public new static readonly EventCode code = EventCode.Success;
+
         /*
          * Explicit constructor.
          * @param id The ID of the event which was successfully completed.
          */
-        public SuccessEvent(int eventID) : base((byte)EventCode.Success, eventID) { }
+        public SuccessEvent(EventCode eventCode) : base((byte)EventCode.Success, (int)eventCode) { }
 
         /*
          * Fires the event.

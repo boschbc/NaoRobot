@@ -20,7 +20,7 @@ namespace Naovigate.Test.Event.GoalToNao
         [Test]
         public void FireTest()
         {
-            EventQueue.Instance.Post(haltEvent);
+            EventQueue.Nao.Post(haltEvent);
             // check not moving
             Assert.IsFalse(Walk.Instance.IsMoving());
 
@@ -30,12 +30,12 @@ namespace Naovigate.Test.Event.GoalToNao
         [Test]
         public void AbortTest()
         {
-            //TODO finnish
+            //TODO finnish - PERKELE
             //TODO set Walk.IsMoving to true
-            EventQueue.Instance.Suspend();
-            EventQueue.Instance.Post(haltEvent);
+            EventQueue.Nao.Suspend();
+            EventQueue.Nao.Post(haltEvent);
             haltEvent.Abort();
-            EventQueue.Instance.Resume();
+            EventQueue.Nao.Resume();
             Assert.IsTrue(Walk.Instance.IsMoving());
         }
     }

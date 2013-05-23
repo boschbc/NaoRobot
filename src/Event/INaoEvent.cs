@@ -29,6 +29,8 @@ namespace Naovigate.Event
         Holding = 0x8D,
         Agent = 0x8E,
         State = 0x8F,
+        DataSending = 0x83,
+        MapOverview = 0x84,
 
         //Goal to Nao
         Exit = 0x00,

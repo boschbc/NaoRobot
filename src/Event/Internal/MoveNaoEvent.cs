@@ -13,7 +13,7 @@ namespace Naovigate.Event
      */
     public class MoveNaoEvent : NaoEvent
     {
-       
+        public new static readonly EventCode code = EventCode.Move;
         private PointF delta;
 
         /*
