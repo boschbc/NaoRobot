@@ -23,15 +23,11 @@ namespace Naovigate.Test.Event.GoalToNao
             EventQueue.Nao.Post(haltEvent);
             // check not moving
             Assert.IsFalse(Walk.Instance.IsMoving());
-
-            //TODO test without real robot
         }
 
         [Test]
         public void AbortTest()
         {
-            //TODO finnish - PERKELE
-            //TODO set Walk.IsMoving to true
             EventQueue.Nao.Suspend();
             EventQueue.Nao.Post(haltEvent);
             haltEvent.Abort();
