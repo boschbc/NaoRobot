@@ -21,7 +21,6 @@ namespace Naovigate.GUI
             TcpListener l = new TcpListener(IPAddress.Parse(GoalCommunicator.defaultIp), GoalCommunicator.defaultPort);
             l.Start();
             TcpClient client = l.AcceptTcpClient();
-            Console.WriteLine(client.ToString());
             goalStream = new CommunicationStream(client.GetStream());
             l.Stop();
         }

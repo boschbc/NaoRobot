@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Threading;
 
-using Naovigate.Util;
+using Naovigate.Communication;
 using Naovigate.GUI;
+using Naovigate.Util;
 
 namespace Naovigate.Testing.GUI
 {
@@ -16,7 +18,13 @@ namespace Naovigate.Testing.GUI
             
             int port = 9559;
             NaoState.Instance.Connect(ip, port);
+            new Thread(new ThreadStart(StartGoalCommunicator)).Start();
             Application.Run(new NaoDebugger());
+        }
+
+        public static void StartGoalCommunicator()
+        {
+            GoalCommunicator.Instance.Connect();
         }
     }
 }
