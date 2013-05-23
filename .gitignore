@@ -1,5 +1,6 @@
+Naovigate.Test/bin
 build/*
-Naovigate.Test/obj/*
+Naovigate.Test/obj
 !build/naoqi-dotnet4.dll
 *.local
 *.userprefs
