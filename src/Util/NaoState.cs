@@ -188,7 +188,7 @@ namespace Naovigate.Util
         {
             try
             {
-                return Activator.CreateInstance(TProxy, IP.ToString(), Port);
+                return Activator.CreateInstance(typeof(TProxy), IP.ToString(), Port);
             }
             catch
             {
