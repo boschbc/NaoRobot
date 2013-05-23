@@ -45,7 +45,7 @@ namespace Naovigate.Movement
          */
         public void Kneel(float depth)
         {
-            depth *= 2;
+            if (depth > 1f) depth = 1f;
             ArrayList names = new ArrayList();
             ArrayList angles = new ArrayList();
 

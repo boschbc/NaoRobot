@@ -29,16 +29,12 @@ namespace Naovigate.Grabbing
             }
         }
 
-        public void doSomething()
+        public void Grab()
         {
             posture.goToPosture("Stand", 1F);
-
-            ArrayList names = new ArrayList(2);
-            names.Add("LArm");
-            names.Add("RArm");
-            motion.setStiffnesses(names, 1F);
+            motion.setStiffnesses(new[] { "LArm", "RArm" }, 1F);
             
-            names = new ArrayList(8);
+            ArrayList names = new ArrayList(8);
             names.Add("LShoulderRoll");
             names.Add("RShoulderRoll");
             names.Add("LElbowYaw");
@@ -47,7 +43,7 @@ namespace Naovigate.Grabbing
             names.Add("RShoulderPitch");
             names.Add("LHand");
             names.Add("RHand");
-            ArrayList angles =new ArrayList(8);
+            ArrayList angles = new ArrayList(8);
             angles.Add(1.3265F);
             angles.Add(-1.3265F);
             angles.Add(-1.2F);

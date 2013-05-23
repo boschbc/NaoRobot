@@ -5,3 +5,4 @@ Naovigate.Test/obj/*
 *.userprefs
 src/obj
 *.suo
+*.resources

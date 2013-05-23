@@ -33,7 +33,7 @@ namespace Naovigate.Util
                 {
                     // check if its empty
                     Queue<T> q = queues[i];
-                    if (q.Count != 0)
+                    if (q.Count > 0)
                     {
                         size--;
                         T t = q.Dequeue();
