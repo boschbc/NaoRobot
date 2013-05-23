@@ -41,12 +41,11 @@ namespace Naovigate.Grabbing
         {
 
         }
-
+        /*
+         * put down the object the nao is holding
+         */
         public void PutDown()
         {
-            // testing: move to holding position
-            CoolGrabber.Instance.Grab();
-
             Walk.Instance.InitMove();
             NaoState.Instance.SpeechProxy.say("Put Down Object");
             ArrayList names = new ArrayList(2);
@@ -54,15 +53,17 @@ namespace Naovigate.Grabbing
             names.Add("RArm");
             motion.setStiffnesses(names, 1F);
 
-            float armsDown = 0.8f;
-            float kneelDepth = 0.5f;
-            
-            LowerArms(armsDown);
+            float armsDown = 0.5f;
+            float kneelDepth = 1f;
             Pose.Instance.Kneel(kneelDepth);
+            LowerArms(armsDown);
             Release();
             posture.goToPosture("Stand", 1F);
         }
 
+        /*
+         * lower the arms
+         */
         private void LowerArms(float armsDown)
         {
             ArrayList names = new ArrayList();
@@ -77,6 +78,9 @@ namespace Naovigate.Grabbing
             motion.angleInterpolationWithSpeed(names, angles, 0.3F);
         }
 
+        /*
+         * release the object
+         */
         private void Release()
         {
             // spread arms
