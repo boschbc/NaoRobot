@@ -36,6 +36,15 @@ namespace Naovigate.Movement
             set { instance = value; }
         }
 
+        public bool WalkWithObject
+        {
+            set
+            {
+                if (value) motion.setWalkArmsEnable(false, false);
+                else motion.setWalkArmsEnable(true, true);
+            }
+        }
+
         /*
          * walk to (x, y, theta) with the Nao as the origin
          * */
