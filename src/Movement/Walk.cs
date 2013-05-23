@@ -42,9 +42,7 @@ namespace Naovigate.Movement
         public void WalkTo(float x, float y, float theta)
         {
             InitMove();
-            if (!motion.moveIsActive())
-                motion.moveInit();
-            motion.moveTo(x, y, theta);
+            motion.post.moveTo(x, y, theta);
         }
 
         /*
@@ -54,6 +52,8 @@ namespace Naovigate.Movement
         {
             if (!motion.robotIsWakeUp())
                 motion.wakeUp();
+            if (!motion.moveIsActive())
+                motion.moveInit();
         }
 
         /*
@@ -61,8 +61,7 @@ namespace Naovigate.Movement
          * */
         public void StartWalking(float x, float y, float theta)
         {
-            if (!IsMoving()) 
-                motion.moveInit();
+            InitMove();
             motion.moveToward(x, y, theta);
         }
 

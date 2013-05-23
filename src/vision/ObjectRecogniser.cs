@@ -45,7 +45,7 @@ namespace Naovigate.Vision
             }
         }
 
-        public void InsertVisionDataBase()
+        public void InsertVisionDatabase()
         {
             try
             {

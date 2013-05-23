@@ -16,25 +16,26 @@ namespace Naovigate.Event.GoalToNao
      */
     public class HaltEvent : NaoEvent
     {
+        public new static readonly EventCode code = EventCode.Halt;
         public HaltEvent() : base(Priority.Medium) { }
+        
         
         /*
          * See the INaoEvent class docs for documentation of this method.
          */
         public override void Fire()
         {
-            NaoEvent statusEvent = new SuccessEvent(EventQueue.Instance.GetID(this)); ;
+            NaoEvent statusEvent = new SuccessEvent(code); ;
             try
             {
-                Grabber.Abort();
                 Walk.Instance.Abort();
-                Sonar.Instance.Deactivate();
+                Grabber.Abort();
             }
             catch
             {
-                statusEvent = new FailureEvent(EventQueue.Instance.GetID(this));
+                statusEvent = new FailureEvent(code);
             }
-            EventQueue.Instance.Enqueue(statusEvent);
+            EventQueue.Nao.Enqueue(statusEvent);
         }
 
         /*

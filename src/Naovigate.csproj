@@ -94,6 +94,12 @@
     <Compile Include="GUI\EventLauncherPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="GUI\GoalSimulator.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\GoalSimulator.Designer.cs">
+      <DependentUpon>GoalSimulator.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\GoalStub.cs" />
     <Compile Include="GUI\IRealtimeField.cs" />
     <Compile Include="GUI\EventLauncherPanel.Designer.cs">
@@ -141,6 +147,8 @@
     <Compile Include="Util\NaoState.cs" />
     <Compile Include="Communication\IPScanner.cs" />
     <Compile Include="Vision\Sonar.cs" />
+    <Compile Include="Event\GoalToNao\MapOverviewEvent.cs" />
+    <Compile Include="Movement\Map.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Moq">
@@ -189,6 +197,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\EventLauncherPanel.resx">
       <DependentUpon>EventLauncherPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\GoalSimulator.resx">
+      <DependentUpon>GoalSimulator.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\LocationMonitor.resx">
       <DependentUpon>LocationMonitor.cs</DependentUpon>

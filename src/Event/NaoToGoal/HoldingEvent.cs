@@ -8,6 +8,8 @@ namespace Naovigate.Event.NaoToGoal
      */
     public class HoldingEvent : DataSendingNaoEvent
     {
+        public new static readonly EventCode code = EventCode.Holding;
+
         /**
         * create a new HoldingNaoEvent, with the specified id of the object the Nao is holding.
         */

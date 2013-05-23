@@ -16,11 +16,11 @@ namespace Naovigate.Event
         private static Dictionary<byte, Func<NaoEvent>> CodeConverter = 
             new Dictionary<byte, Func<NaoEvent>>()
             {
-                {(byte) EventCode.Exit, delegate() {return new ExitEvent();}},
-                {(byte) EventCode.GoTo, delegate() {return new GoToEvent();}},
-                {(byte) EventCode.Halt, delegate() {return new HaltEvent();}},
-                {(byte) EventCode.Pickup, delegate() {return new PickupEvent();}},
-                {(byte) EventCode.PutDown, delegate() {return new PutDownEvent();}},
+                {(byte) EventCode.Exit, () => new ExitEvent() },
+                {(byte) EventCode.GoTo, () => new GoToEvent() },
+                {(byte) EventCode.Halt, () => new HaltEvent() },
+                {(byte) EventCode.Pickup, () => new PickupEvent() },
+                {(byte) EventCode.PutDown, () => new PutDownEvent() },
             };
 
         /*

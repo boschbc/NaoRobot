@@ -37,7 +37,7 @@ namespace Naovigate.GUI
         private void LaunchMoveEvent()
         {
             MoveNaoEvent moveEvent = new MoveNaoEvent(0.5f, 0.0f);
-            EventQueue.Instance.Post(moveEvent);
+            EventQueue.Nao.Post(moveEvent);
         }
 
         private void LaunchLookEvent()

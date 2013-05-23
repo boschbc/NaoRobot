@@ -33,7 +33,7 @@ namespace Naovigate.Vision
 
         public static Sonar Instance
         {
-            get{
+            get {
                 return instance == null ? instance = new Sonar(Util.NaoState.Instance.IP.ToString()) : instance;
             }
         }
@@ -79,7 +79,7 @@ namespace Naovigate.Vision
 
                 if (collidingLeft || collidingRight)
                 {
-                    EventQueue.Instance.Enqueue(new NaoCollidingEvent(collidingLeft, collidingRight));
+                    EventQueue.Nao.Enqueue(new NaoCollidingEvent(collidingLeft, collidingRight));
                     StopChecking();
                 }
             }

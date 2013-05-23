@@ -1,5 +1,7 @@
 ﻿using System;
+
 using NUnit.Framework;
+
 using Naovigate.Movement;
 using Naovigate.Event;
 using Naovigate.Event.GoalToNao;
@@ -59,8 +61,8 @@ namespace Naovigate.Test.Event.GoalToNao
         [Test]
         public void FireTest()
         {
-            EventQueue.Instance.Post(goToEvent);
-            while(!EventQueue.Instance.IsEmpty()) System.Threading.Thread.Sleep(100);
+            EventQueue.Nao.Post(goToEvent);
+            while(!EventQueue.Nao.IsEmpty()) System.Threading.Thread.Sleep(100);
             Assert.IsTrue(Walk.Instance.IsMoving());
         }
     }

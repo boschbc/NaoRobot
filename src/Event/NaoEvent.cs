@@ -8,6 +8,7 @@ namespace Naovigate.Event
      */
     public abstract class NaoEvent : INaoEvent
     {
+        public static readonly EventCode code;
         private Priority priority;
         protected CommunicationStream stream;
 
@@ -34,8 +35,8 @@ namespace Naovigate.Event
          */
         public CommunicationStream Stream
         {
-            get{ return stream; }
-            set{ stream = value; }
+            get { return stream; }
+            set { stream = value; }
         }
 
         /**

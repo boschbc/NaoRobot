@@ -8,6 +8,7 @@ namespace Naovigate.Event.NaoToGoal
      */
     public class DataSendingNaoEvent : NaoEvent
     {
+        public new static readonly EventCode code = EventCode.DataSending;
         private byte eventID = 0x00;
         private int[] data;
         private bool aborted;

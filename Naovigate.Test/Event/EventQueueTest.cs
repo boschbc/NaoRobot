@@ -21,7 +21,8 @@ namespace Naovigate.Test.Event
          */
         private void WaitFor()
         {
-            while (!q.IsEmpty()) ;
+            while (!q.IsEmpty())
+                Thread.Sleep(50);
         }
 
         [TestFixtureSetUp]
