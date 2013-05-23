@@ -45,7 +45,7 @@ namespace Naovigate.Grabbing
         public void PutDown()
         {
             // testing: move to holding position
-            CoolGrabber.Instance.doSomething();
+            CoolGrabber.Instance.Grab();
 
             Walk.Instance.InitMove();
             NaoState.Instance.SpeechProxy.say("Put Down Object");
