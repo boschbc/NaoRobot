@@ -55,7 +55,7 @@ namespace Naovigate.Grabbing
             float armsDown = 0.5f;
             float kneelDepth = 1f;
             Pose.Instance.Kneel(kneelDepth);
-            LowerArms(armsDown);
+            //LowerArms(armsDown);
             Release();
             posture.goToPosture("Stand", 1F);
         }

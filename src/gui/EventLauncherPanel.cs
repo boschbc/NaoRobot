@@ -49,7 +49,7 @@ namespace Naovigate.GUI
 
         private void LaunchGrabEvent()
         {
-            CoolGrabber.Instance.Grab();
+            CoolGrabber.Instance.doSomething();
         }
 
         private void LaunchPutDownEvent()
