@@ -7,6 +7,7 @@ using Naovigate.Vision;
 using System.Collections;
 using Aldebaran.Proxies;
 using System.Collections.Generic;
+using Naovigate.Movement;
 
 namespace Naovigate
 {
@@ -14,10 +15,11 @@ namespace Naovigate
     {
         public static readonly int port = 9559;
         public static readonly string localhost = "127.0.0.1";
-        public static readonly string nao = "192.168.0.128";
+        public static readonly string nao = "192.168.0.125";
+        // 169.254.50.226
 
         // Use this switch to deactivate debugger invocation:
-        public static readonly bool useDebugGui = true;
+        public static readonly bool useDebugGui = false;
 
         public static void Main(String[] args)
         {
@@ -25,7 +27,12 @@ namespace Naovigate
             if (useDebugGui)
                 LaunchDebugger.DebugMain(localhost);
             else
-                Stuff();
+            {
+                //NaoState.Instance.Connect(nao, port);
+                TmpTest();
+                //Pose.Instance.Kneel(0.5f);
+            }
+            //Stuff();
         }
 
         public static void Stuff()
@@ -66,8 +73,8 @@ namespace Naovigate
 
             NaoState.Instance.MotionProxy.wakeUp();
             Console.WriteLine("Put Down");
-            Naovigate.Movement.Pose.Instance.Welcome();
-            Naovigate.Grabbing.Grabber.Instance.PutDown();
+            //Naovigate.Grabbing.Grabber.Instance.PutDown();
+            Pose.Instance.Kneel(1f);
             
             Console.WriteLine("End");
             System.Threading.Thread.Sleep(1000);
