@@ -33,12 +33,12 @@ namespace Naovigate.Grabbing
         {
             posture.goToPosture("Stand", 1F);
 
-            ArrayList names = new ArrayList(2);
+            ArrayList names = new ArrayList(8);
             names.Add("LArm");
             names.Add("RArm");
             motion.setStiffnesses(names, 1F);
-            
-            names = new ArrayList(8);
+
+            names.Clear();
             names.Add("LShoulderRoll");
             names.Add("RShoulderRoll");
             names.Add("LElbowYaw");
@@ -57,21 +57,48 @@ namespace Naovigate.Grabbing
             angles.Add(1F);
             angles.Add(1F);            
             motion.angleInterpolationWithSpeed(names, angles, 0.3F);
-            
-            names = new ArrayList(2);
+
+            names.Clear();
             names.Add("LShoulderRoll");
             names.Add("RShoulderRoll");
-            angles = new ArrayList(2);
+            angles.Clear();
             angles.Add(-0.3142F);
             angles.Add(0.3142F);
             motion.angleInterpolationWithSpeed(names, angles, 0.3F);
 
-            names = new ArrayList(2);
+            names.Clear();
+            names.Add("LHand");
+            names.Add("RHand");
+
+            motion.setStiffnesses(names, 0.4F);
+
+            angles.Clear();
+            angles.Add(0F);
+            angles.Add(0F);
+            motion.angleInterpolationWithSpeed(names, angles, 0.3F);
+
+            names.Clear();
             names.Add("LShoulderPitch");
             names.Add("RShoulderPitch");
-            angles = new ArrayList(2);
-            angles.Add(0.3F);
-            angles.Add(0.3F);
+            angles.Clear();
+            angles.Add(0F);
+            angles.Add(0F);
+            motion.angleInterpolationWithSpeed(names, angles, 0.3F);
+
+            names.Clear();
+            names.Add("LElbowRoll");
+            names.Add("RElbowRoll");
+            angles.Clear();
+            angles.Add(-1.4F);
+            angles.Add(1.4F);
+            motion.angleInterpolationWithSpeed(names, angles, 0.3F);
+
+            names.Clear();
+            names.Add("LShoulderPitch");
+            names.Add("RShoulderPitch");
+            angles.Clear();
+            angles.Add(1.4F);
+            angles.Add(1.4F);
             motion.angleInterpolationWithSpeed(names, angles, 0.3F);
         }
         
