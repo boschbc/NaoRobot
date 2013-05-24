@@ -4,6 +4,7 @@ using System.Threading;
 
 using Naovigate.Communication;
 using Naovigate.GUI;
+using Naovigate.Movement;
 using Naovigate.Util;
 
 namespace Naovigate.Testing.GUI
@@ -12,7 +13,7 @@ namespace Naovigate.Testing.GUI
     {
         private static readonly string goalserverIP = "127.0.0.1";
         private static readonly int goalserverPort = 6474;
-        private static readonly string naoIP = "192.168.0.126";
+        private static readonly string naoIP = "127.0.0.1"; //"192.168.0.126";
         private static readonly int naoPort = 9559;
 
         public static void DebugMain()
@@ -36,6 +37,13 @@ namespace Naovigate.Testing.GUI
         {
             NaoState.Instance.Connect(naoIP, naoPort);
             Application.Run(new NaoDebugger());
+            ExitDebugger();
+        }
+
+        private static void ExitDebugger()
+        {
+            //GoalCommunicator.Instance.Stop();
+            Pose.Instance.SitDown();
         }
     }
 }

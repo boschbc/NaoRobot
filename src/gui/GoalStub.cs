@@ -10,7 +10,7 @@ namespace Naovigate.GUI
     {
         private CommunicationStream goalStream;
         private static GoalStub instance;
-        private bool serverRunning = false;
+        private bool running = false;
 
         public GoalStub()
         {
@@ -19,15 +19,15 @@ namespace Naovigate.GUI
 
         public void StartServer(string ip, int port)
         {
-            if (serverRunning)
+            if (running)
                 return;
-            Console.WriteLine("GoalStub.StartServer");
+            
             TcpListener l = new TcpListener(IPAddress.Parse(ip), port);
             l.Start();
             TcpClient client = l.AcceptTcpClient();
             goalStream = new CommunicationStream(client.GetStream());
             l.Stop();
-            serverRunning = true;
+            running = true;
         }
 
         public static GoalStub Instance
@@ -35,12 +35,12 @@ namespace Naovigate.GUI
             get { return instance == null ? instance = new GoalStub() : instance; }
         }
 
-        /*
-         * simulate the goal server sending the arguments to the GoalCommunicator
-         */
+        /// <summary>
+        /// Simulate a goal server sending arguments to the GoalCommunicator.
+        /// </summary>
+        /// <param name="arg">A string representing the incoming data-stream.</param>
         private void ExecuteArguments(string arg)
         {
-            Console.WriteLine("GoalStub.ExecuteArguments");
             String[] ss = Split(arg);
             
             for (int i = 0; i < ss.Length;i++ )

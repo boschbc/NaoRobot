@@ -59,7 +59,7 @@ namespace Naovigate.Movement
         /// </summary>
         public void SitDown()
         {
-            posture.goToPosture("Sit", 0.3f);
+            posture.goToPosture("Sit", 0.5f);
         }
 
         /// <summary>
