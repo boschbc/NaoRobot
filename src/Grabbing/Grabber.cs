@@ -50,8 +50,14 @@ namespace Naovigate.Grabbing
             float kneelDepth = 1f;
             NaoState.Instance.SpeechProxy.say("Put Down");
 
-            if(Pose.Instance.Balanced)
+            if (Pose.Instance.Balanced)
+            {
+                NaoState.Instance.SpeechProxy.say("Stable");
                 Pose.Instance.Kneel(kneelDepth);
+            }
+            else{
+                NaoState.Instance.SpeechProxy.say("Unstable");
+            }
             Release();
             posture.goToPosture("StandInit", 1f);
         }

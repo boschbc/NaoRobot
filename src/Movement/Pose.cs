@@ -11,6 +11,7 @@ namespace Naovigate.Movement
 {
     public class Pose
     {
+        private static readonly bool ignoreStabalise = true;
         private static readonly float maxAllowedDifference = 0.001f;
         private static readonly float attemptStabaliseLimit = 0.3f;
 
@@ -127,6 +128,7 @@ namespace Naovigate.Movement
                 Console.WriteLine(lAngles[i] + " - " + rAngles[i] + " Diff = " + (lAngles[i] - rAngles[i]));
                 stable = stable && Math.Abs(lAngles[i] - rAngles[i]) < maxAllowedDifference;
             }
+            Console.WriteLine("Stable: " + stable);
             return stable;
         }
 
@@ -135,6 +137,7 @@ namespace Naovigate.Movement
          */
         private bool AttemptStabalise()
         {
+            if (ignoreStabalise) return false;
             List<float> left = motion.getAngles(lLegNames, false);
             List<float> right = motion.getAngles(rLegNames, false);
             ArrayList angles = new ArrayList();
