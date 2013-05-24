@@ -32,7 +32,7 @@ namespace Naovigate.Grabbing
         public void doSomething()
         {
             posture.goToPosture("Stand", 1F);
-
+            float speed = 0.75f;
             ArrayList names = new ArrayList(8);
             names.Add("LArm");
             names.Add("RArm");
@@ -56,7 +56,7 @@ namespace Naovigate.Grabbing
             angles.Add(0.5F);
             angles.Add(1F);
             angles.Add(1F);            
-            motion.angleInterpolationWithSpeed(names, angles, 0.3F);
+            motion.angleInterpolationWithSpeed(names, angles, speed);
 
             names.Clear();
             names.Add("LShoulderRoll");
@@ -64,7 +64,7 @@ namespace Naovigate.Grabbing
             angles.Clear();
             angles.Add(-0.3142F);
             angles.Add(0.3142F);
-            motion.angleInterpolationWithSpeed(names, angles, 0.3F);
+            motion.angleInterpolationWithSpeed(names, angles, speed);
 
             names.Clear();
             names.Add("LHand");
@@ -75,7 +75,7 @@ namespace Naovigate.Grabbing
             angles.Clear();
             angles.Add(0F);
             angles.Add(0F);
-            motion.angleInterpolationWithSpeed(names, angles, 0.3F);
+            motion.angleInterpolationWithSpeed(names, angles, speed);
 
             names.Clear();
             names.Add("LShoulderPitch");
@@ -83,7 +83,7 @@ namespace Naovigate.Grabbing
             angles.Clear();
             angles.Add(0F);
             angles.Add(0F);
-            motion.angleInterpolationWithSpeed(names, angles, 0.3F);
+            motion.angleInterpolationWithSpeed(names, angles, speed);
 
             names.Clear();
             names.Add("LElbowRoll");
@@ -91,7 +91,7 @@ namespace Naovigate.Grabbing
             angles.Clear();
             angles.Add(-1.4F);
             angles.Add(1.4F);
-            motion.angleInterpolationWithSpeed(names, angles, 0.3F);
+            motion.angleInterpolationWithSpeed(names, angles, speed);
 
             names.Clear();
             names.Add("LShoulderPitch");
@@ -99,7 +99,7 @@ namespace Naovigate.Grabbing
             angles.Clear();
             angles.Add(1.4F);
             angles.Add(1.4F);
-            motion.angleInterpolationWithSpeed(names, angles, 0.3F);
+            motion.angleInterpolationWithSpeed(names, angles, speed);
         }
         
     }
