@@ -19,6 +19,7 @@ namespace Naovigate.Grabbing
         public override void Run()
         {
             Call(PutDown);
+            running = false;
         }
 
         /*

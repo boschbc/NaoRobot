@@ -63,6 +63,14 @@ namespace Naovigate.Movement
         }
 
         /// <summary>
+        /// Have the Nao crouch.
+        /// </summary>
+        public void Crouch()
+        {
+            posture.goToPosture("Crouch", 0.5f);
+        }
+
+        /// <summary>
         /// Make the Nao kneel, with specified depth.
         /// </summary>
         /// <param name="depth">0 means standing. 1 means sitting.</param>
