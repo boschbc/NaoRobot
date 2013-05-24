@@ -35,7 +35,7 @@ namespace Naovigate.Testing.GUI
 
         private static void StartDebugger()
         {
-            NaoState.Instance.Connect(naoIP, naoPort);
+            NaoState.Instance.Connect(MainProgram.nao, naoPort);
             Application.Run(new NaoDebugger());
             ExitDebugger();
         }
