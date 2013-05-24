@@ -59,7 +59,7 @@ namespace Naovigate.Grabbing
                 NaoState.Instance.SpeechProxy.say("Unstable");
             }
             Release();
-            posture.goToPosture("StandInit", 1f);
+            Pose.Instance.StandUp();
         }
 
         /*

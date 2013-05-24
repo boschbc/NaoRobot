@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Text;
-using Naovigate.Communication;
 using System.Net;
 using System.Net.Sockets;
+
+using Naovigate.Communication;
 
 namespace Naovigate.GUI
 {

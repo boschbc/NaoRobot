@@ -47,11 +47,19 @@ namespace Naovigate.Movement
         }
 
         /// <summary>
-        /// Got to a standing posture.
+        /// Have the Nao stand up.
         /// </summary>
         public void StandUp()
         {
             posture.goToPosture("Stand", 0.5f);
+        }
+
+        /// <summary>
+        /// Have the Nao sit-down.
+        /// </summary>
+        public void SitDown()
+        {
+            posture.goToPosture("Sit", 0.3f);
         }
 
         /// <summary>

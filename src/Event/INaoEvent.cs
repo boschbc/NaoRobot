@@ -41,7 +41,9 @@ namespace Naovigate.Event
 
         //Internal
         Move = 0x00,
-        Colliding = 0x01
+        Colliding = 0x01,
+        StandUp = 0x02,
+        SitDown = 0x03
     }
 
     /*

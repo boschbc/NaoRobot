@@ -19,7 +19,7 @@ namespace Naovigate
         public static readonly string nao2 = "192.168.0.128";
 
         // Use this switch to deactivate debugger invocation:
-        public static readonly bool useDebugGui = false;
+        public static readonly bool useDebugGui = true;
 
         public static void Main(String[] args)
         {

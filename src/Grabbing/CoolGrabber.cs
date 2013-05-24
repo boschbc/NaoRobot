@@ -32,7 +32,7 @@ namespace Naovigate.Grabbing
         public void doSomething()
         {
             posture.goToPosture("Stand", 1F);
-            float speed = 0.75f;
+            float speed = 0.3f;
             ArrayList names = new ArrayList(8);
             names.Add("LArm");
             names.Add("RArm");

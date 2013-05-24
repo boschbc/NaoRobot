@@ -6,6 +6,7 @@ using System.Threading;
 
 using Naovigate.Event;
 using Naovigate.Event.GoalToNao;
+using Naovigate.Event.Internal;
 using Naovigate.Grabbing;
 using Naovigate.Movement;
 
@@ -25,13 +26,14 @@ namespace Naovigate.GUI
                 {radioStandUp, LaunchStandUpEvent},
                 {radioGrab, LaunchGrabEvent},
                 {radioPutDown, LaunchPutDownEvent},
-                {radioHalt, LaunchHaltEvent}
+                {radioHalt, LaunchHaltEvent},
+                {radioSitDown, LaunchSitDownEvent}
             };
         }
 
         private void launchButton_Click(object sender, EventArgs e)
         {
-            RadioButton[] radios = new RadioButton[5] {radioMove, radioStandUp, radioGrab, radioPutDown, radioHalt};
+            RadioButton[] radios = new RadioButton[6] {radioMove, radioStandUp, radioGrab, radioPutDown, radioHalt, radioSitDown};
             foreach (RadioButton rb in radios)
             {
                 if (rb.Checked)
@@ -49,7 +51,12 @@ namespace Naovigate.GUI
 
         private void LaunchStandUpEvent()
         {
-            Pose.Instance.StandUp();
+            EventQueue.Nao.Post(new StandUpEvent());
+        }
+
+        private void LaunchSitDownEvent()
+        {
+            EventQueue.Nao.Post(new SitDownEvent());
         }
 
         private void LaunchGrabEvent()

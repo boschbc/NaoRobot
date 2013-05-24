@@ -57,8 +57,10 @@
     <Compile Include="Event\GoalToNao\PickupEvent.cs" />
     <Compile Include="Event\GoalToNao\HaltEvent.cs" />
     <Compile Include="Event\INaoEvent.cs" />
+    <Compile Include="Event\Internal\SitDown.cs" />
+    <Compile Include="Event\Internal\StandUpEvent.cs" />
     <Compile Include="Event\InvalidEventCodeException.cs" />
-    <Compile Include="Event\Internal\MoveNaoEvent.cs" />
+    <Compile Include="Event\Internal\MoveEvent.cs" />
     <Compile Include="Event\NaoEvent.cs" />
     <Compile Include="Event\NaoEventFactory.cs" />
     <Compile Include="Event\NaoToGoal\ErrorEvent.cs" />

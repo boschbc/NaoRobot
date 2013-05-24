@@ -4,14 +4,13 @@ using System.Drawing;
 using Naovigate.Communication;
 
 using Naovigate.Movement;
-using Naovigate.Event.GoalToNao;
 
-namespace Naovigate.Event
+namespace Naovigate.Event.Internal
 {
     /*
      * A class representing the "move" Nao-event.
      */
-    public class MoveNaoEvent : NaoEvent
+    class MoveEvent : NaoEvent
     {
         public new static readonly EventCode code = EventCode.Move;
         private PointF delta;
@@ -19,12 +18,12 @@ namespace Naovigate.Event
         /*
          * Default contructor.
          */
-        public MoveNaoEvent() 
+        public MoveEvent() 
         {
             Unpack();
         }
 
-        public MoveNaoEvent(float deltaX, float deltaY)
+        public MoveEvent(float deltaX, float deltaY)
         {
             SetDelta(deltaX, deltaY);
         }
@@ -66,7 +65,7 @@ namespace Naovigate.Event
          */
         public override string ToString()
         {
-            return String.Format("MoveNaoEvent(delta={0})", delta);
+            return String.Format("MoveEvent(delta={0})", delta);
         }
     }
 }
