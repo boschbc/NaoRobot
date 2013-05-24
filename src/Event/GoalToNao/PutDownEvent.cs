@@ -6,23 +6,24 @@ using Naovigate.Grabbing;
 
 namespace Naovigate.Event.GoalToNao
 {
-    /*
-     * Drop the object the Nao is holding. If the Nao is not holding an object, nothing happens.
-     */
+    /// <summary>
+    /// Drop the object the Nao is holding. If the Nao is not holding an object, nothing happens.
+    /// </summary>
     public class PutDownEvent : NaoEvent
     {
         public new static readonly EventCode code = EventCode.PutDown;
-        /*
-         * Default constructor.
-         */
+        
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public PutDownEvent()
         {
 
         }
 
-        /*
-         * See the INaoEvent class docs for documentation of this method.
-         */
+        /// <summary>
+        /// See the INaoEvent class docs for documentation of this method.
+        /// </summary>
         public override void Fire()
         {
             NaoEvent statusEvent = new SuccessEvent(code); ;
@@ -37,9 +38,9 @@ namespace Naovigate.Event.GoalToNao
             EventQueue.Nao.Enqueue(statusEvent);
         }
 
-        /*
-         * See the INaoEvent class docs for documentation of this method.
-         */
+        /// <summary>
+        /// See the INaoEvent class docs for documentation of this method.
+        /// </summary>
         public override void Abort()
         {
             try

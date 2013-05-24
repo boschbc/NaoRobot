@@ -10,10 +10,10 @@ namespace Naovigate.Testing.GUI
 {
     class LaunchDebugger
     {
-        private static string goalserverIP = "127.0.0.1";
-        private static int goalserverPort = 6474;
-        private static string naoIP = "192.168.0.126";
-        private static int naoPort = 9559;
+        private static readonly string goalserverIP = "127.0.0.1";
+        private static readonly int goalserverPort = 6474;
+        private static readonly string naoIP = "127.0.0.1"; //"192.168.0.126";
+        private static readonly int naoPort = 9559;
 
         public static void DebugMain()
         {
@@ -29,7 +29,6 @@ namespace Naovigate.Testing.GUI
 
         private static void StartGoalCommunication()
         {
-            //GoalCommunicator.Instance.Connect();
             GoalCommunicator.Instance.Start();
         }
 

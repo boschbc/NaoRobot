@@ -44,7 +44,7 @@ namespace Naovigate.GUI
             else
             {
                 labelAlert.Text = String.Format(Format, NaoState.Instance.Temperature.ToString());
-                if (NaoState.Instance.Temperature > 75)
+                if (NaoState.Instance.Temperature > 40)
                     SetTemperatureHot();
                 else
                     SetTemperatureOK();

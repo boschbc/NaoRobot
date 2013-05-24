@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Threading;
+
 using Naovigate.Event;
+using Naovigate.Event.GoalToNao;
 using Naovigate.Grabbing;
+using Naovigate.Movement;
+
 
 namespace Naovigate.GUI
 {
@@ -18,20 +22,22 @@ namespace Naovigate.GUI
             eventLauncher = new Dictionary<RadioButton, Action>()
             {
                 {radioMove, LaunchMoveEvent},
-                {radioLook, LaunchLookEvent},
+                {radioStandUp, LaunchStandUpEvent},
                 {radioGrab, LaunchGrabEvent},
-                {radioPutDown, LaunchPutDownEvent}
+                {radioPutDown, LaunchPutDownEvent},
+                {radioHalt, LaunchHaltEvent}
             };
         }
 
         private void launchButton_Click(object sender, EventArgs e)
         {
-            RadioButton[] radios = new RadioButton[4] {radioMove, radioLook, radioGrab, radioPutDown};
+            RadioButton[] radios = new RadioButton[5] {radioMove, radioStandUp, radioGrab, radioPutDown, radioHalt};
             foreach (RadioButton rb in radios)
             {
                 if (rb.Checked)
                 {
                     eventLauncher[rb]();
+                    break;
                 }
             }
         }
@@ -39,12 +45,12 @@ namespace Naovigate.GUI
         private void LaunchMoveEvent()
         {
             MoveNaoEvent moveEvent = new MoveNaoEvent(0.5f, 0.0f);
-            EventQueue.Nao.Post(moveEvent);
+            EventQueue.Nao.Enqueue(moveEvent);
         }
 
-        private void LaunchLookEvent()
+        private void LaunchStandUpEvent()
         {
-
+            Pose.Instance.StandUp();
         }
 
         private void LaunchGrabEvent()
@@ -54,7 +60,12 @@ namespace Naovigate.GUI
 
         private void LaunchPutDownEvent()
         {
-            Grabber.Instance.PutDown();
+            EventQueue.Nao.Enqueue(new PutDownEvent());
+        }
+
+        private void LaunchHaltEvent()
+        {
+            EventQueue.Nao.Enqueue(new HaltEvent());
         }
     }
 }

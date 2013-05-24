@@ -14,9 +14,9 @@ namespace Naovigate.Movement
         MotionProxy motion;
         RobotPostureProxy posture;
         
-        /*
-         * Constructor
-         */
+        /// <summary>
+        /// Constructor.
+        /// </summary>
         public Pose()
         {
             motion = NaoState.Instance.MotionProxy;
@@ -38,11 +38,18 @@ namespace Naovigate.Movement
             list.Add("R" + part);
         }
 
-        /*
-         * Make the Nao kneel, with specified depth.
-         * depth = 0 means standing.
-         * depth = 1 means sitting
-         */
+        /// <summary>
+        /// Got to a standing posture.
+        /// </summary>
+        public void StandUp()
+        {
+            posture.goToPosture("Stand", 0.5f);
+        }
+
+        /// <summary>
+        /// Make the Nao kneel, with specified depth.
+        /// </summary>
+        /// <param name="depth">0 means standing. 1 means sitting.</param>
         public void Kneel(float depth)
         {
             if (depth > 1f) depth = 1f;

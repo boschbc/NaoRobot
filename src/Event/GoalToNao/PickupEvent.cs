@@ -1,8 +1,10 @@
 ﻿using System;
+
 using Naovigate.Communication;
 using Naovigate.Grabbing;
 using Naovigate.Movement;
 using Naovigate.Util;
+
 namespace Naovigate.Event.GoalToNao
 {
     /*
