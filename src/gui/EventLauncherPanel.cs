@@ -44,8 +44,7 @@ namespace Naovigate.GUI
 
         private void LaunchMoveEvent()
         {
-            MoveNaoEvent moveEvent = new MoveNaoEvent(0.5f, 0.0f);
-            EventQueue.Nao.Enqueue(moveEvent);
+            Walk.Instance.WalkWhileHolding();
         }
 
         private void LaunchStandUpEvent()

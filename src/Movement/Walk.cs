@@ -54,6 +54,13 @@ namespace Naovigate.Movement
             motion.post.moveTo(x, y, theta);
         }
 
+        public void WalkWhileHolding()
+        {
+            motion.setWalkArmsEnable(false, false);
+            motion.moveToward(0.2F, 0, 0);
+            motion.setWalkArmsEnable(true, true);
+        }
+
         /*
          * Sets the stiffness of the Nao's motors on if it is not already so.
          */

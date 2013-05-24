@@ -39,7 +39,7 @@ namespace Naovigate
 
         public static void Stuff()
         {
-            NaoState.Instance.Connect(nao, 9559);
+            //NaoState.Instance.Connect(nao, 9559);
             //Grabbing.CoolGrabber grabber = Grabbing.CoolGrabber.Instance;
             //grabber.doSomething();
 
