@@ -26,7 +26,7 @@ namespace Naovigate.Event.GoalToNao
         /// </summary>
         public override void Fire()
         {
-            NaoEvent statusEvent = new SuccessEvent(code); ;
+            NaoEvent statusEvent = new SuccessEvent(code);
             try
             {
                 Grabber.Instance.PutDown();
@@ -35,7 +35,7 @@ namespace Naovigate.Event.GoalToNao
             {
                 statusEvent = new FailureEvent(code);
             }
-            EventQueue.Nao.Enqueue(statusEvent);
+            EventQueue.Goal.Post(statusEvent);
         }
 
         /// <summary>

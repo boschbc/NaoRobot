@@ -20,18 +20,17 @@ namespace Naovigate.Test.Event.GoalToNao
         [Test]
         public void FireTest()
         {
+            EventTestingUtilities.RequireWebots();
             EventQueue.Nao.Post(haltEvent);
             // check not moving
             Assert.IsFalse(Walk.Instance.IsMoving());
-
-            //TODO test without real robot
         }
 
         [Test]
         public void AbortTest()
         {
-            //TODO finnish - PERKELE
-            //TODO set Walk.IsMoving to true
+            EventTestingUtilities.RequireWebots();
+            Walk.Instance.StartWalking(1, 1, 0);
             EventQueue.Nao.Suspend();
             EventQueue.Nao.Post(haltEvent);
             haltEvent.Abort();

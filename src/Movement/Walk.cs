@@ -119,6 +119,7 @@ namespace Naovigate.Movement
             }
             catch
             {
+                Console.WriteLine("MotionError - Moving");
                 // proxy is busy (moving) so return true
                 return true;
             }

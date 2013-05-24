@@ -4,7 +4,6 @@ using Naovigate.Communication;
 using Naovigate.Grabbing;
 using Naovigate.Movement;
 using Naovigate.Util;
-
 namespace Naovigate.Event.GoalToNao
 {
     /*
@@ -46,11 +45,20 @@ namespace Naovigate.Event.GoalToNao
          */
         public override void Fire()
         {
-            // go to the object first
-            searchThread = Walk.Instance.WalkTowardsObject(0,0,0);
+            NaoEvent statusEvent = new SuccessEvent(code); ;
+            try
+            {
+                // go to the object first
+                searchThread = Walk.Instance.WalkTowardsObject(0, 0, 0);
 
-            // grab the object
-            Grabber.Instance.Grab();
+                // grab the object
+                Grabber.Instance.Grab();
+            }
+            catch
+            {
+                statusEvent = new FailureEvent(code);
+            }
+            EventQueue.Goal.Post(statusEvent);
         }
 
         /*

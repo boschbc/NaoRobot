@@ -63,7 +63,7 @@ namespace Naovigate.Event.GoalToNao
             {
                 statusEvent = new FailureEvent(code);
             }
-            EventQueue.Nao.Enqueue(statusEvent);
+            EventQueue.Goal.Post(statusEvent);
         }
 
         /*
@@ -78,7 +78,7 @@ namespace Naovigate.Event.GoalToNao
             }
             catch
             {
-                EventQueue.Nao.Enqueue(new ErrorEvent());
+                EventQueue.Goal.Enqueue(new ErrorEvent());
             }
         }
 

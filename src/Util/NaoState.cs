@@ -206,7 +206,7 @@ namespace Naovigate.Util
             }
             catch
             {
-                throw new UnavailableConnectionException("Could not create proxy: " + typeof(TProxy).Name, IP.ToString(), Port);
+                throw new UnavailableConnectionException("Could not create proxy: " + typeof(TProxy).Name);
             }
         }
 
