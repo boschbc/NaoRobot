@@ -24,6 +24,7 @@ namespace Naovigate.Util
         public void Start()
         {
             Thread t = new Thread(new ThreadStart(Run));
+            running = true;
             t.Start();
         }
 
