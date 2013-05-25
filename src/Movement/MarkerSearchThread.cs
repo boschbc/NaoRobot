@@ -37,6 +37,7 @@ namespace Naovigate.Movement
 
             while (running && !found)
             {
+                if (!Walk.Instance.IsMoving()) running = false;
                 ArrayList data = rec.GetMarkerData();
                 markers = data.Count == 0 ? data : (ArrayList)data[1];
                 for (int i = 0; running && !found && i < markers.Count; i++)
@@ -45,7 +46,7 @@ namespace Naovigate.Movement
                     if (running && (int)((ArrayList)marker[1])[0] == markerID)
                     {
                         float angle = ((float)((ArrayList)marker[0])[1]) / 4F;
-                        Walk.Instance.StartWalking(0.5F, 0, Math.Max(-1, Math.Min(1, angle)));
+                        Call(() => Walk.Instance.StartWalking(0.5F, 0, Math.Max(-1, Math.Min(1, angle))));
 
                         float sizeY = ((float)((ArrayList)marker[0])[4]);
 

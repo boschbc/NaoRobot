@@ -11,6 +11,7 @@ namespace Naovigate.GUI
         private CommunicationStream goalStream;
         private static GoalStub instance;
         private bool running = false;
+        private TcpClient client;
 
         public GoalStub()
         {
@@ -24,7 +25,7 @@ namespace Naovigate.GUI
             
             TcpListener l = new TcpListener(IPAddress.Parse(ip), port);
             l.Start();
-            TcpClient client = l.AcceptTcpClient();
+            client = l.AcceptTcpClient();
             goalStream = new CommunicationStream(client.GetStream());
             l.Stop();
             running = true;
@@ -86,6 +87,22 @@ namespace Naovigate.GUI
             for (int i = 0; i < args.Length; i++)
             {
                 Instance.ExecuteArguments(args[i]);
+            }
+        }
+
+        public static void Abort()
+        {
+            try
+            {
+                if (instance != null && instance.client != null)
+                {
+                    instance.client.Close();
+                    Console.WriteLine("GoalStub Closed");
+                }
+            }
+            catch (SocketException e)
+            {
+                Console.WriteLine("GoalStub: "+e);
             }
         }
     }

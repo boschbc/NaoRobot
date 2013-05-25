@@ -51,7 +51,8 @@ namespace Naovigate.Event.GoalToNao
             try
             {
                 // go to the object first
-                searchThread = Walk.Instance.WalkTowardsObject(0, 0, 0);
+                searchThread = Walk.Instance.WalkTowardsObject(0, id, 0);
+                searchThread.WaitFor();
 
                 // grab the object
                 Grabber.Instance.Grab();

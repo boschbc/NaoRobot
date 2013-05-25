@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Threading;
 
 using Naovigate.Communication;
 using Naovigate.Event.NaoToGoal;
@@ -65,12 +66,12 @@ namespace Naovigate.Event.GoalToNao
             NaoEvent statusEvent = new SuccessEvent(code);
             try
             {
-                List<Point> markersToGoTo = null;// get from map
-                for (int i = 0;!aborted &&  i < markersToGoTo.Count;i++ )
+                List<Point> markersToGoTo = null;// get from map, throw NullReference now
+                for (int i = 0; !aborted && i < markersToGoTo.Count;i++ )
                 {
                     worker = Walk.Instance.WalkTowardsMarker(0, markersToGoTo[i].X, markersToGoTo[i].Y);
+                    worker.WaitFor();
                 }
-                
             }
             catch
             {

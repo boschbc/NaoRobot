@@ -4,6 +4,7 @@ using Naovigate.Movement;
 using Naovigate.Event;
 using Naovigate.Event.GoalToNao;
 using Naovigate.Communication;
+using Naovigate.Util;
 namespace Naovigate.Test.Event.GoalToNao
 {
     [TestFixture, Timeout(2500)]
@@ -15,6 +16,16 @@ namespace Naovigate.Test.Event.GoalToNao
         public void Init()
         {
             haltEvent = new HaltEvent();
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            if (NaoState.Instance.Connected)
+            {
+                Walk.Instance.Abort();
+                NaoState.Instance.Disconnect();
+            }
         }
 
         [Test]
@@ -35,6 +46,7 @@ namespace Naovigate.Test.Event.GoalToNao
             EventQueue.Nao.Post(haltEvent);
             haltEvent.Abort();
             EventQueue.Nao.Resume();
+            System.Threading.Thread.Sleep(500);
             Assert.IsTrue(Walk.Instance.IsMoving());
         }
     }

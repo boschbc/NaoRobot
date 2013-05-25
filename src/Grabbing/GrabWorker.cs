@@ -12,7 +12,21 @@ namespace Naovigate.Grabbing
 {
     public class GrabWorker : ActionExecutor
     {
-        public static readonly float grabSpeed = 0.5f;
+        public static readonly float grabSpeed = 0.4f;
+
+        private static readonly ArrayList spreadArmsNames = new ArrayList(new string[] { "LShoulderRoll", "RShoulderRoll", "LElbowYaw", "RElbowYaw", "LShoulderPitch", "RShoulderPitch", "LHand", "RHand" });
+        private static readonly ArrayList spreadArmsAngles = new ArrayList(new float[] { 1.3265F, -1.3265F, -1.2F, 1.2F, 0.5F, 0.5F, 1F, 1F });
+        
+        private static readonly ArrayList closeArmsAroundObjectNames = new ArrayList(new string[] { "LShoulderRoll", "RShoulderRoll" });
+        private static readonly ArrayList closeArmsAroundObjectAngles = new ArrayList(new float[] { -0.3142F, 0.3142F });
+        
+        private static readonly ArrayList grabHandsNames = new ArrayList(new string[] { "LHand", "RHand" });
+        private static readonly ArrayList grabHandsAngles = new ArrayList(new float[] { 0F, 0F });
+        
+        private static readonly ArrayList holdNames = new ArrayList(new string[] { "LElbowRoll", "RElbowRoll", "LShoulderPitch", "RShoulderPitch" });
+        private static readonly ArrayList holdAngles = new ArrayList(new float[] { -1.4F, 1.4F, 1.4F, 1.4F });
+
+
         MotionProxy motion;
         RobotPostureProxy posture;
         public GrabWorker()
@@ -24,79 +38,42 @@ namespace Naovigate.Grabbing
         public override void Run()
         {
             Call(Grab);
-            running = false;
         }
 
         public void Grab()
         {
-            posture.goToPosture("Stand", 1F);
-            ArrayList names = new ArrayList(8);
-            names.Add("LArm");
-            names.Add("RArm");
-            motion.setStiffnesses(names, 1F);
+            Call(Pose.Instance.StandUp);
+            Call(StiffenArms);
+            Call(SpreadArms);
+            Call(CloseArmsAroundObject);
+            Call(GrabHands);
+            Call(HoldForWalking);
+        }
 
-            names.Clear();
-            names.Add("LShoulderRoll");
-            names.Add("RShoulderRoll");
-            names.Add("LElbowYaw");
-            names.Add("RElbowYaw");
-            names.Add("LShoulderPitch");
-            names.Add("RShoulderPitch");
-            names.Add("LHand");
-            names.Add("RHand");
-            ArrayList angles = new ArrayList(8);
-            angles.Add(1.3265F);
-            angles.Add(-1.3265F);
-            angles.Add(-1.2F);
-            angles.Add(1.2F);
-            angles.Add(0.5F);
-            angles.Add(0.5F);
-            angles.Add(1F);
-            angles.Add(1F);
-            motion.angleInterpolationWithSpeed(names, angles, grabSpeed);
+        public void StiffenArms()
+        {
+            motion.setStiffnesses(new ArrayList(new string[]{ "LArm", "RArm"}), 1F);
+        }
 
-            names.Clear();
-            names.Add("LShoulderRoll");
-            names.Add("RShoulderRoll");
-            angles.Clear();
-            angles.Add(-0.3142F);
-            angles.Add(0.3142F);
-            motion.angleInterpolationWithSpeed(names, angles, grabSpeed);
+        public void SpreadArms()
+        {
+            motion.angleInterpolationWithSpeed(spreadArmsNames, spreadArmsAngles, grabSpeed);
+        }
 
-            names.Clear();
-            names.Add("LHand");
-            names.Add("RHand");
+        public void CloseArmsAroundObject()
+        {
+            motion.angleInterpolationWithSpeed(closeArmsAroundObjectNames, closeArmsAroundObjectAngles, grabSpeed);
+        }
 
-            motion.setStiffnesses(names, 0.4F);
+        public void GrabHands()
+        {
+            motion.setStiffnesses(grabHandsNames, 0.4F);
+            motion.angleInterpolationWithSpeed(grabHandsNames, grabHandsAngles, grabSpeed);
+        }
 
-            angles.Clear();
-            angles.Add(0F);
-            angles.Add(0F);
-            motion.angleInterpolationWithSpeed(names, angles, grabSpeed);
-
-            names.Clear();
-            names.Add("LShoulderPitch");
-            names.Add("RShoulderPitch");
-            angles.Clear();
-            angles.Add(0F);
-            angles.Add(0F);
-            motion.angleInterpolationWithSpeed(names, angles, grabSpeed);
-
-            names.Clear();
-            names.Add("LElbowRoll");
-            names.Add("RElbowRoll");
-            angles.Clear();
-            angles.Add(-1.4F);
-            angles.Add(1.4F);
-            motion.angleInterpolationWithSpeed(names, angles, grabSpeed);
-
-            names.Clear();
-            names.Add("LShoulderPitch");
-            names.Add("RShoulderPitch");
-            angles.Clear();
-            angles.Add(1.4F);
-            angles.Add(1.4F);
-            motion.angleInterpolationWithSpeed(names, angles, grabSpeed);
+        public void HoldForWalking()
+        {
+            motion.angleInterpolationWithSpeed(holdNames, holdAngles, grabSpeed);
         }
     }
 }
