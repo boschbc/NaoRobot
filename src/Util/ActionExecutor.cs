@@ -8,6 +8,11 @@ namespace Naovigate.Util
     {
         protected bool running;
 
+        public bool Running
+        {
+            get { return running; }
+        }
+
         public void Abort()
         {
             running = false;
@@ -16,6 +21,7 @@ namespace Naovigate.Util
         public void Call(Action a)
         {
             if (running) a.Invoke();
+            
         }
 
         /*
@@ -24,6 +30,7 @@ namespace Naovigate.Util
         public void Start()
         {
             Thread t = new Thread(new ThreadStart(Run));
+            running = true;
             t.Start();
         }
 

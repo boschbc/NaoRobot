@@ -13,6 +13,7 @@ namespace Naovigate.Grabbing
     public class Grabber
     {
         private static Grabber instance;
+        private ActionExecutor worker;
         MotionProxy motion;
         RobotPostureProxy posture;
         
@@ -25,6 +26,16 @@ namespace Naovigate.Grabbing
             posture = NaoState.Instance.PostureProxy;
             instance = this;
         }
+
+        public MotionProxy Motion
+        {
+            get { return motion; }
+        }
+
+        public RobotPostureProxy Posture
+        {
+            get { return posture; }
+        }
         
         public static Grabber Instance
         {
@@ -35,76 +46,43 @@ namespace Naovigate.Grabbing
             set { instance = value; }
         }
 
+        public static void WaitFor()
+        {
+            if(Instance.worker != null)
+                while(Instance.worker.Running) System.Threading.Thread.Sleep(100);
+        }
+
         /*
          * The movemont for the grabbing
          */
-        public void Grab()
+        public GrabWorker Grab()
         {
-
+            WaitFor();
+            GrabWorker w = new GrabWorker();
+            worker = w;
+            w.Start();
+            return w;
         }
         /*
          * put down the object the nao is holding
          */
-        public void PutDown()
+        public PutDownWorker PutDown()
         {
-            float kneelDepth = 1f;
-            NaoState.Instance.SpeechProxy.say("Put Down");
+            WaitFor();
+            PutDownWorker w = new PutDownWorker();
+            worker = w;
+            w.Start();
+            return w;
+        }        
 
-            if (Pose.Instance.Balanced)
-            {
-                NaoState.Instance.SpeechProxy.say("Stable");
-                Pose.Instance.Kneel(kneelDepth);
-            }
-            else{
-                NaoState.Instance.SpeechProxy.say("Unstable");
-            }
-            Release();
-            Pose.Instance.StandUp();
-        }
-
-        /*
-         * lower the arms
-         */
-        private void LowerArms(float armsDown)
-        {
-            ArrayList names = new ArrayList();
-            ArrayList angles = new ArrayList();
-
-            names.Add("LShoulderPitch");
-            names.Add("RShoulderPitch");
-
-            angles.Add(armsDown);
-            angles.Add(armsDown);
-
-            motion.angleInterpolationWithSpeed(names, angles, 0.3F);
-        }
-
-        /*
-         * release the object
-         */
-        private void Release()
-        {
-            
-            ArrayList names = new ArrayList();
-            ArrayList angles = new ArrayList();
-
-            names.Add("RShoulderRoll");
-            names.Add("LShoulderRoll");
-            names.Add("RHand");
-            names.Add("LHand");
-            // spread arms
-            angles.Add(-0.25f);
-            angles.Add(0.25f);
-            // release hands
-            angles.Add(1);
-            angles.Add(1);
-
-            motion.angleInterpolationWithSpeed(names, angles, 0.3F);
-        }
-
+        /// <summary>
+        /// If the grabber is currently grabbing or dropping, abort the operation.
+        /// </summary>
         public static void Abort()
         {
-            throw new NotImplementedException();
+            if(Grabber.instance.worker != null){
+                Grabber.instance.worker.Abort();
+            }
         }
     }
 }

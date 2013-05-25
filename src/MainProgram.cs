@@ -15,11 +15,11 @@ namespace Naovigate
     {
         public static readonly int port = 9559;
         public static readonly string localhost = "127.0.0.1";
-        public static readonly string nao = "192.168.0.128";
+        public static readonly string nao = "192.168.0.126";
         public static readonly string nao2 = "192.168.0.128";
 
         // Use this switch to deactivate debugger invocation:
-        public static readonly bool useDebugGui = true;
+        public static readonly bool useDebugGui = false;
 
         public static void Main(String[] args)
         {
@@ -28,10 +28,12 @@ namespace Naovigate
                 LaunchDebugger.DebugMain();
             else
             {
+                System.Threading.Thread.Sleep(1);
                 NaoState.Instance.Connect(nao, port);
-                NaoState.Instance.PostureProxy.goToPosture("StandInit", 0.7f);
-               
-                Grabbing.CoolGrabber.Instance.doSomething();
+                Pose.Instance.Welcome();
+                //NaoState.Instance.PostureProxy.goToPosture("StandInit", 0.7f);
+                //Grabbing.Grabber.Instance.Grab();
+                //Grabbing.Grabber.Instance.PutDown();
                 //Stuff();
                 //System.Threading.Thread.Sleep(5000);
                 //Walk.Instance.StopMove();

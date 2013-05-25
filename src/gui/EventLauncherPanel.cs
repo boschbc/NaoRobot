@@ -61,7 +61,7 @@ namespace Naovigate.GUI
 
         private void LaunchGrabEvent()
         {
-            CoolGrabber.Instance.doSomething();
+            Grabber.Instance.Grab();
         }
 
         private void LaunchPutDownEvent()

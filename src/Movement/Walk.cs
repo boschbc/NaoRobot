@@ -57,7 +57,7 @@ namespace Naovigate.Movement
         public void WalkWhileHolding()
         {
             motion.setWalkArmsEnable(false, false);
-            motion.moveToward(0.3F, 0, 0);
+            motion.moveToward(0.8F, 0, 0);
             //motion.setWalkArmsEnable(true, true);
         }
 

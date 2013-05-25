@@ -1,38 +1,35 @@
 ﻿using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-
 using Aldebaran.Proxies;
-
+using Naovigate.Communication;
 using Naovigate.Util;
+using Naovigate.Movement;
+
 
 namespace Naovigate.Grabbing
 {
-    class CoolGrabber
+    public class GrabWorker : ActionExecutor
     {
-        private static CoolGrabber instance = null;
-        private MotionProxy motion;
-        private RobotPostureProxy posture;
-
-        public CoolGrabber()
+        public static readonly float grabSpeed = 0.5f;
+        MotionProxy motion;
+        RobotPostureProxy posture;
+        public GrabWorker()
         {
-            motion = NaoState.Instance.MotionProxy;
-            posture = NaoState.Instance.PostureProxy;
+            motion = Grabber.Instance.Motion;
+            posture = Grabber.Instance.Posture;
         }
 
-        public static CoolGrabber Instance
+        public override void Run()
         {
-            get
-            {
-                if (instance == null) instance = new CoolGrabber();
-                return instance;
-            }
+            Call(Grab);
+            running = false;
         }
 
-        public void doSomething()
+        public void Grab()
         {
             posture.goToPosture("Stand", 1F);
-            float speed = 0.3f;
             ArrayList names = new ArrayList(8);
             names.Add("LArm");
             names.Add("RArm");
@@ -47,7 +44,7 @@ namespace Naovigate.Grabbing
             names.Add("RShoulderPitch");
             names.Add("LHand");
             names.Add("RHand");
-            ArrayList angles =new ArrayList(8);
+            ArrayList angles = new ArrayList(8);
             angles.Add(1.3265F);
             angles.Add(-1.3265F);
             angles.Add(-1.2F);
@@ -55,8 +52,8 @@ namespace Naovigate.Grabbing
             angles.Add(0.5F);
             angles.Add(0.5F);
             angles.Add(1F);
-            angles.Add(1F);            
-            motion.angleInterpolationWithSpeed(names, angles, speed);
+            angles.Add(1F);
+            motion.angleInterpolationWithSpeed(names, angles, grabSpeed);
 
             names.Clear();
             names.Add("LShoulderRoll");
@@ -64,7 +61,7 @@ namespace Naovigate.Grabbing
             angles.Clear();
             angles.Add(-0.3142F);
             angles.Add(0.3142F);
-            motion.angleInterpolationWithSpeed(names, angles, speed);
+            motion.angleInterpolationWithSpeed(names, angles, grabSpeed);
 
             names.Clear();
             names.Add("LHand");
@@ -75,7 +72,7 @@ namespace Naovigate.Grabbing
             angles.Clear();
             angles.Add(0F);
             angles.Add(0F);
-            motion.angleInterpolationWithSpeed(names, angles, speed);
+            motion.angleInterpolationWithSpeed(names, angles, grabSpeed);
 
             names.Clear();
             names.Add("LShoulderPitch");
@@ -83,7 +80,7 @@ namespace Naovigate.Grabbing
             angles.Clear();
             angles.Add(0F);
             angles.Add(0F);
-            motion.angleInterpolationWithSpeed(names, angles, speed);
+            motion.angleInterpolationWithSpeed(names, angles, grabSpeed);
 
             names.Clear();
             names.Add("LElbowRoll");
@@ -91,7 +88,7 @@ namespace Naovigate.Grabbing
             angles.Clear();
             angles.Add(-1.4F);
             angles.Add(1.4F);
-            motion.angleInterpolationWithSpeed(names, angles, speed);
+            motion.angleInterpolationWithSpeed(names, angles, grabSpeed);
 
             names.Clear();
             names.Add("LShoulderPitch");
@@ -99,8 +96,7 @@ namespace Naovigate.Grabbing
             angles.Clear();
             angles.Add(1.4F);
             angles.Add(1.4F);
-            motion.angleInterpolationWithSpeed(names, angles, speed);
+            motion.angleInterpolationWithSpeed(names, angles, grabSpeed);
         }
-        
     }
 }
