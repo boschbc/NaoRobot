@@ -195,9 +195,8 @@ namespace Naovigate.Util
         /// Attempts to create a proxy of given type.
         /// @throws UnavailableConnectionException if proxy creation fails.
         /// </summary>
-        /// <typeparam name="TProxy"></typeparam>
-        /// <param name="factory"></param>
-        /// <returns></returns>
+        /// <typeparam name="TProxy">The type of proxy to be created.</typeparam>
+        /// <returns>A new proxy of the requested type.</returns>
         protected virtual TProxy createProxy<TProxy>()
         {
             try
