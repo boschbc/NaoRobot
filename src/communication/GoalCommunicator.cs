@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 
 using Naovigate.Event;
 using Naovigate.Event.NaoToGoal;
@@ -25,7 +26,9 @@ namespace Naovigate.Communication
         protected CommunicationStream communicationStream;
         protected NetworkStream stream;
         protected IPEndPoint endPoint;
-        protected bool running;
+        protected volatile bool running;
+
+        private static Object locker = new Object();
 
         private GoalCommunicator()
         {
@@ -96,16 +99,24 @@ namespace Naovigate.Communication
             running = true;
             while (IsRunning)
             {
-                byte code = communicationStream.ReadByte();
+                Logger.Log(this, "" + IsRunning);
+                byte code = 0;
                 try
                 {
-                    try {
-                        INaoEvent naoEvent = NaoEventFactory.NewEvent(code);
-                        EventQueue.Nao.Post(naoEvent);
-                    } catch (InvalidEventCodeException) {
-                        INaoEvent failureEvent = new FailureEvent(code);
-                        EventQueue.Goal.Post(failureEvent);
-                    }
+                    code = communicationStream.ReadByte();
+                    INaoEvent naoEvent = NaoEventFactory.NewEvent(code);
+                    EventQueue.Nao.Post(naoEvent);
+                }
+                catch (IOException)  //Communication Stream got closed.
+                {
+                    Logger.Log(this, "Communication stream closed.");
+                    running = false;
+                }
+                catch (InvalidEventCodeException)  //Received invalid event code.
+                {
+                    Logger.Log(this, "Invalid event code received: " + code);
+                    INaoEvent failureEvent = new FailureEvent(code);
+                    EventQueue.Goal.Post(failureEvent);
                 }
                 catch (Exception e)
                 {
@@ -120,6 +131,7 @@ namespace Naovigate.Communication
         {
             Logger.Log(this, "Disconnecting from server...");
             this.running = false;
+            this.communicationStream.Close();
             Logger.Log(this, "Disconnected.");
         }
 

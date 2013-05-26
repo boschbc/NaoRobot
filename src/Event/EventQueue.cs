@@ -26,7 +26,7 @@ namespace Naovigate.Event
         private bool running;
 
         private EventWaitHandle locker = new AutoResetEvent(false);
-
+        
         /// <summary>
         /// Boolean saying if the event queue is handling an event.
         /// </summary>
@@ -38,6 +38,7 @@ namespace Naovigate.Event
         public EventQueue()
         {
             q = new PriorityQueue<INaoEvent>(4);
+            running = true;
             thread = new Thread(new ThreadStart(Run));
             thread.IsBackground = true;
             thread.Start();
@@ -138,7 +139,7 @@ namespace Naovigate.Event
                 }
                 locker.WaitOne();
             }
-            Logger.Log(this, "Exitting main loop.");
+            Logger.Log(this, "Exiting main loop.");
         }
 
         /// <summary>
@@ -212,7 +213,8 @@ namespace Naovigate.Event
         {
             q.Clear();
             running = false;
-            Logger.Log(this, "Terminated.");
+            locker.Set();
+            Logger.Log(this, "Shutting down...");
         }
     }
 }
