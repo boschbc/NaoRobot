@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Communication\UnavailableConnectionException.cs" />
     <Compile Include="Event\GoalToNao\ExitEvent.cs" />
+    <Compile Include="Event\Internal\GrabEvent.cs" />
     <Compile Include="Event\Internal\NaoCollidingEvent.cs" />
     <Compile Include="Event\EventQueue.cs" />
     <Compile Include="Communication\CommunicationStream.cs" />
@@ -57,7 +58,7 @@
     <Compile Include="Event\GoalToNao\PickupEvent.cs" />
     <Compile Include="Event\GoalToNao\HaltEvent.cs" />
     <Compile Include="Event\INaoEvent.cs" />
-    <Compile Include="Event\Internal\SitDown.cs" />
+    <Compile Include="Event\Internal\SitDownEvent.cs" />
     <Compile Include="Event\Internal\StandUpEvent.cs" />
     <Compile Include="Event\InvalidEventCodeException.cs" />
     <Compile Include="Event\Internal\MoveEvent.cs" />
@@ -102,7 +103,7 @@
     <Compile Include="GUI\GoalSimulator.Designer.cs">
       <DependentUpon>GoalSimulator.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\GoalStub.cs" />
+    <Compile Include="Communication\GoalServer.cs" />
     <Compile Include="GUI\IRealtimeField.cs" />
     <Compile Include="GUI\EventLauncherPanel.Designer.cs">
       <DependentUpon>EventLauncherPanel.cs</DependentUpon>
@@ -139,6 +140,7 @@
     <Compile Include="Movement\Pose.cs" />
     <Compile Include="Movement\Walk.cs" />
     <Compile Include="Util\ExceptionHandler.cs" />
+    <Compile Include="Util\Logger.cs" />
     <Compile Include="Util\PriorityQueue.cs" />
     <Compile Include="Util\ActionExecutor.cs" />
     <Compile Include="Vision\Camera.cs" />

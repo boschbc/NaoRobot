@@ -8,16 +8,24 @@ using System.Diagnostics;
 
 namespace Naovigate.Communication
 {
+    /// <summary>
+    /// A wrapper class for a System.IO.Stream.
+    /// </summary>
     public class CommunicationStream
     {
         private Stream stream;
+
+        /// <summary>
+        /// Creates a new instance wrapped around a given stream.
+        /// </summary>
+        /// <param name="stream">The stream to wrap.</param>
         public CommunicationStream(Stream stream)
         {
             this.stream = stream;
         }
 
         /// <summary>
-        /// Write to the socket.
+        /// Write to the stream.
         /// </summary>
         /// <param name="data"></param>
         public void Write(byte[] data)
@@ -26,7 +34,7 @@ namespace Naovigate.Communication
         }
         
         /// <summary>
-        /// Write from data to the socket, starting from off, writing len bytes.
+        /// Write from data to the stream, starting from given offset, writing len bytes.
         /// </summary>
         /// <param name="data">Data to be written to the socket.</param>
         /// <param name="off">Offset.</param>
@@ -37,7 +45,7 @@ namespace Naovigate.Communication
         }
         
         /// <summary>
-        /// Write a byte to the socket.
+        /// Write a byte to the stream.
         /// </summary>
         /// <param name="x">A byte.</param>
         public void WriteByte(byte x)
@@ -46,7 +54,7 @@ namespace Naovigate.Communication
         }
         
         /// <summary>
-        /// Write an integer to the socket.
+        /// Write an integer to the stream.
         /// </summary>
         /// <param name="x">An integer.</param>
         public void WriteInt(int x)
@@ -55,7 +63,7 @@ namespace Naovigate.Communication
         }
 
         /// <summary>
-        /// Write a long to the socket.
+        /// Write a long to the stream.
         /// </summary>
         /// <param name="x">A long.</param>
         public void WriteLong(long x)
@@ -80,7 +88,7 @@ namespace Naovigate.Communication
         }
 
         /// <summary>
-        /// Fill the buffer buf with data from the socket.
+        /// Fill the buffer buf with data from the stream.
         /// </summary>
         /// <param name="buf">The buffer to be filled.</param>
         /// <returns></returns>
@@ -90,7 +98,7 @@ namespace Naovigate.Communication
         }
 
         /// <summary>
-        /// Fill the buffer buf with data from the socket, starting at off blocks until the bytes are available
+        /// Fill the buffer buf with data from the stream, starting at off blocks until the bytes are available
         /// </summary>
         /// <param name="buf">The buff to be filled.</param>
         /// <param name="off">Offset.</param>
@@ -107,8 +115,6 @@ namespace Naovigate.Communication
                 int len = stream.Read(buf, pos, off - pos + length);
                 pos += len;
             }
-            for (int i = off; i < off + length; i++)
-                Console.WriteLine(ToBitString(buf[i]));
             Debug.Assert(pos - off == length);
             return pos - off;
         }
@@ -141,7 +147,7 @@ namespace Naovigate.Communication
         }
 
         /// <summary>
-        ///  read a number of bytes from the socket and return them as a long.
+        ///  read a number of bytes from the stream and return them as a long.
         /// </summary>
         /// <param name="bytes">The amount of bytes to read. Max: 8.</param>
         /// <returns>A long.</returns>
@@ -159,19 +165,26 @@ namespace Naovigate.Communication
             return res;
         }
 
-        /*
-         * return the underlying stream
-         */
+        /// <summary>
+        /// Underlying stream.
+        /// </summary>
         public Stream Stream {
             get { return stream; }
         }
 
+        /// <summary>
+        /// Closes the stream.
+        /// </summary>
         public void Close()
         {
             stream.Close();
         }
 
-        //debugging help function
+        /// <summary>
+        /// Human-readable string representation of a given long.
+        /// </summary>
+        /// <param name="x">A long.</param>
+        /// <returns>A human readable string.</returns>
         public static String ToBitString(long x)
         {
             String res = "";

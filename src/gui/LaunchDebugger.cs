@@ -13,7 +13,7 @@ namespace Naovigate.Testing.GUI
     {
         private static readonly string goalserverIP = "127.0.0.1";
         private static readonly int goalserverPort = 6474;
-        private static readonly int naoPort = 9559;
+        //private static readonly int naoPort = 9559;
 
         public static void DebugMain()
         {
@@ -24,7 +24,7 @@ namespace Naovigate.Testing.GUI
 
         private static void StartGoalServer()
         {
-            GoalStub.Instance.StartServer(goalserverIP, goalserverPort);
+            GoalServer.Instance.Start(goalserverIP, goalserverPort);
         }
 
         private static void StartGoalCommunication()
@@ -34,15 +34,16 @@ namespace Naovigate.Testing.GUI
 
         private static void StartDebugger()
         {
-            NaoState.Instance.Connect(MainProgram.nao, naoPort);
+            NaoState.Instance.Connect(MainProgram.localhost, MainProgram.port);
             Application.Run(new NaoDebugger());
             ExitDebugger();
         }
 
         private static void ExitDebugger()
         {
-            //GoalCommunicator.Instance.Stop();
             Pose.Instance.SitDown();
+            GoalServer.Instance.Close();
+            GoalCommunicator.Instance.Close();
         }
     }
 }

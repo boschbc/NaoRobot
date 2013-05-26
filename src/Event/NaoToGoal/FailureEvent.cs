@@ -2,22 +2,28 @@
 
 namespace Naovigate.Event.NaoToGoal
 {
-   /*
-    * Send information regarding the successful completion of an action-event.
-    */
+    /// <summary>
+    /// Send information regarding the successful completion of an action-event.
+    /// </summary>
     public class FailureEvent : DataSendingNaoEvent
     {
         public new static readonly EventCode code = EventCode.Failure;
 
-        /*
-         * Explicit constructor.
-         * @param id The code of the event which failed.
-         */
-        public FailureEvent(EventCode eventCode) : base((byte)EventCode.Failure, (int)eventCode) { }
+        /// <summary>
+        /// Explicit constructor.
+        /// </summary>
+        /// <param name="eventCode">The code of the event which failed.</param>
+        public FailureEvent(EventCode eventCode) : base(EventCode.Failure, (int)eventCode) { }
 
-        /*
-         * Fires the event.
-         */
+        /// <summary>
+        /// Overload,
+        /// </summary>
+        /// <param name="eventCode">The code of the event which failed.</param>
+        public FailureEvent(byte eventCode) : base(EventCode.Failure, eventCode) { }
+
+        /// <summary>
+        /// Send this event across the connection.
+        /// </summary>
         public override void Fire()
         {
             SendAsByte();

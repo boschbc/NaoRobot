@@ -61,17 +61,17 @@ namespace Naovigate.GUI
 
         private void LaunchGrabEvent()
         {
-            Grabber.Instance.Grab();
+            EventQueue.Nao.Post(new GrabEvent());
         }
 
         private void LaunchPutDownEvent()
         {
-            EventQueue.Nao.Enqueue(new PutDownEvent());
+            EventQueue.Nao.Post(new PutDownEvent());
         }
 
         private void LaunchHaltEvent()
         {
-            EventQueue.Nao.Enqueue(new HaltEvent());
+            EventQueue.Nao.Post(new HaltEvent());
         }
     }
 }

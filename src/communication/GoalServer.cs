@@ -2,37 +2,62 @@
 using System.Net;
 using System.Net.Sockets;
 
-using Naovigate.Communication;
+using Naovigate.Util;
 
-namespace Naovigate.GUI
+namespace Naovigate.Communication
 {
-    public class GoalStub
+    /// <summary>
+    /// A class representing the GOAL server.
+    /// </summary>
+    public class GoalServer
     {
+        private static GoalServer instance;
+        private static string[] seperators = { ",", " ", ":", ";", "-", "+" };
+
+        TcpClient client;
         private CommunicationStream goalStream;
-        private static GoalStub instance;
         private bool running = false;
 
-        public GoalStub()
+        /// <summary>
+        /// Establish a connection to the default server IP and port.
+        /// </summary>
+        public GoalServer()
         {
-            StartServer(GoalCommunicator.defaultIp, GoalCommunicator.defaultPort);
+            Start(GoalCommunicator.DefaultIP, GoalCommunicator.DefaultPort);
         }
 
-        public void StartServer(string ip, int port)
+        /// <summary>
+        /// Establish a connection to given server IP and port.
+        /// </summary>
+        /// <param name="ip">A string containing an IP.</param>
+        /// <param name="port">Port number.</param>
+        public void Start(string ip, int port)
         {
             if (running)
                 return;
             
-            TcpListener l = new TcpListener(IPAddress.Parse(ip), port);
-            l.Start();
-            TcpClient client = l.AcceptTcpClient();
+            TcpListener listener = new TcpListener(IPAddress.Parse(ip), port);
+            listener.Start();
+            client = listener.AcceptTcpClient();
             goalStream = new CommunicationStream(client.GetStream());
-            l.Stop();
+            listener.Stop();
             running = true;
         }
 
-        public static GoalStub Instance
+        /// <summary>
+        /// Closes the server.
+        /// </summary>
+        public void Close()
         {
-            get { return instance == null ? instance = new GoalStub() : instance; }
+            client.Close();
+        }
+
+        /// <summary>
+        /// The GoalServer singleton's instance.
+        /// </summary>
+        public static GoalServer Instance
+        {
+            get { return instance == null ? instance = new GoalServer() : instance; }
         }
 
         /// <summary>
@@ -45,7 +70,6 @@ namespace Naovigate.GUI
             
             for (int i = 0; i < ss.Length;i++ )
             {
-                Console.WriteLine(ss[i]);
                 try
                 {
                     if (ss[i].Length > 1 && ss[i].Contains("b"))
@@ -63,26 +87,30 @@ namespace Naovigate.GUI
                         goalStream.WriteInt(Convert.ToInt32(ss[i]));
                     }
                 }
-                catch(FormatException)
+                catch (FormatException)
                 {
-                    Console.WriteLine("Invalid Argument Parsing" + arg + ", found NaN.");
+                    Logger.Log("Could not parse incoming data: " + arg);
                 }
             }
 
         }
 
+        /// <summary>
+        /// Splits a string according to a set of internally defined delimeters.
+        /// </summary>
+        /// <param name="arg">The string to be split.</param>
+        /// <returns>An array of strings.</returns>
         private string[] Split(string arg)
         {
-            string[] seperators = { ",", " ", ":", ";", "-", "+" };
             return arg.Split(seperators, StringSplitOptions.RemoveEmptyEntries);
         }
 
-        /*
-         * simulate the goal server sending the arguments to the GoalCommunicator
-         */
+        /// <summary>
+        /// Parses incoming data.
+        /// </summary>
+        /// <param name="args">One or more strings containing formatted data.</param>
         public static void Execute(params string[] args)
         {
-            Console.WriteLine("GoalStub.Execute");
             for (int i = 0; i < args.Length; i++)
             {
                 Instance.ExecuteArguments(args[i]);

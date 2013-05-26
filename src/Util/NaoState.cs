@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 
 using Aldebaran.Proxies;
+
 using Naovigate.Movement;
 using Naovigate.Communication;
 
@@ -14,7 +15,7 @@ namespace Naovigate.Util
 {
     public class NaoState
     {
-        private static NaoState instance = null;
+        protected static NaoState instance = null;
 
         protected IPAddress ip;
         protected int port;
@@ -64,6 +65,7 @@ namespace Naovigate.Util
         /// <param name="endPoint">IP end point to connect to.</param>
         public virtual void Connect(IPEndPoint endPoint)
         {
+            Logger.Log(this, "Connecting to Nao...");
             if (Connected) {
                 Disconnect();
             }
@@ -72,6 +74,7 @@ namespace Naovigate.Util
             connected = true;
             CreateMyProxies();
             Update();
+            Logger.Log(this, "Connection established.");
         }
 
         /// <summary>
@@ -79,6 +82,7 @@ namespace Naovigate.Util
         /// </summary>
         public virtual void Disconnect()
         {
+            Logger.Log(this, "Disconnecting from Nao...");
             if (Connected) {
                 return;
             }
@@ -86,6 +90,7 @@ namespace Naovigate.Util
             port = -1;
             connected = false;
             TeardownProxies();
+            Logger.Log(this, "Disconnected.");
         }
 
 
@@ -372,7 +377,7 @@ namespace Naovigate.Util
             }
             catch(Exception e)
             {
-                Console.WriteLine("Failed Nao update: " + e);
+                Logger.Log(this, "Failed Update(). Unknown exception occurred: " + e.ToString());
             }
 
             // Count the time between this update and the next.

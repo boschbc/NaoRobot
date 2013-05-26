@@ -1,41 +1,39 @@
 ﻿using System;
 using System.Collections.Generic;
-using Naovigate.Util;
 using System.Threading;
 using System.ComponentModel;
 
+using Naovigate.Util;
+
 namespace Naovigate.Event
 {
-    /*
-     * The EventQueue collects events for activation, and fires them one at a time.
-     * To achieve interruptable events by high-prioritized stop events, events should
-     * be handled quickly
-     *      e.g. an action that makes the robot stand up and walk a meter, should
-     *      create multiple events for standing up and walking, preferably splitting
-     *      the walk in multiple events aswell.
-     */
+    /// <summary>
+    /// The EventQueue collects events for activation, and fires them one at a time.
+    /// To achieve interruptable events by high-prioritized stop events, events should
+    /// be handled quickly
+    ///      e.g. an action that makes the robot stand up and walk a meter, should
+    ///      create multiple events for standing up and walking, preferably splitting
+    ///     the walk in multiple events aswell.
+    /// </summary>
     public class EventQueue
     {
         private static EventQueue instance;
         private static EventQueue goal;
 
-        /*
-         * internal queue to store the events
-         */
         private PriorityQueue<INaoEvent> q;
         private Thread thread;
         private bool suspended;
 
         private EventWaitHandle locker = new AutoResetEvent(false);
 
-        /*
-         * boolean saying if the event queue is handling an event
-         */
+        /// <summary>
+        /// Boolean saying if the event queue is handling an event.
+        /// </summary>
         private bool inAction;
 
-        /*
-         * Constructor
-         */
+        /// <summary>
+        /// Creates a new EventQueue instance and starts the main thread.
+        /// </summary>
         public EventQueue()
         {
             q = new PriorityQueue<INaoEvent>(4);
@@ -44,54 +42,48 @@ namespace Naovigate.Event
             thread.Start();
         }
 
-        /*
-         * Post an event to the queue
-         */
+        /// <summary>
+        /// Posts one or more events into the queue.
+        /// </summary>
+        /// <param name="events">One or more events.</param>
         public void Post(params INaoEvent[] events)
-        {
-            Console.WriteLine("Posting Event(s)");
-            Enqueue(events);
-            Console.WriteLine("Posted Event(s)");
-        }
-
-        /*
-         * Enqueue the events
-         */
-        public void Enqueue(params INaoEvent[] events)
         {
             lock (q)
             {
                 foreach (INaoEvent e in events)
                 {
-                    Console.WriteLine("Enqueue "+e);
+                    Logger.Log(this, "Posting event: " + e.ToString());
                     q.Enqueue(e, (int)e.Priority);
-                    Console.WriteLine(e+" Added");
                 }
             }
             locker.Set();
         }
 
-        /*
-         * Suspends the firing of events. events can still be added to the queue.
-         */
+        /// <summary>
+        /// Suspends the firing of events. events may still be added to the queue whlie suspended.
+        /// </summary>
         public void Suspend()
         {
+            Logger.Log(this, "Suspended.");
             suspended = true;
         }
 
-        /*
-         * Continue firing events.
-         * if the EventQueue was not suspended, this has no effect.
-         */
+        /// <summary>
+        /// Continue firing events.
+        /// If the EventQueue was not suspended, has no effect.
+        /// </summary>
         public void Resume()
         {
+            if (!suspended)
+                return;
+            Logger.Log(this, "Resumed.");
             suspended = false;
             locker.Set();
         }
 
-        /*
-        * return the EventQueue instance for nao events
-        */
+        /// <summary>
+        /// The EventQueue instance for incoming events.
+        /// </summary>
         public static EventQueue Nao
         {
             get
@@ -104,9 +96,9 @@ namespace Naovigate.Event
             }
         }
 
-       /*
-       * return the EventQueue instance for sending 
-       */
+        /// <summary>
+        /// The EventQueue instance for outgoing events.
+        /// </summary>
         public static EventQueue Goal
         {
             get
@@ -119,9 +111,9 @@ namespace Naovigate.Event
             }
         }
 
-        /*
-         * Runs the event in the queue if he's not empty else wait fot one.
-         */
+        /// <summary>
+        /// The queue's main loop. Iterates through incoming events and fires them in sequence.
+        /// </summary>
         private void Run()
         {
             while (true)
@@ -134,9 +126,9 @@ namespace Naovigate.Event
             }
         }
 
-        /**
-         * return the next event
-         */
+        /// <summary>
+        /// The next event in the queue.
+        /// </summary>
         INaoEvent NextEvent
         {
             get
@@ -153,9 +145,9 @@ namespace Naovigate.Event
             }
         }
 
-        /*
-         * exectues the event
-         */
+        /// <summary>
+        /// Fires an event.
+        /// </summary>
         private void FireEvent()
         {
             inAction = true;
@@ -163,29 +155,29 @@ namespace Naovigate.Event
             if (e != null)
             {
                 // there was an event available, fire it
-                Console.WriteLine("Firing " + e + "\n" + EventsQueuedCount()+" Events left.");
+                Logger.Log(this, "Firing " + e + ".\n" + EventsQueuedCount() + " events pending.");
                 e.Fire();
-                Console.WriteLine("Fired");
+                Logger.Log(this, "Event " + e + " finished firing.");
             }
             inAction = false;
         }
 
-        /*
-         * returns the size of the queue
-         */
+        /// <summary>
+        /// The amount of pending events.
+        /// </summary>
+        /// <returns>The amount of pending events.</returns>
         public int EventsQueuedCount()
         {
             return q.Size();
         }
 
+        /// <summary>
+        /// Returns true if there are no pending events.
+        /// </summary>
+        /// <returns>A boolean.</returns>
         public bool IsEmpty()
         {
             return EventsQueuedCount() == 0 && !inAction;
-        }
-
-        public int GetID(INaoEvent e)
-        {
-            return 42;//throw new NotImplementedException();
         }
     }
 }

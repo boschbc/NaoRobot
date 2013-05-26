@@ -64,9 +64,7 @@
     <Compile Include="Event\NaoEventFactoryTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="GUI\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\src\Naovigate.csproj">
       <Project>{E716A50D-7773-4AE2-B73F-9FC95F72C798}</Project>

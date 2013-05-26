@@ -92,7 +92,7 @@ namespace Naovigate.Event.GoalToNao
             }
             catch
             {
-                EventQueue.Goal.Enqueue(new ErrorEvent());
+                EventQueue.Goal.Post(new ErrorEvent());
             }
         }
 

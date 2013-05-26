@@ -13,7 +13,7 @@ namespace Naovigate.Test.Event
 	public class EventQueueTest{        private Tracker t;
         private EventQueue q;
 		private void Add(params INaoEvent[] events){
-		    q.Enqueue(events);
+		    q.Post(events);
 		}
 
         /*

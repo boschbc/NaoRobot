@@ -4,7 +4,7 @@ using NUnit.Framework;
 using Naovigate.Event.NaoToGoal;
 using Naovigate.Test.Communication;
 using System.IO;
-
+using Moq;
 namespace Naovigate.Test.Event
 {
     [TestFixture, Timeout(2500)]
@@ -13,7 +13,7 @@ namespace Naovigate.Test.Event
         private GoalComsStub coms;
         private CommunicationStream stream;
         private MemoryStream mem;
-
+        
         [SetUp]
         public void SetUp()
         {

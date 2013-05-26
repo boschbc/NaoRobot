@@ -4,6 +4,8 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
+using Naovigate.Communication;
+
 namespace Naovigate.GUI
 {
     public partial class GoalSimulator : UserControl
@@ -21,7 +23,7 @@ namespace Naovigate.GUI
         private void simulateButton_Click(object sender, EventArgs e)
         {
             Console.WriteLine("Executing command: " + commandBox.Text);
-            GoalStub.Execute(commandBox.Text);
+            GoalServer.Execute(commandBox.Text);
         }
     }
 }
