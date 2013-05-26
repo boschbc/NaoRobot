@@ -17,12 +17,13 @@ namespace Naovigate.Event
     /// </summary>
     public class EventQueue
     {
-        private static EventQueue instance;
-        private static EventQueue goal;
+        private static EventQueue naoInstance;
+        private static EventQueue goalInstance;
 
         private PriorityQueue<INaoEvent> q;
         private Thread thread;
         private bool suspended;
+        private bool running;
 
         private EventWaitHandle locker = new AutoResetEvent(false);
 
@@ -43,11 +44,22 @@ namespace Naovigate.Event
         }
 
         /// <summary>
+        /// True if the queue's main loop is currently running.
+        /// </summary>
+        public bool IsRunning
+        {
+            get { return running; }
+        }
+
+        /// <summary>
         /// Posts one or more events into the queue.
+        /// Throws InvalidOpertionException if the queue was terminated prior to this method-invocation.
         /// </summary>
         /// <param name="events">One or more events.</param>
         public void Post(params INaoEvent[] events)
         {
+            if (!IsRunning)
+                throw new InvalidOperationException("Cannot post events to a terminated queue.");
             lock (q)
             {
                 foreach (INaoEvent e in events)
@@ -88,11 +100,11 @@ namespace Naovigate.Event
         {
             get
             {
-                if (instance == null)
+                if (naoInstance == null)
                 {
-                    instance = new EventQueue();
+                    naoInstance = new EventQueue();
                 }
-                return instance;
+                return naoInstance;
             }
         }
 
@@ -103,11 +115,11 @@ namespace Naovigate.Event
         {
             get
             {
-                if (goal == null)
+                if (goalInstance == null)
                 {
-                    goal = new EventQueue();
+                    goalInstance = new EventQueue();
                 }
-                return goal;
+                return goalInstance;
             }
         }
 
@@ -116,7 +128,9 @@ namespace Naovigate.Event
         /// </summary>
         private void Run()
         {
-            while (true)
+            Logger.Log(this, "Entering main loop...");
+            running = true;
+            while (IsRunning)
             {
                 while (!IsEmpty() && !suspended)
                 {
@@ -124,6 +138,7 @@ namespace Naovigate.Event
                 }
                 locker.WaitOne();
             }
+            Logger.Log(this, "Exitting main loop.");
         }
 
         /// <summary>
@@ -178,6 +193,26 @@ namespace Naovigate.Event
         public bool IsEmpty()
         {
             return EventsQueuedCount() == 0 && !inAction;
+        }
+        
+        /// <summary>
+        /// Blocks the thread until the next time the queue becomes empty.
+        /// </summary>
+        public void Block()
+        {
+            while (!q.IsEmpty())
+                Thread.Sleep(100);
+        }
+
+        /// <summary>
+        /// Clears all queued events and stops accepting new events to be queued.
+        /// Exits the main thread.
+        /// </summary>
+        public void Terminate()
+        {
+            q.Clear();
+            running = false;
+            Logger.Log(this, "Terminated.");
         }
     }
 }

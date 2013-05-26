@@ -55,9 +55,8 @@ namespace Naovigate.Communication
         public GoalCommunicator(IPEndPoint end, int port) : this()
         {
             if (end == null)
-            {
                 throw new ArgumentNullException("The given IPEndPoint is null.");
-            }
+            
             this.ip = end.Address;
             this.port = port;
             this.endPoint = end;
@@ -76,7 +75,7 @@ namespace Naovigate.Communication
         /// </summary>
         public void Connect()
         {
-            Logger.Log(this, "Connecting to IP: " + this.ip.ToString() + " Port: " + this.port.ToString());
+            Logger.Log(this, "Connecting to: " + this.ip.ToString() + ":" + this.port.ToString());
             this.client.Connect(this.endPoint);
             this.stream = this.client.GetStream();
             this.communicationStream = new CommunicationStream(this.stream);

@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using System.Threading;
 
 using Naovigate.Communication;
+using Naovigate.Event;
 using Naovigate.GUI;
 using Naovigate.Movement;
 using Naovigate.Util;
@@ -24,7 +25,7 @@ namespace Naovigate.Testing.GUI
 
         private static void StartGoalServer()
         {
-            GoalServer.Instance.Start(goalserverIP, goalserverPort);
+            GoalServer i = GoalServer.Instance;//.Start(goalserverIP, goalserverPort);
         }
 
         private static void StartGoalCommunication()
@@ -41,9 +42,12 @@ namespace Naovigate.Testing.GUI
 
         private static void ExitDebugger()
         {
-            Pose.Instance.SitDown();
-            GoalServer.Instance.Close();
+            EventQueue.Nao.Post(new Event.Internal.SitDownEvent());
+            EventQueue.Nao.Block();
+            EventQueue.Nao.Terminate();
+            NaoState.Instance.Disconnect();
             GoalCommunicator.Instance.Close();
+            GoalServer.Instance.Close();
         }
     }
 }

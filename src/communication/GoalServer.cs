@@ -14,7 +14,6 @@ namespace Naovigate.Communication
         private static GoalServer instance;
         private static string[] seperators = { ",", " ", ":", ";", "-", "+" };
 
-        TcpClient client;
         private CommunicationStream goalStream;
         private bool running = false;
         private TcpClient client;
@@ -22,7 +21,7 @@ namespace Naovigate.Communication
         /// <summary>
         /// Establish a connection to the default server IP and port.
         /// </summary>
-        public GoalServer()
+        public GoalServer() 
         {
             Start(GoalCommunicator.DefaultIP, GoalCommunicator.DefaultPort);
         }
@@ -34,7 +33,8 @@ namespace Naovigate.Communication
         /// <param name="port">Port number.</param>
         public void Start(string ip, int port)
         {
-            if (running)
+            Logger.Log(this, "Starting GOAL server...");
+            if (IsRunning)
                 return;
             
             TcpListener listener = new TcpListener(IPAddress.Parse(ip), port);
@@ -43,14 +43,7 @@ namespace Naovigate.Communication
             goalStream = new CommunicationStream(client.GetStream());
             listener.Stop();
             running = true;
-        }
-
-        /// <summary>
-        /// Closes the server.
-        /// </summary>
-        public void Close()
-        {
-            client.Close();
+            Logger.Log(this, "Server is running.");
         }
 
         /// <summary>
@@ -59,6 +52,14 @@ namespace Naovigate.Communication
         public static GoalServer Instance
         {
             get { return instance == null ? instance = new GoalServer() : instance; }
+        }
+
+        /// <summary>
+        /// True if the server is currently running.
+        /// </summary>
+        public Boolean IsRunning
+        {
+            get { return running; }
         }
 
         /// <summary>
@@ -90,7 +91,7 @@ namespace Naovigate.Communication
                 }
                 catch (FormatException)
                 {
-                    Logger.Log("Could not parse incoming data: " + arg);
+                    Logger.Log(this, "Could not parse incoming data: " + arg);
                 }
             }
 
@@ -118,19 +119,24 @@ namespace Naovigate.Communication
             }
         }
 
-        public static void Abort()
+        /// <summary>
+        /// Closes the server.
+        /// </summary>
+        public void Close()
         {
+            Logger.Log(typeof(GoalServer), "Closing GOAL server...");
             try
             {
                 if (instance != null && instance.client != null)
                 {
                     instance.client.Close();
-                    Console.WriteLine("GoalStub Closed");
+                    running = false;
+                    Logger.Log(typeof(GoalServer), "Closed.");
                 }
             }
             catch (SocketException e)
             {
-                Console.WriteLine("GoalStub: "+e);
+                Logger.Log(typeof(GoalServer), "Exception caught while closing GOAL server:\n" + e);
             }
         }
     }

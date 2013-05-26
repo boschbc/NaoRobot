@@ -8,8 +8,10 @@ namespace Naovigate.Util
     /// </summary>
     internal static class Logger
     {
-        private static readonly string Format = "{0} :: {1} :: {2}";
+        private static readonly string Format = "{0} {1} :: {2} :: {3}";
         private static readonly string DefaultInvokerName = "Token";
+
+        private static int id = 0;
 
         /// <summary>
         /// Multiplies given string in an integer and returns the result.
@@ -36,13 +38,13 @@ namespace Naovigate.Util
         /// <param name="message">A string to log.</param>
         public static void Log(string invoker, string message)
         {
-            string time = DateTime.Now.ToShortTimeString();
+            string time = DateTime.Now.ToLongTimeString();
             if (message.Contains("\n"))
             {
                 message = message.Insert(0, "\n");
                 message = message.Replace("\n", "\n\t");
             }
-            Console.WriteLine(String.Format(Format, time, invoker, message));
+            Console.WriteLine(String.Format(Format, id++, time, invoker, message));
         }
 
         /// <summary>

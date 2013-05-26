@@ -65,10 +65,10 @@ namespace Naovigate.Util
         /// <param name="endPoint">IP end point to connect to.</param>
         public virtual void Connect(IPEndPoint endPoint)
         {
-            Logger.Log(this, "Connecting to Nao...");
             if (Connected) {
                 Disconnect();
             }
+            Logger.Log(this, "Connecting to Nao...");
             ip = endPoint.Address;
             port = endPoint.Port;
             connected = true;
@@ -82,10 +82,10 @@ namespace Naovigate.Util
         /// </summary>
         public virtual void Disconnect()
         {
-            Logger.Log(this, "Disconnecting from Nao...");
-            if (Connected) {
+            if (!Connected) {
                 return;
             }
+            Logger.Log(this, "Disconnecting from Nao...");
             ip = null;
             port = -1;
             connected = false;
