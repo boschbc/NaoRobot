@@ -28,19 +28,11 @@ namespace Naovigate
                 LaunchDebugger.DebugMain();
             else
             {
-                System.Threading.Thread.Sleep(1);
-                NaoState.Instance.Connect(nao, port);
-                Pose.Instance.Welcome();
-                //NaoState.Instance.PostureProxy.goToPosture("StandInit", 0.7f);
-                //Grabbing.Grabber.Instance.Grab();
-                //Grabbing.Grabber.Instance.PutDown();
+                NaoState.Instance.Connect(localhost, port);
+                Grabbing.Grabber.Instance.Grab();
                 //Stuff();
-                //System.Threading.Thread.Sleep(5000);
-                //Walk.Instance.StopMove();
-                //Grabbing.Grabber.Instance.PutDown();
-                //TmpTest();
+                //Test();
             }
-            //Stuff();
 
             Console.WriteLine("Done. Press any key to exit.");
             Console.Read();
@@ -57,19 +49,19 @@ namespace Naovigate
             motion.moveToward(0.2F, 0, 0);
         }
 
-        private static void TmpTest()
+        private static void Test()
         {
             Console.WriteLine("Connect");
             //NaoState.Instance.Connect(localhost, port);
 
             NaoState.Instance.MotionProxy.wakeUp();
             Console.WriteLine("Do Test");
-            
+
         }
 
         private static void ShutDownHook()
         {
-             AppDomain.CurrentDomain.ProcessExit += Cleanup;  
+            AppDomain.CurrentDomain.ProcessExit += Cleanup;
         }
 
         private static void Cleanup(object sender, EventArgs e)

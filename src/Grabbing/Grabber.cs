@@ -46,33 +46,40 @@ namespace Naovigate.Grabbing
             set { instance = value; }
         }
 
+        /*
+         * wait until the current worker is finnished
+         */
         public static void WaitFor()
         {
             if(Instance.worker != null)
-                while(Instance.worker.Running) System.Threading.Thread.Sleep(100);
+                Instance.worker.WaitFor();
         }
 
         /*
-         * The movemont for the grabbing
+         * 
          */
-        public GrabWorker Grab()
+        private Worker DoWork<Worker>(Worker w) where Worker : ActionExecutor
         {
             WaitFor();
-            GrabWorker w = new GrabWorker();
             worker = w;
             w.Start();
             return w;
         }
+
+        /*
+         * The movement for the grabbing
+         */
+        public GrabWorker Grab()
+        {
+            return DoWork(new GrabWorker());
+        }
+        
         /*
          * put down the object the nao is holding
          */
         public PutDownWorker PutDown()
         {
-            WaitFor();
-            PutDownWorker w = new PutDownWorker();
-            worker = w;
-            w.Start();
-            return w;
+            return DoWork(new PutDownWorker());
         }        
 
         /// <summary>
@@ -80,8 +87,8 @@ namespace Naovigate.Grabbing
         /// </summary>
         public static void Abort()
         {
-            if(Grabber.instance.worker != null){
-                Grabber.instance.worker.Abort();
+            if(instance.worker != null){
+                instance.worker.Abort();
             }
         }
     }

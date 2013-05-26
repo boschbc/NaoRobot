@@ -17,6 +17,7 @@ namespace Naovigate.Communication
         TcpClient client;
         private CommunicationStream goalStream;
         private bool running = false;
+        private TcpClient client;
 
         /// <summary>
         /// Establish a connection to the default server IP and port.
@@ -114,6 +115,22 @@ namespace Naovigate.Communication
             for (int i = 0; i < args.Length; i++)
             {
                 Instance.ExecuteArguments(args[i]);
+            }
+        }
+
+        public static void Abort()
+        {
+            try
+            {
+                if (instance != null && instance.client != null)
+                {
+                    instance.client.Close();
+                    Console.WriteLine("GoalStub Closed");
+                }
+            }
+            catch (SocketException e)
+            {
+                Console.WriteLine("GoalStub: "+e);
             }
         }
     }

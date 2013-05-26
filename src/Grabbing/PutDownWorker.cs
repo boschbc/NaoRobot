@@ -11,23 +11,27 @@ namespace Naovigate.Grabbing
 {
     public class PutDownWorker : ActionExecutor
     {
-        public PutDownWorker()
-        {
+        public static readonly float putDownSpeed = 0.3f;
+        public static readonly float kneelDepth = 1f;
 
-        }
+        private static readonly ArrayList releaseNames = new ArrayList(new string[] { "RShoulderRoll", "LShoulderRoll", "RHand", "LHand" });
+        private static readonly ArrayList releaseAngles = new ArrayList(new float[] { -0.25f, 0.25f ,1f, 1f});
+
+        public PutDownWorker(){ }
 
         public override void Run()
         {
             Call(PutDown);
-            running = false;
         }
 
         /*
-         * put down the object the nao is holding
+         * Put down the object the nao is holding.
+         * if the Nao is stable, it will kneel to release the object,
+         * else if will just drop it. Pose.Balanced may or may not attempt
+         * to stabalise the Nao.
          */
         public void PutDown()
         {
-            float kneelDepth = 1f;
             Call(() => NaoState.Instance.SpeechProxy.say("Put Down"));
 
             if (Pose.Instance.Balanced)
@@ -44,43 +48,13 @@ namespace Naovigate.Grabbing
         }
 
         /*
-         * lower the arms
-         */
-        private void LowerArms(float armsDown)
-        {
-            ArrayList names = new ArrayList();
-            ArrayList angles = new ArrayList();
-
-            names.Add("LShoulderPitch");
-            names.Add("RShoulderPitch");
-
-            angles.Add(armsDown);
-            angles.Add(armsDown);
-
-            Grabber.Instance.Motion.angleInterpolationWithSpeed(names, angles, 0.3F);
-        }
-
-        /*
          * release the object
+         * more specific, it will spread its arms and
+         * lower the grip in the hands.
          */
         private void Release()
         {
-
-            ArrayList names = new ArrayList();
-            ArrayList angles = new ArrayList();
-
-            names.Add("RShoulderRoll");
-            names.Add("LShoulderRoll");
-            names.Add("RHand");
-            names.Add("LHand");
-            // spread arms
-            angles.Add(-0.25f);
-            angles.Add(0.25f);
-            // release hands
-            angles.Add(1);
-            angles.Add(1);
-
-            Grabber.Instance.Motion.angleInterpolationWithSpeed(names, angles, 0.3F);
+            Grabber.Instance.Motion.angleInterpolationWithSpeed(releaseNames, releaseAngles, putDownSpeed);
         }
     }
 }

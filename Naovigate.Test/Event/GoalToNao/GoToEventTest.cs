@@ -36,6 +36,11 @@ namespace Naovigate.Test.Event.GoalToNao
         public void TearDown()
         {
             goalComs.SetStream(emptyStream);
+            if (Naovigate.Util.NaoState.Instance.Connected)
+            {
+                Walk.Instance.Abort();
+                Naovigate.Util.NaoState.Instance.Disconnect();
+            }
         }
 
         [Test]
