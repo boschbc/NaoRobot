@@ -8,43 +8,43 @@ using Naovigate.Util;
 
 namespace Naovigate.Event.GoalToNao
 {
-    /*
-     * @param ID
-     * Pick up the object with id ID
-     */
+    /// <summary>
+    /// A class representing a PickUp event as specified in the API.
+    /// </summary>
     public class PickupEvent : NaoEvent
     {
         public new static readonly EventCode code = EventCode.Pickup;
         private int id;
         private ObjectSearchThread searchThread;
 
-        /*
-         * Default constructor.
-         */
+        /// <summary>
+        /// Creates a new pickup event.
+        /// </summary>
         public PickupEvent()
         {
             Unpack();
         }
 
-        /*
-         * Explicit constructor.
-         */
+        /// <summary>
+        /// Explicit constructor.
+        /// </summary>
+        /// <param name="id">Objectd ID</param>
         public PickupEvent(int id)
         {
             this.id = id;
         }
 
-        /*
-         * Takes a communication stream and extracts different parameters as required.
-         */
+        /// <summary>
+        /// Extract the ObjectID out of the internal communication stream.
+        /// </summary>
         private void Unpack()
         {
             id = stream.ReadInt();
         }
 
-        /*
-         * See the INaoEvent class docs for documentation of this method.
-         */
+        /// <summary>
+        /// Fires the event.
+        /// </summary>
         public override void Fire()
         {
             NaoEvent statusEvent = new SuccessEvent(code); ;
@@ -64,14 +64,20 @@ namespace Naovigate.Event.GoalToNao
             EventQueue.Goal.Post(statusEvent);
         }
 
-        /*
-         * See the INaoEvent class docs for documentation of this method.
-         */
+        /// <summary>
+        /// Aborts the event's execution.
+        /// </summary>
         public override  void Abort()
         {
-            if (searchThread != null)
+            if (searchThread == null)
+                return;
+            try
             {
                 searchThread.Abort();
+            }
+            catch
+            {
+                EventQueue.Goal.Post(new ErrorEvent());
             }
         }
     }

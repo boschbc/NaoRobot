@@ -99,7 +99,6 @@ namespace Naovigate.Communication
             running = true;
             while (IsRunning)
             {
-                Logger.Log(this, "" + IsRunning);
                 byte code = 0;
                 try
                 {
