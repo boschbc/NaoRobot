@@ -30,11 +30,11 @@ namespace Naovigate.Vision
             get { return enabled; }
             set
             {
-                enabled = value;
                 if (value)
                     StartVideo();
                 else
                     StopVideo();
+                enabled = value;
             }
         }
         /*
@@ -42,7 +42,10 @@ namespace Naovigate.Vision
         */
         public void StartVideo()
         {
-            StopVideo();
+            if (enabled)
+            {
+                StopVideo();
+            }
             subscriberID = videoProxy.subscribeCamera(subscriberID, 0, 1 /*kQVGA*/, 13 /*kRGB*/, 30);
         }
 
