@@ -10,14 +10,12 @@ namespace Naovigate.Movement
     public class ObjectSearchThread : ActionExecutor
     {
         private bool found;
-        private String objectId;
-        private String side;
+        private int objectId;
         private double dist;
 
-        public ObjectSearchThread(String objectID, String side, double dist)
+        public ObjectSearchThread(int objectID, double dist)
         {
             this.objectId = objectID;
-            this.side = side;
             this.dist = dist;
         }
 
@@ -39,7 +37,7 @@ namespace Naovigate.Movement
                 for (int i = 0; running && !found && i < objects.Count; i++)
                 {
                     ArrayList marker = (ArrayList)objects[i];
-                    if (running && (String)((ArrayList)objects[1])[0] == objectId)
+                    if (running && (int)((ArrayList)objects[1])[0] == objectId)
                     {
                         float angle = ((float)((ArrayList)objects[0])[1]) / 4F;
                         Call(() => Walk.Instance.StartWalking(0.5F, 0, Math.Max(-1, Math.Min(1, angle))));
