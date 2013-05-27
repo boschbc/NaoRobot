@@ -10,6 +10,7 @@ using Aldebaran.Proxies;
 
 using Naovigate.Movement;
 using Naovigate.Communication;
+using Naovigate.Navigation;
 
 namespace Naovigate.Util
 {
