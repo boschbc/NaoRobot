@@ -29,9 +29,12 @@ namespace Naovigate
                 LaunchDebugger.DebugMain();
             else
             {
+                NaoState.Instance.Connect(ip, 9559);
+                ObjectSearchThread st = new ObjectSearchThread(1, 1);
+                st.LookForObject();
                 //NaoState.Instance.Connect(localhost, port);
                 //Grabbing.Grabber.Instance.Grab();
-                //Stuff();
+                //Stuff()
                 //Test();
             }
 

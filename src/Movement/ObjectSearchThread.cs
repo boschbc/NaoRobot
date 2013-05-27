@@ -27,33 +27,52 @@ namespace Naovigate.Movement
         public void LookForObject()
         {
             ObjectRecogniser rec = ObjectRecogniser.GetInstance();
-            ArrayList objects;
+            ArrayList pictureInfos;
 
-            while (running && !found)
+            while (!found)
             {
                 if (!Walk.Instance.IsMoving()) running = false;
                 ArrayList data = rec.GetObjectData();
-                objects = data.Count == 0 ? data : (ArrayList)data[1];
-                for (int i = 0; running && !found && i < objects.Count; i++)
+                pictureInfos = data.Count == 0 ? data : (ArrayList)data[1];
+                
+
+                for (int i = 0;!found && i < pictureInfos.Count; i++)
                 {
-                    ArrayList marker = (ArrayList)objects[i];
-                    if (running && (int)((ArrayList)objects[1])[0] == objectId)
+                    ArrayList pictureInfo = (ArrayList)pictureInfos[i];
+                    ArrayList labels = (ArrayList)pictureInfo[0];
+
+                    if (StringToInt((String)labels[0]) == objectId)
                     {
-                        float angle = ((float)((ArrayList)objects[0])[1]) / 4F;
-                        Call(() => Walk.Instance.StartWalking(0.5F, 0, Math.Max(-1, Math.Min(1, angle))));
-
-                        float sizeY = ((float)((ArrayList)objects[0])[4]);
-
-                        if (running && MarkerRecogniser.estimateDistance(sizeY) <= dist)
+                        ArrayList boundryPoint = (ArrayList)pictureInfo[3];
+                        Console.WriteLine("----------");
+                        for (int j = 0; j < boundryPoint.Count; j++)
                         {
-                            Walk.Instance.StopMove();
-                            found = true;
+                            ArrayList p = (ArrayList)boundryPoint[j];
+                            Console.WriteLine("x: " + p[0] + ", y: " + p[1]);
                         }
                     }
                 }
                 Thread.Sleep(250);
             }
             Console.WriteLine("Exit LookForObjects");
-            }  
         }
+
+        public int StringToInt(String s)
+        {
+            try
+            {
+                return Convert.ToInt32(s);
+            }
+            catch (FormatException e)
+            {
+                Console.WriteLine("Input string is not a sequence of digits.");
+                return -1;
+            }
+            catch (OverflowException e)
+            {
+                Console.WriteLine("The number cannot fit in an Int32.");
+                return -1;
+            }
+        }
+    }
 }
