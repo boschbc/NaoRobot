@@ -12,10 +12,6 @@ namespace Naovigate.Testing.GUI
 {
     class LaunchDebugger
     {
-        //private static readonly string goalserverIP = "127.0.0.1";
-        //private static readonly int goalserverPort = 6474;
-        //private static readonly int naoPort = 9559;
-
         public static void DebugMain()
         {
             new Thread (new ThreadStart(StartGoalServer)).Start();

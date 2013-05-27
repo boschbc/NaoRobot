@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             this.cameraBox = new System.Windows.Forms.GroupBox();
+            this.cameraMonitor = new Naovigate.GUI.CameraMonitor();
             this.stateBox = new System.Windows.Forms.GroupBox();
+            this.stateMonitorPanel = new Naovigate.GUI.StateMonitorPanel();
             this.goalSimulatorBox = new System.Windows.Forms.GroupBox();
             this.goalSimulator1 = new Naovigate.GUI.GoalSimulator();
             this.eventLauncherPanel = new Naovigate.GUI.EventLauncherPanel();
-            this.stateMonitorPanel = new Naovigate.GUI.StateMonitorPanel();
-            this.cameraMonitor = new Naovigate.GUI.CameraMonitor();
             this.cameraBox.SuspendLayout();
             this.stateBox.SuspendLayout();
             this.goalSimulatorBox.SuspendLayout();
@@ -52,6 +52,13 @@
             this.cameraBox.TabStop = false;
             this.cameraBox.Text = "Camera";
             // 
+            // cameraMonitor
+            // 
+            this.cameraMonitor.Location = new System.Drawing.Point(9, 19);
+            this.cameraMonitor.Name = "cameraMonitor";
+            this.cameraMonitor.Size = new System.Drawing.Size(320, 276);
+            this.cameraMonitor.TabIndex = 0;
+            // 
             // stateBox
             // 
             this.stateBox.AutoSize = true;
@@ -62,6 +69,15 @@
             this.stateBox.TabIndex = 2;
             this.stateBox.TabStop = false;
             this.stateBox.Text = "State";
+            // 
+            // stateMonitorPanel
+            // 
+            this.stateMonitorPanel.AutoSize = true;
+            this.stateMonitorPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.stateMonitorPanel.Location = new System.Drawing.Point(6, 19);
+            this.stateMonitorPanel.Name = "stateMonitorPanel";
+            this.stateMonitorPanel.Size = new System.Drawing.Size(163, 90);
+            this.stateMonitorPanel.TabIndex = 1;
             // 
             // goalSimulatorBox
             // 
@@ -90,24 +106,8 @@
             this.eventLauncherPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.eventLauncherPanel.Location = new System.Drawing.Point(12, 12);
             this.eventLauncherPanel.Name = "eventLauncherPanel";
-            this.eventLauncherPanel.Size = new System.Drawing.Size(146, 113);
+            this.eventLauncherPanel.Size = new System.Drawing.Size(215, 113);
             this.eventLauncherPanel.TabIndex = 3;
-            // 
-            // stateMonitorPanel
-            // 
-            this.stateMonitorPanel.AutoSize = true;
-            this.stateMonitorPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.stateMonitorPanel.Location = new System.Drawing.Point(6, 19);
-            this.stateMonitorPanel.Name = "stateMonitorPanel";
-            this.stateMonitorPanel.Size = new System.Drawing.Size(163, 90);
-            this.stateMonitorPanel.TabIndex = 1;
-            // 
-            // cameraMonitor
-            // 
-            this.cameraMonitor.Location = new System.Drawing.Point(9, 19);
-            this.cameraMonitor.Name = "cameraMonitor";
-            this.cameraMonitor.Size = new System.Drawing.Size(320, 276);
-            this.cameraMonitor.TabIndex = 0;
             // 
             // NaoDebugger
             // 
