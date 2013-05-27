@@ -199,7 +199,7 @@ namespace Naovigate.Event
         /// <summary>
         /// Blocks the thread until the next time the queue becomes empty or suspended.
         /// </summary>
-        public void Block()
+        public void WaitFor()
         {
             while (!suspended && !q.IsEmpty())
                 Thread.Sleep(100);
