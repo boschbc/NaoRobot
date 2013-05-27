@@ -33,7 +33,7 @@ namespace Naovigate.Util
         }
 
         /// <summary>
-        /// Logs given invoker & message.
+        /// Logs given invoker & amp; message.
         /// </summary>
         /// <param name="invoker">The name under which the message should be logged.</param>
         /// <param name="message">A string to log.</param>

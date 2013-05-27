@@ -213,7 +213,7 @@ namespace Naovigate.Util
                 throw new UnavailableConnectionException("Could not create proxy: " + typeof(TProxy).Name);
             }
         }
-
+        
         /// <summary>
         /// Gets the battery proxy.
         /// </summary>
