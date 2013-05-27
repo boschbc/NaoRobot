@@ -35,14 +35,14 @@
             // 
             // commandBox
             // 
-            this.commandBox.Location = new System.Drawing.Point(3, 22);
+            this.commandBox.Location = new System.Drawing.Point(3, 33);
             this.commandBox.Name = "commandBox";
             this.commandBox.Size = new System.Drawing.Size(200, 20);
             this.commandBox.TabIndex = 0;
             // 
             // simulateButton
             // 
-            this.simulateButton.Location = new System.Drawing.Point(104, 48);
+            this.simulateButton.Location = new System.Drawing.Point(104, 59);
             this.simulateButton.Name = "simulateButton";
             this.simulateButton.Size = new System.Drawing.Size(99, 23);
             this.simulateButton.TabIndex = 1;
@@ -56,7 +56,7 @@
             this.eventQueueMonitor1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.eventQueueMonitor1.Location = new System.Drawing.Point(3, 3);
             this.eventQueueMonitor1.Name = "eventQueueMonitor1";
-            this.eventQueueMonitor1.Size = new System.Drawing.Size(135, 13);
+            this.eventQueueMonitor1.Size = new System.Drawing.Size(154, 26);
             this.eventQueueMonitor1.TabIndex = 2;
             // 
             // GoalSimulator
@@ -69,7 +69,7 @@
             this.Controls.Add(this.simulateButton);
             this.Controls.Add(this.commandBox);
             this.Name = "GoalSimulator";
-            this.Size = new System.Drawing.Size(206, 74);
+            this.Size = new System.Drawing.Size(206, 85);
             this.ResumeLayout(false);
             this.PerformLayout();
 

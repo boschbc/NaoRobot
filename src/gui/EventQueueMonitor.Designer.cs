@@ -28,27 +28,47 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label = new System.Windows.Forms.Label();
-            this.eventLabel = new System.Windows.Forms.Label();
+            this.naoLabel = new System.Windows.Forms.Label();
+            this.naoEventLabel = new System.Windows.Forms.Label();
+            this.goalLabel = new System.Windows.Forms.Label();
+            this.goalEventLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // label
+            // naoLabel
             // 
-            this.label.AutoSize = true;
-            this.label.Location = new System.Drawing.Point(-3, 0);
-            this.label.Name = "label";
-            this.label.Size = new System.Drawing.Size(83, 13);
-            this.label.TabIndex = 0;
-            this.label.Text = "Last event fired:";
+            this.naoLabel.AutoSize = true;
+            this.naoLabel.Location = new System.Drawing.Point(-3, 0);
+            this.naoLabel.Name = "naoLabel";
+            this.naoLabel.Size = new System.Drawing.Size(93, 13);
+            this.naoLabel.TabIndex = 0;
+            this.naoLabel.Text = "EventQueue.Nao:";
             // 
-            // eventLabel
+            // naoEventLabel
             // 
-            this.eventLabel.AutoSize = true;
-            this.eventLabel.Location = new System.Drawing.Point(77, 0);
-            this.eventLabel.Name = "eventLabel";
-            this.eventLabel.Size = new System.Drawing.Size(55, 13);
-            this.eventLabel.TabIndex = 1;
-            this.eventLabel.Text = "Pending...";
+            this.naoEventLabel.AutoSize = true;
+            this.naoEventLabel.Location = new System.Drawing.Point(96, 0);
+            this.naoEventLabel.Name = "naoEventLabel";
+            this.naoEventLabel.Size = new System.Drawing.Size(55, 13);
+            this.naoEventLabel.TabIndex = 1;
+            this.naoEventLabel.Text = "Pending...";
+            // 
+            // goalLabel
+            // 
+            this.goalLabel.AutoSize = true;
+            this.goalLabel.Location = new System.Drawing.Point(-3, 13);
+            this.goalLabel.Name = "goalLabel";
+            this.goalLabel.Size = new System.Drawing.Size(95, 13);
+            this.goalLabel.TabIndex = 2;
+            this.goalLabel.Text = "EventQueue.Goal:";
+            // 
+            // goalEventLabel
+            // 
+            this.goalEventLabel.AutoSize = true;
+            this.goalEventLabel.Location = new System.Drawing.Point(96, 13);
+            this.goalEventLabel.Name = "goalEventLabel";
+            this.goalEventLabel.Size = new System.Drawing.Size(55, 13);
+            this.goalEventLabel.TabIndex = 3;
+            this.goalEventLabel.Text = "Pending...";
             // 
             // EventQueueMonitor
             // 
@@ -56,10 +76,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.Controls.Add(this.eventLabel);
-            this.Controls.Add(this.label);
+            this.Controls.Add(this.goalEventLabel);
+            this.Controls.Add(this.goalLabel);
+            this.Controls.Add(this.naoEventLabel);
+            this.Controls.Add(this.naoLabel);
             this.Name = "EventQueueMonitor";
-            this.Size = new System.Drawing.Size(135, 13);
+            this.Size = new System.Drawing.Size(154, 26);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -67,8 +89,10 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label;
-        private System.Windows.Forms.Label eventLabel;
+        private System.Windows.Forms.Label naoLabel;
+        private System.Windows.Forms.Label naoEventLabel;
+        private System.Windows.Forms.Label goalLabel;
+        private System.Windows.Forms.Label goalEventLabel;
 
     }
 }
