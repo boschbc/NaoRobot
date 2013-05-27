@@ -17,9 +17,10 @@ namespace Naovigate
         public static readonly string localhost = "127.0.0.1";
         public static readonly string nao = "192.168.0.126";
         public static readonly string nao2 = "192.168.0.128";
+        public static readonly string ip = nao2;
 
         // Use this switch to deactivate debugger invocation:
-        public static readonly bool useDebugGui = true;
+        public static readonly bool useDebugGui = false;
 
         public static void Main(String[] args)
         {
@@ -28,10 +29,12 @@ namespace Naovigate
                 LaunchDebugger.DebugMain();
             else
             {
-                NaoState.Instance.Connect(localhost, port);
-                Grabbing.Grabber.Instance.Grab();
+                //NaoState.Instance.Connect(localhost, port);
+                //Grabbing.Grabber.Instance.Grab();
                 //Stuff();
                 //Test();
+                Camera cm = new Camera(nao);
+                cm.CalibrateCamera(2);
             }
 
             Console.WriteLine("Done. Press any key to exit.");

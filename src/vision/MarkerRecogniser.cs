@@ -15,7 +15,7 @@ namespace Naovigate.Vision
 
         public static MarkerRecogniser instance = null;
 
-        public static double FRANKENAOC = 5.414;
+        public static double FRANKENAO2C = 8.4;
 
         public static MarkerRecogniser GetInstance()
         {
@@ -26,13 +26,17 @@ namespace Naovigate.Vision
         {
             detector = NaoState.Instance.LandMarkDetectionProxy;
             detector.subscribe("MarkerRecogniser", 1000, 0F);
-
             memory = NaoState.Instance.MemoryProxy;
+
+            Camera camera = new Camera("MarkerRecogniser");
+            camera.StartVideo();
+            camera.CalibrateCamera(3);
+            camera.StopVideo();
         }
 
         public static double estimateDistance(float sizeY)
         {
-            return (1 / sizeY)/FRANKENAOC;
+            return (1 / sizeY)/FRANKENAO2C;
         }
 
         //returns [[TimeStampField][Mark_info_0, Mark_info_1, . . . , Mark_info_N-1]] when N landmarks are detected 
