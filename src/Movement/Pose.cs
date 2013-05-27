@@ -12,8 +12,8 @@ namespace Naovigate.Movement
     public class Pose
     {
         private static long lastStabiliseAttempt = DateTime.Now.Ticks;
-        private static readonly bool ignoreStabalise = true;
-        private static readonly float maxAllowedDifference = 0.001f;
+        private static readonly bool ignoreStabalise = false;
+        private static readonly float maxAllowedDifference = 0.3f;
         private static readonly float attemptStabaliseLimit = 0.3f;
 
         private static readonly ArrayList rLegNames = new ArrayList(new string[]{"RHipYawPitch", "RHipRoll", "RHipPitch", "RKneePitch", "RAnklePitch", "RAnkleRoll"});
@@ -100,7 +100,8 @@ namespace Naovigate.Movement
             get
             {
                 Console.WriteLine();
-                if (!IsStable()) AttemptStabilize();
+                if (!IsStable()) 
+                    AttemptStabilize();
                 return IsStable();
             }
         }
@@ -160,18 +161,22 @@ namespace Naovigate.Movement
             Logger.Log(this, "AttemptStabilize");
 
             // don't stabilize to much
-            if (lastStabiliseAttempt + 1000000 < DateTime.Now.Ticks)
+            if (lastStabiliseAttempt + 50000000 /*nanoseconds*/ < DateTime.Now.Ticks)
             {
                 Logger.Log(this, (DateTime.Now.Ticks - lastStabiliseAttempt) + "");
                 lastStabiliseAttempt = DateTime.Now.Ticks;
-                List<float> left = RightAngles(rLegNames);
-                List<float> right = LeftAngles(lLegNames);
+                List<float> left = Angles(lLegNames, false);
+                List<float> right = Angles(rLegNames, false);
                 ArrayList angles = new ArrayList();
                 for (int i = 0; i < 6; i++)
                 {
+                    Logger.Log(this, lLegNames[i] + ": " + format(left[i]) + " - " + format(right[i]) + " Diff = " + format(left[i] - right[i]));
                     if (Math.Abs(left[i] - right[i]) < attemptStabaliseLimit)
                     {
-                        angles.Add((left[i] + right[i]) / 2);
+                        float avg = (left[i] + right[i]) / 2;
+                        if (lLegNames[i].ToString().Contains("Roll"))
+                            avg = -avg;
+                        angles.Add(avg);
                     }
                 }
                 if (angles.Count == 6)

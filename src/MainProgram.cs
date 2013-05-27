@@ -16,8 +16,8 @@ namespace Naovigate
     {
         public static readonly int port = 9559;
         public static readonly string localhost = "127.0.0.1";
-        public static readonly string nao2 = "192.168.0.128";
-        public static readonly string ip = localhost;
+        public static readonly string nao2 = "192.168.0.126";
+        public static readonly string ip = nao2;
 
         public static void Main(String[] args)
         {
@@ -28,13 +28,12 @@ namespace Naovigate
                 LaunchDebugger.DebugMain();
             else
             {
-                NaoState.Instance.Connect(ip, 9559);
-                ObjectSearchThread st = new ObjectSearchThread(1, 1);
-                st.LookForObject();
-                //NaoState.Instance.Connect(localhost, port);
-                //Grabbing.Grabber.Instance.Grab();
-                //Stuff()
-                //Test();
+                NaoState.Instance.Connect(ip, port);
+                while (true)
+                {
+                    System.Threading.Thread.Sleep(500);
+                    bool res = Pose.Instance.Balanced;
+                }
             }
 
             Console.WriteLine("Done. Press any key to exit.");
