@@ -42,7 +42,7 @@ namespace Naovigate.Testing.GUI
 
         private static void ExitDebugger()
         {
-            EventQueue.Nao.Post(new Event.Internal.SitDownEvent());
+            EventQueue.Nao.Post(new Event.Internal.CrouchEvent());
             EventQueue.Nao.WaitFor();
             EventQueue.Nao.Abort();
             NaoState.Instance.Disconnect();
