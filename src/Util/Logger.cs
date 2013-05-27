@@ -10,9 +10,11 @@ namespace Naovigate.Util
     {
         private static readonly string Format = "{0} {1} :: {2} :: {3}";
         private static readonly string DefaultInvokerName = "Token";
+        private static readonly string logFilePath = "log.txt";
 
         private static int id = 0;
         private static bool enabled = true;
+        private static bool logToFile = true;
 
         /// <summary>
         /// Multiplies given string in an integer and returns the result.
@@ -33,6 +35,15 @@ namespace Naovigate.Util
         }
 
         /// <summary>
+        /// Clears the contents of the log file.
+        /// </summary>
+        public static void Clear()
+        {
+            lock (logFilePath)
+                System.IO.File.WriteAllText(logFilePath, "");
+        }
+
+        /// <summary>
         /// Logs given invoker & amp; message.
         /// </summary>
         /// <param name="invoker">The name under which the message should be logged.</param>
@@ -49,7 +60,11 @@ namespace Naovigate.Util
                 message = message.Insert(0, "\n");
                 message = message.Replace("\n", "\n\t");
             }
-            Console.WriteLine(String.Format(Format, id++, time, invoker, message));
+            string formatted = String.Format(Format, id++, time, invoker, message);
+            Console.WriteLine(formatted);
+            if (logToFile)
+                lock (logFilePath)
+                    System.IO.File.AppendAllText(logFilePath, formatted + "\n");
         }
 
         /// <summary>
@@ -88,6 +103,15 @@ namespace Naovigate.Util
         {
             get { return enabled; }
             set { enabled = value; }
+        }
+
+        /// <summary>
+        /// The logger will output logs in to a file when enabled.
+        /// </summary>
+        public static bool LogToFile
+        {
+            get { return logToFile; }
+            set { logToFile = value; }
         }
     }
 }

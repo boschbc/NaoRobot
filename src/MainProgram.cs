@@ -22,6 +22,7 @@ namespace Naovigate
         public static void Main(String[] args)
         {
             ShutDownHook();
+            Logger.Clear();
             DialogResult useDebugGui = MessageBox.Show("Do you wish to use the NaoDebugger?", "Use Debugger?", MessageBoxButtons.YesNo);
             if (useDebugGui.Equals(DialogResult.Yes))
                 LaunchDebugger.DebugMain();
