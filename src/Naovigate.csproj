@@ -153,7 +153,8 @@
     <Compile Include="Communication\IPScanner.cs" />
     <Compile Include="Vision\Sonar.cs" />
     <Compile Include="Event\GoalToNao\MapOverviewEvent.cs" />
-    <Compile Include="Navigate\Map.cs" />
+    <Compile Include="Navigation\Map.cs" />
+    <Compile Include="Navigation\Planner.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Moq">
