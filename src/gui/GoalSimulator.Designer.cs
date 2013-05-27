@@ -30,18 +30,19 @@
         {
             this.commandBox = new System.Windows.Forms.TextBox();
             this.simulateButton = new System.Windows.Forms.Button();
+            this.eventQueueMonitor1 = new Naovigate.GUI.EventQueueMonitor();
             this.SuspendLayout();
             // 
             // commandBox
             // 
-            this.commandBox.Location = new System.Drawing.Point(3, 3);
+            this.commandBox.Location = new System.Drawing.Point(3, 22);
             this.commandBox.Name = "commandBox";
             this.commandBox.Size = new System.Drawing.Size(200, 20);
             this.commandBox.TabIndex = 0;
             // 
             // simulateButton
             // 
-            this.simulateButton.Location = new System.Drawing.Point(104, 29);
+            this.simulateButton.Location = new System.Drawing.Point(104, 48);
             this.simulateButton.Name = "simulateButton";
             this.simulateButton.Size = new System.Drawing.Size(99, 23);
             this.simulateButton.TabIndex = 1;
@@ -49,16 +50,26 @@
             this.simulateButton.UseVisualStyleBackColor = true;
             this.simulateButton.Click += new System.EventHandler(this.simulateButton_Click);
             // 
+            // eventQueueMonitor1
+            // 
+            this.eventQueueMonitor1.AutoSize = true;
+            this.eventQueueMonitor1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.eventQueueMonitor1.Location = new System.Drawing.Point(3, 3);
+            this.eventQueueMonitor1.Name = "eventQueueMonitor1";
+            this.eventQueueMonitor1.Size = new System.Drawing.Size(135, 13);
+            this.eventQueueMonitor1.TabIndex = 2;
+            // 
             // GoalSimulator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.Controls.Add(this.eventQueueMonitor1);
             this.Controls.Add(this.simulateButton);
             this.Controls.Add(this.commandBox);
             this.Name = "GoalSimulator";
-            this.Size = new System.Drawing.Size(206, 55);
+            this.Size = new System.Drawing.Size(206, 74);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -68,5 +79,6 @@
 
         private System.Windows.Forms.TextBox commandBox;
         private System.Windows.Forms.Button simulateButton;
+        private EventQueueMonitor eventQueueMonitor1;
     }
 }

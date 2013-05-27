@@ -19,9 +19,6 @@ namespace Naovigate
         public static readonly string nao2 = "192.168.0.128";
         public static readonly string ip = localhost;
 
-        // Use this switch to deactivate debugger invocation:
-        public static readonly DialogResult useDebugGui;
-
         public static void Main(String[] args)
         {
             ShutDownHook();

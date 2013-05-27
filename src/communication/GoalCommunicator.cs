@@ -126,6 +126,9 @@ namespace Naovigate.Communication
             Logger.Log(this, "Exiting main loop.");
         }
 
+        /// <summary>
+        /// Disconnects from the server.
+        /// </summary>
         public void Close()
         {
             Logger.Log(this, "Disconnecting from server...");

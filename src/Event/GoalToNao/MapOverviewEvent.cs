@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Naovigate.Movement;
-
+using Naovigate.Navigation;
 namespace Naovigate.Event.GoalToNao
 {
     public class MapOverviewEvent : NaoEvent

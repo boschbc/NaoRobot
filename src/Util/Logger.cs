@@ -41,6 +41,7 @@ namespace Naovigate.Util
         {
             if (!Enabled)
                 return;
+            
             string time = DateTime.Now.ToLongTimeString();
             string message = messageObject.ToString();
             if (message.Contains("\n"))

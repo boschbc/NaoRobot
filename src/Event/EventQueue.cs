@@ -20,6 +20,9 @@ namespace Naovigate.Event
         private static EventQueue naoInstance;
         private static EventQueue goalInstance;
 
+        protected event Action<INaoEvent> EventPosted;
+        protected event Action<INaoEvent> EventFired;
+        
         private PriorityQueue<INaoEvent> q;
         private Thread thread;
         private bool suspended;
@@ -45,6 +48,26 @@ namespace Naovigate.Event
         }
 
         /// <summary>
+        /// Subscribes a given method to this goal communicator.
+        /// The method will be invoked each time an event was posted.
+        /// </summary>
+        /// <param name="handler">The handler which will be called when an event is posted.</param>
+        public void SubscribePost(Action<INaoEvent> handler)
+        {
+            EventPosted += handler;
+        }
+
+        /// <summary>
+        /// Subscribes a given method to this goal communicator.
+        /// The method will be invoked each time an event was posted.
+        /// </summary>
+        /// <param name="handler">The handler which will be called when an event is posted.</param>
+        public void SubscribeFire(Action<INaoEvent> handler)
+        {
+            EventFired += handler;
+        }
+
+        /// <summary>
         /// True if the queue's main loop is currently running.
         /// </summary>
         public bool IsRunning
@@ -65,6 +88,8 @@ namespace Naovigate.Event
             {
                 foreach (INaoEvent e in events)
                 {
+                    if (EventPosted != null)
+                        EventPosted(e);
                     Logger.Log(this, "Posting event: " + e.ToString());
                     q.Enqueue(e, (int)e.Priority);
                 }
@@ -173,6 +198,8 @@ namespace Naovigate.Event
                 // there was an event available, fire it
                 Logger.Log(this, "Firing " + e + ".\n" + EventsQueuedCount() + " events pending.");
                 e.Fire();
+                if (EventFired != null)
+                    EventFired(e);
                 Logger.Log(this, "Event " + e + " finished firing.");
             }
             inAction = false;

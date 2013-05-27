@@ -1,15 +1,16 @@
 using System;
-using System.Net;
 using System.Collections.Generic;
 using System.Collections;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Net;
 
 using Aldebaran.Proxies;
 
-using Naovigate.Movement;
 using Naovigate.Communication;
+using Naovigate.Movement;
+using Naovigate.Navigation;
 
 namespace Naovigate.Util
 {
