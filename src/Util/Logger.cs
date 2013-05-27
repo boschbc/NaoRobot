@@ -12,6 +12,7 @@ namespace Naovigate.Util
         private static readonly string DefaultInvokerName = "Token";
 
         private static int id = 0;
+        private static bool enabled = true;
 
         /// <summary>
         /// Multiplies given string in an integer and returns the result.
@@ -38,6 +39,8 @@ namespace Naovigate.Util
         /// <param name="message">A string to log.</param>
         public static void Log(string invoker, string message)
         {
+            if (!Enabled)
+                return;
             string time = DateTime.Now.ToLongTimeString();
             if (message.Contains("\n"))
             {
@@ -74,6 +77,15 @@ namespace Naovigate.Util
         public static void Log(string message)
         {
             Log(DefaultInvokerName, message);
+        }
+
+        /// <summary>
+        /// The logger will only output logs when enabled.
+        /// </summary>
+        public static bool Enabled
+        {
+            get { return enabled; }
+            set { enabled = value; }
         }
     }
 }

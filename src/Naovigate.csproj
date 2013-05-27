@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Communication\UnavailableConnectionException.cs" />
     <Compile Include="Event\GoalToNao\ExitEvent.cs" />
+    <Compile Include="Event\Internal\CrouchEvent.cs" />
     <Compile Include="Event\Internal\GrabEvent.cs" />
     <Compile Include="Event\Internal\NaoCollidingEvent.cs" />
     <Compile Include="Event\EventQueue.cs" />
@@ -139,7 +140,6 @@
     <Compile Include="Movement\ObjectSearchThread.cs" />
     <Compile Include="Movement\Pose.cs" />
     <Compile Include="Movement\Walk.cs" />
-    <Compile Include="Util\ExceptionHandler.cs" />
     <Compile Include="Util\Logger.cs" />
     <Compile Include="Util\PriorityQueue.cs" />
     <Compile Include="Util\ActionExecutor.cs" />

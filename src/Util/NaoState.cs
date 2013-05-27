@@ -85,7 +85,8 @@ namespace Naovigate.Util
             if (!Connected) {
                 return;
             }
-            Logger.Log(this, "Disconnecting from Nao...");
+			Logger.Log(this, "Disconnecting from Nao...");
+            unsubscribeAll();
             ip = null;
             port = -1;
             connected = false;
@@ -127,6 +128,25 @@ namespace Naovigate.Util
             {
                 throw new UnavailableConnectionException("Error while disconnecting proxies.", IP.ToString(), Port);
             }
+        }
+
+        //Unsubscribes from everything except videodeviceproxy
+        private void unsubscribeAll()
+        {
+            LandMarkDetectionProxy landmark = LandMarkDetectionProxy;
+            foreach (ArrayList sub in (ArrayList)landmark.getSubscribersInfo())
+            {
+                landmark.unsubscribe((String)sub[0]);
+            }
+            foreach (ArrayList sub in (ArrayList)sensors.getSubscribersInfo())
+            {
+                sensors.unsubscribe((String)sub[0]);
+            }
+            SonarProxy sonar = SonarProxy;
+            foreach (ArrayList sub in (ArrayList)sonar.getSubscribersInfo())
+            {
+                sonar.unsubscribe((String)sub[0]);
+            }            
         }
 
         /// <summary>
@@ -202,11 +222,13 @@ namespace Naovigate.Util
         /// </summary>
         /// <typeparam name="TProxy">The type of proxy to be created.</typeparam>
         /// <returns>A new proxy of the requested type.</returns>
-        protected virtual TProxy createProxy<TProxy>()
+        protected virtual TProxy createProxy<TProxy>() where TProxy : IDisposable
         {
             try
             {
-                return (TProxy) Activator.CreateInstance(typeof(TProxy), IP.ToString(), Port);
+                TProxy ret = (TProxy)Activator.CreateInstance(typeof(TProxy), IP.ToString(), Port);
+                proxies.Add(ret);
+                return ret;
             }
             catch
             {
@@ -223,7 +245,6 @@ namespace Naovigate.Util
             get
             {
                 BatteryProxy res = createProxy<BatteryProxy>();
-                proxies.Add(res);
                 return res;
             }
         }
@@ -237,7 +258,6 @@ namespace Naovigate.Util
             get
             {
                 LandMarkDetectionProxy res = createProxy<LandMarkDetectionProxy>();
-                proxies.Add(res);
                 return res;
             }
         }
@@ -266,7 +286,6 @@ namespace Naovigate.Util
             get
             {
                 MemoryProxy res = createProxy<MemoryProxy>();
-                proxies.Add(res);
                 return res;
             }
         }
@@ -280,7 +299,6 @@ namespace Naovigate.Util
             get
             {
                 MotionProxy res = createProxy<MotionProxy>();
-                proxies.Add(res);
                 return res;
             }
         }
@@ -294,7 +312,6 @@ namespace Naovigate.Util
             get
             {
                 RobotPostureProxy res = createProxy<RobotPostureProxy>();
-                proxies.Add(res);
                 return res;
             }
         }
@@ -308,7 +325,6 @@ namespace Naovigate.Util
             get
             {
                 SensorsProxy res = createProxy<SensorsProxy>();
-                proxies.Add(res);
                 return res;
             }
         }
@@ -322,7 +338,6 @@ namespace Naovigate.Util
             get
             {
                 SonarProxy res = createProxy<SonarProxy>();
-                proxies.Add(res);
                 return res;
             }
         }
@@ -336,7 +351,6 @@ namespace Naovigate.Util
             get
             {
                 TextToSpeechProxy res = createProxy<TextToSpeechProxy>();
-                proxies.Add(res);
                 return res;
             }
         }
@@ -350,7 +364,6 @@ namespace Naovigate.Util
             get
             {
                 VideoDeviceProxy res = createProxy<VideoDeviceProxy>();
-                proxies.Add(res);
                 return res;
             }
         }
