@@ -97,7 +97,7 @@ namespace Naovigate.Movement
         /*
          * Turn (normalized) dir and walk till the Nao is within dist pieces of wall of the object with id ObjectID
          */
-        public virtual ObjectSearchThread WalkTowardsObject(float dir, int objectID, double dist)
+        public virtual ObjectSearchThread WalkTowardsObject(float dir, float objectID, double dist)
         {
             StopLooking();
             WalkTo(0, 0, dir);

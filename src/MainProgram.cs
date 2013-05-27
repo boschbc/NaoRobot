@@ -20,7 +20,7 @@ namespace Naovigate
         public static readonly string ip = nao2;
 
         // Use this switch to deactivate debugger invocation:
-        public static readonly bool useDebugGui = false;
+        public static readonly bool useDebugGui = true;
 
         public static void Main(String[] args)
         {
