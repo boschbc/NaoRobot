@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Threading;
 
 using Naovigate.Communication;
 using Naovigate.Event.NaoToGoal;
@@ -15,9 +18,9 @@ namespace Naovigate.Event.GoalToNao
     public class GoToEvent : NaoEvent
     {
         public new static readonly EventCode code = EventCode.GoTo;
-        private int theta;
-        private int markerID;
-        private int distance;
+
+        private List<Point> locations;
+        private bool aborted;
 
         private MarkerSearchThread worker;
 
@@ -32,21 +35,27 @@ namespace Naovigate.Event.GoalToNao
         /*
          * Explicit constructor.
          */
-        public GoToEvent(int theta, int markerID, int distance)
+        public GoToEvent(List<Point> locations)
         {
-            this.theta = theta;
-            this.markerID = markerID;
-            this.distance = distance;
+
         }
+        
+        /*
+         * Explicit constructor.
+         */
+        public GoToEvent(params Point[] locations) : this(new List<Point>(locations)) { }
 
         /*
          * Extract the MarkerID and Distance parameters from a communication stream.
          */
         private void Unpack()
         {
-            theta = stream.ReadInt();
-            markerID = stream.ReadInt();
-            distance = stream.ReadInt();
+            int nodes = stream.ReadInt();
+            locations = new List<Point>();
+            for (int i = 0; i < nodes;i++ )
+            {
+                locations.Add(new Point(stream.ReadInt(), stream.ReadInt()));
+            }
         }
 
         /*
@@ -57,7 +66,12 @@ namespace Naovigate.Event.GoalToNao
             NaoEvent statusEvent = new SuccessEvent(code);
             try
             {
-                worker = Walk.Instance.WalkTowardsMarker(theta, markerID, distance);
+                List<Point> markersToGoTo = null;// get from map, throw NullReference now
+                for (int i = 0; !aborted && i < markersToGoTo.Count;i++ )
+                {
+                    worker = Walk.Instance.WalkTowardsMarker(0, markersToGoTo[i].X, markersToGoTo[i].Y);
+                    worker.WaitFor();
+                }
             }
             catch
             {
@@ -71,6 +85,7 @@ namespace Naovigate.Event.GoalToNao
          */
         public override void Abort()
         {
+            aborted = true;
             try
             {
                 if (worker != null)
@@ -78,7 +93,7 @@ namespace Naovigate.Event.GoalToNao
             }
             catch
             {
-                EventQueue.Goal.Enqueue(new ErrorEvent());
+                EventQueue.Goal.Post(new ErrorEvent());
             }
         }
 

@@ -3,17 +3,18 @@ using System.Windows.Forms;
 using System.Threading;
 
 using Naovigate.Communication;
+using Naovigate.Event;
 using Naovigate.GUI;
+using Naovigate.Movement;
 using Naovigate.Util;
 
 namespace Naovigate.Testing.GUI
 {
     class LaunchDebugger
     {
-        private static readonly string goalserverIP = "127.0.0.1";
-        private static readonly int goalserverPort = 6474;
-        private static readonly string naoIP = "192.168.0.126";
-        private static readonly int naoPort = 9559;
+        //private static readonly string goalserverIP = "127.0.0.1";
+        //private static readonly int goalserverPort = 6474;
+        //private static readonly int naoPort = 9559;
 
         public static void DebugMain()
         {
@@ -24,7 +25,7 @@ namespace Naovigate.Testing.GUI
 
         private static void StartGoalServer()
         {
-            GoalStub.Instance.StartServer(goalserverIP, goalserverPort);
+            GoalServer i = GoalServer.Instance;//.Start(goalserverIP, goalserverPort);
         }
 
         private static void StartGoalCommunication()
@@ -34,8 +35,19 @@ namespace Naovigate.Testing.GUI
 
         private static void StartDebugger()
         {
-            NaoState.Instance.Connect(naoIP, naoPort);
+            NaoState.Instance.Connect(MainProgram.localhost, MainProgram.port);
             Application.Run(new NaoDebugger());
+            ExitDebugger();
+        }
+
+        private static void ExitDebugger()
+        {
+            EventQueue.Nao.Post(new Event.Internal.SitDownEvent());
+            EventQueue.Nao.WaitFor();
+            EventQueue.Nao.Abort();
+            NaoState.Instance.Disconnect();
+            GoalCommunicator.Instance.Close();
+            GoalServer.Instance.Close();
         }
     }
 }

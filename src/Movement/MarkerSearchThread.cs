@@ -37,6 +37,7 @@ namespace Naovigate.Movement
             while (running)
             {
                 Thread.Sleep(1000);
+				if (!Walk.Instance.IsMoving()) running = false;
                 ArrayList data = rec.GetMarkerData();
                 markers = data.Count == 0 ? data : (ArrayList)data[1];
                 for (int i = 0; i < markers.Count; i++)

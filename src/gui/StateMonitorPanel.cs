@@ -50,17 +50,11 @@ namespace Naovigate.GUI
             get { return 1000 / fps; }
         }
 
-        /*
-         * Stops updating this component.
-         */
         public void StopUpdate()
         {
             worker.Enabled = false;
         }
 
-        /*
-         * Update the debug data displayed in all debug fiels.
-         */
         private void UpdateContent()
         {
             if (!NaoState.Instance.Connected)
@@ -71,9 +65,9 @@ namespace Naovigate.GUI
                 {
                     NaoState.Instance.Update();
                 }
-                catch (UnavailableConnectionException except)
+                catch (UnavailableConnectionException)
                 {
-                    Console.WriteLine("Caught exception: " + except.Message);
+                    Logger.Log(this, "Failed UpdateContent(). Connection unavailable.");
                     return;
                 }
             }

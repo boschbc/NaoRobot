@@ -8,7 +8,6 @@ using System.Collections;
 using Aldebaran.Proxies;
 using System.Collections.Generic;
 using Naovigate.Movement;
-using System.Threading;
 
 namespace Naovigate
 {
@@ -16,11 +15,11 @@ namespace Naovigate
     {
         public static readonly int port = 9559;
         public static readonly string localhost = "127.0.0.1";
-        public static readonly string nao = "192.168.0.128";
+        public static readonly string nao = "192.168.0.126";
         public static readonly string nao2 = "192.168.0.128";
 
         // Use this switch to deactivate debugger invocation:
-        public static readonly bool useDebugGui = false;
+        public static readonly bool useDebugGui = true;
 
         public static void Main(String[] args)
         {
@@ -29,27 +28,10 @@ namespace Naovigate
                 LaunchDebugger.DebugMain();
             else
             {
-                NaoState.Instance.Connect(nao, 9559);
-                MarkerRecogniser rec = MarkerRecogniser.GetInstance();
-                int markerID = 124;
-                while (true)
-                {
-                    ArrayList data = rec.GetMarkerData();
-                    ArrayList markers = data.Count == 0 ? data : (ArrayList)data[1];
-                    for (int i = 0; i < markers.Count; i++)
-                    {
-                        ArrayList marker = (ArrayList)markers[i];
-                        if ((int)((ArrayList)marker[1])[0] == markerID)
-                        {
-                            float sizeY = ((float)((ArrayList)marker[0])[4]);
-
-                            Console.WriteLine(MarkerRecogniser.estimateDistance(sizeY));
-
-                            break;
-                        }
-                    }
-                    Thread.Sleep(1000);
-                }
+                NaoState.Instance.Connect(localhost, port);
+                Grabbing.Grabber.Instance.Grab();
+                //Stuff();
+                //Test();
             }
 
             Console.WriteLine("Done. Press any key to exit.");
@@ -67,25 +49,26 @@ namespace Naovigate
             motion.moveToward(0.2F, 0, 0);
         }
 
-        private static void TmpTest()
+        private static void Test()
         {
             Console.WriteLine("Connect");
             //NaoState.Instance.Connect(localhost, port);
 
             NaoState.Instance.MotionProxy.wakeUp();
             Console.WriteLine("Do Test");
-            
+
         }
 
         private static void ShutDownHook()
         {
-             AppDomain.CurrentDomain.ProcessExit += Cleanup;  
+            AppDomain.CurrentDomain.ProcessExit += Cleanup;
         }
 
         private static void Cleanup(object sender, EventArgs e)
         {
-            Console.WriteLine("Shutting down...");
+            Logger.Log(typeof(MainProgram), "Performing clean-up...");
             NaoState.Instance.Disconnect();
+            Logger.Log(typeof(MainProgram), "Program terminated.");
         }
     }
 }

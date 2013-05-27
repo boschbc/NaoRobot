@@ -49,7 +49,7 @@ namespace Naovigate.Event.GoalToNao
             }
             catch
             {
-                EventQueue.Nao.Enqueue(new ErrorEvent());
+                EventQueue.Nao.Post(new ErrorEvent());
             }
         }
     }

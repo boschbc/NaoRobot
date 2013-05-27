@@ -1,22 +1,19 @@
 ﻿using System;
 
-using Naovigate.Movement;
+using Naovigate.Grabbing;
 
 namespace Naovigate.Event.Internal
 {
-    /// <summary>
-    /// An event which makes the Nao stand up.
-    /// </summary>
-    class StandUpEvent : NaoEvent
+    class GrabEvent : NaoEvent
     {
-        public StandUpEvent() { }
+        public GrabEvent() { }
 
         /// <summary>
         /// Fires the event.
         /// </summary>
         public override void Fire()
         {
-            Pose.Instance.StandUp();
+            Grabber.Instance.Grab();
         }
 
         /// <summary>
@@ -33,7 +30,7 @@ namespace Naovigate.Event.Internal
         /// <returns>A string.</returns>
         public override string ToString()
         {
-            return "StandUpEvent";
+            return "GrabEvent";
         }
     }
 }

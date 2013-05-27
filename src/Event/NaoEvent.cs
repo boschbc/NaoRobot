@@ -1,61 +1,72 @@
 ﻿using System;
+
 using Naovigate.Communication;
 
 namespace Naovigate.Event
 {
-    /*
-     * An abstract class implementing a simple NaoEvent interface.
-     */
+    /// <summary>
+    /// An abstract class implementing a simple NaoEvent interface.
+    /// </summary>
     public abstract class NaoEvent : INaoEvent
     {
         public static readonly EventCode code;
         private Priority priority;
         protected CommunicationStream stream;
 
-        /*
-         * Creates an empty NaoEvent.
-         */
+        /// <summary>
+        /// Create a no-arguments-required event.
+        /// The event's priority is medium.
+        /// </summary>
         public NaoEvent()
         {
             stream = GoalCommunicator.Instance.Coms;
             priority = Priority.Medium;
         }
 
-        /*
-         * Creates an empty NaoEvent instance with the specified priority.
-         * @param p - The priority this event will initially be set to.
-         */
+        /// <summary>
+        /// Creates an empty NaoEvent instance with the specified priority.
+        /// </summary>
+        /// <param name="p">A priority. Either Low, Medium or High.</param>
         public NaoEvent(Priority p) : this()
         {
             priority = p;
         }
 
-        /*
-         * The internal CommunicationStream of this event.
-         */
+        /// <summary>
+        /// The internal CommunicationStream of this event.
+        /// </summary>
         public CommunicationStream Stream
         {
             get { return stream; }
             set { stream = value; }
         }
 
-        /**
-         * See the INaoEvent class docs for documentation of this method.
-         */
+        /// <summary>
+        /// This event's priority.
+        /// </summary>
         public Priority Priority
         {
             get { return priority; }
             set { priority = value; }
         }
 
-        /*
-         * See the INaoEvent class docs for documentation of this method.
-         */
+        /// <summary>
+        /// Fires the event.
+        /// </summary>
         public abstract void Fire();
         
-        /*
-         * See the INaoEvent class docs for documentation of this method.
-         */
+        /// <summary>
+        /// Aborts execution of this event.
+        /// </summary>
         public abstract void Abort();
+
+        /// <summary>
+        /// Returns a human-readable representation of the event.
+        /// </summary>
+        /// <returns>A human-readable string.</returns>
+        public override string ToString()
+        {
+            return this.GetType().Name;
+        }
     }
 }

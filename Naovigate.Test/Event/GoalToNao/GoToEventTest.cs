@@ -4,7 +4,9 @@ using NUnit.Framework;
 
 using Naovigate.Movement;
 using Naovigate.Event;
+using System.Drawing;
 using Naovigate.Event.GoalToNao;
+using System.Collections.Generic;
 using Naovigate.Communication;
 using Naovigate.Test.Communication;
 
@@ -17,10 +19,6 @@ namespace Naovigate.Test.Event.GoalToNao
         private GoalComsStub goalComs;
         private CommunicationStream emptyStream;
 
-        private static readonly int theta = 0;
-        private static readonly int markerID = 143;
-        private static readonly int distance = 0;
-
         [TestFixtureSetUp]
         public void initOnce()
         {
@@ -31,31 +29,30 @@ namespace Naovigate.Test.Event.GoalToNao
         [SetUp]
         public void Init()
         {
-            goToEvent = new GoToEvent(theta, markerID, distance);
+            goToEvent = new GoToEvent(new Point(1, 1));
         }
 
         [TearDown]
         public void TearDown()
         {
             goalComs.SetStream(emptyStream);
+            if (Naovigate.Util.NaoState.Instance.Connected)
+            {
+                Walk.Instance.Abort();
+                Naovigate.Util.NaoState.Instance.Disconnect();
+            }
         }
 
         [Test]
         public void UnpackTest()
         {
             CommunicationStream stream = EventTestingUtilities.BuildStream(
-                GoToEventTest.theta,
-                GoToEventTest.markerID,
-                GoToEventTest.distance
+                1, 1, 1
             );
             goalComs.SetStream(stream);
             goToEvent = new GoToEvent();
-            int theta = (int)EventTestingUtilities.GetInstanceField(typeof(GoToEvent), goToEvent, "theta");
-            int markerID = (int)EventTestingUtilities.GetInstanceField(typeof(GoToEvent), goToEvent, "markerID");
-            int distance = (int)EventTestingUtilities.GetInstanceField(typeof(GoToEvent), goToEvent, "distance");
-            Assert.AreEqual(GoToEventTest.theta, theta);
-            Assert.AreEqual(GoToEventTest.markerID, markerID);
-            Assert.AreEqual(GoToEventTest.distance, distance);
+            List<Point> nodes = (List<Point>)EventTestingUtilities.GetInstanceField(typeof(GoToEvent), goToEvent, "locations");
+            Assert.AreEqual(new Point(1, 1), nodes[0]);
         }
 
         [Test]

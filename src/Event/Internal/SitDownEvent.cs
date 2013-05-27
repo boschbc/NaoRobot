@@ -5,18 +5,18 @@ using Naovigate.Movement;
 namespace Naovigate.Event.Internal
 {
     /// <summary>
-    /// An event which makes the Nao stand up.
+    /// An event which makes the Nao to sit down.
     /// </summary>
-    class StandUpEvent : NaoEvent
+    class SitDownEvent : NaoEvent
     {
-        public StandUpEvent() { }
+        public SitDownEvent() { }
 
         /// <summary>
         /// Fires the event.
         /// </summary>
         public override void Fire()
         {
-            Pose.Instance.StandUp();
+            Pose.Instance.SitDown();
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace Naovigate.Event.Internal
         /// <returns>A string.</returns>
         public override string ToString()
         {
-            return "StandUpEvent";
+            return "SitDownEvent";
         }
     }
 }

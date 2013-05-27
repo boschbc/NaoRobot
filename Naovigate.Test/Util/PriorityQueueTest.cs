@@ -123,7 +123,7 @@ namespace Naovigate.Test.Util
 
         [Test]
         [ExpectedException(typeof(ArgumentException))]
-        public void EnqueueToHighPriority()
+        public void EnqueueToHighPriorityTest()
         {
             q.Enqueue(0, 100);
         }

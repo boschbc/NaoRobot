@@ -17,7 +17,9 @@ namespace Naovigate.Movement
 
         private static readonly ArrayList rLegNames = new ArrayList(new string[]{"RHipYawPitch", "RHipRoll", "RHipPitch", "RKneePitch", "RAnklePitch", "RAnkleRoll"});
         private static readonly ArrayList lLegNames = new ArrayList(new string[] { "LHipYawPitch", "LHipRoll", "LHipPitch", "LKneePitch", "LAnklePitch", "LAnkleRoll" });
-
+        private static readonly ArrayList kneelNames = new ArrayList(new String[] { "LHipPitch", "RHipPitch", "LKneePitch", "RKneePitch", "LAnklePitch", "RAnklePitch" });
+        
+        
         private static Pose instance;
         MotionProxy motion;
         RobotPostureProxy posture;
@@ -59,7 +61,15 @@ namespace Naovigate.Movement
         /// </summary>
         public void SitDown()
         {
-            posture.goToPosture("Sit", 0.3f);
+            posture.goToPosture("Sit", 0.5f);
+        }
+
+        /// <summary>
+        /// Have the Nao crouch.
+        /// </summary>
+        public void Crouch()
+        {
+            posture.goToPosture("Crouch", 0.5f);
         }
 
         /// <summary>
@@ -69,50 +79,19 @@ namespace Naovigate.Movement
         public void Kneel(float depth)
         {
             if (depth > 1f) depth = 1f;
-            ArrayList names = new ArrayList();
+            if (depth < 0f) depth = 0;
             ArrayList angles = new ArrayList();
-
-            Add(names, "HipPitch");
-            Add(names, "KneePitch");
-            Add(names, "AnklePitch");
 
             angles.Add(-depth);//low
             angles.Add(-depth);
 
-            angles.Add(depth * 2);//high
+            angles.Add(depth + depth);//high
             angles.Add(depth * 2);
 
             angles.Add(-depth);//low
             angles.Add(-depth);
 
-            motion.angleInterpolationWithSpeed(names, angles, 0.3F);
-        }
-
-        public void Welcome()
-        {
-            Walk.Instance.InitMove();
-            posture.goToPosture("Stand", 1F);
-
-            Kneel(0.5f);
-            ArrayList names = new ArrayList();
-            ArrayList angles = new ArrayList();
-
-            names.Add("HeadPitch");
-            angles.Add(1f);
-
-            names.Add("RShoulderPitch");
-            names.Add("RElbowRoll");
-            names.Add("RElbowYaw");
-
-            angles.Add(0.7f);
-            angles.Add(2f);
-            angles.Add(0);
-
-            motion.angleInterpolationWithSpeed(names, angles, 0.3F);
-            Thread.Sleep(500);
-            NaoState.Instance.SpeechProxy.say("Welcome");
-            Thread.Sleep(1000);
-            posture.goToPosture("Stand", 1F);
+            motion.angleInterpolationWithSpeed(kneelNames, angles, 0.3F);
         }
 
         public bool Balanced

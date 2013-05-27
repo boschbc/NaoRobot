@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 
 using Aldebaran.Proxies;
+
 using Naovigate.Movement;
 using Naovigate.Communication;
 
@@ -14,7 +15,7 @@ namespace Naovigate.Util
 {
     public class NaoState
     {
-        private static NaoState instance = null;
+        protected static NaoState instance = null;
 
         protected IPAddress ip;
         protected int port;
@@ -67,11 +68,13 @@ namespace Naovigate.Util
             if (Connected) {
                 Disconnect();
             }
+            Logger.Log(this, "Connecting to Nao...");
             ip = endPoint.Address;
             port = endPoint.Port;
             connected = true;
             CreateMyProxies();
             Update();
+            Logger.Log(this, "Connection established.");
         }
 
         /// <summary>
@@ -79,14 +82,16 @@ namespace Naovigate.Util
         /// </summary>
         public virtual void Disconnect()
         {
-            if (Connected) {
+            if (!Connected) {
                 return;
             }
+			Logger.Log(this, "Disconnecting from Nao...");
             unsubscribeAll();
             ip = null;
             port = -1;
             connected = false;
             TeardownProxies();
+            Logger.Log(this, "Disconnected.");
         }
 
 
@@ -215,9 +220,8 @@ namespace Naovigate.Util
         /// Attempts to create a proxy of given type.
         /// @throws UnavailableConnectionException if proxy creation fails.
         /// </summary>
-        /// <typeparam name="TProxy"></typeparam>
-        /// <param name="factory"></param>
-        /// <returns></returns>
+        /// <typeparam name="TProxy">The type of proxy to be created.</typeparam>
+        /// <returns>A new proxy of the requested type.</returns>
         protected virtual TProxy createProxy<TProxy>() where TProxy : IDisposable
         {
             try
@@ -386,7 +390,7 @@ namespace Naovigate.Util
             }
             catch(Exception e)
             {
-                Console.WriteLine("Failed Nao update: " + e);
+                Logger.Log(this, "Failed Update(). Unknown exception occurred: " + e.ToString());
             }
 
             // Count the time between this update and the next.

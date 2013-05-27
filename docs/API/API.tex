@@ -1,0 +1,51 @@
+\documentclass[12pt]{report}
+
+
+% Title Page
+\title{GOAL-Nao API}
+\author{}
+
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This document describes the API through which the GOAL and Nao clients communicate with each other.
+\end{abstract}
+
+\section{Connection Establishment}
+Connection to the GOAL client is established through port 6474.
+
+\section{Events}
+Communication consists of units called \"events\". The transmission of an event begins by transmitting its unique byte-code, optionally followed by any additional arguments specific to that event.
+
+Some events are sent by the Nao client, others by the GOAL client. Each GOAL-to-Nao command generates either a Success, Failure or Error events in return. These are initialised by the Nao client and sent over to GOAL in order to report the status of the original command.
+
+\subsection{GOAL to Nao}
+The following events are sent exclusively from the GOAL client to the Nao one. \\
+\begin{tabular}{ | l | l | p{2.2cm} | p{8cm} | }
+\hline
+\textbf{Event} & \textbf{Code} & \textbf{Arguments} & \textbf{Description} \\ \hline
+Exit & 0x0 & \textit{None} & The Nao will sit down, terminate the connection and exit its program. \\ \hline
+GoTo & 0x1 & \textbf{MarkerID} \newline \textbf{Distance} & The Nao will walk towards the marker with ID \textit{MarkerID} and stop \textit{Distance} rooms in front of it. Emits a Failure event if the marker cannot be spotted. \\ \hline
+PickUp & 0x2 & \textbf{ObjectID} & The Nao will position itself in front of the object with ID \textit{ObjectID} and then pick it up. Emits a failure event if the object cannot be spotted or if it is unreachable. \\ \hline
+PutDown & 0x3 & \textit{None} & The Nao will gently lay down the object it currently holds. Emits a Failure event if the Nao is not holding anything. \\ \hline
+Halt & 0x4 & \textit{None} & The Nao will stop moving. Emits a Failure event if the Nao is currently in the process of grabbing an object or putting it down. \\ \hline
+\end{tabular}
+
+\subsection{Nao to GOAL}
+The following events are sent exclusively from the Nao client to the GOAL one. \\
+\begin{tabular}{ | l | l | p{2.2cm} | p{8cm} | }
+\hline
+\textbf{Event} & \textbf{Code} & \textbf{Arguments} & \textbf{Description} \\ \hline
+Error & 0x8 & \textit{None} & A fatal error has occurred in the Nao. Its current state is unknown. \\ \hline
+Success & 0x81 & \textbf{Code} & The last GOAL-to-Nao event with code \textit{Code} has been executed successfully. \\ \hline
+Failure & 0x82 & \textbf{Code} & The last GOAL-to-Nao event with code \textit{Code} has failed its execution. \\ \hline
+Location & 0x89 & \textbf{MarkerID} & The Nao is currently at the room with marker ID \textit{MarkerID} \\ \hline
+See & 0x8A & \textbf{MarkerID} \newline \textbf{Distance} & The Nao spotted the marker with ID \textit{MarkerID} at \textit{Distance} rooms away. If \textit{Distance == 0} the Nao is in the same room as the object.  \\ \hline 
+Dropped & 0x8C &  \textbf{ObjectID} & The Nao has either dropped or put down the object with ID \textit{ObjectID} \\ \hline
+Holding & 0x8D & \textbf{ObjectID} & The Nao has picked up the object with ID \textit{ObjectID} \\ \hline
+Agent & 0x8E & \textbf{AgentID} & This Nao instance has ID \textit{AgentID} \\ \hline
+State & 0x8F & \textbf{State} & This Nao is in state \textit{State}. Where \newline \textit{State = 0 = halted.} \newline \textit{State = 1 = walking.} \newline Sent on change. \\ \hline
+\end{tabular}
+\end{document}          

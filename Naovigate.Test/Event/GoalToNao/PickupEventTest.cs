@@ -42,6 +42,16 @@ namespace Naovigate.Test.Event.GoalToNao
             pickupEvent = new PickupEvent();
         }
 
+        [TearDown]
+        public void TearDown()
+        {
+            if (NaoState.Instance.Connected)
+            {
+                Walk.Instance.Abort();
+                NaoState.Instance.Disconnect();
+            }
+        }
+
         [Test]
         public void UnpackTest()
         {
@@ -55,12 +65,14 @@ namespace Naovigate.Test.Event.GoalToNao
             EventTestingUtilities.RequireWebots();
             EventQueue.Goal.Suspend();
             Type[] expectedResults = new Type[2] {typeof(SuccessEvent), typeof(FailureEvent)};
-            pickupEvent.Fire();
+            EventQueue.Nao.Post(pickupEvent);
             PriorityQueue<INaoEvent> q = (PriorityQueue<INaoEvent>)EventTestingUtilities.GetInstanceField(typeof(EventQueue), EventQueue.Goal, "q");
+            Walk.Instance.StopMove();
+            System.Threading.Thread.Sleep(2500);
+            // stopped move, should have gotten FailureEvent
             Assert.Contains(q.Dequeue().GetType(), expectedResults);
         }
 
-        [Test, Timeout(10000)]
         public void AbortTest()
         {
             EventTestingUtilities.RequireWebots();
