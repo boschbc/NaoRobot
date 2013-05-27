@@ -8,6 +8,7 @@ using System.Collections;
 using Aldebaran.Proxies;
 using System.Collections.Generic;
 using Naovigate.Movement;
+using System.Threading;
 
 namespace Naovigate
 {
@@ -19,7 +20,7 @@ namespace Naovigate
         public static readonly string nao2 = "192.168.0.128";
 
         // Use this switch to deactivate debugger invocation:
-        public static readonly bool useDebugGui = true;
+        public static readonly bool useDebugGui = false;
 
         public static void Main(String[] args)
         {
@@ -28,17 +29,28 @@ namespace Naovigate
                 LaunchDebugger.DebugMain();
             else
             {
-                NaoState.Instance.Connect(nao, port);
-                NaoState.Instance.PostureProxy.goToPosture("StandInit", 0.7f);
-               
-                Grabbing.CoolGrabber.Instance.doSomething();
-                //Stuff();
-                //System.Threading.Thread.Sleep(5000);
-                //Walk.Instance.StopMove();
-                //Grabbing.Grabber.Instance.PutDown();
-                //TmpTest();
+                NaoState.Instance.Connect(nao, 9559);
+                MarkerRecogniser rec = MarkerRecogniser.GetInstance();
+                int markerID = 124;
+                while (true)
+                {
+                    ArrayList data = rec.GetMarkerData();
+                    ArrayList markers = data.Count == 0 ? data : (ArrayList)data[1];
+                    for (int i = 0; i < markers.Count; i++)
+                    {
+                        ArrayList marker = (ArrayList)markers[i];
+                        if ((int)((ArrayList)marker[1])[0] == markerID)
+                        {
+                            float sizeY = ((float)((ArrayList)marker[0])[4]);
+
+                            Console.WriteLine(MarkerRecogniser.estimateDistance(sizeY));
+
+                            break;
+                        }
+                    }
+                    Thread.Sleep(1000);
+                }
             }
-            //Stuff();
 
             Console.WriteLine("Done. Press any key to exit.");
             Console.Read();
