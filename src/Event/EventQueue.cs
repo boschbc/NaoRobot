@@ -199,7 +199,7 @@ namespace Naovigate.Event
         /// <summary>
         /// Blocks the thread until the next time the queue becomes empty.
         /// </summary>
-        public void Block()
+        public void WaitFor()
         {
             while (!q.IsEmpty())
                 Thread.Sleep(100);
@@ -209,7 +209,7 @@ namespace Naovigate.Event
         /// Clears all queued events and stops accepting new events to be queued.
         /// Exits the main thread.
         /// </summary>
-        public void Terminate()
+        public void Abort()
         {
             q.Clear();
             running = false;

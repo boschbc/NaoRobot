@@ -43,8 +43,8 @@ namespace Naovigate.Testing.GUI
         private static void ExitDebugger()
         {
             EventQueue.Nao.Post(new Event.Internal.SitDownEvent());
-            EventQueue.Nao.Block();
-            EventQueue.Nao.Terminate();
+            EventQueue.Nao.WaitFor();
+            EventQueue.Nao.Abort();
             NaoState.Instance.Disconnect();
             GoalCommunicator.Instance.Close();
             GoalServer.Instance.Close();
