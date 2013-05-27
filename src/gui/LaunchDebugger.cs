@@ -44,7 +44,7 @@ namespace Naovigate.Testing.GUI
         {
             EventQueue.Nao.Post(new Event.Internal.SitDownEvent());
             EventQueue.Nao.Block();
-            EventQueue.Nao.Terminate();
+            EventQueue.Nao.Abort();
             NaoState.Instance.Disconnect();
             GoalCommunicator.Instance.Close();
             GoalServer.Instance.Close();
