@@ -1,4 +1,0 @@
-Kan camera niet gebruiken tijdens bewegen.
-De camera heeft een slechte kwaliteit.
-De motoren in benen raken snel te warm.
-start positie vanaf nao boot locatie, deze kan niet veranderd worden, en moet dus getransleerd worden om het echte beginpunt te krijgen.
