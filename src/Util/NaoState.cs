@@ -241,6 +241,21 @@ namespace Naovigate.Util
                 return res;
             }
         }
+        
+        /// <summary>
+        /// Gets a object-detection proxy.
+        /// </summary>
+        /// <value>A object-detection proxy.</value>
+        public VisionRecognitionProxy ObjectDetectionProxy
+        {
+            get
+            {
+                VisionRecognitionProxy res = createProxy<VisionRecognitionProxy>();
+                proxies.Add(res);
+                return res;
+            }
+        }
+
 
         /// <summary>
         /// Gets a memory proxy.

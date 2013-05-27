@@ -26,7 +26,6 @@ namespace Naovigate.Vision
         {
             detector = NaoState.Instance.LandMarkDetectionProxy;
             detector.subscribe("MarkerRecogniser", 1000, 0F);
-
             memory = NaoState.Instance.MemoryProxy;
         }
 
