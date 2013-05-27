@@ -51,8 +51,12 @@ namespace Naovigate.Grabbing
          */
         public static void WaitFor()
         {
-            if(Instance.worker != null)
+            Logger.Log(typeof(Grabber), "Wait for worker.");
+            if (Instance.worker != null && Instance.worker.Running)
+            {
                 Instance.worker.WaitFor();
+            }
+            Logger.Log(typeof(Grabber), "Done waiting.");
         }
 
         /*

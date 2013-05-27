@@ -21,20 +21,18 @@ namespace Naovigate.Movement
 
         public override void Run()
         {
-            LookForObject();
+            Call(LookForObject);
         }
 
         public void LookForObject()
         {
             ObjectRecogniser rec = ObjectRecogniser.GetInstance();
             ArrayList pictureInfos;
-
-            while (!found)
+            Logger.Log(this, "Start LookForObjects");
+            while (running && !found)
             {
-                if (!Walk.Instance.IsMoving()) running = false;
                 ArrayList data = rec.GetObjectData();
                 pictureInfos = data.Count == 0 ? data : (ArrayList)data[1];
-                
 
                 for (int i = 0;!found && i < pictureInfos.Count; i++)
                 {
@@ -48,13 +46,13 @@ namespace Naovigate.Movement
                         for (int j = 0; j < boundryPoint.Count; j++)
                         {
                             ArrayList p = (ArrayList)boundryPoint[j];
-                            Console.WriteLine("x: " + p[0] + ", y: " + p[1]);
+                            Logger.Log(this, "x: " + p[0] + ", y: " + p[1]);
                         }
                     }
                 }
                 Thread.Sleep(250);
             }
-            Console.WriteLine("Exit LookForObjects");
+            Logger.Log(this, "Exit LookForObjects");
         }
 
         public int StringToInt(String s)
@@ -63,12 +61,12 @@ namespace Naovigate.Movement
             {
                 return Convert.ToInt32(s);
             }
-            catch (FormatException e)
+            catch (FormatException)
             {
                 Console.WriteLine("Input string is not a sequence of digits.");
                 return -1;
             }
-            catch (OverflowException e)
+            catch (OverflowException)
             {
                 Console.WriteLine("The number cannot fit in an Int32.");
                 return -1;
