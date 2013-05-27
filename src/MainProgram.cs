@@ -8,24 +8,25 @@ using System.Collections;
 using Aldebaran.Proxies;
 using System.Collections.Generic;
 using Naovigate.Movement;
+using System.Windows.Forms;
 
 namespace Naovigate
 {
     class MainProgram
     {
         public static readonly int port = 9559;
-        //public static readonly string localhost = "127.0.0.1";
-        public static readonly string localhost = "192.168.0.128";
+        public static readonly string localhost = "127.0.0.1";
         public static readonly string nao2 = "192.168.0.128";
-        public static readonly string ip = nao2;
+        public static readonly string ip = localhost;
 
         // Use this switch to deactivate debugger invocation:
-        public static readonly bool useDebugGui = true;
+        public static readonly DialogResult useDebugGui;
 
         public static void Main(String[] args)
         {
             ShutDownHook();
-            if (useDebugGui)
+            DialogResult useDebugGui = MessageBox.Show("Do you wish to use the NaoDebugger?", "Use Debugger?", MessageBoxButtons.YesNo);
+            if (useDebugGui.Equals(DialogResult.Yes))
                 LaunchDebugger.DebugMain();
             else
             {

@@ -31,7 +31,7 @@ namespace Naovigate.Communication
         }
 
         /*
-         * Test if the found ip a lissening ip is.
+         * Test if the given IP is reachable on port 9559.
          */
         private static Boolean testIP(String ip)
         {

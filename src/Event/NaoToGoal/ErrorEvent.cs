@@ -2,16 +2,16 @@
 
 namespace Naovigate.Event.NaoToGoal
 {
-    /*
-     * Send information regarding an unresolved error.
-     */
+    /// <summary>
+    /// Send information regarding an unresolved error.
+    /// </summary>
     public class ErrorEvent : DataSendingNaoEvent
     {
         public new static readonly EventCode code = EventCode.Error;
 
-        /*
-         * Explicit constructor.
-         */
+        /// <summary>
+        /// Explicit constructor.
+        /// </summary>
         public ErrorEvent() : base((byte)EventCode.Error) { }
     }
 }
