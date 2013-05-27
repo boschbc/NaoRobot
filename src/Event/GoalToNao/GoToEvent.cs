@@ -9,12 +9,10 @@ using Naovigate.Movement;
 
 namespace Naovigate.Event.GoalToNao
 {
-    /*
-     * @param MarkerID the id of a marker.
-     * @param Distance the Nao will stop Distance rooms away from the marker.
-     * Move to the marker MarkerID, if it is in range of the Nao.
-     * The Nao will stop Distance rooms away from the marker.
-     */
+    /// <summary>
+    /// Move to the marker MarkerID, if it is in range of the Nao.
+    /// The Nao will stop Distance rooms away from the marker.
+    /// </summary>
     public class GoToEvent : NaoEvent
     {
         public new static readonly EventCode code = EventCode.GoTo;
@@ -24,30 +22,32 @@ namespace Naovigate.Event.GoalToNao
 
         private MarkerSearchThread worker;
 
-        /*
-         * Default constructor.
-         */
+        /// <summary>
+        /// Creates a new GoToEvent.
+        /// </summary>
         public GoToEvent()
         {
             Unpack();
         }
 
-        /*
-         * Explicit constructor.
-         */
-        public GoToEvent(List<Point> locations)
+        /// <summary>
+        /// Creates a new GoToEvent using the given locations.
+        /// </summary>
+        /// <param name="locations">List of MarkerID's</param>
+        public GoToEvent(ICollection<Point> locations)
         {
 
         }
         
-        /*
-         * Explicit constructor.
-         */
+        /// <summary>
+        /// Creates a new GoToEvent using the given locations.
+        /// </summary>
+        /// <param name="locations"></param>
         public GoToEvent(params Point[] locations) : this(new List<Point>(locations)) { }
 
-        /*
-         * Extract the MarkerID and Distance parameters from a communication stream.
-         */
+        /// <summary>
+        /// Extract the MarkerID and Distance parameters from the communication stream.
+        /// </summary>
         private void Unpack()
         {
             int nodes = stream.ReadInt();
@@ -58,9 +58,9 @@ namespace Naovigate.Event.GoalToNao
             }
         }
 
-        /*
-         * See the INaoEvent class docs for documentation of this method.
-         */
+        /// <summary>
+        /// Fire this event.
+        /// </summary>
         public override void Fire()
         {
             NaoEvent statusEvent = new SuccessEvent(code);
@@ -80,9 +80,9 @@ namespace Naovigate.Event.GoalToNao
             EventQueue.Goal.Post(statusEvent);
         }
 
-        /*
-         * See the INaoEvent class docs for documentation of this method.
-         */
+        /// <summary>
+        /// Abort this event's execution.
+        /// </summary>
         public override void Abort()
         {
             aborted = true;

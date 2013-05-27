@@ -14,35 +14,31 @@ namespace Naovigate.Vision
         private VisionRecognitionProxy objectRecognizer;
         private MemoryProxy memory;
 
-        public static VisionRecognitionProxy instance = null;
+        public static ObjectRecogniser instance = null;
 
-        public static VisionRecognitionProxy GetInstance()
+        public static double FRANKENAOC = 5.414;
+
+        public static ObjectRecogniser GetInstance()
         {
-            return instance == null ? instance = new VisionRecognitionProxy(NaoState.Instance.IP.ToString(), NaoState.Instance.Port) : instance;
+            return instance == null ? instance = new ObjectRecogniser() : instance;
         }
 
-        public ObjectRecogniser(String ip, int port)
+        public ObjectRecogniser()
         {
-            objectRecognizer = new VisionRecognitionProxy(ip, port);
+            objectRecognizer = NaoState.Instance.ObjectDetectionProxy;
             objectRecognizer.subscribe("VisionRecognizer", 1000, 0F);
-            memory = new MemoryProxy(ip, port);
-            
+            memory = NaoState.Instance.MemoryProxy;
+        }
+
+        public static double estimateDistance(float sizeY)
+        {
+            return (1 / sizeY) / FRANKENAOC;
         }
 
         //returns object data
         public ArrayList GetObjectData()
         {
-            try
-            {
-                return (ArrayList)memory.getData("PictureDetected");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                ArrayList res = new ArrayList();
-                return res;
-
-            }
+            return (ArrayList)memory.getData("PictureDetected");
         }
 
         public void InsertVisionDatabase()

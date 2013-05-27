@@ -35,16 +35,16 @@ namespace Naovigate.Testing.GUI
 
         private static void StartDebugger()
         {
-            NaoState.Instance.Connect(MainProgram.localhost, MainProgram.port);
+            NaoState.Instance.Connect(MainProgram.ip, MainProgram.port);
             Application.Run(new NaoDebugger());
             ExitDebugger();
         }
 
         private static void ExitDebugger()
         {
-            EventQueue.Nao.Post(new Event.Internal.SitDownEvent());
-            EventQueue.Nao.Block();
-            EventQueue.Nao.Terminate();
+            EventQueue.Nao.Post(new Event.Internal.CrouchEvent());
+            EventQueue.Nao.WaitFor();
+            EventQueue.Nao.Abort();
             NaoState.Instance.Disconnect();
             GoalCommunicator.Instance.Close();
             GoalServer.Instance.Close();

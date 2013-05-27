@@ -12,6 +12,7 @@ namespace Naovigate.Util
         private static readonly string DefaultInvokerName = "Token";
 
         private static int id = 0;
+        private static bool enabled = true;
 
         /// <summary>
         /// Multiplies given string in an integer and returns the result.
@@ -32,13 +33,16 @@ namespace Naovigate.Util
         }
 
         /// <summary>
-        /// Logs given invoker & message.
+        /// Logs given invoker & amp; message.
         /// </summary>
         /// <param name="invoker">The name under which the message should be logged.</param>
-        /// <param name="message">A string to log.</param>
-        public static void Log(string invoker, string message)
+        /// <param name="messageObject">A string to log.</param>
+        public static void Log(string invoker, Object messageObject)
         {
+            if (!Enabled)
+                return;
             string time = DateTime.Now.ToLongTimeString();
+            string message = messageObject.ToString();
             if (message.Contains("\n"))
             {
                 message = message.Insert(0, "\n");
@@ -51,29 +55,38 @@ namespace Naovigate.Util
         /// Logs given message under given type.
         /// </summary>
         /// <param name="t">The type under which the message should be logged.</param>
-        /// <param name="message">A string to log.</param>
-        public static void Log(Type t, string message)
+        /// <param name="messageObject">A string to log.</param>
+        public static void Log(Type t, Object messageObject)
         {
-            Log(t.Name, message);
+            Log(t.Name, messageObject);
         }
 
         /// <summary>
         /// Logs given message under given object type.
         /// </summary>
         /// <param name="o">The object under which the message should be logged.</param>
-        /// <param name="message">A string to log.</param>
-        public static void Log(Object o, string message)
+        /// <param name="messageObject">A string to log.</param>
+        public static void Log(Object o, Object messageObject)
         {
-            Log(o.GetType(), message);
+            Log(o.GetType(), messageObject);
         }
 
         /// <summary>
         /// Logs given message under a token invoker.
         /// </summary>
-        /// <param name="message">A string to log.</param>
-        public static void Log(string message)
+        /// <param name="messageObject">A string to log.</param>
+        public static void Log(Object messageObject)
         {
-            Log(DefaultInvokerName, message);
+            Log(DefaultInvokerName, messageObject);
+        }
+
+        /// <summary>
+        /// The logger will only output logs when enabled.
+        /// </summary>
+        public static bool Enabled
+        {
+            get { return enabled; }
+            set { enabled = value; }
         }
     }
 }
