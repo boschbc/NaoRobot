@@ -8,7 +8,7 @@ namespace Naovigate.Util
     /// </summary>
     internal static class Logger
     {
-        private static readonly string Format = "{0} {1} :: {2} :: {3}";
+        private static readonly string Format = "{0} [{1}] :: {2} :: {3}";
         private static readonly string DefaultInvokerName = "Token";
         private static readonly string logFilePath = "log.txt";
 
@@ -47,7 +47,7 @@ namespace Naovigate.Util
         /// Logs given invoker & amp; message.
         /// </summary>
         /// <param name="invoker">The name under which the message should be logged.</param>
-        /// <param name="messageObject">A string to log.</param>
+        /// <param name="messageObject">An object to log.</param>
         public static void Log(string invoker, Object messageObject)
         {
             if (!Enabled)
@@ -71,7 +71,7 @@ namespace Naovigate.Util
         /// Logs given message under given type.
         /// </summary>
         /// <param name="t">The type under which the message should be logged.</param>
-        /// <param name="messageObject">A string to log.</param>
+        /// <param name="messageObject">An object to log.</param>
         public static void Log(Type t, Object messageObject)
         {
             Log(t.Name, messageObject);
@@ -81,7 +81,7 @@ namespace Naovigate.Util
         /// Logs given message under given object type.
         /// </summary>
         /// <param name="o">The object under which the message should be logged.</param>
-        /// <param name="messageObject">A string to log.</param>
+        /// <param name="messageObject">An object to log.</param>
         public static void Log(Object o, Object messageObject)
         {
             Log(o.GetType(), messageObject);
@@ -90,7 +90,7 @@ namespace Naovigate.Util
         /// <summary>
         /// Logs given message under a token invoker.
         /// </summary>
-        /// <param name="messageObject">A string to log.</param>
+        /// <param name="messageObject">An object to log.</param>
         public static void Log(Object messageObject)
         {
             Log(DefaultInvokerName, messageObject);
@@ -106,7 +106,7 @@ namespace Naovigate.Util
         }
 
         /// <summary>
-        /// The logger will output logs in to a file when enabled.
+        /// The logger will output logs into a file when enabled.
         /// </summary>
         public static bool LogToFile
         {

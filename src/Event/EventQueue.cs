@@ -168,9 +168,10 @@ namespace Naovigate.Event
         }
 
         /// <summary>
-        /// The next event in the queue.
+        /// Returns the next event in the queue while removing it from the queue.
         /// </summary>
-        INaoEvent NextEvent
+        /// <returns>The next event in queue, or null if the queue is empty.</returns>
+        protected INaoEvent NextEvent
         {
             get
             {
@@ -184,6 +185,20 @@ namespace Naovigate.Event
                 }
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Returns the next event in the queue while not removing it from the queue.
+        /// </summary>
+        /// <returns>The next event in queue, or null if the queue is empty.</returns>
+        public INaoEvent Peek()
+        {
+            lock (q)
+            {
+                if (!q.IsEmpty())
+                    return q.Peek();
+            }
+            return null;
         }
 
         /// <summary>

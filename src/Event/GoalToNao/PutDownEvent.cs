@@ -22,7 +22,7 @@ namespace Naovigate.Event.GoalToNao
         }
 
         /// <summary>
-        /// See the INaoEvent class docs for documentation of this method.
+        /// Fires the event.
         /// </summary>
         public override void Fire()
         {
@@ -39,7 +39,8 @@ namespace Naovigate.Event.GoalToNao
         }
 
         /// <summary>
-        /// See the INaoEvent class docs for documentation of this method.
+        /// Aborts this event's execution.
+        /// The Nao will keep holding the object.
         /// </summary>
         public override void Abort()
         {

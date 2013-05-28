@@ -20,7 +20,7 @@ namespace Naovigate.Test.Event.GoalToNao
     /// <summary>
     /// A test-suite for testing of the PickupEvent class.
     /// </summary>
-    [TestFixture, Timeout(2500)]
+    [TestFixture]
     public class PickupEventTest
     {
         private static int ExpectedID = 43;
@@ -47,7 +47,7 @@ namespace Naovigate.Test.Event.GoalToNao
         {
             if (NaoState.Instance.Connected)
             {
-                Walk.Instance.Abort();
+                Walk.Instance.StopMove();
                 NaoState.Instance.Disconnect();
             }
         }

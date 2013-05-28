@@ -69,6 +69,7 @@ namespace Naovigate
         private static void Cleanup(object sender, EventArgs e)
         {
             Logger.Log(typeof(MainProgram), "Performing clean-up...");
+            GoalCommunicator.Instance.Close();
             NaoState.Instance.Disconnect();
             Logger.Log(typeof(MainProgram), "Program terminated.");
         }
