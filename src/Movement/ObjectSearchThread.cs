@@ -24,6 +24,7 @@ namespace Naovigate.Movement
             LookForObject();
         }
 
+        //Looks for a object and then dissects the data
         public void LookForObject()
         {
             ObjectRecogniser rec = ObjectRecogniser.GetInstance();
@@ -49,18 +50,53 @@ namespace Naovigate.Movement
             ArrayList labels = (ArrayList)pictureInfo[0];
             if (StringToInt((String)labels[0]) == objectId)
             {
-                CalculateAngle((ArrayList)pictureInfo[3]);
+                double angle = CalculateAngle((ArrayList)pictureInfo[3]);
+                double distance = CalculateDistance((ArrayList)pictureInfo[3]);
             }
         }
 
-        public void CalculateAngle(ArrayList boundryPoint)
+        //Takes the smallest and biggest x and then calculates the angle
+        //between the nao and the middle point of the object.
+        public float CalculateAngle(ArrayList boundryPoints)
         {
-            Console.WriteLine("----------");
-            for (int j = 0; j < boundryPoint.Count; j++)
+            float smallestX = SmallestBoundryPointX(boundryPoints);
+            float biggestX = BiggestBoundryPointX(boundryPoints);
+            float middle = (smallestX + biggestX) / 2;
+            float angle = middle / 4F;
+            return angle;
+        }
+        //Takes the smallest and biggest x and then calculats the
+        //scalling of the object. Through that it finds the distance to the object
+        public float CalculateDistance(ArrayList boundryPoints)
+        {
+            float smallestX = SmallestBoundryPointX(boundryPoints);
+            float biggestX = BiggestBoundryPointX(boundryPoints);
+            float size = biggestX - smallestX;
+            float distance = ObjectRecogniser.estimateDistance(size);
+            return distance;
+        }
+        //returns smallest x from a Arraylist of boundryPoints
+        public float SmallestBoundryPointX(ArrayList boundryPoints)
+        {
+            for (int j = 0; j < boundryPoints.Count; j++)
             {
-                ArrayList p = (ArrayList)boundryPoint[j];
-                Console.WriteLine("x: " + p[0] + ", y: " + p[1]);
+                ArrayList p = (ArrayList)boundryPoints[j];
             }
+            return 0.0f;
+        }
+        //returns smallest x from a Arraylist of boundryPoints
+        public float BiggestBoundryPointX(ArrayList boundryPoints)
+        {
+            for (int j = 0; j < boundryPoints.Count; j++)
+            {
+                ArrayList p = (ArrayList)boundryPoints[j];
+            }
+            return 0.0f;
+        }
+
+        public double getSizeObject(int objectId)
+        {
+            return 14;
         }
 
         public int StringToInt(String s)
