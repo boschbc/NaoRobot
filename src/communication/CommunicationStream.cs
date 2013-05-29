@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net;
-using System.Net.Sockets;
 using System.Threading;
 using System.Diagnostics;
-
+using Naovigate.Util;
 namespace Naovigate.Communication
 {
     /// <summary>
@@ -13,7 +11,13 @@ namespace Naovigate.Communication
     /// </summary>
     public class CommunicationStream
     {
+        private static readonly int ticksToMsRatio = 10000;
+        private static readonly int timeoutInMs = 1000;
+        private static readonly int timeout = timeoutInMs * ticksToMsRatio;
+        private Queue<byte> buffer;
         private Stream stream;
+        private object wLock = new object();
+        private object rLock = new object();
 
         /// <summary>
         /// Creates a new instance wrapped around a given stream.
@@ -22,6 +26,50 @@ namespace Naovigate.Communication
         public CommunicationStream(Stream stream)
         {
             this.stream = stream;
+            InitStream();
+            buffer = new Queue<byte>();
+        }
+
+        /// <summary>
+        /// set the timeout of this stream, if this stream supports timeouts
+        /// </summary>
+        private void InitStream()
+        {
+            if (stream.CanTimeout)
+            {
+                stream.WriteTimeout = timeout;
+                stream.ReadTimeout = timeout;
+            }
+        }
+
+        /// <summary>
+        /// buffer the data 
+        /// </summary>
+        /// <param name="data">the data</param>
+        /// <param name="off">point to start writing from</param>
+        /// <param name="len">the amount of bytes to buffer</param>
+        private void Buffer(byte[] data, int off, int len)
+        {
+            Logger.Log(this, "Stream null, Buffering data.");
+            for (int i = off; i < off + len; i++)
+            {
+                buffer.Enqueue(data[i]);
+            }
+        }
+
+        /// <summary>
+        /// write the buffered data to the stream.
+        /// </summary>
+        private void FlushBuffer()
+        {
+            if (stream != null)
+            {
+                Logger.Log(this, "Write buffered data.");
+                while(buffer.Count > 0){
+                    stream.WriteByte(buffer.Dequeue());
+                }
+                Logger.Log(this, "Written all Buffered data.");
+            }
         }
 
         /// <summary>
@@ -41,7 +89,26 @@ namespace Naovigate.Communication
         /// <param name="len">The amount of bytes to be written.</param>
         public void Write(byte[] data, int off, int len)
         {
-            stream.Write(data, off, len);
+            if (stream == null)
+            {
+                // cache data for later use, the stream is being rebuild now.
+                Buffer(data, off, len);
+            }
+            else
+            {
+                lock (wLock)
+                {
+                    try
+                    {
+                        FlushBuffer();
+                        stream.Write(data, off, len);
+                    } catch(IOException){
+                        Open = false;
+                        // cache data for later use, the stream should be set to an active stream
+                        Buffer(data, off, len);
+                    }
+                }
+            }
         }
         
         /// <summary>
@@ -106,16 +173,28 @@ namespace Naovigate.Communication
         /// <returns></returns>
         public int Read(byte[] buf, int off, int length)
         {
+            long time = DateTime.Now.Ticks;
+            if (stream == null) throw new IOException("Stream Closed, this should be given a new stream to use.");
             // start at offset
             int pos = off;
-            // until length bytes are read
-            while (pos < length + off)
+            lock (rLock)
             {
-                // starting at current location, read until the end of the buffer
-                int len = stream.Read(buf, pos, off - pos + length);
-                pos += len;
+                // until length bytes are read
+                while (pos < length + off)
+                {
+                    // starting at current location, read until the end of the buffer
+                    int len = stream.Read(buf, pos, off - pos + length);
+                    pos += len;
+                    if (len == 0)
+                    {
+                        if ((DateTime.Now.Ticks - time) > timeout)
+                            throw new IOException("Read timed out.");
+                        
+                    }
+                    else time = DateTime.Now.Ticks;
+                }
+                Debug.Assert(pos - off == length);
             }
-            Debug.Assert(pos - off == length);
             return pos - off;
         }
 
@@ -170,6 +249,19 @@ namespace Naovigate.Communication
         /// </summary>
         public Stream Stream {
             get { return stream; }
+            set { 
+                stream = value; 
+                InitStream();
+            }
+        }
+
+        /// <summary>
+        /// boolean indicationg if this stream is open for data input/output
+        /// </summary>
+        public bool Open
+        {
+            get { return stream != null; }
+            set { if(!value) stream = null; }
         }
 
         /// <summary>
@@ -177,14 +269,15 @@ namespace Naovigate.Communication
         /// </summary>
         public void Close()
         {
-            stream.Close();
+            buffer.Clear();
+            if(stream != null) stream.Close();
         }
 
         /// <summary>
-        /// Human-readable string representation of a given long.
+        /// binary string representation of a given long.
         /// </summary>
         /// <param name="x">A long.</param>
-        /// <returns>A human readable string.</returns>
+        /// <returns>A binary readable string.</returns>
         public static String ToBitString(long x)
         {
             String res = "";
