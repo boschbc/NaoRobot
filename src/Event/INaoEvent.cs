@@ -40,10 +40,10 @@ namespace Naovigate.Event
         Halt = 0x04,
 
         //Internal
-        Move = 0x00,
-        Colliding = 0x01,
-        StandUp = 0x02,
-        SitDown = 0x03
+        Move = 0x40,
+        Colliding = 0x41,
+        StandUp = 0x42,
+        SitDown = 0x43
     }
 
     /// <summary>

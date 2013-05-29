@@ -122,6 +122,29 @@ namespace Naovigate.Test.Util
         }
 
         [Test]
+        public void EmptyReturnNullDequeueTest()
+        {
+            Assert.AreEqual(0, q.Dequeue());
+        }
+
+        [Test]
+        public void EmptyReturnNullPeekTest()
+        {
+            Assert.AreEqual(0, q.Peek());
+        }
+
+        [Test]
+        public void PeekDoesntRemoveTest()
+        {
+            Add(1);
+            Assert.AreEqual(1, q.Size());
+            Assert.AreEqual(1, q.Peek());
+
+            Assert.AreEqual(1, q.Size());
+            Assert.AreEqual(1, q.Peek());
+        }
+
+        [Test]
         [ExpectedException(typeof(ArgumentException))]
         public void EnqueueToHighPriorityTest()
         {

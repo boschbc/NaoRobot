@@ -72,9 +72,9 @@ namespace Naovigate.Util
             Logger.Log(this, "Connecting to Nao...");
             ip = endPoint.Address;
             port = endPoint.Port;
-            connected = true;
             CreateMyProxies();
             Update();
+            connected = true;
             Logger.Log(this, "Connection established.");
         }
 
