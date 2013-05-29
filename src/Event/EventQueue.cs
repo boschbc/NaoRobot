@@ -20,6 +20,9 @@ namespace Naovigate.Event
         private static EventQueue naoInstance;
         private static EventQueue goalInstance;
 
+        protected event Action<INaoEvent> EventPosted;
+        protected event Action<INaoEvent> EventFired;
+        
         private PriorityQueue<INaoEvent> q;
         private Thread thread;
         private bool suspended;
@@ -45,6 +48,35 @@ namespace Naovigate.Event
         }
 
         /// <summary>
+        /// Subscribes a given method to this goal communicator.
+        /// The method will be invoked each time an event was posted.
+        /// </summary>
+        /// <param name="handler">The handler which will be called when an event is posted.</param>
+        public void SubscribePost(Action<INaoEvent> handler)
+        {
+            EventPosted += handler;
+        }
+
+        /// <summary>
+        /// Subscribes a given method to this goal communicator.
+        /// The method will be invoked each time an event was posted.
+        /// </summary>
+        /// <param name="handler">The handler which will be called when an event is posted.</param>
+        public void SubscribeFire(Action<INaoEvent> handler)
+        {
+            EventFired += handler;
+        }
+
+        /// <summary>
+        /// Unsubscribes all handlers from both the Post and Fire events.
+        /// </summary>
+        public void UnsubscribeAll()
+        {
+            EventPosted = null;
+            EventFired = null;
+        }
+
+        /// <summary>
         /// True if the queue's main loop is currently running.
         /// </summary>
         public bool IsRunning
@@ -54,9 +86,9 @@ namespace Naovigate.Event
 
         /// <summary>
         /// Posts one or more events into the queue.
-        /// Throws InvalidOpertionException if the queue was terminated prior to this method-invocation.
         /// </summary>
         /// <param name="events">One or more events.</param>
+        /// <exception cref="InvalidOperationException">The queue was terminated prior to this method-invocation.</exception>
         public void Post(params INaoEvent[] events)
         {
             if (!IsRunning)
@@ -65,6 +97,8 @@ namespace Naovigate.Event
             {
                 foreach (INaoEvent e in events)
                 {
+                    if (EventPosted != null)
+                        EventPosted(e);
                     Logger.Log(this, "Posting event: " + e.ToString());
                     q.Enqueue(e, (int)e.Priority);
                 }
@@ -143,9 +177,10 @@ namespace Naovigate.Event
         }
 
         /// <summary>
-        /// The next event in the queue.
+        /// Returns the next event in the queue while removing it from the queue.
         /// </summary>
-        INaoEvent NextEvent
+        /// <returns>The next event in queue, or null if the queue is empty.</returns>
+        protected INaoEvent NextEvent
         {
             get
             {
@@ -162,6 +197,20 @@ namespace Naovigate.Event
         }
 
         /// <summary>
+        /// Returns the next event in the queue while not removing it from the queue.
+        /// </summary>
+        /// <returns>The next event in queue, or null if the queue is empty.</returns>
+        public INaoEvent Peek()
+        {
+            lock (q)
+            {
+                if (!q.IsEmpty())
+                    return q.Peek();
+            }
+            return null;
+        }
+
+        /// <summary>
         /// Fires an event.
         /// </summary>
         private void FireEvent()
@@ -173,6 +222,8 @@ namespace Naovigate.Event
                 // there was an event available, fire it
                 Logger.Log(this, "Firing " + e + ".\n" + EventsQueuedCount() + " events pending.");
                 e.Fire();
+                if (EventFired != null)
+                    EventFired(e);
                 Logger.Log(this, "Event " + e + " finished firing.");
             }
             inAction = false;
@@ -204,6 +255,14 @@ namespace Naovigate.Event
             while (!suspended && !q.IsEmpty())
                 Thread.Sleep(100);
         }
+        
+        /// <summary>
+        /// Clears all queued events. Any event that is currently being executed will not be interrupted.
+        /// </summary>
+        public void Clear()
+        {
+            q.Clear();
+        }
 
         /// <summary>
         /// Clears all queued events and stops accepting new events to be queued.
@@ -211,7 +270,7 @@ namespace Naovigate.Event
         /// </summary>
         public void Abort()
         {
-            q.Clear();
+            Clear();
             running = false;
             locker.Set();
             Logger.Log(this, "Shutting down...");

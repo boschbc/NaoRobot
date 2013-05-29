@@ -98,6 +98,12 @@
     <Compile Include="GUI\EventLauncherPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="GUI\EventQueueMonitor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\EventQueueMonitor.Designer.cs">
+      <DependentUpon>EventQueueMonitor.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\GoalSimulator.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -140,6 +146,11 @@
     <Compile Include="Movement\ObjectSearchThread.cs" />
     <Compile Include="Movement\Pose.cs" />
     <Compile Include="Movement\Walk.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Util\Logger.cs" />
     <Compile Include="Util\PriorityQueue.cs" />
     <Compile Include="Util\ActionExecutor.cs" />
@@ -152,7 +163,6 @@
     <Compile Include="Util\NaoState.cs" />
     <Compile Include="Communication\IPScanner.cs" />
     <Compile Include="Vision\Sonar.cs" />
-    <Compile Include="Event\GoalToNao\MapOverviewEvent.cs" />
     <Compile Include="Navigation\Map.cs" />
     <Compile Include="Navigation\Planner.cs" />
   </ItemGroup>
@@ -204,6 +214,9 @@
     <EmbeddedResource Include="GUI\EventLauncherPanel.resx">
       <DependentUpon>EventLauncherPanel.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\EventQueueMonitor.resx">
+      <DependentUpon>EventQueueMonitor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\GoalSimulator.resx">
       <DependentUpon>GoalSimulator.cs</DependentUpon>
     </EmbeddedResource>
@@ -219,9 +232,13 @@
     <EmbeddedResource Include="GUI\TemperatureMonitor.resx">
       <DependentUpon>TemperatureMonitor.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Sonar\" />
     <Folder Include="Navigate\" />
+    <Folder Include="Sonar\" />
   </ItemGroup>
 </Project>

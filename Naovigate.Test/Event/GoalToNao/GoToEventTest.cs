@@ -38,7 +38,7 @@ namespace Naovigate.Test.Event.GoalToNao
             goalComs.SetStream(emptyStream);
             if (Naovigate.Util.NaoState.Instance.Connected)
             {
-                Walk.Instance.Abort();
+                Walk.Instance.StopMove();
                 Naovigate.Util.NaoState.Instance.Disconnect();
             }
         }

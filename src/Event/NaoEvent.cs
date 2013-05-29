@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Naovigate.Communication;
+using Naovigate.Util;
 
 namespace Naovigate.Event
 {
@@ -58,7 +59,10 @@ namespace Naovigate.Event
         /// <summary>
         /// Aborts execution of this event.
         /// </summary>
-        public abstract void Abort();
+        public virtual void Abort()
+        {
+            Logger.Log(this, "Aborting...");
+        }
 
         /// <summary>
         /// Returns a human-readable representation of the event.

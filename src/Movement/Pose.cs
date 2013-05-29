@@ -11,8 +11,9 @@ namespace Naovigate.Movement
 {
     public class Pose
     {
-        private static readonly bool ignoreStabalise = true;
-        private static readonly float maxAllowedDifference = 0.001f;
+        private static long lastStabiliseAttempt = DateTime.Now.Ticks;
+        private static readonly bool ignoreStabalise = false;
+        private static readonly float maxAllowedDifference = 0.3f;
         private static readonly float attemptStabaliseLimit = 0.3f;
 
         private static readonly ArrayList rLegNames = new ArrayList(new string[]{"RHipYawPitch", "RHipRoll", "RHipPitch", "RKneePitch", "RAnklePitch", "RAnkleRoll"});
@@ -99,50 +100,96 @@ namespace Naovigate.Movement
             get
             {
                 Console.WriteLine();
-                if (!IsStable()) AttemptStabalise();
+                if (!IsStable()) 
+                    AttemptStabilize();
                 return IsStable();
             }
         }
 
+        private static string format(float f)
+        {
+            string res = f + "";
+            if (res.Length < 5) return res;
+            else return res.Substring(0, 5);
+        }
+
+        private List<float> Angles(ArrayList names, bool reverseRolls)
+        {
+            List<float> angles = motion.getAngles(names, false);
+            for (int i = 0; i < names.Count; i++)
+            {
+                if (names[i].ToString().Contains("Roll"))
+                {
+                    angles[i] = -angles[i];
+                }
+            }
+            return angles;
+        }
+
+        private List<float> LeftAngles(ArrayList names)
+        {
+            return Angles(names, true);
+        }
+
+        private List<float> RightAngles(ArrayList names)
+        {
+            return Angles(names, false);
+        }
+
         public bool IsStable()
         {
-            List<float> rAngles = motion.getAngles(rLegNames, false);
-            List<float> lAngles = motion.getAngles(lLegNames, false);
-            
+            List<float> rAngles = RightAngles(rLegNames);
+            List<float> lAngles = LeftAngles(lLegNames);
+            Logger.Log(this, rAngles.Count + " - " + lAngles.Count);
             bool stable = true;
-            for (int i = 0; stable && i < 6; i++)
+            for (int i = 0; i < 6; i++)
             {
-                Console.WriteLine(lAngles[i] + " - " + rAngles[i] + " Diff = " + (lAngles[i] - rAngles[i]));
+                float reverse = lLegNames[i].ToString().Contains("Roll") ? -1f : 1f;
+                Logger.Log(this, lLegNames[i] + ": " + format(lAngles[i]) + " - " + format(rAngles[i]) + " Diff = " + format(lAngles[i] - rAngles[i]));
                 stable = stable && Math.Abs(lAngles[i] - rAngles[i]) < maxAllowedDifference;
             }
-            Console.WriteLine("Stable: " + stable);
+            Logger.Log(this, "Stable: " + stable);
             return stable;
         }
 
         /*
          * Attempt to stabalise the robot if the angles dont differ to much.
          */
-        private bool AttemptStabalise()
+        private bool AttemptStabilize()
         {
             if (ignoreStabalise) return false;
-            List<float> left = motion.getAngles(lLegNames, false);
-            List<float> right = motion.getAngles(rLegNames, false);
-            ArrayList angles = new ArrayList();
-            for (int i = 0; i < 6;i++ )
+            Logger.Log(this, "AttemptStabilize");
+
+            // don't stabilize to much
+            if (lastStabiliseAttempt + 50000000 /*nanoseconds*/ < DateTime.Now.Ticks)
             {
-                if (Math.Abs(left[i] - right[i]) < attemptStabaliseLimit)
+                Logger.Log(this, (DateTime.Now.Ticks - lastStabiliseAttempt) + "");
+                lastStabiliseAttempt = DateTime.Now.Ticks;
+                List<float> left = Angles(lLegNames, false);
+                List<float> right = Angles(rLegNames, false);
+                ArrayList angles = new ArrayList();
+                for (int i = 0; i < 6; i++)
                 {
-                    angles.Add((left[i]+right[i])/2);
+                    Logger.Log(this, lLegNames[i] + ": " + format(left[i]) + " - " + format(right[i]) + " Diff = " + format(left[i] - right[i]));
+                    if (Math.Abs(left[i] - right[i]) < attemptStabaliseLimit)
+                    {
+                        float avg = (left[i] + right[i]) / 2;
+                        if (lLegNames[i].ToString().Contains("Roll"))
+                            avg = -avg;
+                        angles.Add(avg);
+                    }
                 }
+                if (angles.Count == 6)
+                {
+                    Logger.Log(this, "Stabilising");
+                    ArrayList names = new ArrayList(lLegNames);
+                    names.AddRange(rLegNames);
+                    angles.AddRange(angles);
+                    motion.setAngles(names, angles, 0.1f);
+                }
+                return angles.Count == 6;
             }
-            if (angles.Count == 6)
-            {
-                ArrayList names = new ArrayList(lLegNames);
-                names.AddRange(rLegNames);
-                angles.AddRange(angles);
-                motion.setAngles(names, angles, 0.1f);
-            }
-            return angles.Count == 6;
+            return false;
         }
     }
 }

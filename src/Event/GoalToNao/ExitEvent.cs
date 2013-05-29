@@ -1,13 +1,13 @@
 ﻿using System;
 
-using Naovigate.Util;
 using Naovigate.Communication;
+using Naovigate.Util;
 
 namespace Naovigate.Event.GoalToNao
 {
-    /*
-     * The exit events signals that the program should be terminated.
-     */
+    /// <summary>
+    /// The exit events signals that the program should be terminated.
+    /// </summary>
     public class ExitEvent : NaoEvent
     {
         public new static readonly EventCode code = EventCode.Exit;
@@ -15,18 +15,19 @@ namespace Naovigate.Event.GoalToNao
         
         public ExitEvent() : base(Priority.High) { }
 
-        /*
-         * See the INaoEvent class docs for documentation of this method.
-         */
+        /// <summary>
+        /// Fires the event.
+        /// </summary>
         public override void Fire()
         {
             NaoState.Instance.SpeechProxy.say(ExitMessage);
             Environment.Exit(0);
         }
 
-        /*
-         * Exit can not be aborted.
-         */
+        /// <summary>
+        /// Abort's this event's execution.
+        /// The exit-event is not durative and therefore cannot be aborted (has no effect).
+        /// </summary>
         public override void Abort() { }
     }
 }

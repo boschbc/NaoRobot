@@ -1,15 +1,16 @@
 ﻿using System;
-using System.Linq;
-using System.Collections;
-using System.Collections.Generic;
+
 using Aldebaran.Proxies;
+
 using Naovigate.Communication;
-using Naovigate.Util;
 using Naovigate.Movement;
+using Naovigate.Util;
 
 namespace Naovigate.Grabbing
 {
-    /// <description>Class that handles the 'grab' command. Grab an element right in front of the robot</description>    class Grabber
+    /// <summary>
+    /// A class the manages and controls any grabbing/laying procedures of the Nao.
+    /// </summary>
     public class Grabber
     {
         private static Grabber instance;
@@ -17,9 +18,9 @@ namespace Naovigate.Grabbing
         MotionProxy motion;
         RobotPostureProxy posture;
         
-        /*
-         * Constructor
-         */
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public Grabber()
         {
             motion = NaoState.Instance.MotionProxy;
@@ -27,16 +28,25 @@ namespace Naovigate.Grabbing
             instance = this;
         }
 
+        /// <summary>
+        /// The motion proxy used by this class.
+        /// </summary>
         public MotionProxy Motion
         {
             get { return motion; }
         }
 
+        /// <summary>
+        /// The posture proxy used by this class.
+        /// </summary>
         public RobotPostureProxy Posture
         {
             get { return posture; }
         }
         
+        /// <summary>
+        /// This singleton's instance.
+        /// </summary>
         public static Grabber Instance
         {
             get
@@ -46,18 +56,25 @@ namespace Naovigate.Grabbing
             set { instance = value; }
         }
 
-        /*
-         * wait until the current worker is finnished
-         */
+        /// <summary>
+        /// Blocks the current thread until the grabbing process has been completed.
+        /// </summary>
         public static void WaitFor()
         {
-            if(Instance.worker != null)
+            Logger.Log(typeof(Grabber), "Wait for worker.");
+            if (Instance.worker != null && Instance.worker.Running)
+            {
                 Instance.worker.WaitFor();
+            }
+            Logger.Log(typeof(Grabber), "Done waiting.");
         }
 
-        /*
-         * 
-         */
+        /// <summary>
+        /// Someone needs to document this method.
+        /// </summary>
+        /// <typeparam name="Worker"></typeparam>
+        /// <param name="w"></param>
+        /// <returns></returns>
         private Worker DoWork<Worker>(Worker w) where Worker : ActionExecutor
         {
             WaitFor();
@@ -66,29 +83,43 @@ namespace Naovigate.Grabbing
             return w;
         }
 
-        /*
-         * The movement for the grabbing
-         */
+        /// <summary>
+        /// The Nao will attempt to grab the object.
+        /// </summary>
+        /// <returns>A GrabWorker thread.</returns>
         public GrabWorker Grab()
         {
             return DoWork(new GrabWorker());
         }
         
-        /*
-         * put down the object the nao is holding
-         */
+        /// <summary>
+        /// The Nao will put down any object it is holding.
+        /// Has no effect if the Nao is not holding anything.
+        /// </summary>
+        /// <returns></returns>
         public PutDownWorker PutDown()
         {
             return DoWork(new PutDownWorker());
-        }        
+        }
+
+        /// <summary>
+        /// Returns true if the Nao is currently holding an object.
+        /// </summary>
+        /// <returns>A boolean.</returns>
+        public virtual Boolean HoldingObject()
+        {
+            //TODO 
+            return true;
+        }
 
         /// <summary>
         /// If the grabber is currently grabbing or dropping, abort the operation.
         /// </summary>
-        public static void Abort()
+        public virtual void Abort()
         {
-            if(instance.worker != null){
-                instance.worker.Abort();
+            if (worker != null)
+            {
+                worker.Abort();
             }
         }
     }

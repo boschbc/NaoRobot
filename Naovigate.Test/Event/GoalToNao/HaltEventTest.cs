@@ -23,7 +23,7 @@ namespace Naovigate.Test.Event.GoalToNao
         {
             if (NaoState.Instance.Connected)
             {
-                Walk.Instance.Abort();
+                Walk.Instance.StopMove();
                 NaoState.Instance.Disconnect();
             }
         }

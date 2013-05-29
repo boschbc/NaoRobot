@@ -33,7 +33,7 @@ namespace Naovigate.Event.NaoToGoal
         /// </summary>
         private void SendCode()
         {
-            stream.Stream.WriteByte(eventCode);
+            stream.WriteByte(eventCode);
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Naovigate.Event.NaoToGoal
             {
                 SendCode();
                 for (int i = 0; i < data.Length; i++)
-                    stream.Stream.WriteByte((byte)(0xFF & data[i]));
+                    stream.WriteByte((byte)(0xFF & data[i]));
             }
         }
 

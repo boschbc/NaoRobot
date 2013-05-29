@@ -10,6 +10,9 @@ using Naovigate.Vision;
 
 namespace Naovigate.Movement
 {
+    /// <summary>
+    /// A class which manages and controls the Nao's movements.
+    /// </summary>
     public class Walk
     {
         private MotionProxy motion; 
@@ -17,6 +20,9 @@ namespace Naovigate.Movement
 
         private static Walk instance = null;
 
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
         public Walk()
         {
             motion = NaoState.Instance.MotionProxy;
@@ -24,6 +30,9 @@ namespace Naovigate.Movement
             instance = this;
         }
 
+        /// <summary>
+        /// Returns this singleton's instance.
+        /// </summary>
         public static Walk Instance
         {
             get {
@@ -36,6 +45,9 @@ namespace Naovigate.Movement
             set { instance = value; }
         }
 
+        /// <summary>
+        /// Prepares the Nao's posture to be able to walk while holding an object.
+        /// </summary>
         public bool WalkWithObject
         {
             set
@@ -45,15 +57,21 @@ namespace Naovigate.Movement
             }
         }
 
-        /*
-         * walk to (x, y, theta) with the Nao as the origin
-         * */
+        /// <summary>
+        /// The Nao will walk towards given coordinates.
+        /// </summary>
+        /// <param name="x">X-coordinate.</param>
+        /// <param name="y">Y-coordinate.</param>
+        /// <param name="theta">The angle with which to move towards the destination.</param>
         public void WalkTo(float x, float y, float theta)
         {
             InitMove();
             motion.post.moveTo(x, y, theta);
         }
 
+        /// <summary>
+        /// The Nao will adjust it's posture and walk as if holding an object.
+        /// </summary>
         public void WalkWhileHolding()
         {
             motion.setWalkArmsEnable(false, false);
@@ -61,9 +79,9 @@ namespace Naovigate.Movement
             //motion.setWalkArmsEnable(true, true);
         }
 
-        /*
-         * Sets the stiffness of the Nao's motors on if it is not already so.
-         */
+        /// <summary>
+        /// Sets the stiffness of the Nao's motors on if it is not already so.
+        /// </summary>
         public void InitMove()
         {
             if (!motion.robotIsWakeUp())
@@ -72,18 +90,25 @@ namespace Naovigate.Movement
                 motion.moveInit();
         }
 
-        /*
-         * Start walking with normalized speed x, y and theta
-         * */
+        /// <summary>
+        /// Start walking with normalized speed x, y and theta
+        /// </summary>
+        /// <param name="x">Speed along the X-axis.</param>
+        /// <param name="y">Speed along the Y-axis.</param>
+        /// <param name="theta">The angle with the Nao will be in while moving.</param>
         public void StartWalking(float x, float y, float theta)
         {
             InitMove();
             motion.moveToward(x, y, theta);
         }
 
-        /*
-         * Turn (normalized) dir and walk till the Nao is within dist pieces of wall of the marker with MarkID = markerID
-         */
+        /// <summary>
+        /// Turn (normalized) dir and walk till the Nao is within dist pieces of wall of the marker with MarkID = markerID
+        /// </summary>
+        /// <param name="dir"></param>
+        /// <param name="markerID"></param>
+        /// <param name="dist"></param>
+        /// <returns></returns>
         public MarkerSearchThread WalkTowardsMarker(float dir, int markerID, double dist)
         {
             StopLooking();
@@ -94,9 +119,13 @@ namespace Naovigate.Movement
             return t;
         }
 
-        /*
-         * Turn (normalized) dir and walk till the Nao is within dist pieces of wall of the object with id ObjectID
-         */
+        /// <summary>
+        /// Turn (normalized) dir and walk till the Nao is within dist pieces of wall of the object with id ObjectID
+        /// </summary>
+        /// <param name="dir">???</param>
+        /// <param name="objectID"></param>
+        /// <param name="dist"></param>
+        /// <returns></returns>
         public virtual ObjectSearchThread WalkTowardsObject(float dir, int objectID,double dist)
         {
             StopLooking();
@@ -107,17 +136,18 @@ namespace Naovigate.Movement
             return t;
         }
 
-        /*
-         * stop looking for the marker and stop moving
-         * */
+        /// <summary>
+        /// The Nao will stop looking for markers and stop moving.
+        /// </summary>
         public void StopLooking()
         {
             StopMove();
         }
 
-        /* 
-         * return true iff the Nao is moving
-         * */
+        /// <summary>
+        /// Returns true iff the Nao is moving.
+        /// </summary>
+        /// <returns>A boolean.</returns>
         public Boolean IsMoving()
         {
             try
@@ -132,17 +162,12 @@ namespace Naovigate.Movement
             }
         }
 
-        /*
-         * stop the Nao from moving
-         * */
+        /// <summary>
+        /// Stops the Nao from moving.
+        /// </summary>
         public void StopMove()
         {
             motion.stopMove();
-        }
-
-        public void Abort()
-        {
-            StopMove();
         }
     }
 }

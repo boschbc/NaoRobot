@@ -3,9 +3,9 @@ using Naovigate.Communication;
 
 namespace Naovigate.Event
 {
-    /*
-     * Enumeration describing the different priority levels of Nao-events.
-     */
+    /// <summary>
+    /// Enumeration describing the different priority levels of Nao-events.
+    /// </summary>
     public enum Priority
     {
         Low,
@@ -13,9 +13,9 @@ namespace Naovigate.Event
         High
     };
 
-    /*
-     * Enumeration describing the different event-codes as declared in the API.
-     */
+    /// <summary>
+    /// Enumeration describing the different event-codes as declared in the API.
+    /// </summary>
     public enum EventCode
     {
         //Nao to Goal
@@ -40,34 +40,34 @@ namespace Naovigate.Event
         Halt = 0x04,
 
         //Internal
-        Move = 0x00,
-        Colliding = 0x01,
-        StandUp = 0x02,
-        SitDown = 0x03
+        Move = 0x40,
+        Colliding = 0x41,
+        StandUp = 0x42,
+        SitDown = 0x43
     }
 
-    /*
-     * A simple interface for Nao-events.
-     */
+    /// <summary>
+    /// A simple interface for NaoEvents.
+    /// </summary>
     public interface INaoEvent
     {
-        /*
-         * The event's priority property.
-         */
+        /// <summary>
+        /// The event's priority property.
+        /// </summary>
         Priority Priority
         {
             get;
             set;
         }
 
-        /*
-         * Fires the event.
-         */
+        /// <summary>
+        /// Fires the event.
+        /// </summary>
         void Fire();
 
-        /*
-         * Aborts this event's operation, if it is durative.
-         */
+        /// <summary>
+        /// Aborts this event's operation, if it is durative.
+        /// </summary>
         void Abort();
     }
 }

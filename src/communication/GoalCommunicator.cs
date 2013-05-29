@@ -27,12 +27,12 @@ namespace Naovigate.Communication
         protected NetworkStream stream;
         protected IPEndPoint endPoint;
         protected volatile bool running;
-
-        private static Object locker = new Object();
+        protected int reconnectAttempCount;
 
         private GoalCommunicator()
         {
             this.running = false;
+            reconnectAttempCount = 0;
             this.client = new TcpClient();
             instance = this;
         }
@@ -76,13 +76,59 @@ namespace Naovigate.Communication
         /// <summary>
         /// Establish connection to the server.
         /// </summary>
-        public void Connect()
+        public bool Connect()
         {
-            Logger.Log(this, "Connecting to: " + this.ip.ToString() + ":" + this.port.ToString());
-            this.client.Connect(this.endPoint);
-            this.stream = this.client.GetStream();
-            this.communicationStream = new CommunicationStream(this.stream);
-            Logger.Log(this, "Connection established.");
+            try
+            {
+                Logger.Log(this, "Connecting to: " + this.ip.ToString() + ":" + this.port.ToString());
+                client.Connect(this.endPoint);
+                stream = this.client.GetStream();
+                if (communicationStream == null) communicationStream = new CommunicationStream(stream);
+                else communicationStream.Stream = stream;
+                Logger.Log(this, "Connection established.");
+            } catch{
+                Logger.Log(this, "Connection could not be established, is the server running?");
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// attempt to reconnect a number of times.
+        /// </summary>
+        /// <param name="attempts"></param>
+        /// <returns></returns>
+        private bool Reconnect(int attempts)
+        {
+            bool res = false;
+            for (int i = 0; i < attempts && !(res = Reconnect()); i++) ;
+            return attempts == 0 ? false : res;
+        }
+
+        /// <summary>
+        /// reconnect the GoalCommunicator after a connection lost.
+        /// the calling thread will sleep for some time, depending on the attemps that were made.
+        /// </summary>
+        /// <param name="attempt"></param>
+        /// <returns>true if the connection was restored, false otherwise.</returns>
+        private bool Reconnect()
+        {
+            reconnectAttempCount++;
+            Logger.Log(this, "Reconnecting... attempt " + reconnectAttempCount + ", timeout = " + (1000 * (1 << reconnectAttempCount)));
+            
+            client = new TcpClient();
+            bool res = Connect();
+            Thread.Sleep(1000 * (1 << reconnectAttempCount));
+            if (res) reconnectAttempCount = 0; 
+            return res;
+        }
+
+        /// <summary>
+        /// Start the main loop in another thread.
+        /// </summary>
+        public void StartAsync()
+        {
+            new Thread(new ThreadStart(Start)).Start();
         }
 
         /// <summary>
@@ -90,47 +136,56 @@ namespace Naovigate.Communication
         /// </summary>
         public void Start()
         {
-            if (!this.client.Connected)
+            if (this.client.Connected || Connect())
             {
-                this.Connect();
+                Logger.Log(this, "Entering main loop.");
+                running = true;
+                while (IsRunning)
+                {   //connection lost, attempt to reconnect three times
+                    if (!communicationStream.Open && !Reconnect(3))
+                    {
+                        throw new UnavailableConnectionException();
+                    }
+                    byte code = 0;
+                    try
+                    {
+                        code = communicationStream.ReadByte();
+                        INaoEvent naoEvent = NaoEventFactory.NewEvent(code);
+                        EventQueue.Nao.Post(naoEvent);
+                    }
+                    catch (IOException)  //Communication Stream got closed.
+                    {
+                        Logger.Log(this, "Communication stream closed.");
+                        communicationStream.Open = false;
+                    }
+                    catch (InvalidEventCodeException)  //Received invalid event code.
+                    {
+                        Logger.Log(this, "Invalid event code received: " + code);
+                        INaoEvent failureEvent = new FailureEvent(code);
+                        EventQueue.Goal.Post(failureEvent);
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Log(this, "Unexpected exception occurred while processing incoming data: " + e.ToString());
+                    }
+                }
+                Dispose();
+                Logger.Log(this, "Exiting main loop.");
             }
-            
-            Logger.Log(this, "Entering main loop.");
-            running = true;
-            while (IsRunning)
+            else
             {
-                byte code = 0;
-                try
-                {
-                    code = communicationStream.ReadByte();
-                    INaoEvent naoEvent = NaoEventFactory.NewEvent(code);
-                    EventQueue.Nao.Post(naoEvent);
-                }
-                catch (IOException)  //Communication Stream got closed.
-                {
-                    Logger.Log(this, "Communication stream closed.");
-                    running = false;
-                }
-                catch (InvalidEventCodeException)  //Received invalid event code.
-                {
-                    Logger.Log(this, "Invalid event code received: " + code);
-                    INaoEvent failureEvent = new FailureEvent(code);
-                    EventQueue.Goal.Post(failureEvent);
-                }
-                catch (Exception e)
-                {
-                    Logger.Log(this, "Unexpected exception occurred while processing incoming data: " + e.ToString());
-                }
+                throw new UnavailableConnectionException();
             }
-            Dispose();
-            Logger.Log(this, "Exiting main loop.");
         }
 
+        /// <summary>
+        /// Disconnects from the server.
+        /// </summary>
         public void Close()
         {
             Logger.Log(this, "Disconnecting from server...");
             this.running = false;
-            this.communicationStream.Close();
+            if(communicationStream != null) communicationStream.Close();
             Logger.Log(this, "Disconnected.");
         }
 
@@ -139,10 +194,7 @@ namespace Naovigate.Communication
         /// </summary>
         public void Dispose()
         {
-            this.running = false;
-            if (this.client != null) {
-                this.client.Close();
-            }
+            Close();
         }
 
         /// <summary>
