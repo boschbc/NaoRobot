@@ -3,6 +3,7 @@
 using Naovigate.Communication;
 using Naovigate.Event.NaoToGoal;
 using Naovigate.Grabbing;
+using Naovigate.Util;
 
 namespace Naovigate.Event.GoalToNao
 {
@@ -12,14 +13,13 @@ namespace Naovigate.Event.GoalToNao
     public class PutDownEvent : NaoEvent
     {
         public new static readonly EventCode code = EventCode.PutDown;
-        
+
+        private ActionExecutor worker;
+
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public PutDownEvent()
-        {
-
-        }
+        public PutDownEvent() { }
 
         /// <summary>
         /// Fires the event.
@@ -29,29 +29,38 @@ namespace Naovigate.Event.GoalToNao
             NaoEvent statusEvent = new SuccessEvent(code);
             try
             {
-                Grabber.Instance.PutDown();
+                
+                worker = Grabber.Instance.PutDown();
+                worker.WaitFor();  //Check if any exceptions are thrown
+                if (worker.Aborted)
+                    if (Grabber.Instance.HoldingObject())
+                        statusEvent = new FailureEvent(code);
             }
             catch
             {
-                statusEvent = new FailureEvent(code);
+                Logger.Log(this, "at first catch");
+                try
+                {
+                    /// If we are not holding the object, than the exception 
+                    /// wasn't so bad, but if we still do:
+                    if (Grabber.Instance.HoldingObject())
+                        statusEvent = new FailureEvent(code);
+                }
+                catch
+                {
+                    //Something is seriously wrong with Grabber.HoldingObject
+                    statusEvent = new ErrorEvent();
+                }
             }
             EventQueue.Goal.Post(statusEvent);
         }
 
         /// <summary>
         /// Aborts this event's execution.
-        /// The Nao will keep holding the object.
         /// </summary>
         public override void Abort()
         {
-            try
-            {
-                Grabber.Instance.Abort();
-            }
-            catch
-            {
-                EventQueue.Goal.Post(new ErrorEvent());
-            }
+            worker.Abort();
         }
     }
 }
