@@ -35,26 +35,32 @@ namespace Naovigate.Movement
                 ArrayList data = rec.GetObjectData();
                 pictureInfos = data.Count == 0 ? data : (ArrayList)data[1];
                 
-
                 for (int i = 0;!found && i < pictureInfos.Count; i++)
                 {
-                    ArrayList pictureInfo = (ArrayList)pictureInfos[i];
-                    ArrayList labels = (ArrayList)pictureInfo[0];
-
-                    if (StringToInt((String)labels[0]) == objectId)
-                    {
-                        ArrayList boundryPoint = (ArrayList)pictureInfo[3];
-                        Console.WriteLine("----------");
-                        for (int j = 0; j < boundryPoint.Count; j++)
-                        {
-                            ArrayList p = (ArrayList)boundryPoint[j];
-                            Console.WriteLine("x: " + p[0] + ", y: " + p[1]);
-                        }
-                    }
+                    ObjectCalculations((ArrayList)pictureInfos[i]);
                 }
                 Thread.Sleep(250);
             }
             Console.WriteLine("Exit LookForObjects");
+        }
+
+        public void ObjectCalculations(ArrayList pictureInfo)
+        {
+            ArrayList labels = (ArrayList)pictureInfo[0];
+            if (StringToInt((String)labels[0]) == objectId)
+            {
+                CalculateAngle((ArrayList)pictureInfo[3]);
+            }
+        }
+
+        public void CalculateAngle(ArrayList boundryPoint)
+        {
+            Console.WriteLine("----------");
+            for (int j = 0; j < boundryPoint.Count; j++)
+            {
+                ArrayList p = (ArrayList)boundryPoint[j];
+                Console.WriteLine("x: " + p[0] + ", y: " + p[1]);
+            }
         }
 
         public int StringToInt(String s)
@@ -65,12 +71,12 @@ namespace Naovigate.Movement
             }
             catch (FormatException e)
             {
-                Console.WriteLine("Input string is not a sequence of digits.");
+                Console.WriteLine("Input string is not a sequence of digits. Exception:" + e);
                 return -1;
             }
             catch (OverflowException e)
             {
-                Console.WriteLine("The number cannot fit in an Int32.");
+                Console.WriteLine("The number cannot fit in an Int32. Exception:" + e);
                 return -1;
             }
         }
