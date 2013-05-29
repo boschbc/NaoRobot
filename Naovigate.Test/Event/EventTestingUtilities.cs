@@ -14,7 +14,7 @@ namespace Naovigate.Test.Event
         /// Creates a stream and fill it with data.
         /// </summary>
         /// <param name="input">Data which will be writen into the stream.</param>
-        /// <returns></returns>
+        /// <returns>A new communication stream.</returns>
         public static CommunicationStream BuildStream(params int[] input)
         {
             MemoryStream mem = new MemoryStream();
@@ -47,7 +47,7 @@ namespace Naovigate.Test.Event
 
         /// <summary>
         ///  Connects to Webots client.
-        ///  @throws UnavailableConnectionException if Webots is not running.
+        ///  <exception cref="UnavailableConnectionException">Webots is not running.</exception>
         /// </summary>
         public static void ConnectWebots()
         {
@@ -57,15 +57,18 @@ namespace Naovigate.Test.Event
         /// <summary>
         /// Requires a valid connection to the Webots client. If no connection is found then a test's result becomes inconclusive.
         /// </summary>
-        public static void RequireWebots()
+        /// <returns>True if a connection to Webots was established succesfully.</returns>
+        public static bool RequireWebots()
         {
             try
             {
                 EventTestingUtilities.ConnectWebots();
+                return true;
             }
             catch (UnavailableConnectionException)
             {
                 Assert.Inconclusive();
+                return false;
             }
         }
     }

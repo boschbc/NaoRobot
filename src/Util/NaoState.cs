@@ -87,7 +87,7 @@ namespace Naovigate.Util
                 return;
             }
 			Logger.Log(this, "Disconnecting from Nao...");
-            unsubscribeAll();
+            //UnsubscribeAll();
             ip = null;
             port = -1;
             connected = false;
@@ -131,9 +131,11 @@ namespace Naovigate.Util
             }
         }
 
-        //Unsubscribes from everything except videodeviceproxy
-        private void unsubscribeAll()
-        {
+        /// <summary>
+        /// Unsubscribes all instances of LandMarkDetectionProxy, SensorsProxy and SonarProxy.
+        /// </summary>
+        private void UnsubscribeAll()
+        { 
             LandMarkDetectionProxy landmark = LandMarkDetectionProxy;
             foreach (ArrayList sub in (ArrayList)landmark.getSubscribersInfo())
             {
@@ -143,11 +145,12 @@ namespace Naovigate.Util
             {
                 sensors.unsubscribe((String)sub[0]);
             }
+           
             SonarProxy sonar = SonarProxy;
             foreach (ArrayList sub in (ArrayList)sonar.getSubscribersInfo())
             {
                 sonar.unsubscribe((String)sub[0]);
-            }            
+            }
         }
 
         /// <summary>
@@ -219,10 +222,10 @@ namespace Naovigate.Util
         
         /// <summary>
         /// Attempts to create a proxy of given type.
-        /// @throws UnavailableConnectionException if proxy creation fails.
         /// </summary>
         /// <typeparam name="TProxy">The type of proxy to be created.</typeparam>
         /// <returns>A new proxy of the requested type.</returns>
+        /// <exception cref="UnavailableConnectionException">Proxy creation failed.</exception>
         protected virtual TProxy createProxy<TProxy>() where TProxy : IDisposable
         {
             try
@@ -391,6 +394,7 @@ namespace Naovigate.Util
         /// Update this NaoState with new values retrieved from the Nao. This includes battery charge, robot position,
         /// robot rotation, et cetera.
         /// </summary>
+        /// <exception cref="UnavailableConnectionException">NaoState is not connected to a Nao.</exception>
         public void Update()
         {
             if (!Connected)

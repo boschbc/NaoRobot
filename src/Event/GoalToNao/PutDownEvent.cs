@@ -46,7 +46,7 @@ namespace Naovigate.Event.GoalToNao
         {
             try
             {
-                Grabber.Abort();
+                Grabber.Instance.Abort();
             }
             catch
             {

@@ -68,6 +68,15 @@ namespace Naovigate.Event
         }
 
         /// <summary>
+        /// Unsubscribes all handlers from both the Post and Fire events.
+        /// </summary>
+        public void UnsubscribeAll()
+        {
+            EventPosted = null;
+            EventFired = null;
+        }
+
+        /// <summary>
         /// True if the queue's main loop is currently running.
         /// </summary>
         public bool IsRunning
@@ -77,9 +86,9 @@ namespace Naovigate.Event
 
         /// <summary>
         /// Posts one or more events into the queue.
-        /// Throws InvalidOpertionException if the queue was terminated prior to this method-invocation.
         /// </summary>
         /// <param name="events">One or more events.</param>
+        /// <exception cref="InvalidOperationException">The queue was terminated prior to this method-invocation.</exception>
         public void Post(params INaoEvent[] events)
         {
             if (!IsRunning)
@@ -246,6 +255,14 @@ namespace Naovigate.Event
             while (!suspended && !q.IsEmpty())
                 Thread.Sleep(100);
         }
+        
+        /// <summary>
+        /// Clears all queued events. Any event that is currently being executed will not be interrupted.
+        /// </summary>
+        public void Clear()
+        {
+            q.Clear();
+        }
 
         /// <summary>
         /// Clears all queued events and stops accepting new events to be queued.
@@ -253,7 +270,7 @@ namespace Naovigate.Event
         /// </summary>
         public void Abort()
         {
-            q.Clear();
+            Clear();
             running = false;
             locker.Set();
             Logger.Log(this, "Shutting down...");

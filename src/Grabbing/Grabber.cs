@@ -115,10 +115,11 @@ namespace Naovigate.Grabbing
         /// <summary>
         /// If the grabber is currently grabbing or dropping, abort the operation.
         /// </summary>
-        public static void Abort()
+        public virtual void Abort()
         {
-            if(instance.worker != null){
-                instance.worker.Abort();
+            if (worker != null)
+            {
+                worker.Abort();
             }
         }
     }

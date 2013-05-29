@@ -22,40 +22,49 @@ namespace Naovigate.Test.Event.GoalToNao
     [TestFixture]
     public class PutDownEventTest
     {
-        //private static int ExpectedID = 43;
         private GoalComsStub goalComs;
-        //private CommunicationStream inputStream;
+        private CommunicationStream emptyStream;
         private PutDownEvent putdownEvent;
 
+        /// <summary>
+        /// Create a GoalCommunicator stub and a dummy communication stream for it.
+        /// </summary>
         [TestFixtureSetUp]
         public void initOnce()
         {
-            goalComs = new GoalComsStub(null);
+            emptyStream = EventTestingUtilities.BuildStream();
+            goalComs = new GoalComsStub(emptyStream);
         }
 
+        /// <summary>
+        /// Initialise the event.
+        /// </summary>
         [SetUp]
         public void Init()
         {
-            //inputStream = EventTestingUtilities.BuildStream(ExpectedID);
-            //goalComs.SetStream(inputStream);
+            Logger.Clear();
             putdownEvent = new PutDownEvent();
         }
 
+        /// <summary>
+        /// Ensures a clean environment for any upcoming tests.s
+        /// </summary>
         [TearDown]
         public void TearDown()
         {
-            if (NaoState.Instance.Connected)
-            {
-                Walk.Instance.StopMove();
-                //NaoState.Instance.Disconnect();
-            }
+            NaoState.Instance.Disconnect();
+            EventQueue.Nao.Clear();
+            EventQueue.Goal.Clear();
         }
 
-        [Test]
+        /// <summary>
+        /// Executes the event succesfully. Expects a SuccessEvent to be present in the queue.
+        /// </summary>
+        [Test, Timeout(20000)]
         public void ValidFireTest()
         {
             EventTestingUtilities.RequireWebots();
-
+            
             Mock<Grabber> mock = new Mock<Grabber>();
             Type expected = typeof(SuccessEvent);
             mock.Setup(m => m.HoldingObject()).Returns(false);
@@ -64,11 +73,15 @@ namespace Naovigate.Test.Event.GoalToNao
             EventQueue.Goal.Suspend();
             EventQueue.Nao.Post(putdownEvent);
             EventQueue.Nao.WaitFor();
-            
-            Assert.AreEqual(EventQueue.Goal.Peek().GetType(), expected);
+
+            Assert.IsInstanceOf<SuccessEvent>(EventQueue.Goal.Peek(),
+                "The Nao is not holding the object anymore, therefore the execution was a success.");
         }
 
-        [Test]
+        /// <summary>
+        /// Executes the event unsuccesfully. Expects a FailureEvent to be present in the queue.
+        /// </summary>
+        [Test, Timeout(20000)]
         public void InvalidFireTest()
         {
             EventTestingUtilities.RequireWebots();
@@ -82,15 +95,56 @@ namespace Naovigate.Test.Event.GoalToNao
             EventQueue.Nao.Post(putdownEvent);
             EventQueue.Nao.WaitFor();
 
-            Assert.AreEqual(EventQueue.Goal.Peek().GetType(), expected);
+            Assert.IsInstanceOf<FailureEvent>(EventQueue.Goal.Peek(), 
+                "The Nao is still holding the object, therefore the execution was a failure");
+
+            //Clean-up
+            Grabber.Instance = new Grabber();
         }
 
-        public void AbortTest()
+        /// <summary>
+        /// Executes and then aborts the event succesfully. Expects no new events in the queue.
+        /// </summary>
+        [Test, Timeout(3000)]
+        public void ValidAbortTest()
         {
             EventTestingUtilities.RequireWebots();
-            putdownEvent.Fire();
-            putdownEvent.Abort();
-            Assert.IsTrue(EventQueue.Nao.IsEmpty());
+
+            EventQueue.Goal.Suspend();
+            EventQueue.Nao.SubscribeFire(naoEvent => naoEvent.Abort());
+            EventQueue.Nao.Post(putdownEvent);
+            EventQueue.Nao.WaitFor();
+
+            Assert.IsTrue(EventQueue.Nao.IsEmpty(),
+                "The event was executed and aborted succesfully. There should be no event present in the queue.");
+
+            //Clean-up
+            EventQueue.Nao.UnsubscribeAll();
+        }
+
+        /// <summary>
+        /// Executes and then aborts the event unsuccessfully. Expects an ErrorEvent in the queue.
+        /// </summary>
+        [Test, Timeout(3000)]
+        public void InvalidAbortTest()
+        {
+            EventTestingUtilities.RequireWebots();
+
+            Mock<Grabber> mock = new Mock<Grabber>();
+            mock.Setup(m => m.Abort()).Throws(new Exception());
+            Grabber.Instance = mock.Object;
+
+            EventQueue.Goal.Suspend();
+            EventQueue.Nao.SubscribeFire(naoEvent => naoEvent.Abort());
+            EventQueue.Nao.Post(putdownEvent);
+            EventQueue.Nao.WaitFor();
+
+            Assert.IsInstanceOf<ErrorEvent>(EventQueue.Goal.Peek(),
+                "The event was executed and unsuccesfully aborted. There should be an ErrorEvent present in the queue.");
+
+            //Clean-up
+            EventQueue.Nao.UnsubscribeAll();
+            Grabber.Instance = new Grabber();
         }
     }
 }

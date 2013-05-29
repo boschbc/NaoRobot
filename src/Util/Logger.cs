@@ -6,7 +6,7 @@ namespace Naovigate.Util
     /// <summary>
     /// A class that helps the developers maintain a readable log of the program's execution.
     /// </summary>
-    internal static class Logger
+    public static class Logger
     {
         private static readonly string Format = "{0} [{1}] :: {2} :: {3}";
         private static readonly string DefaultInvokerName = "Token";
@@ -35,12 +35,13 @@ namespace Naovigate.Util
         }
 
         /// <summary>
-        /// Clears the contents of the log file.
+        /// Clears the contents of the log file and resets the internal output ID.
         /// </summary>
         public static void Clear()
         {
             lock (logFilePath)
                 System.IO.File.WriteAllText(logFilePath, "");
+            id = 0;
         }
 
         /// <summary>

@@ -28,7 +28,7 @@ namespace Naovigate.Event.GoalToNao
             try
             {
                 Walk.Instance.StopMove();
-                Grabber.Abort();
+                Grabber.Instance.Abort();
             }
             catch
             {
