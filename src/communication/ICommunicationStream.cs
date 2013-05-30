@@ -47,6 +47,11 @@ namespace Naovigate.Communication
         void WriteString(string x);
 
         /// <summary>
+        /// write a newline to the stream.
+        /// </summary>
+        void WriteNewline();
+
+        /// <summary>
         /// Fill the buffer buf with data from the stream.
         /// </summary>
         /// <param name="buf">The buffer to be filled.</param>
