@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-
 using Aldebaran.Proxies;
 
 using Naovigate.Util;
@@ -82,6 +81,7 @@ namespace Naovigate.Vision
         /*
          * Fetches the current image from Nao's camera.
          * @returns null if not connected to any Nao.
+         * is nog niet super efficent
          */
         public Image<Rgb, Byte> GetImage()
         {
@@ -95,8 +95,9 @@ namespace Naovigate.Vision
             Bitmap imageBitMap = new Bitmap(width, height, stride,
                                 System.Drawing.Imaging.PixelFormat.Format24bppRgb,
                                 System.Runtime.InteropServices.Marshal.UnsafeAddrOfPinnedArrayElement(imageBytes, 0));
-            Image<Rgb,Byte> temp = new Image<Rgb,Byte>(imageBitMap);
-            return temp;
+            Image<Rgb, Byte> img = new Image<Rgb, Byte>(imageBitMap);
+            img = img.SmoothMedian(5);
+            return img;
             
         }
         public void CalibrateCamera(int p)

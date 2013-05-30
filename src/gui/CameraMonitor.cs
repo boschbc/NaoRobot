@@ -104,7 +104,6 @@ namespace Naovigate.GUI
             }
             Image<Rgb,Byte> image = camera.GetImage();
             Image img = image.ToBitmap(image.Width,image.Height);
-            Console.WriteLine("TEST");
             imageContainer.Image = img;
         }
     }
