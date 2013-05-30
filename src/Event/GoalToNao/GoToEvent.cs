@@ -67,8 +67,8 @@ namespace Naovigate.Event.GoalToNao
             NaoEvent statusEvent = new SuccessEvent(code);
             try
             {
-                List<Planner.RouteEntry> route = Planner.PlanRoute(null, locations);// get from map, throw NullReference now
-                foreach( Planner.RouteEntry entry in route )
+                List<RouteEntry> route = Planner.PlanRoute(null, locations);// get from map, throw NullReference now
+                foreach (RouteEntry entry in route)
                 {
                     worker = Walk.Instance.WalkTowardsMarker((float)entry.Direction, entry.MarkerID, entry.Distance);
                     worker.WaitFor();

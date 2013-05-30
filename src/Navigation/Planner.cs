@@ -7,35 +7,6 @@ namespace Naovigate.Navigation
 {
     class Planner
     {
-        public class RouteEntry
-        {
-            private Map.Direction dir;
-            private int markerID;
-            private float distance;
-
-            public RouteEntry(Map.Direction dir, int markerID, float distance)
-            {
-                this.dir = dir;
-                this.markerID = markerID;
-                this.distance = distance;
-            }
-
-            public Map.Direction Direction
-            {
-                get { return this.dir; }
-            }
-
-            public int MarkerID
-            {
-                get { return this.markerID; }
-            }
-
-            public float Distance
-            {
-                get { return this.distance; }
-            }
-        }
-
         public static List<RouteEntry> PlanRoute(Map map, List<Point> points)
         {
             Point? pos = null;

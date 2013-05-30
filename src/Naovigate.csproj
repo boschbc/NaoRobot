@@ -166,6 +166,7 @@
     <Compile Include="Vision\Sonar.cs" />
     <Compile Include="Navigation\Map.cs" />
     <Compile Include="Navigation\Planner.cs" />
+    <Compile Include="Navigation\RouteEntry.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Moq">
