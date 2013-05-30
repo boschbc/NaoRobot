@@ -20,31 +20,29 @@ namespace Naovigate
     {
         public static readonly int port = 9559;
         public static readonly string localhost = "127.0.0.1";
-        public static readonly string nao2 = "192.168.0.125";
+        public static readonly string nao2 = "192.168.0.128";
         public static readonly string ip = nao2;
 
         public static void Main(String[] args)
         {
-            ShutDownHook();
-            Logger.Clear();
+            Setup();
             DialogResult useDebugGui = MessageBox.Show("Do you wish to use the NaoDebugger?", "Use Debugger?", MessageBoxButtons.YesNo);
             if (useDebugGui.Equals(DialogResult.Yes))
                 LaunchDebugger.DebugMain();
             else
             {
-                NaoState.Instance.Connect(ip,9559);
-                //NaoState.Instance.MemoryProxy.removeData("PictureDetected");
-                Walk.Instance.WalkTowardsObject(0, 1, 0.25);
-                //GoalCommunicator c = new GoalCommunicator(GoalCommunicator.DefaultIP, 1337);
-                //c.Start();
+                new TestingGoalServer().Start();
+                GoalCommunicator c = new GoalCommunicator(GoalCommunicator.DefaultIP, GoalCommunicator.DefaultPort);
+                c.Start();
             }
 
-            Console.WriteLine("Done. Press any key to exit.");
+            Console.WriteLine("Done");
             Console.Read();
         }
 
-        private static void ShutDownHook()
+        private static void Setup()
         {
+            Logger.Clear();
             AppDomain.CurrentDomain.ProcessExit += Cleanup;
         }
 

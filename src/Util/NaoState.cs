@@ -67,13 +67,13 @@ namespace Naovigate.Util
         public virtual void Connect(IPEndPoint endPoint)
         {
             if (Connected) {
-                Disconnect();
+                return;
             }
             Logger.Log(this, "Connecting to Nao...");
+            connected = true;
             ip = endPoint.Address;
             port = endPoint.Port;
             CreateMyProxies();
-            connected = true;
             Update();
             Logger.Log(this, "Connection established.");
         }
@@ -87,7 +87,7 @@ namespace Naovigate.Util
                 return;
             }
 			Logger.Log(this, "Disconnecting from Nao...");
-            //UnsubscribeAll();
+            UnsubscribeAll();
             ip = null;
             port = -1;
             connected = false;
@@ -95,14 +95,34 @@ namespace Naovigate.Util
             Logger.Log(this, "Disconnected.");
         }
 
+        /// <summary>
+        /// Gets a value indicating whether this <see cref="Naovigate.Util.NaoState"/> is connected.
+        /// </summary>
+        /// <value><c>true</c> if connected; otherwise, <c>false</c>.</value>
+        public bool Connected
+        {
+            get
+            {
+                if (IP == null)
+                    return false;
+                try
+                {
+                    MotionProxy motion = new MotionProxy(IP.ToString(), Port);
+                    motion.Dispose();
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            }
+        }
 
         ///<summary>
         /// Creates proxes to be used by this class only.
         /// </summary>
         private void CreateMyProxies()
         {
-            if (!Connected)
-                return;
             motion = MotionProxy;
             battery = BatteryProxy;
             sensors = SensorsProxy;
@@ -370,15 +390,6 @@ namespace Naovigate.Util
                 VideoDeviceProxy res = createProxy<VideoDeviceProxy>();
                 return res;
             }
-        }
-
-        /// <summary>
-        /// Gets a value indicating whether this <see cref="Naovigate.Util.NaoState"/> is connected.
-        /// </summary>
-        /// <value><c>true</c> if connected; otherwise, <c>false</c>.</value>
-        public bool Connected
-        {
-            get { return connected; }
         }
 
         /// <summary>

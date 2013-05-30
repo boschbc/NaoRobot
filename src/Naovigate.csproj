@@ -47,8 +47,10 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <Compile Include="Communication\TestingGoalServer.cs" />
     <Compile Include="Communication\UnavailableConnectionException.cs" />
     <Compile Include="Event\GoalToNao\ExitEvent.cs" />
+    <Compile Include="Event\Internal\ShutdownEvent.cs" />
     <Compile Include="Event\Internal\CrouchEvent.cs" />
     <Compile Include="Event\Internal\GrabEvent.cs" />
     <Compile Include="Event\Internal\NaoCollidingEvent.cs" />
@@ -165,6 +167,7 @@
     <Compile Include="Vision\Sonar.cs" />
     <Compile Include="Navigation\Map.cs" />
     <Compile Include="Navigation\Planner.cs" />
+    <Compile Include="Navigation\RouteEntry.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Emgu.CV">

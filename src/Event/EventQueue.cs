@@ -252,7 +252,7 @@ namespace Naovigate.Event
         /// </summary>
         public void WaitFor()
         {
-            while (!suspended && !q.IsEmpty())
+            while (!suspended && !IsEmpty())
                 Thread.Sleep(100);
         }
         
@@ -274,6 +274,15 @@ namespace Naovigate.Event
             running = false;
             locker.Set();
             Logger.Log(this, "Shutting down...");
+        }
+
+        /// <summary>
+        /// Returns a string representation of this queue.
+        /// </summary>
+        /// <returns>A human-readable string.</returns>
+        public override string ToString()
+        {
+            return q.ToString();
         }
     }
 }

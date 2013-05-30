@@ -22,19 +22,22 @@ namespace Naovigate.GUI
 
         public void UpdateContent()
         {
-            //Avoid cross-thread exception:
-            if (label.InvokeRequired)
+            if (NaoState.Instance.Connected)
             {
-                label.Invoke(new MethodInvoker(UpdateContent));
-            }
-            else
-            {
-                PointF location = NaoState.Instance.Location;
-                float rotation = NaoState.Instance.Rotation;
-                label.Text = String.Format(Format,
-                                    Math.Round(location.X, 2),
-                                    Math.Round(location.Y, 2),
-                                    Math.Round(rotation, 2));
+                //Avoid cross-thread exception:
+                if (label.InvokeRequired)
+                {
+                    label.Invoke(new MethodInvoker(UpdateContent));
+                }
+                else
+                {
+                    PointF location = NaoState.Instance.Location;
+                    float rotation = NaoState.Instance.Rotation;
+                    label.Text = String.Format(Format,
+                                        Math.Round(location.X, 2),
+                                        Math.Round(location.Y, 2),
+                                        Math.Round(rotation, 2));
+                }
             }
         }
     }
