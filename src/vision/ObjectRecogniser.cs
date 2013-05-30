@@ -16,7 +16,7 @@ namespace Naovigate.Vision
 
         public static ObjectRecogniser instance = null;
 
-        public static double FRANKENAOC = 5.414;
+        public static float FRANKENAO2C = 5.414f;
 
         public static ObjectRecogniser GetInstance()
         {
@@ -30,9 +30,9 @@ namespace Naovigate.Vision
             memory = NaoState.Instance.MemoryProxy;
         }
 
-        public static double estimateDistance(float sizeY)
+        public static float estimateDistance(float sizeX)
         {
-            return (1 / sizeY) / FRANKENAOC;
+            return (1 / sizeX) / FRANKENAO2C;
         }
 
         //returns object data

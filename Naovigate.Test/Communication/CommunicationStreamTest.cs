@@ -143,6 +143,42 @@ namespace Naovigate.Test.Communication
         }
 
         [Test]
+        public void BufferDataTest()
+        {
+            byte[] data = {1, 2, 3};
+            byte[] data2 = {4, 5, 6};
+            byte[] data3 = {7, 8, 9};
+            stream.Write(data);
+            stream.Open = false;
+            stream.Write(data2);
+            stream.Stream = internalStream;
+            stream.Write(data3);
+            StartRead();
+            for (int i = 1; i <= 9;i++ )
+            {
+                Assert.AreEqual(i, stream.ReadByte());
+            }
+        }
+
+        [Test]
+        public void BufferDataOverlappingBlocksTest()
+        {
+            byte[] data = { 1, 2, 3 };
+            byte[] data2 = { 4, 5, 6 };
+            byte[] data3 = { 7, 8, 9 };
+            stream.Write(data);
+            stream.Open = false;
+            stream.Write(data2);
+            stream.Stream = internalStream;
+            stream.Write(data3);
+            StartRead();
+            byte[] all = new byte[9];
+            byte[] expected = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            stream.Read(all);
+            Assert.AreEqual(expected, all);
+        }
+
+        [Test]
         public void GetStreamTest()
         {
             Assert.AreEqual(internalStream, stream.Stream);

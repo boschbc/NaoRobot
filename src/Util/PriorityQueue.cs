@@ -37,25 +37,7 @@ namespace Naovigate.Util
         /// <returns>The highest priority item in the queue.</returns>
         public T Peek()
         {
-            // if its empty, why search array of queues
-            if (IsEmpty()) return default(T);
-
-            // look for the highest priority queue
-            for (int i = maxPriority - 1; i >= 0; i--)
-            {
-                // queue exists
-                if (queues[i] != null)
-                {
-                    // check if its empty
-                    Queue<T> q = queues[i];
-                    if (q.Count > 0)
-                    {
-                        T t = q.Peek();
-                        return t;
-                    }
-                }
-            }
-            return default(T);
+            return Element(false);
         }
 
         /// <summary>
@@ -64,6 +46,16 @@ namespace Naovigate.Util
         /// </summary>
         /// <returns>The highest priority item in the queue.</returns>
         public T Dequeue()
+        {
+            return Element(true);
+        }
+
+        /// <summary>
+        /// Returns the highest priority item in the queue, or a default value if queue is empty.
+        /// The item may or may not be removed, depending on the argument used.
+        /// </summary>
+        /// <returns>The highest priority item in the queue.</returns>
+        private T Element(bool remove)
         {
             // if its empty, why search array of queues
             if (IsEmpty()) return default(T);
@@ -78,8 +70,8 @@ namespace Naovigate.Util
                     Queue<T> q = queues[i];
                     if (q.Count > 0)
                     {
-                        size--;
-                        T t = q.Dequeue();
+                        if(remove) size--;
+                        T t = remove ? q.Dequeue() : q.Peek();
 
                         // no more elements in the queue, save some memory
                         if (q.Count == 0) queues[i] = null;

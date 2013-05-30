@@ -5,34 +5,41 @@ using System.Text;
 using Aldebaran.Proxies;
 using System.Net.Sockets;
 using System.Net;
+using Naovigate.Util;
 
 namespace Naovigate.Communication
 {
     public class IPScanner
     {
-        /*
-         * Finds a IP of a Nao by going through all the last numbers of
-         * a Nao's ip
-         */
+        private static readonly String baseIP = "192.168.";
+        
+        /// <summary>
+        /// Finds a IP of a Nao by going through all the last numbers of
+        /// a Nao's ip
+        /// </summary>
+        /// <param name="last"></param>
+        /// <returns></returns>
         public static String getNextIP(int last)
         {
             for (int i = last < 0 ? 0 : last; i <= 255; i++)
             {
-                if (testIP("192.168.0." + i))
+                if (testIP(baseIP + 0 + "." + i))
                 {
-                    return "192.168.0." + i;
+                    return baseIP + 0 + "." + i;
                 }
-                else if (testIP("192.168.1." + i))
+                else if (testIP(baseIP + 1 + "." + i))
                 {
-                    return "192.168.1." + i;
+                    return baseIP + 1 + "." + i;
                 }
             }
             return null;
         }
 
-        /*
-         * Test if the given IP is reachable on port 9559.
-         */
+        /// <summary>
+        /// Test if the given IP is reachable on port 9559.
+        /// </summary>
+        /// <param name="ip">the ip</param>
+        /// <returns>true if a Nao is listening on this ip</returns>
         private static Boolean testIP(String ip)
         {
             try
@@ -50,9 +57,9 @@ namespace Naovigate.Communication
                 }
             }
             catch (Exception ex) {
-                Console.WriteLine(ex.Message);
+                Logger.Log(typeof(IPScanner), ex.Message);
             }
-                return false;
+            return false;
         }
     }
 }
