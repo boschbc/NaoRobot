@@ -47,9 +47,13 @@
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <Compile Include="Communication\AbstractCommunicationStream.cs" />
+    <Compile Include="Communication\BitStringCommunicationStream.cs" />
+    <Compile Include="Communication\ICommunicationStream.cs" />
     <Compile Include="Communication\TestingGoalServer.cs" />
     <Compile Include="Communication\UnavailableConnectionException.cs" />
     <Compile Include="Event\GoalToNao\ExitEvent.cs" />
+    <Compile Include="Event\Internal\ShutdownEvent.cs" />
     <Compile Include="Event\Internal\CrouchEvent.cs" />
     <Compile Include="Event\Internal\GrabEvent.cs" />
     <Compile Include="Event\Internal\NaoCollidingEvent.cs" />
@@ -166,8 +170,17 @@
     <Compile Include="Vision\Sonar.cs" />
     <Compile Include="Navigation\Map.cs" />
     <Compile Include="Navigation\Planner.cs" />
+    <Compile Include="Navigation\RouteEntry.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Emgu.CV, Version=2.4.2.1777, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (eigen)\Emgu\emgucv-2.4.9.1847\bin\Emgu.CV.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.Util, Version=2.4.2.1777, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (eigen)\Emgu\emgucv-2.4.9.1847\bin\Emgu.Util.dll</HintPath>
+    </Reference>
     <Reference Include="Moq">
       <HintPath>lib\Moq.4.0.10827\NET40\Moq.dll</HintPath>
     </Reference>

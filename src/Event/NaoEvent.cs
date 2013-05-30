@@ -13,9 +13,9 @@ namespace Naovigate.Event
         public static readonly EventCode code;
 
         private Priority priority;
+        protected ICommunicationStream stream;
         private bool aborted;
 
-        protected CommunicationStream stream;
 
         /// <summary>
         /// Create a no-arguments-required event.
@@ -39,7 +39,7 @@ namespace Naovigate.Event
         /// <summary>
         /// The internal CommunicationStream of this event.
         /// </summary>
-        public CommunicationStream Stream
+        public ICommunicationStream Stream
         {
             get { return stream; }
             set { stream = value; }

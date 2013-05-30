@@ -4,10 +4,13 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-
 using Aldebaran.Proxies;
 
 using Naovigate.Util;
+
+using Emgu.CV;
+using Emgu.CV.Structure;
+using Emgu.Util;
 
 namespace Naovigate.Vision
 {
@@ -78,8 +81,9 @@ namespace Naovigate.Vision
         /*
          * Fetches the current image from Nao's camera.
          * @returns null if not connected to any Nao.
+         * is nog niet super efficent
          */
-        public Image GetImage()
+        public Image<Rgb, Byte> GetImage()
         {
             if (!NaoState.Instance.Connected)
                 return null;
@@ -88,9 +92,12 @@ namespace Naovigate.Vision
             int height = (int)imageObject[1];
             byte[] imageBytes = (byte[])imageObject[6];
             var stride = 4 * ((width * 3 + 3) / 4);
-            return new Bitmap(width, height, stride,
+            Bitmap imageBitMap = new Bitmap(width, height, stride,
                                 System.Drawing.Imaging.PixelFormat.Format24bppRgb,
                                 System.Runtime.InteropServices.Marshal.UnsafeAddrOfPinnedArrayElement(imageBytes, 0));
+            Image<Rgb, Byte> img = new Image<Rgb, Byte>(imageBitMap);
+            img = img.SmoothMedian(5);
+            return img;
             
         }
         public void CalibrateCamera(int p)

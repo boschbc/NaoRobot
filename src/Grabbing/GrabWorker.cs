@@ -12,7 +12,7 @@ namespace Naovigate.Grabbing
 {
     public class GrabWorker : ActionExecutor
     {
-        public static readonly float grabSpeed = 0.4f;
+        public static readonly float grabSpeed = 0.6f;
 
         private static readonly ArrayList spreadArmsNames = new ArrayList(new string[] { "LShoulderRoll", "RShoulderRoll", "LElbowYaw", "RElbowYaw", "LShoulderPitch", "RShoulderPitch", "LHand", "RHand" });
         private static readonly ArrayList spreadArmsAngles = new ArrayList(new float[] { 1.3265F, -1.3265F, -1.2F, 1.2F, 0.5F, 0.5F, 1F, 1F });
@@ -22,10 +22,9 @@ namespace Naovigate.Grabbing
         
         private static readonly ArrayList grabHandsNames = new ArrayList(new string[] { "LHand", "RHand" });
         private static readonly ArrayList grabHandsAngles = new ArrayList(new float[] { 0F, 0F });
-        
-        private static readonly ArrayList holdNames = new ArrayList(new string[] { "LElbowRoll", "RElbowRoll", "LShoulderPitch", "RShoulderPitch" });
-        private static readonly ArrayList holdAngles = new ArrayList(new float[] { -1.4F, 1.4F, 1.4F, 1.4F });
 
+        private static readonly ArrayList shoulderPitch = new ArrayList(new string[] { "LShoulderPitch", "RShoulderPitch" });
+        private static readonly ArrayList elbowRoll = new ArrayList(new string[] { "LElbowRoll", "RElbowRoll" });
 
         MotionProxy motion;
         RobotPostureProxy posture;
@@ -73,7 +72,9 @@ namespace Naovigate.Grabbing
 
         public void HoldForWalking()
         {
-            motion.angleInterpolationWithSpeed(holdNames, holdAngles, grabSpeed);
+            motion.angleInterpolationWithSpeed(shoulderPitch, new ArrayList(new float[] { 0F, 0F }), grabSpeed);
+            motion.angleInterpolationWithSpeed(elbowRoll, new ArrayList(new float[] { -1.4F, 1.4F }), grabSpeed);
+            motion.angleInterpolationWithSpeed(shoulderPitch, new ArrayList(new float[] { 1.4F, 1.4F }), grabSpeed);
         }
     }
 }

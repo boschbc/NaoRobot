@@ -14,7 +14,7 @@ namespace Naovigate.Test.Communication
             this.coms = coms;
         }
 
-        public override CommunicationStream Coms
+        public override ICommunicationStream Coms
         {
             get { return coms; }
         }

@@ -21,7 +21,7 @@ namespace Naovigate
     {
         public static readonly int port = 9559;
         public static readonly string localhost = "127.0.0.1";
-        public static readonly string nao2 = "192.168.0.128";
+        public static readonly string nao2 = "192.168.0.122";
         public static readonly string ip = localhost;
 
         public static void Main(String[] args)
@@ -40,7 +40,7 @@ namespace Naovigate
                 EventQueue.Goal.Post(new AgentEvent());
             }
 
-            Console.WriteLine("Done. Press any key to exit.");
+            Console.WriteLine("Done");
             Console.Read();
         }
 

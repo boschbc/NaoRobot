@@ -8,22 +8,24 @@ using NUnit.Framework;
 
 namespace Naovigate.Test.Communication
 {
-    class CommunicationStreamTest
+    abstract class AbstractCommunicationStreamTest
     {
-        private CommunicationStream stream;
-        private MemoryStream internalStream;
+        protected ICommunicationStream stream;
+        protected MemoryStream internalStream;
 
         [SetUp]
         public void Setup()
         {
             internalStream = new MemoryStream();
-            stream = new CommunicationStream(internalStream);
+            Initialize();
         }
+
+        public abstract void Initialize();
 
         /*
          * Set the stream ready for reading
          */
-        private void StartRead()
+        protected void StartRead()
         {
             internalStream.Seek(0, SeekOrigin.Begin);
         }
