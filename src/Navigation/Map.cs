@@ -87,6 +87,7 @@ namespace Naovigate.Navigation
             /// </summary>
             public void SetMarkerAt(Direction d, int marker)
             {
+                d.ToAngle();
                 this.markers[(int)d] = marker;
             }
 
@@ -286,6 +287,27 @@ namespace Naovigate.Navigation
         public bool WithinBorders(int x, int y)
         {
             return x >= 0 && x < this.width && y > 0 && y < this.height;
+        }
+    }
+
+    public static class DirectionExtension
+    {
+        public static float ToAngle(this Map.Direction dir)
+        {
+            if (dir == Map.Direction.Up)
+                return 0.0f;
+            if (dir == Map.Direction.Right)
+                return 90.0f;
+            if (dir == Map.Direction.Down)
+                return 180.0f;
+            if (dir == Map.Direction.Left)
+                return 270.0f;
+            throw new ArgumentException("Direction is not a valid direction.");
+        }
+
+        public static double ToRadian(this Map.Direction dir)
+        {
+            return dir.ToAngle() * (Math.PI / 180.0);
         }
     }
 }
