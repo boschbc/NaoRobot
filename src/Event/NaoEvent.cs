@@ -11,7 +11,10 @@ namespace Naovigate.Event
     public abstract class NaoEvent : INaoEvent
     {
         public static readonly EventCode code;
+
         private Priority priority;
+        private bool aborted;
+
         protected CommunicationStream stream;
 
         /// <summary>
@@ -52,16 +55,31 @@ namespace Naovigate.Event
         }
 
         /// <summary>
+        /// True if this event's execution was aborted.
+        /// </summary>
+        public bool Aborted
+        {
+            get { return aborted; }
+            private set { aborted = value; }
+        }
+        /// <summary>
         /// Fires the event.
         /// </summary>
         public abstract void Fire();
-        
+
+        /// <summary>
+        /// Blocks the current thread until this event's execution is completed.
+        /// Has no effect if the event has not been fired.
+        /// </summary>
+        public virtual void WaitFor() { }
+
         /// <summary>
         /// Aborts execution of this event.
         /// </summary>
         public virtual void Abort()
         {
-            Logger.Log(this, "Aborting...");
+            Logger.Log(this, "Aborted.");
+            Aborted = true;
         }
 
         /// <summary>

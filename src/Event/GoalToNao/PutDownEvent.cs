@@ -15,66 +15,89 @@ namespace Naovigate.Event.GoalToNao
     {
         public new static readonly EventCode code = EventCode.PutDown;
 
-        private ActionExecutor worker;
-        private bool aborted = false;
-
+        private ActionExecutor executor;
+        private bool started;
+        private bool done;
+        
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public PutDownEvent() { }
+        public PutDownEvent() 
+        {
+            done = false;
+        }
+
+        /// <summary>
+        /// True if the event's execution has been started.
+        /// </summary>
+        public bool Started
+        {
+            get { return started; }
+            private set { started = value; }
+        }
+
+        /// <summary>
+        /// True if the event's execution has finished.
+        /// </summary>
+        public bool Finished
+        {
+            get { return done; }
+            private set { done = value; }
+        }
 
         /// <summary>
         /// Fires the event.
         /// </summary>
         public override void Fire()
         {
-            new Thread(new ThreadStart(WaitFor)).Start();
-        }
-
-        private void WaitFor()
-        {
-            NaoEvent statusEvent = new SuccessEvent(code);
             try
             {
-                if (!aborted)
-                {
-                    worker = Grabber.Instance.PutDown();
-                    worker.WaitFor();  //Check if any exceptions are thrown
-                }
-                else
-                {
-                    statusEvent = new FailureEvent(code);
-                }
-            }
-            catch (ThreadInterruptedException)
-            {
-                if (Grabber.Instance.HoldingObject())
-                {
-                    statusEvent = new FailureEvent(code);
-                }
-            }
-            catch (InvalidOperationException)
-            {
-                statusEvent = new FailureEvent(code);
+                executor = Grabber.Instance.PutDown();
+                executor.NotifyWhenDone(StatusCheck);
+                executor.Start();
+                Logger.Log("fire try OK");
             }
             catch
             {
+                Logger.Log("firecatch");
+                StatusCheck();
+            }
+        }
+
+        /// <summary>
+        /// Checks whether execution was succesful, and posts a response event accordingly.
+        /// </summary>
+        private void StatusCheck()
+        {
+            INaoEvent statusEvent = new SuccessEvent(code);
+            
+            if (executor != null && executor.Error is InvalidOperationException)
+            {
+                Logger.Log("statuscheck invalidop");
+                statusEvent = new FailureEvent(code);
+            }
+            else
+            {
+                Logger.Log("statuscheck else");
                 try
                 {
-                    /// If we are not holding the object, than the exception 
-                    /// wasn't so bad, but if we still do:
+                    Logger.Log("statuscheck try");
                     if (Grabber.Instance.HoldingObject())
-                    {
                         statusEvent = new FailureEvent(code);
-                    }
                 }
                 catch
                 {
-                    //Something is seriously wrong with Grabber.HoldingObject
                     statusEvent = new ErrorEvent();
                 }
             }
             EventQueue.Goal.Post(statusEvent);
+            Finished = true;
+        }
+
+        public override void WaitFor()
+        {
+            while (!Finished)
+                Thread.Sleep(100);   
         }
 
         /// <summary>
@@ -82,9 +105,13 @@ namespace Naovigate.Event.GoalToNao
         /// </summary>
         public override void Abort()
         {
-            Logger.Log(this, "Aborting...");
-            if (worker != null) worker.Abort();
-            aborted = true;
+            base.Abort();
+            if (executor != null)
+            {
+                Logger.Log("abort executor is not null");
+                executor.Abort();
+            }
+
         }
     }
 }

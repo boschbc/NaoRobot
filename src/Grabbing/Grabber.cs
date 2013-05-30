@@ -61,7 +61,7 @@ namespace Naovigate.Grabbing
         /// </summary>
         public void WaitFor()
         {
-            Logger.Log(typeof(Grabber), "Waiting for grabber.");
+            Logger.Log(typeof(Grabber), "Waiting for grabber...");
             if (worker != null && worker.Running)
             {
                 worker.WaitFor();
@@ -70,17 +70,26 @@ namespace Naovigate.Grabbing
         }
 
         /// <summary>
-        /// Someone needs to document this method.
+        /// Prepares the Grabber for execution of given worker.
         /// </summary>
-        /// <typeparam name="Worker"></typeparam>
-        /// <param name="w"></param>
-        /// <returns></returns>
-        private Worker DoWork<Worker>(Worker w) where Worker : ActionExecutor
+        /// <typeparam name="Worker">The type of given worker.</typeparam>
+        /// <param name="w">An ActionExecutor.</param>
+        /// <param name="autostart">Controls whether to already invoke Start() on the given worker.</param>
+        /// <returns>The worker thread.</returns>
+        private Worker CreateWorker<Worker>(Worker w, bool autostart) 
+            where Worker : ActionExecutor
         {
             WaitFor();
             worker = w;
-            w.Start();
+            if (autostart)
+                w.Start();
             return w;
+        }
+
+        private Worker DoWork<Worker>(Worker w)
+            where Worker : ActionExecutor
+        {
+            return CreateWorker(w, true);
         }
 
         /// <summary>
@@ -99,7 +108,7 @@ namespace Naovigate.Grabbing
         /// <returns></returns>
         public virtual PutDownWorker PutDown()
         {
-            return DoWork(new PutDownWorker());
+            return CreateWorker(new PutDownWorker(), false);
         }
 
         /// <summary>

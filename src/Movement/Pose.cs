@@ -99,10 +99,10 @@ namespace Naovigate.Movement
         {
             get
             {
-                Console.WriteLine();
-                if (!IsStable()) 
-                    AttemptStabilize();
-                return IsStable();
+                return true;
+                //if (!IsStable()) 
+                //    AttemptStabilize();
+                //return IsStable();
             }
         }
 

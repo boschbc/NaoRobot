@@ -12,7 +12,8 @@ namespace Naovigate.Util
     {
         protected bool running;
         protected bool aborted;
-        protected Exception e = null;
+        protected Exception errorCaught = null;
+        private event Action Done;
 
         /// <summary>
         /// True if execution is ongoing.
@@ -20,6 +21,7 @@ namespace Naovigate.Util
         public bool Running
         {
             get { return running; }
+            protected set { running = value; }
         }
 
         /// <summary>
@@ -28,6 +30,7 @@ namespace Naovigate.Util
         public bool Aborted
         {
             get { return aborted; }
+            protected set { aborted = value; }
         }
 
         /// <summary>
@@ -36,11 +39,73 @@ namespace Naovigate.Util
         /// </summary>
         public Exception Error
         {
-            get { return e; }
-            protected set
-            { 
-                e = value; 
+            get { return errorCaught; }
+            protected set { errorCaught = value; }
+        }
+
+        /// <summary>
+        /// Starts execution in a new thread.
+        /// Has no effect if this executor has been previously aborted.
+        /// </summary>
+        public void Start()
+        {
+            if (Aborted)
+                return;
+            Thread t = new Thread(new ThreadStart(RunInit)); 
+            t.Start();
+        }
+
+        /// <summary>
+        /// Initializer that invokes the Run() method.
+        /// When Run() terminates, all handlers who subscribed via NotifyWhenDone() will be notified.
+        /// </summary>
+        private void RunInit()
+        {
+            Running = true;
+            Aborted = false;
+            try
+            {
+                Run();
             }
+            catch (Exception e)
+            {
+                Error = e;
+            }
+            Running = false;
+            if (Done != null)
+                Done();
+        }
+
+        /// <summary>
+        /// This is where sub-classes should perform their work.
+        /// </summary>
+        public abstract void Run();
+
+        /// <summary>
+        /// Will terminate the executor thread at the first possible opportunity.
+        /// Has no effect if the thread is already terminated.
+        /// </summary>
+        public void Abort()
+        {
+            Running = false;
+            Aborted = true;
+        }
+
+        /// <summary>
+        /// Calls an Action.
+        /// If the executor is not currently running, sets the Error property to a new instance of ThreadInterruptedException.
+        /// </summary>
+        /// <param name="a">The action to be invoked.</param>
+        public void Call(Action a)
+        {
+            if (Running)
+            {
+                a.Invoke();
+            }
+            else
+                throw new ThreadInterruptedException("Thread was aborted.");
+            //else if (Error == null)
+            //    Error = new ThreadInterruptedException();
         }
 
         /// <summary>
@@ -55,65 +120,9 @@ namespace Naovigate.Util
                 throw Error;
         }
 
-        /// <summary>
-        /// Will terminate the executor thread at the first possible opportunity.
-        /// Has no effect if the thread is already terminated.
-        /// </summary>
-        public void Abort()
+        public void NotifyWhenDone(Action handler)
         {
-            Console.WriteLine("Abort");
-            Logger.Log(this, "Aborted");
-            running = false;
-            aborted = true;
-            
+            Done += handler;
         }
-
-        /// <summary>
-        /// Calls an Action.
-        /// If the executor is not currently running, sets the Error property to a new instance of ThreadInterruptedException.
-        /// </summary>
-        /// <param name="a">The action to be invoked.</param>
-        public void Call(Action a)
-        {
-            if (Running)
-            {
-                a.Invoke();
-            }
-            else if (Error == null) Error = new ThreadInterruptedException();
-        }
-
-        /// <summary>
-        /// Starts execution in a new thread.
-        /// </summary>
-        public void Start()
-        {
-            if (aborted) return;
-            Thread t = new Thread(new ThreadStart(RunInit));
-            running = true;
-            aborted = false;
-            t.Start();
-        }
-
-        /// <summary>
-        /// Initialiser that invokes the Run() method.
-        /// </summary>
-        private void RunInit()
-        {
-            try
-            {
-                Run();
-            }
-            catch (Exception e)
-            {
-                Logger.Log(e.StackTrace);
-                Error = e;
-            }
-            running = false;
-        }
-
-        /// <summary>
-        /// This is where sub-classes should perform their work.
-        /// </summary>
-        public abstract void Run();
     }
 }

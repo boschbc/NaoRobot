@@ -62,7 +62,7 @@ namespace Naovigate.Communication
         /// </summary>
         private void FlushBuffer()
         {
-            if (stream != null)
+            if (stream != null && buffer.Count > 0)
             {
                 Logger.Log(this, "Write buffered data.");
                 while(buffer.Count > 0){
@@ -89,6 +89,7 @@ namespace Naovigate.Communication
         /// <param name="len">The amount of bytes to be written.</param>
         public void Write(byte[] data, int off, int len)
         {
+            Logger.Log("write "+len+" bytes");
             if (stream == null)
             {
                 // cache data for later use, the stream is being rebuild now.
@@ -101,6 +102,7 @@ namespace Naovigate.Communication
                     try
                     {
                         FlushBuffer();
+                        Logger.Log("write " + len + " bytes");
                         stream.Write(data, off, len);
                     } catch(IOException){
                         Open = false;

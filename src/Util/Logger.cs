@@ -105,16 +105,6 @@ namespace Naovigate.Util
             Log(DefaultInvokerName, "<<< " + id + " >>>");
         }
 
-        public static void LogGood()
-        {
-            Log(DefaultInvokerName, "Good.");
-        }
-
-        public static void LogBad()
-        {
-            Log(DefaultInvokerName, "Bad.");
-        }
-
         /// <summary>
         /// The logger will only output logs when enabled.
         /// </summary>

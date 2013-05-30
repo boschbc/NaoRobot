@@ -9,6 +9,7 @@ using Aldebaran.Proxies;
 
 using Naovigate.Movement;
 using Naovigate.Communication;
+using Naovigate.Event.NaoToGoal;
 using Naovigate.Util;
 using Naovigate.Testing.GUI;
 using Naovigate.Vision;
@@ -31,9 +32,12 @@ namespace Naovigate
                 LaunchDebugger.DebugMain();
             else
             {
-                new TestingGoalServer().Start();
-                GoalCommunicator c = new GoalCommunicator(GoalCommunicator.DefaultIP, GoalCommunicator.DefaultPort);
-                c.Start();
+                NaoState.Instance.Connect(localhost, 9559);
+                //new TestingGoalServer().Start();
+                GoalCommunicator c = new GoalCommunicator("192.168.0.127", GoalCommunicator.DefaultPort);
+                c.StartAsync();
+                while (c.Coms == null) ;
+                EventQueue.Goal.Post(new AgentEvent());
             }
 
             Console.WriteLine("Done. Press any key to exit.");

@@ -87,7 +87,14 @@ namespace Naovigate.Util
                 return;
             }
 			Logger.Log(this, "Disconnecting from Nao...");
-            //UnsubscribeAll();
+            try
+            {
+                UnsubscribeAll();
+            }
+            catch (Exception e)
+            {
+                Logger.Log(this, "Can't unsubscribe. Are you using WeBots?\n" + e);
+            }
             ip = null;
             port = -1;
             connected = false;
