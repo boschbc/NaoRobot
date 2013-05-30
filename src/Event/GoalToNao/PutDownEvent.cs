@@ -29,18 +29,22 @@ namespace Naovigate.Event.GoalToNao
             NaoEvent statusEvent = new SuccessEvent(code);
             try
             {
-                
+
                 worker = Grabber.Instance.PutDown();
                 worker.WaitFor();  //Check if any exceptions are thrown
                 if (worker.Aborted)
                     if (Grabber.Instance.HoldingObject())
                         statusEvent = new FailureEvent(code);
             }
+            catch (InvalidOperationException)
+            {
+                statusEvent = new FailureEvent(code);
+            }
             catch
             {
-                Logger.Log(this, "at first catch");
                 try
                 {
+                    Logger.Log(this, "at second try");
                     /// If we are not holding the object, than the exception 
                     /// wasn't so bad, but if we still do:
                     if (Grabber.Instance.HoldingObject())
