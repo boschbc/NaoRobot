@@ -18,8 +18,9 @@ namespace Naovigate.Communication
     /// </summary>
     public abstract class AbstractCommunicationStream : ICommunicationStream
     {
+        private static readonly bool timeoutEnabled = false;
         private static readonly int ticksToMsRatio = 10000;
-        protected static readonly int timeoutInMs = 1000;
+        protected static readonly int timeoutInMs = 10000;
         protected static readonly int timeout = timeoutInMs * ticksToMsRatio;
         protected Queue<byte> buffer;
         protected Stream stream;
@@ -42,7 +43,7 @@ namespace Naovigate.Communication
         /// </summary>
         protected void InitStream()
         {
-            if (stream.CanTimeout)
+            if (timeoutEnabled && stream.CanTimeout)
             {
                 stream.WriteTimeout = timeoutInMs;
                 stream.ReadTimeout = timeoutInMs;
@@ -178,6 +179,10 @@ namespace Naovigate.Communication
             return res;
         }
 
+        /* here start the byte writing methods, there will be no conversion here
+         * buffering will also take place here, including stream errors.
+         */
+
         /// <summary>
         /// Fill the buffer buf with data from the stream, starting at off.
         /// blocks until the bytes are available.
@@ -200,7 +205,7 @@ namespace Naovigate.Communication
                     // starting at current location, read until the end of the buffer
                     int len = stream.Read(buf, pos, off - pos + length);
                     pos += len;
-                    if (len == 0)
+                    if (timeoutEnabled && len == 0)
                     {
                         if ((DateTime.Now.Ticks - time) > timeout)
                             throw new IOException("Read timed out.");
@@ -211,6 +216,65 @@ namespace Naovigate.Communication
                 Debug.Assert(pos - off == length);
             }
             return pos - off;
+        }
+
+        /// <summary>
+        /// send the data from the buffer to the stream
+        /// no conversion will take place.
+        /// </summary>
+        /// <param name="buf">The buffer to be written from.</param>
+        /// <param name="off">Offset.</param>
+        /// <param name="length">The amount of bytes to read.</param>
+        protected void WriteBytes(byte[] data, int off, int len)
+        {
+            if (stream == null)
+            {
+                // buffer data for later use, the stream is being rebuild now.
+                Buffer(data, off, len);
+            }
+            else
+            {
+                lock (wLock)
+                {
+                    try
+                    {
+                        FlushBuffer();
+                        stream.Write(data, off, len);
+                    }
+                    catch (IOException)
+                    {
+                        Open = false;
+                        // buffer data for later use, the stream should be set to an active stream
+                        Buffer(data, off, len);
+                    }
+                }
+            }
+        }
+
+        public void WriteNewline()
+        {
+            string msg = "\n";
+            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(msg);
+            WriteBytes(bytes, 0, bytes.Length);
+        }
+
+        /// <summary>
+        /// write the buffered data to the stream.
+        /// </summary>
+        protected void FlushBuffer()
+        {
+            if (stream != null)
+            {
+                if (buffer.Count > 0)
+                {
+                    Logger.Log(this, "Write buffered data.");
+                    while (buffer.Count > 0)
+                    {
+                        stream.WriteByte(buffer.Dequeue());
+                    }
+                    Logger.Log(this, "Written all Buffered data.");
+                }
+            }
         }
 
         /// <summary>
@@ -241,11 +305,6 @@ namespace Naovigate.Communication
             buffer.Clear();
             if(stream != null) stream.Close();
         }
-
-        /// <summary>
-        /// write the buffered data to the stream.
-        /// </summary>
-        protected abstract void FlushBuffer();
 
         /// <summary>
         /// Write from data to the stream, starting from given offset, writing len bytes.
@@ -283,8 +342,18 @@ namespace Naovigate.Communication
         /// <returns>A binary readable string.</returns>
         public static String ToBitString(long x)
         {
+            return ToBitString(x, 64);
+        }
+
+        /// <summary>
+        /// binary string representation of a given long.
+        /// </summary>
+        /// <param name="x">A long.</param>
+        /// <returns>A binary readable string of bits length.</returns>
+        public static String ToBitString(long x, int bits)
+        {
             String res = "";
-            for (int i = 0; i < 64; i++)
+            for (int i = 0; i < bits; i++)
             {
                 // bit by bit, if it is 1, prepend a 1, else prepend a 0
                 if (x % 2 == 0) res = "0" + res;

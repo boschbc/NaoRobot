@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Communication\AbstractCommunicationStreamTest.cs" />
+    <Compile Include="Communication\BitStringCommunicationStreamTest.cs" />
     <Compile Include="Communication\DefaultCommunicationStreamTest.cs" />
     <Compile Include="Communication\GoalComsStub.cs" />
     <Compile Include="Event\GoalToNao\GoToEventTest.cs" />

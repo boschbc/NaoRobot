@@ -23,7 +23,7 @@ namespace Naovigate.Communication
         protected IPAddress ip;
         protected int port;
         protected TcpClient client;
-        protected CommunicationStream communicationStream;
+        protected ICommunicationStream communicationStream;
         protected NetworkStream stream;
         protected IPEndPoint endPoint;
         protected volatile bool running;
@@ -118,7 +118,7 @@ namespace Naovigate.Communication
             
             client = new TcpClient();
             bool res = Connect();
-            Thread.Sleep(1000 * (1 << reconnectAttempCount));
+            Thread.Sleep(500 * (1 << reconnectAttempCount));
             if (res) reconnectAttempCount = 0; 
             return res;
         }
@@ -153,9 +153,9 @@ namespace Naovigate.Communication
                         INaoEvent naoEvent = NaoEventFactory.NewEvent(code);
                         EventQueue.Nao.Post(naoEvent);
                     }
-                    catch (IOException)  //Communication Stream got closed.
+                    catch (IOException e)  //Communication Stream got closed.
                     {
-                        Logger.Log(this, "Communication stream closed.");
+                        Logger.Log(this, "Communication stream closed: " + e.Message);
                         communicationStream.Open = false;
                     }
                     catch (InvalidEventCodeException)  //Received invalid event code.
@@ -207,7 +207,7 @@ namespace Naovigate.Communication
         /// <summary>
         /// The internal communication stream.
         /// </summary>
-        public virtual CommunicationStream Coms
+        public virtual ICommunicationStream Coms
         {
             get { return this.communicationStream; }
         }

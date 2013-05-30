@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Diagnostics;
+using System.Text;
 using Naovigate.Util;
-
 namespace Naovigate.Communication
 {
     public class BitStringCommunicationStream : AbstractCommunicationStream
@@ -16,22 +16,25 @@ namespace Naovigate.Communication
         public BitStringCommunicationStream(Stream stream) : base(stream) { }
 
         /// <summary>
-        /// write the buffered data to the stream.
-        /// </summary>
-        protected override void FlushBuffer()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         /// Write from data to the stream, starting from given offset, writing len bytes.
         /// </summary>
         /// <param name="data">Data to be written to the socket.</param>
         /// <param name="off">Offset.</param>
         /// <param name="len">The amount of bytes to be written.</param>
-        public override void Write(byte[] data, int off, int len)
+        public override void Write(byte[] buf, int off, int len)
         {
-            throw new NotImplementedException();
+            for (int i = off; i < off + len;i++ )
+            {
+                WriteByteAsBitString(buf[i]);
+            }
+        }
+
+        private void WriteByteAsBitString(byte b)
+        {
+            string s = ToBitString(b, 8);
+            Logger.Log(this, "Write " + s);
+            byte[] bytes = Encoding.UTF8.GetBytes(s);
+            WriteBytes(bytes, 0, bytes.Length);
         }
 
         /// <summary>
@@ -41,9 +44,43 @@ namespace Naovigate.Communication
         /// <param name="off">Offset.</param>
         /// <param name="length">The amount of bytes to read.</param>
         /// <returns></returns>
-        public override int Read(byte[] buf, int off, int length)
+        public override int Read(byte[] buf, int off, int len)
         {
-            throw new NotImplementedException();
+            for (int i = off; i < off + len; i++)
+            {
+                buf[i] = ReadByteFromBitString();
+            }
+            return len;
+        }
+
+        private byte ReadByteFromBitString()
+        {
+            byte[] str = new byte[8];
+            for (int i = 0; i < str.Length;i++ )
+            {
+                str[i] = ReadNextByte();
+            }
+            string bitstring = Encoding.UTF8.GetString(str);
+            Logger.Log(this, "read "+bitstring);
+            int value = 0;
+            for (int i = str.Length - 1; i >= 0;i-- )
+            {
+                value = value + (bitstring[i] == '1' ? 1 << (str.Length - i - 1) : 0);
+            }
+            return (byte) value;
+        }
+
+        private byte ReadNextByte()
+        {
+            byte[] buf = new byte[1];
+            byte b;
+            do
+            {
+                ReadBytesBlocking(buf, 0, buf.Length);
+                b = buf[0];
+                // ignore newlines
+            } while(b == '\n');
+            return b;
         }
 
         /// <summary>

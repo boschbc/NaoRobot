@@ -16,25 +16,6 @@ namespace Naovigate.Communication
         /// </summary>
         /// <param name="stream">The stream to wrap.</param>
         public CommunicationStream(Stream stream) : base(stream) {}
-        
-        /// <summary>
-        /// write the buffered data to the stream.
-        /// </summary>
-        protected override void FlushBuffer()
-        {
-            if (stream != null)
-            {
-                if (buffer.Count > 0)
-                {
-                    Logger.Log(this, "Write buffered data.");
-                    while (buffer.Count > 0)
-                    {
-                        stream.WriteByte(buffer.Dequeue());
-                    }
-                    Logger.Log(this, "Written all Buffered data.");
-                }
-            }
-        }
 
         /// <summary>
         /// Write from data to the stream, starting from given offset, writing len bytes.
@@ -44,26 +25,7 @@ namespace Naovigate.Communication
         /// <param name="len">The amount of bytes to be written.</param>
         public override void Write(byte[] data, int off, int len)
         {
-            if (stream == null)
-            {
-                // cache data for later use, the stream is being rebuild now.
-                Buffer(data, off, len);
-            }
-            else
-            {
-                lock (wLock)
-                {
-                    try
-                    {
-                        FlushBuffer();
-                        stream.Write(data, off, len);
-                    } catch(IOException){
-                        Open = false;
-                        // cache data for later use, the stream should be set to an active stream
-                        Buffer(data, off, len);
-                    }
-                }
-            }
+            WriteBytes(data, off, len);
         }
 
         /// <summary>

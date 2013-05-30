@@ -36,20 +36,29 @@ namespace Naovigate.Communication
 
         public void Handler()
         {
+            
             TcpClient client = c;
             c = null;
-            Stream stream = client.GetStream();
-            bool running = true;
-            while (running)
+            try
             {
-                Thread.Sleep(100);
-                stream.WriteByte(0xff);
-                Logger.Log(this, "Got: "+stream.ReadByte());
-                if (new System.Random().Next(0, 10) == 0)
+                Stream stream = client.GetStream();
+                ICommunicationStream s = new CommunicationStream(stream);
+                bool running = true;
+                while (running)
                 {
-                    running = false;
-                    stream.Close();
+                    Thread.Sleep(100);
+                    s.WriteByte(0xff);
+                    Logger.Log(this, "Got: " + s.ReadByte());
+                    if (new System.Random().Next(0, 10) == 0)
+                    {
+                        running = false;
+                        stream.Close();
+                    }
                 }
+            }
+            catch
+            {
+                Logger.Log(this, "Died");
             }
         }
     }
