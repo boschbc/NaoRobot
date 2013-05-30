@@ -136,19 +136,18 @@ namespace Naovigate.Util
         /// <returns>A human-readable string.</returns>
         public override String ToString()
         {
-            String res = "";
+            String res = "PriorityQueue<";
             foreach (Queue<T> q in queues)
             {
                 if (q != null)
                 {
-                    res += "Q:";
                     foreach (T t in q)
                     {
-                        res += t + ",";
+                        res += t + ", ";
                     }
-                    res += "\n";
                 }
             }
+            res += ">";
             return res;
         }
     }

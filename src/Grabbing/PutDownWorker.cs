@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Linq;
 using System.Collections;
-using System.Collections.Generic;
+
 using Aldebaran.Proxies;
+
 using Naovigate.Communication;
-using Naovigate.Util;
 using Naovigate.Movement;
+using Naovigate.Util;
 
 namespace Naovigate.Grabbing
 {
@@ -17,21 +17,31 @@ namespace Naovigate.Grabbing
         private static readonly ArrayList releaseNames = new ArrayList(new string[] { "RShoulderRoll", "LShoulderRoll", "RHand", "LHand" });
         private static readonly ArrayList releaseAngles = new ArrayList(new float[] { -0.25f, 0.25f ,1f, 1f});
 
-        public PutDownWorker(){ }
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        public PutDownWorker() { }
 
+        /// <summary>
+        /// The put-down procedure will begin.
+        /// </summary>
         public override void Run()
         {
             Call(PutDown);
         }
 
-        /*
-         * Put down the object the nao is holding.
-         * if the Nao is stable, it will kneel to release the object,
-         * else if will just drop it. Pose.Balanced may or may not attempt
-         * to stabalise the Nao.
-         */
+        /// <summary>
+        /// The Nao will attempt to put down the object it is holding.
+        /// If it is stable, it will first kneel before releasing the object,
+        /// otherwise it will just drop it.
+        /// The Pose module may or may not try to stabilize the Nao.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">The Nao is not holding any object.</exception>
         public void PutDown()
         {
+            if (!Grabber.Instance.HoldingObject())
+                throw new InvalidOperationException("PutDown() while not holding any object.");
+            
             Call(() => NaoState.Instance.SpeechProxy.say("Put Down"));
 
             if (Pose.Instance.Balanced)
@@ -47,11 +57,9 @@ namespace Naovigate.Grabbing
             Call(Pose.Instance.StandUp);
         }
 
-        /*
-         * release the object
-         * more specific, it will spread its arms and
-         * lower the grip in the hands.
-         */
+        /// <summary>
+        /// The Nao will spread its arms and soften its fingertips.
+        /// </summary>
         private void Release()
         {
             Grabber.Instance.Motion.angleInterpolationWithSpeed(releaseNames, releaseAngles, putDownSpeed);

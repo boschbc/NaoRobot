@@ -4,70 +4,112 @@ using System.Threading;
 
 namespace Naovigate.Util
 {
+    /// <summary>
+    /// A wrapper class for some work that needs to be executed asynchronously.
+    /// It provides any extending classes with the tools to be able to halt the executed work as fast as possible.
+    /// </summary>
     public abstract class ActionExecutor
     {
         protected bool running;
+        protected bool aborted;
         protected Exception e = null;
+
+        /// <summary>
+        /// True if execution is ongoing.
+        /// </summary>
         public bool Running
         {
             get { return running; }
         }
 
-        /*
-         * the Exception that occured in this executor.
-         * if there is no Exception, null will be returned.
-         */
+        /// <summary>
+        /// True if this executor was aborted.
+        /// </summary>
+        public bool Aborted
+        {
+            get { return aborted; }
+        }
+
+        /// <summary>
+        /// Any exception that has occurred during execution.
+        /// If none occurred, returns null.
+        /// </summary>
         public Exception Error
         {
             get { return e; }
-            protected set { 
-                running = false; 
+            protected set
+            { 
                 e = value; 
             }
         }
 
-        /*
-         * wait until this ActionExecutor has finnished.
-         * throws an error if one occured in the ActionExecutor
-         */
+        /// <summary>
+        /// Block the current thread until this executor finished running.
+        /// </summary>
+        /// <exception cref="Exception">An exception was thrown while waiting.</exception>
         public void WaitFor()
         {
-            while(Running) Thread.Sleep(100);
-            if (Error != null) throw Error;
+            while (Running && Error == null)
+                Thread.Sleep(100);
+            if (Error != null)
+                throw Error;
         }
 
+        /// <summary>
+        /// Will terminate the executor thread at the first possible opportunity.
+        /// Has no effect if the thread is already terminated.
+        /// </summary>
         public void Abort()
         {
-            running = false;
+            if (running)
+            {
+                running = false;
+                aborted = true;
+            }
         }
 
-        /*
-         * call a method if we are still running.
-         * if we are not running anymore, ignore the method,
-         * and set the error to a ThreadInterruptedException.
-         */
+        /// <summary>
+        /// Calls an Action.
+        /// If the executor is not currently running, sets the Error property to a new instance of ThreadInterruptedException.
+        /// </summary>
+        /// <param name="a">The action to be invoked.</param>
         public void Call(Action a)
         {
-            if (running && Error == null) a.Invoke();
-            else if (e == null) e = new ThreadInterruptedException();
+            if (Running)
+                a.Invoke();
+            //else if (Error == null) Error = new ThreadInterruptedException();
         }
 
-        /*
-         * Start this Executor.
-         */
+        /// <summary>
+        /// Starts execution in a new thread.
+        /// </summary>
         public void Start()
         {
             Thread t = new Thread(new ThreadStart(RunInit));
             running = true;
+            aborted = false;
             t.Start();
         }
 
+        /// <summary>
+        /// Initialiser that invokes the Run() method.
+        /// </summary>
         private void RunInit()
         {
-            Run();
+            try
+            {
+                Run();
+            }
+            catch (Exception e)
+            {
+                Error = e;
+            }
             running = false;
         }
 
+        /// <summary>
+        /// This is where sub-classes should perform their work.
+        /// </summary>
         public abstract void Run();
     }
 }

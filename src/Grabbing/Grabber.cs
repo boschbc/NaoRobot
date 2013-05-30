@@ -97,7 +97,7 @@ namespace Naovigate.Grabbing
         /// Has no effect if the Nao is not holding anything.
         /// </summary>
         /// <returns></returns>
-        public PutDownWorker PutDown()
+        public virtual PutDownWorker PutDown()
         {
             return DoWork(new PutDownWorker());
         }
