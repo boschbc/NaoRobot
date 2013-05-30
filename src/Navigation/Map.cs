@@ -37,7 +37,7 @@ namespace Naovigate.Navigation
         /// </summary>
         public class Tile
         {
-            private bool[] markers;
+            private int[] markers;
             private bool[] walls;
             private int x;
             private int y;
@@ -46,7 +46,7 @@ namespace Naovigate.Navigation
             {
                 this.x = x;
                 this.y = y;
-                this.markers = new[] { false, false, false, false };
+                this.markers = new[] { -1, -1, -1, -1 };
                 this.walls = new[] { false, false, false, false };
             }
 
@@ -71,15 +71,33 @@ namespace Naovigate.Navigation
             /// </summary>
             public bool HasMarkerAt(Direction d)
             {
+                return this.markers[(int)d] >= 0;
+            }
+
+            /// <summary>
+            /// Return the marker ID in direction d;
+            /// </summary>
+            public int MarkerAt(Direction d)
+            {
                 return this.markers[(int)d];
             }
 
             /// <summary>
             /// Set if a marker is present or not in given direction.
             /// </summary>
-            public void SetMarkerAt(Direction d, bool marker)
+            public void SetMarkerAt(Direction d, int marker)
             {
                 this.markers[(int)d] = marker;
+            }
+
+            public int X
+            {
+                get { return this.x; }
+            }
+
+            public int Y
+            {
+                get { return this.y; }
             }
         }
 
@@ -95,7 +113,7 @@ namespace Naovigate.Navigation
         /// <returns>A parsed map.</returns>
         public static Map Parse(string file)
         {
-            int width = 0, height = 0, x, y;
+            int width = 0, height = 0, x, y, id;
             Direction direction;
             bool truth;
 
@@ -140,8 +158,8 @@ namespace Naovigate.Navigation
 
                     // Info about marker presence on a certain (x, y, direction).
                     case (char)EntryType.MarkerInfo:
-                        ParsePositionFlag(line, out x, out y, out direction, out truth);
-                        tiles[x, y].SetMarkerAt(direction, truth);
+                        ParsePositionValue(line, out x, out y, out direction, out id);
+                        tiles[x, y].SetMarkerAt(direction, id);
                         break;
                 }
             }
@@ -185,7 +203,7 @@ namespace Naovigate.Navigation
             truth = false;
 
             // Validate line sanity.
-            if (line.Length < 4)
+            if (line.Length < 3)
                 throw new InvalidDataException("Reached EOL before being able to read marker info.");
 
             // Parse line entries.
@@ -200,6 +218,35 @@ namespace Naovigate.Navigation
             }
         }
 
+        /// <summary>
+        /// Parse a position flag entry, containing a position, direction and truth value. Used for marker and wall entries.
+        /// </summary>
+        private static void ParsePositionValue(string[] line, out int x, out int y, out Direction dir, out int id)
+        {
+            // Default values.
+            x = 0;
+            y = 0;
+            dir = Direction.Up;
+            id = -1;
+
+            // Validate line sanity.
+            if (line.Length < 4)
+                throw new InvalidDataException("Reached EOL before being able to read marker info.");
+
+            // Parse line entries.
+            try
+            {
+                x = Int32.Parse(line[1]);
+                y = Int32.Parse(line[2]);
+                dir = (Direction)Enum.ToObject(typeof(Direction), Byte.Parse(line[3]));
+                id = Int32.Parse(line[4]);
+            }
+            catch (System.Exception e)
+            {
+                if (e is OverflowException || e is FormatException)
+                    throw new InvalidDataException("Invalid marker info entry specified.");
+            }
+        }
 
         private Map(Tile[,] tiles)
         {
@@ -229,6 +276,16 @@ namespace Naovigate.Navigation
         public void SetTile(int x, int y, Tile t)
         {
             this.tiles[x, y] = t;
+        }
+
+        /// <summary>
+        /// Returns whether or not a certain point is within borders.
+        /// </summary>
+        /// <param name="x">The x coordinate.</param>
+        /// <param name="y">The y coordinate.</param>
+        public bool WithinBorders(int x, int y)
+        {
+            return x >= 0 && x < this.width && y > 0 && y < this.height;
         }
     }
 }
