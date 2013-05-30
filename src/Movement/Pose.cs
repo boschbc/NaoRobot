@@ -54,7 +54,7 @@ namespace Naovigate.Movement
         /// </summary>
         public void StandUp()
         {
-            posture.goToPosture("Stand", 0.5f);
+            posture.goToPosture("Stand", 1f);
         }
 
         /// <summary>
