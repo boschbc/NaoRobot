@@ -13,6 +13,7 @@ using Naovigate.Util;
 
 using Naovigate.Test.Communication;
 using Naovigate.Test.Event;
+using System.Threading;
 
 namespace Naovigate.Test.Event.GoalToNao
 {
@@ -64,7 +65,7 @@ namespace Naovigate.Test.Event.GoalToNao
         /// Execute the event while the Nao is not holding any object.
         /// Expects a FailureEvent.
         /// </summary>
-        [Test, Timeout(20000)]
+        [Test, Timeout(7000)]
         public void ObjectAbsentTest()
         {
             EventTestingUtilities.RequireWebots();
@@ -76,7 +77,7 @@ namespace Naovigate.Test.Event.GoalToNao
             EventQueue.Goal.Suspend();
             EventQueue.Nao.Post(putdownEvent);
             EventQueue.Nao.WaitFor();
-
+            
             Assert.IsInstanceOf<FailureEvent>(EventQueue.Goal.Peek(),
                 "The Nao was not holding an object, therefore there is nothing to put down.");
 
@@ -88,7 +89,7 @@ namespace Naovigate.Test.Event.GoalToNao
         /// Execute the event unsuccesfully, but the object did get dropped.
         /// Expect a SuccessEvent.
         /// </summary>
-        [Test, Timeout(20000)]
+        [Test, Timeout(7000)]
         public void InvalidFireObjectDroppedTest()
         {
             EventTestingUtilities.RequireWebots();
@@ -97,17 +98,19 @@ namespace Naovigate.Test.Event.GoalToNao
             /// The first call should be true (called before the putdown, second call 
             /// should be false (called after the putdown).
             int callCounter = 0;
-            mock.Setup(m => m.HoldingObject()).Returns(() => callCounter == 0).Callback(() => callCounter++);
+            mock.Setup(m => m.HoldingObject())
+                .Returns(() => callCounter == 0)
+                .Callback(() => callCounter++);
             mock.Setup(m => m.PutDown()).Throws(new Exception());
             Grabber.Instance = mock.Object;
-
+            Grabber.Instance.HoldingObject();
             EventQueue.Goal.Suspend();
             EventQueue.Nao.Post(putdownEvent);
             EventQueue.Nao.WaitFor();
 
             Assert.IsInstanceOf<SuccessEvent>(EventQueue.Goal.Peek(), 
                 @"The Nao caught an exception while trying to put the object down,
-                but it still dropped the object.");
+                but it still dropped the object. Therefore, expect success.");
 
             //Clean-up
             //Grabber.Instance = new Grabber();
@@ -117,7 +120,7 @@ namespace Naovigate.Test.Event.GoalToNao
         /// Execute the event unsuccesfully, the object is still held.
         /// Expect a FailureEvent.
         /// </summary>
-        [Test, Timeout(20000)]
+        [Test, Timeout(7000)]
         public void InvalidFireObjectHeldTest()
         {
             EventTestingUtilities.RequireWebots();
@@ -143,7 +146,7 @@ namespace Naovigate.Test.Event.GoalToNao
         /// Executes the event, while injecting a lethal error.
         /// Expect an ErrorEvent.
         /// </summary>
-        [Test, Timeout(20000)]
+        [Test, Timeout(7000)]
         public void InternalErrorTest()
         {
             EventTestingUtilities.RequireWebots();
@@ -167,14 +170,16 @@ namespace Naovigate.Test.Event.GoalToNao
         /// Executes the event succesfully.
         /// Expects a SuccessEvent.
         /// </summary>
-        [Test, Timeout(20000)]
+        [Test, Timeout(7000)]
         public void ValidFireTest()
         {
             EventTestingUtilities.RequireWebots();
-
+            
             Mock<Grabber> mock = new Mock<Grabber>();
             int callCounter = 0;
-            mock.Setup(m => m.HoldingObject()).Returns(() => callCounter == 0).Callback(() => callCounter++);
+            mock.Setup(m => m.HoldingObject())
+                .Returns(() => callCounter == 0)
+                .Callback(() => callCounter++);
             Grabber.Instance = mock.Object;
 
             EventQueue.Goal.Suspend();
@@ -190,7 +195,7 @@ namespace Naovigate.Test.Event.GoalToNao
         /// the object.
         /// Expects a FailureEvent. 
         /// </summary>
-        [Test, Timeout(20000)]
+        [Test, Timeout(7000)]
         public void AbortObjectDroppedTest()
         {
             EventTestingUtilities.RequireWebots();
