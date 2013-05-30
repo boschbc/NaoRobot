@@ -26,10 +26,10 @@ namespace Naovigate.Navigation
         /// </summary>
         public enum Direction
         {
-            Left,
-            Right,
-            Up,
-            Down
+            Left = 3,
+            Right = 1,
+            Up = 0,
+            Down = 2
         }
 
         /// <summary>
@@ -91,11 +91,17 @@ namespace Naovigate.Navigation
                 this.markers[(int)d] = marker;
             }
 
+            /// <summary>
+            /// The X coordinate of this tile.
+            /// </summary>
             public int X
             {
                 get { return this.x; }
             }
 
+            /// <summary>
+            /// The Y coordinate of this tile.
+            /// </summary>
             public int Y
             {
                 get { return this.y; }
