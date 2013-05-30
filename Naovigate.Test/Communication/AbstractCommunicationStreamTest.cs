@@ -10,7 +10,7 @@ namespace Naovigate.Test.Communication
 {
     abstract class AbstractCommunicationStreamTest
     {
-        protected CommunicationStream stream;
+        protected ICommunicationStream stream;
         protected MemoryStream internalStream;
 
         [SetUp]
