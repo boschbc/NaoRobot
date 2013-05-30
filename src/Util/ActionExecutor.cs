@@ -61,11 +61,11 @@ namespace Naovigate.Util
         /// </summary>
         public void Abort()
         {
-            if (running)
-            {
-                running = false;
-                aborted = true;
-            }
+            Console.WriteLine("Abort");
+            Logger.Log(this, "Aborted");
+            running = false;
+            aborted = true;
+            
         }
 
         /// <summary>
@@ -76,8 +76,10 @@ namespace Naovigate.Util
         public void Call(Action a)
         {
             if (Running)
+            {
                 a.Invoke();
-            //else if (Error == null) Error = new ThreadInterruptedException();
+            }
+            else if (Error == null) Error = new ThreadInterruptedException();
         }
 
         /// <summary>
@@ -85,6 +87,7 @@ namespace Naovigate.Util
         /// </summary>
         public void Start()
         {
+            if (aborted) return;
             Thread t = new Thread(new ThreadStart(RunInit));
             running = true;
             aborted = false;
@@ -102,6 +105,7 @@ namespace Naovigate.Util
             }
             catch (Exception e)
             {
+                Logger.Log(e.StackTrace);
                 Error = e;
             }
             running = false;

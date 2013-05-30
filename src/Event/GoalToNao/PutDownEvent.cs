@@ -4,6 +4,7 @@ using Naovigate.Communication;
 using Naovigate.Event.NaoToGoal;
 using Naovigate.Grabbing;
 using Naovigate.Util;
+using System.Threading;
 
 namespace Naovigate.Event.GoalToNao
 {
@@ -15,6 +16,7 @@ namespace Naovigate.Event.GoalToNao
         public new static readonly EventCode code = EventCode.PutDown;
 
         private ActionExecutor worker;
+        private bool aborted = false;
 
         /// <summary>
         /// Default constructor.
@@ -26,15 +28,30 @@ namespace Naovigate.Event.GoalToNao
         /// </summary>
         public override void Fire()
         {
+            new Thread(new ThreadStart(WaitFor)).Start();
+        }
+
+        private void WaitFor()
+        {
             NaoEvent statusEvent = new SuccessEvent(code);
             try
             {
-                worker = Grabber.Instance.PutDown();
-                worker.WaitFor();  //Check if any exceptions are thrown
-               
-                if (worker.Aborted)
-                    if (Grabber.Instance.HoldingObject())
-                        statusEvent = new FailureEvent(code);
+                if (!aborted)
+                {
+                    worker = Grabber.Instance.PutDown();
+                    worker.WaitFor();  //Check if any exceptions are thrown
+                }
+                else
+                {
+                    statusEvent = new FailureEvent(code);
+                }
+            }
+            catch (ThreadInterruptedException)
+            {
+                if (Grabber.Instance.HoldingObject())
+                {
+                    statusEvent = new FailureEvent(code);
+                }
             }
             catch (InvalidOperationException)
             {
@@ -65,7 +82,9 @@ namespace Naovigate.Event.GoalToNao
         /// </summary>
         public override void Abort()
         {
-            worker.Abort();
+            Logger.Log(this, "Aborting...");
+            if (worker != null) worker.Abort();
+            aborted = true;
         }
     }
 }

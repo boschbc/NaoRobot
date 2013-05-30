@@ -59,12 +59,12 @@ namespace Naovigate.Grabbing
         /// <summary>
         /// Blocks the current thread until the grabbing process has been completed.
         /// </summary>
-        public static void WaitFor()
+        public void WaitFor()
         {
-            Logger.Log(typeof(Grabber), "Wait for worker.");
-            if (Instance.worker != null && Instance.worker.Running)
+            Logger.Log(typeof(Grabber), "Waiting for grabber.");
+            if (worker != null && worker.Running)
             {
-                Instance.worker.WaitFor();
+                worker.WaitFor();
             }
             Logger.Log(typeof(Grabber), "Done waiting.");
         }

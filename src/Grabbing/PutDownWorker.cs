@@ -41,9 +41,7 @@ namespace Naovigate.Grabbing
         {
             if (!Grabber.Instance.HoldingObject())
                 throw new InvalidOperationException("PutDown() while not holding any object.");
-            
             Call(() => NaoState.Instance.SpeechProxy.say("Put Down"));
-
             if (Pose.Instance.Balanced)
             {
                 Call(() => NaoState.Instance.SpeechProxy.say("Stable"));

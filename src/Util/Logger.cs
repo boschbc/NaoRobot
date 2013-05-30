@@ -98,6 +98,24 @@ namespace Naovigate.Util
         }
 
         /// <summary>
+        /// Logs a ping.
+        /// </summary>
+        public static void Log()
+        {
+            Log(DefaultInvokerName, "<<< " + id + " >>>");
+        }
+
+        public static void LogGood()
+        {
+            Log(DefaultInvokerName, "Good.");
+        }
+
+        public static void LogBad()
+        {
+            Log(DefaultInvokerName, "Bad.");
+        }
+
+        /// <summary>
         /// The logger will only output logs when enabled.
         /// </summary>
         public static bool Enabled
