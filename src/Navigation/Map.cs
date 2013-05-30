@@ -292,6 +292,9 @@ namespace Naovigate.Navigation
 
     public static class DirectionExtension
     {
+        /// <summary>
+        /// Convert this direction to degrees in the range [0, 360)
+        /// </summary>
         public static float ToAngle(this Map.Direction dir)
         {
             if (dir == Map.Direction.Up)
@@ -305,9 +308,21 @@ namespace Naovigate.Navigation
             throw new ArgumentException("Direction is not a valid direction.");
         }
 
+        /// <summary>
+        /// Convert this direction to radians in the range [-pi, pi].
+        /// </summary>
         public static double ToRadian(this Map.Direction dir)
         {
-            return dir.ToAngle() * (Math.PI / 180.0);
+            double multiplier = 0.0;
+            if (dir == Map.Direction.Up)
+                multiplier = 0.0;
+            else if (dir == Map.Direction.Right)
+                multiplier = 0.5;
+            else if (dir == Map.Direction.Down)
+                multiplier = 1.0;
+            else if (dir == Map.Direction.Left)
+                multiplier = -0.5;
+            return multiplier * (Math.PI / 180.0);
         }
     }
 }
