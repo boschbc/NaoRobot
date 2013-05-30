@@ -120,8 +120,6 @@ namespace Naovigate.Communication
             Write(data);
         }
 
-        
-
         /// <summary>
         /// Fill the buffer buf with data from the stream.
         /// </summary>
@@ -180,7 +178,40 @@ namespace Naovigate.Communication
             return res;
         }
 
-        
+        /// <summary>
+        /// Fill the buffer buf with data from the stream, starting at off.
+        /// blocks until the bytes are available.
+        /// </summary>
+        /// <param name="buf">The buff to be filled.</param>
+        /// <param name="off">Offset.</param>
+        /// <param name="length">The amount of bytes to read.</param>
+        /// <returns>length</returns>
+        protected int ReadBytesBlocking(byte[] buf, int off, int length)
+        {
+            long time = DateTime.Now.Ticks;
+            if (stream == null) throw new IOException("Stream Closed, this should be given a new stream to use.");
+            // start at offset
+            int pos = off;
+            lock (rLock)
+            {
+                // until length bytes are read
+                while (pos < length + off)
+                {
+                    // starting at current location, read until the end of the buffer
+                    int len = stream.Read(buf, pos, off - pos + length);
+                    pos += len;
+                    if (len == 0)
+                    {
+                        if ((DateTime.Now.Ticks - time) > timeout)
+                            throw new IOException("Read timed out.");
+
+                    }
+                    else time = DateTime.Now.Ticks;
+                }
+                Debug.Assert(pos - off == length);
+            }
+            return pos - off;
+        }
 
         /// <summary>
         /// Underlying stream.
@@ -225,7 +256,7 @@ namespace Naovigate.Communication
         public abstract void Write(byte[] data, int off, int len);
 
         /// <summary>
-        /// Fill the buffer buf with data from the stream, starting at off blocks until the bytes are available
+        /// Fill the buffer buf with data from the stream, starting at off.
         /// </summary>
         /// <param name="buf">The buff to be filled.</param>
         /// <param name="off">Offset.</param>

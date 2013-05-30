@@ -54,7 +54,7 @@ namespace Naovigate.Communication
         int Read(byte[] buf);
 
         /// <summary>
-        /// Fill the buffer buf with data from the stream, starting at off blocks until the bytes are available
+        /// Fill the buffer buf with data from the stream, starting at off.
         /// </summary>
         /// <param name="buf">The buff to be filled.</param>
         /// <param name="off">Offset.</param>
