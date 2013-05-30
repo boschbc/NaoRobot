@@ -51,7 +51,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Communication\CommunicationStreamTest.cs" />
+    <Compile Include="Communication\AbstractCommunicationStreamTest.cs" />
+    <Compile Include="Communication\DefaultCommunicationStreamTest.cs" />
     <Compile Include="Communication\GoalComsStub.cs" />
     <Compile Include="Event\GoalToNao\GoToEventTest.cs" />
     <Compile Include="Event\GoalToNao\HaltEventTest.cs" />
