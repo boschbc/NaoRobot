@@ -74,14 +74,6 @@ namespace Naovigate.Util
             ip = endPoint.Address;
             port = endPoint.Port;
             CreateMyProxies();
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-            connected = true;
->>>>>>> 0002a01e60635c107a6241de432b164baa30ea79
-=======
-            connected = true;
->>>>>>> 0002a01e60635c107a6241de432b164baa30ea79
             Update();
             Logger.Log(this, "Connection established.");
         }
