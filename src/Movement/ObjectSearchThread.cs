@@ -62,7 +62,7 @@ namespace Naovigate.Movement
             float smallestX = SmallestBoundryPointX(boundryPoints);
             float biggestX = BiggestBoundryPointX(boundryPoints);
             float middle = (smallestX + biggestX) / 2;
-            float angle = middle / 4F;
+            float angle = middle/4F;
             return angle;
         }
         //Takes the smallest and biggest x and then calculats the
