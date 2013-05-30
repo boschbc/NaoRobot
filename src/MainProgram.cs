@@ -36,7 +36,7 @@ namespace Naovigate
                 c.Start();
             }
 
-            Console.WriteLine("Done. Press any key to exit.");
+            Console.WriteLine("Done");
             Console.Read();
         }
 
