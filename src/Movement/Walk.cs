@@ -126,7 +126,7 @@ namespace Naovigate.Movement
         /// <param name="objectID"></param>
         /// <param name="dist"></param>
         /// <returns></returns>
-        public virtual ObjectSearchThread WalkTowardsObject(float dir, int objectID,double dist)
+        public virtual ObjectSearchThread WalkTowardsObject(float dir,int objectID,double dist)
         {
             StopLooking();
             WalkTo(0, 0, dir);

@@ -13,6 +13,7 @@ namespace Naovigate.Vision
     {
         private VisionRecognitionProxy objectRecognizer;
         private MemoryProxy memory;
+        private Processing imageProcessor;
 
         public static ObjectRecogniser instance = null;
 
@@ -27,6 +28,7 @@ namespace Naovigate.Vision
         {
             objectRecognizer = NaoState.Instance.ObjectDetectionProxy;
             objectRecognizer.subscribe("VisionRecognizer", 1000, 0F);
+            imageProcessor = new Processing("vision");
             memory = NaoState.Instance.MemoryProxy;
         }
 
@@ -38,7 +40,7 @@ namespace Naovigate.Vision
         //returns object data
         public ArrayList GetObjectData()
         {
-            return (ArrayList)memory.getData("PictureDetected");
+            return imageProcessor.DetectObject();
         }
 
         public void InsertVisionDatabase()

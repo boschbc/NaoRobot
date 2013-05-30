@@ -6,6 +6,10 @@ using System.Data;
 using System.Windows.Forms;
 using System.Threading;
 
+using Emgu.CV;
+using Emgu.CV.Structure;
+using Emgu.Util;
+
 using Naovigate.Communication;
 using Naovigate.Util;
 using Naovigate.Vision;
@@ -98,8 +102,10 @@ namespace Naovigate.GUI
                     return;
                 }
             }
-            Image image = camera.GetImage();
-            imageContainer.Image = image;
+            Image<Rgb,Byte> image = camera.GetImage();
+            Image img = image.ToBitmap(image.Width,image.Height);
+            Console.WriteLine("TEST");
+            imageContainer.Image = img;
         }
     }
 }

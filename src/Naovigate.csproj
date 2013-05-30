@@ -167,6 +167,12 @@
     <Compile Include="Navigation\Planner.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="Emgu.CV">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\emgucv-windows-universal-gpu 2.4.9.1847\bin\Emgu.CV.dll</HintPath>
+    </Reference>
+    <Reference Include="Emgu.Util">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\emgucv-windows-universal-gpu 2.4.9.1847\bin\Emgu.Util.dll</HintPath>
+    </Reference>
     <Reference Include="Moq">
       <HintPath>lib\Moq.4.0.10827\NET40\Moq.dll</HintPath>
     </Reference>
