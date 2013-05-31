@@ -96,7 +96,6 @@ namespace Naovigate.Vision
                                 System.Drawing.Imaging.PixelFormat.Format24bppRgb,
                                 System.Runtime.InteropServices.Marshal.UnsafeAddrOfPinnedArrayElement(imageBytes, 0));
             Image<Rgb, Byte> img = new Image<Rgb, Byte>(imageBitMap);
-            img = img.SmoothMedian(5);
             return img;
             
         }

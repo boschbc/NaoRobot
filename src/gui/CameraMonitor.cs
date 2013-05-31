@@ -95,16 +95,18 @@ namespace Naovigate.GUI
                 }
             }
             Image<Rgb, Byte> image = camera.GetImage();
+            Processing ps = new Processing(camera);
+            Image<Gray, Byte> enchancedImg = ps.EnchancedImage();
             Image img = image.ToBitmap(image.Width, image.Height);
+            Image enchImg = enchancedImg.ToBitmap(image.Width,image.Height);
             if (cameraEnhancer.Checked)
             {
-                imageContainer.Image = img;
+                imageContainer.Image = enchImg;
             }
             else
             {
                 imageContainer.Image = img;
             }
-            imageContainer.Image = img;
         }
     }
 }

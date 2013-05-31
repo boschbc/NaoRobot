@@ -257,6 +257,8 @@ namespace Naovigate.Navigation
 
         private Map(Tile[,] tiles)
         {
+            this.height = tiles.GetLength(0);
+            this.width = tiles.GetLength(1);
             this.tiles = tiles;
         }
 

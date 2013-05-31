@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             this.eventTypeBox = new System.Windows.Forms.GroupBox();
+            this.radioSitDown = new System.Windows.Forms.RadioButton();
             this.radioHalt = new System.Windows.Forms.RadioButton();
             this.radioPutDown = new System.Windows.Forms.RadioButton();
             this.launchButton = new System.Windows.Forms.Button();
             this.radioStandUp = new System.Windows.Forms.RadioButton();
             this.radioGrab = new System.Windows.Forms.RadioButton();
             this.radioMove = new System.Windows.Forms.RadioButton();
-            this.radioSitDown = new System.Windows.Forms.RadioButton();
             this.eventTypeBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -55,6 +55,17 @@
             this.eventTypeBox.TabIndex = 6;
             this.eventTypeBox.TabStop = false;
             this.eventTypeBox.Text = "Commands";
+            // 
+            // radioSitDown
+            // 
+            this.radioSitDown.AutoSize = true;
+            this.radioSitDown.Location = new System.Drawing.Point(135, 42);
+            this.radioSitDown.Name = "radioSitDown";
+            this.radioSitDown.Size = new System.Drawing.Size(68, 17);
+            this.radioSitDown.TabIndex = 6;
+            this.radioSitDown.TabStop = true;
+            this.radioSitDown.Text = "Sit Down";
+            this.radioSitDown.UseVisualStyleBackColor = true;
             // 
             // radioHalt
             // 
@@ -119,17 +130,6 @@
             this.radioMove.TabStop = true;
             this.radioMove.Text = "Move";
             this.radioMove.UseVisualStyleBackColor = true;
-            // 
-            // radioSitDown
-            // 
-            this.radioSitDown.AutoSize = true;
-            this.radioSitDown.Location = new System.Drawing.Point(135, 42);
-            this.radioSitDown.Name = "radioSitDown";
-            this.radioSitDown.Size = new System.Drawing.Size(68, 17);
-            this.radioSitDown.TabIndex = 6;
-            this.radioSitDown.TabStop = true;
-            this.radioSitDown.Text = "Sit Down";
-            this.radioSitDown.UseVisualStyleBackColor = true;
             // 
             // EventLauncherPanel
             // 

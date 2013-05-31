@@ -16,19 +16,27 @@ namespace Naovigate.Vision
 {
     public class Processing
     {
-        private Camera cm;
+        private Camera cam;
         private Image<Rgb, Byte> currentImage;
-        public Processing(String ip)
+        public Processing(Camera cm)
         {
-            cm = new Camera(ip);
+            cam = cm;
         }
 
         public ArrayList DetectObject()
         {
-            currentImage = cm.GetImage();
-            Image<Gray,Byte> gray = currentImage.Convert<Gray,Byte>();
-            return null;
-            
+            currentImage = cam.GetImage();
+            Image<Gray, Byte> gray = currentImage.Convert<Gray, Byte>();
+            return null;   
+        }
+
+        public Image<Gray, Byte> EnchancedImage()
+        {
+            currentImage = cam.GetImage();
+            Rgb p1 = new Rgb(0.0, 120.0, 0.0);
+            Rgb p2 = new Rgb(255.0, 170.0, 255.0);
+            Image<Gray, Byte> gray = currentImage.InRange(p1,p2);
+            return gray;
         }
 
         public double ObjectAngle(Image<Rgb,byte> img)
