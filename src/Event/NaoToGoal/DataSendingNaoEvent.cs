@@ -68,6 +68,8 @@ namespace Naovigate.Event.NaoToGoal
         public override void Fire()
         {
             SendAsInt();
+            if(stream.GetType() == typeof(BitStringCommunicationStream))
+                stream.WriteNewline();
         }
 
         /// <summary>
