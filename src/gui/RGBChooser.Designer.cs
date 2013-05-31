@@ -49,6 +49,7 @@
             this.RedMin.Name = "RedMin";
             this.RedMin.Size = new System.Drawing.Size(104, 45);
             this.RedMin.TabIndex = 0;
+            this.RedMin.Scroll += new System.EventHandler(this.RedMin_Scroll);
             // 
             // BlueMin
             // 
@@ -57,6 +58,7 @@
             this.BlueMin.Name = "BlueMin";
             this.BlueMin.Size = new System.Drawing.Size(104, 45);
             this.BlueMin.TabIndex = 1;
+            this.BlueMin.Scroll += new System.EventHandler(this.BlueMin_Scroll);
             // 
             // GreenMin
             // 
@@ -65,6 +67,7 @@
             this.GreenMin.Name = "GreenMin";
             this.GreenMin.Size = new System.Drawing.Size(104, 45);
             this.GreenMin.TabIndex = 2;
+            this.GreenMin.Scroll += new System.EventHandler(this.GreenMin_Scroll);
             // 
             // BlueMax
             // 
@@ -74,6 +77,7 @@
             this.BlueMax.Size = new System.Drawing.Size(104, 45);
             this.BlueMax.TabIndex = 3;
             this.BlueMax.Tag = "";
+            this.BlueMax.Scroll += new System.EventHandler(this.BlueMax_Scroll);
             // 
             // GreenMax
             // 
@@ -82,6 +86,7 @@
             this.GreenMax.Name = "GreenMax";
             this.GreenMax.Size = new System.Drawing.Size(104, 45);
             this.GreenMax.TabIndex = 4;
+            this.GreenMax.Scroll += new System.EventHandler(this.GreenMax_Scroll);
             // 
             // RedMax
             // 
@@ -90,6 +95,7 @@
             this.RedMax.Name = "RedMax";
             this.RedMax.Size = new System.Drawing.Size(104, 45);
             this.RedMax.TabIndex = 5;
+            this.RedMax.Scroll += new System.EventHandler(this.RedMax_Scroll);
             // 
             // RGBChooser
             // 
