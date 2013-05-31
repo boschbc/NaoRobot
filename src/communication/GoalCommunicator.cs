@@ -86,6 +86,7 @@ namespace Naovigate.Communication
                 if (communicationStream == null) communicationStream = new BitStringCommunicationStream(stream);
                 else communicationStream.Stream = stream;
                 Logger.Log(this, "Connection established.");
+                EventQueue.Goal.Post(new AgentEvent());
             } catch{
                 Logger.Log(this, "Connection could not be established, is the server running?");
                 return false;
