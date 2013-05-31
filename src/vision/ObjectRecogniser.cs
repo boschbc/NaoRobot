@@ -6,6 +6,11 @@ using System.IO;
 using Aldebaran.Proxies;
 using System.Collections;
 using Naovigate.Util;
+using Emgu.CV.VideoSurveillance;
+using Emgu.CV;
+using Emgu.CV.Structure;
+using Emgu.Util;
+using System.Drawing;
 
 namespace Naovigate.Vision
 {
@@ -14,6 +19,8 @@ namespace Naovigate.Vision
         private VisionRecognitionProxy objectRecognizer;
         private MemoryProxy memory;
         private Processing imageProcessor;
+
+        BlobDetector detector = new BlobDetector(0);
 
         public static ObjectRecogniser instance = null;
 
@@ -28,13 +35,52 @@ namespace Naovigate.Vision
         {
             objectRecognizer = NaoState.Instance.ObjectDetectionProxy;
             objectRecognizer.subscribe("VisionRecognizer", 1000, 0F);
-            imageProcessor = new Processing("vision");
+            Camera cm = new Camera("VisionRecognizer");
+            imageProcessor = new Processing(cm);
             memory = NaoState.Instance.MemoryProxy;
         }
 
         public static float estimateDistance(float sizeX)
         {
             return (1 / sizeX) / FRANKENAO2C;
+        }
+
+        //returns 0,0,0,0 when there is no object in the image returns the bounding box of the object otherwise
+        public RectangleF getRectangle(Image<Gray, Byte> img)
+        {
+            BlobSeq seq = GetBlobs(img);
+            if (seq.Count == 0) return new RectangleF(0,0,0,0);
+            else return (RectangleF)GetLargest(seq);
+        }
+
+        public BlobSeq GetBlobs(Image<Gray, Byte> img) {
+            img = img.Copy();
+            img._Dilate(2);
+            img._Erode(2);
+            BlobSeq seq = new BlobSeq();
+            detector.DetectNewBlob(img, seq, null);
+            return seq;
+        }
+
+        public MCvBlob GetLargest(BlobSeq seq)
+        {
+            MCvBlob mb = seq.ElementAtOrDefault(0);
+            float max = 0;
+            foreach (MCvBlob blob in seq) {
+                float size = GetSize(blob);
+                if (size > max)
+                {
+                    max = size;
+                    mb = blob;
+                }
+            }
+            return mb;
+        }
+
+        private float GetSize(MCvBlob blob)
+        {
+            SizeF size = blob.Size;
+            return size.Height * size.Width;
         }
 
         //returns object data
