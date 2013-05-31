@@ -30,7 +30,7 @@ namespace Naovigate.Vision
 
             Camera camera = new Camera("MarkerRecogniser");
             camera.StartVideo();
-            camera.CalibrateCamera(3);
+            //camera.CalibrateCamera(3);
             camera.StopVideo();
         }
 
