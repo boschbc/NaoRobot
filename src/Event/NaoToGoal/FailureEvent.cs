@@ -1,4 +1,5 @@
 ﻿using System;
+using Naovigate.Communication;
 
 namespace Naovigate.Event.NaoToGoal
 {
@@ -35,6 +36,8 @@ namespace Naovigate.Event.NaoToGoal
         public override void Fire()
         {
             SendAsByte();
+            if (stream.GetType() == typeof(BitStringCommunicationStream))
+                stream.WriteNewline();
         }
 
         /// <summary>
