@@ -94,14 +94,15 @@ namespace Naovigate.GUI
                     return;
                 }
             }
+            Image<Rgb, Byte> image = camera.GetImage();
+            Image img = image.ToBitmap(image.Width, image.Height);
             if (cameraEnhancer.Checked)
             {
-                Image<Rgb, Byte> image = camera.GetImage();
-                Image img = image.ToBitmap(image.Width, image.Height);
+                imageContainer.Image = img;
             }
             else
             {
-
+                imageContainer.Image = img;
             }
             imageContainer.Image = img;
         }
