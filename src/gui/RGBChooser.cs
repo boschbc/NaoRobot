@@ -16,18 +16,28 @@ namespace Naovigate.GUI
             InitializeComponent();
         }
 
-        public float[] GetMinRGB()
+        public double GetTrack(TrackBar track)
         {
-            return new float[3] { RedMin.Value,
-                                  GreenMin.Value,
-                                  BlueMin.Value };
+            if (track.InvokeRequired)
+            {
+                track.Invoke(new MethodInvoker(() => GetTrack(track)));
+            }
+
+            return track.Value;
         }
 
-        public float[] GetMaxRGB()
+        public double[] GetMinRGB()
         {
-            return new float[3] { RedMax.Value,
-                                  GreenMax.Value,
-                                  BlueMax.Value };
+            return new double[3] { GetTrack(RedMin),
+                                  GetTrack(GreenMin),
+                                  GetTrack(BlueMin) };
+        }
+
+        public double[] GetMaxRGB()
+        {
+            return new double[3] { GetTrack(RedMax),
+                                   GetTrack(GreenMax),
+                                   GetTrack(BlueMax) };
         }
     }
 }

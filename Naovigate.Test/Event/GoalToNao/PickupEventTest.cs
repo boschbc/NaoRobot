@@ -126,6 +126,11 @@ namespace Naovigate.Test.Event.GoalToNao
             Assert.IsInstanceOf<SuccessEvent>(EventQueue.Goal.Peek(),
                 "The event was successfully executed.");
         }
+        
+        /// <summary>
+        /// Executes the event with an exception.
+        /// Expect a FailureEvent.
+        /// </summary>
 
         [Test]
         public void InvalidFireTest()
