@@ -26,6 +26,7 @@ namespace Naovigate.Vision
         public ArrayList DetectObject()
         {
             currentImage = cm.GetImage();
+            Image<Gray,Byte> gray = currentImage.Convert<Gray,Byte>();
             return null;
             
         }
