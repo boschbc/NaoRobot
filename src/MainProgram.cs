@@ -21,9 +21,9 @@ namespace Naovigate
     {
         public static readonly int port = 9559;
         public static readonly string localhost = "127.0.0.1";
-        public static readonly string nao2 = "192.168.0.128";
+        public static readonly string nao2 = "192.168.0.126";
         public static readonly string ip = nao2;
-        public static readonly string goalIP = "192.168.0.115";
+        public static readonly string goalIP = localhost;//"192.168.0.115";
 
         public static void Main(String[] args)
         {

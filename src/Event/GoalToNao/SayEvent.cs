@@ -14,9 +14,13 @@ namespace Naovigate.Event.GoalToNao
             text = stream.ReadString();
         }
         
+        /// <summary>
+        /// Say the received text.
+        /// </summary>
         public override void Fire()
         {
             NaoState.Instance.SpeechProxy.say(text);
         }
     }
 }
+
