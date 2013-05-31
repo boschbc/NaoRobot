@@ -73,9 +73,6 @@ namespace Naovigate.GUI
             }
         }
 
-        /*
-         * Stops updating this component.
-         */
         public void StopUpdate()
         {
             worker.Enabled = false;
@@ -102,8 +99,15 @@ namespace Naovigate.GUI
                     return;
                 }
             }
-            Image<Rgb,Byte> image = camera.GetImage();
-            Image img = image.ToBitmap(image.Width,image.Height);
+            if (cameraEnhancer.Checked)
+            {
+                Image<Rgb, Byte> image = camera.GetImage();
+                Image img = image.ToBitmap(image.Width, image.Height);
+            }
+            else
+            {
+
+            }
             imageContainer.Image = img;
         }
     }
