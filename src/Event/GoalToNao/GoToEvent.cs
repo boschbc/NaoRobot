@@ -20,7 +20,6 @@ namespace Naovigate.Event.GoalToNao
         public new static readonly EventCode code = EventCode.GoTo;
 
         private List<Point> locations;
-        private bool aborted;
 
         private MarkerSearchThread worker;
 
@@ -68,7 +67,7 @@ namespace Naovigate.Event.GoalToNao
             NaoEvent statusEvent = new SuccessEvent(code);
             try
             {
-                List<RouteEntry> route = Planner.PlanRoute(NaoState.Instance.Map, locations);// get from map, throw NullReference now
+                List<RouteEntry> route = Planner.PlanRoute(NaoState.Instance.Map, locations);
                 foreach (RouteEntry entry in route)
                 {
                     worker = Walk.Instance.WalkTowardsMarker((float)entry.Direction.ToRadian(), entry.MarkerID, entry.Distance);
@@ -87,7 +86,6 @@ namespace Naovigate.Event.GoalToNao
         /// </summary>
         public override void Abort()
         {
-            aborted = true;
             try
             {
                 if (worker != null)

@@ -15,7 +15,7 @@ namespace Naovigate.Event.GoalToNao
     {
         public new static readonly EventCode code = EventCode.Pickup;
         private int id;
-        private ObjectSearchThread searchThread;
+        private ActionExecutor executor;
 
         /// <summary>
         /// Creates a new pickup event.
@@ -59,11 +59,13 @@ namespace Naovigate.Event.GoalToNao
             try
             {
                 // go to the object first
-                searchThread = Walk.Instance.WalkTowardsObject(0, id, 0);
-                searchThread.WaitFor();
+
+                //executor = Walk.Instance.WalkTowardsObject(0, id, 0);
+                //executor.WaitFor();
 
                 // grab the object
-                Grabber.Instance.Grab();
+                executor = Grabber.Instance.Grab();
+                executor.WaitFor();
             }
             catch
             {
@@ -77,11 +79,11 @@ namespace Naovigate.Event.GoalToNao
         /// </summary>
         public override  void Abort()
         {
-            if (searchThread == null)
+            if (executor == null)
                 return;
             try
             {
-                searchThread.Abort();
+                executor.Abort();
             }
             catch
             {

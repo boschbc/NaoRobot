@@ -100,6 +100,12 @@
     <Compile Include="GUI\DemoLauncherPanel.Designer.cs">
       <DependentUpon>DemoLauncherPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\DropdownLauncher.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\DropdownLauncher.Designer.cs">
+      <DependentUpon>DropdownLauncher.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\EventLauncherPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -230,6 +236,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\DemoLauncherPanel.resx">
       <DependentUpon>DemoLauncherPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\DropdownLauncher.resx">
+      <DependentUpon>DropdownLauncher.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\EventLauncherPanel.resx">
       <DependentUpon>EventLauncherPanel.cs</DependentUpon>
