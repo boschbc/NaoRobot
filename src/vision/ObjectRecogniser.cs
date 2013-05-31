@@ -35,7 +35,8 @@ namespace Naovigate.Vision
         {
             objectRecognizer = NaoState.Instance.ObjectDetectionProxy;
             objectRecognizer.subscribe("VisionRecognizer", 1000, 0F);
-            imageProcessor = new Processing("vision");
+            Camera cm = new Camera("VisionRecognizer");
+            imageProcessor = new Processing(cm);
             memory = NaoState.Instance.MemoryProxy;
         }
 
