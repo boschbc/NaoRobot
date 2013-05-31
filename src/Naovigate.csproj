@@ -53,6 +53,7 @@
     <Compile Include="Communication\TestingGoalServer.cs" />
     <Compile Include="Communication\UnavailableConnectionException.cs" />
     <Compile Include="Event\GoalToNao\ExitEvent.cs" />
+    <Compile Include="Event\GoalToNao\SayEvent.cs" />
     <Compile Include="Event\Internal\ShutdownEvent.cs" />
     <Compile Include="Event\Internal\CrouchEvent.cs" />
     <Compile Include="Event\Internal\GrabEvent.cs" />

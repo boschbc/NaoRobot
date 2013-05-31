@@ -38,6 +38,7 @@ namespace Naovigate.Event
         Pickup = 0x02,
         PutDown = 0x03,
         Halt = 0x04,
+        Say = 0x05,
 
         //Internal
         Move = 0x40,
