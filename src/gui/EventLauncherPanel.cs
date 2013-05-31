@@ -64,17 +64,14 @@ namespace Naovigate.GUI
             EventQueue.Nao.Post(new GrabEvent());
         }
 
-        private INaoEvent p;
         private void LaunchPutDownEvent()
         {
-            p = new PutDownEvent();
-            EventQueue.Nao.Post(p);
+            EventQueue.Nao.Post(new PutDownEvent());
         }
 
         private void LaunchHaltEvent()
         {
-            p.Abort();
-            //EventQueue.Nao.Post(new HaltEvent());
+            EventQueue.Nao.Post(new HaltEvent());
         }
     }
 }
