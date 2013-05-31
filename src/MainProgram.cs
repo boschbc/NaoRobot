@@ -29,7 +29,7 @@ namespace Naovigate
         {
             Setup();
             DialogResult useDebugGui = MessageBox.Show("Do you wish to use the NaoDebugger?", "Use Debugger?", MessageBoxButtons.YesNo);
-            if (useDebugGui.Equals(DialogResult.Yes))
+            if (useDebugGui == DialogResult.Yes)
                 LaunchDebugger.DebugMain();
             else
             {

@@ -269,8 +269,4 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Navigate\" />
-    <Folder Include="Sonar\" />
-  </ItemGroup>
 </Project>
