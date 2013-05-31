@@ -6,9 +6,10 @@ using System.IO;
 using Aldebaran.Proxies;
 using System.Collections;
 using Naovigate.Util;
-using Emgu.CV.VideoSurveillance;
+using Emgu.CV.Cvb;
 using Emgu.CV;
 using Emgu.CV.Structure;
+using Emgu.CV.CvEnum;
 using Emgu.Util;
 using System.Drawing;
 
@@ -16,7 +17,7 @@ namespace Naovigate.Vision
 {
     public class ObjectRecogniser
     {
-        private BlobDetector detector = new BlobDetector(0);
+        private CvBlobDetector detector = new CvBlobDetector();
 
         public static ObjectRecogniser instance = null;
 
@@ -26,37 +27,37 @@ namespace Naovigate.Vision
         }
         
         //returns 0,0,0,0 when there is no object in the image returns the bounding box of the object otherwise
-        public RectangleF getBoundingBox(Image<Gray, Byte> img)
+        public Rectangle getBoundingBox(Image<Gray, Byte> img)
         {
-            BlobSeq seq = GetBlobs(img);
-            if (seq.Count > 0)
+            CvBlobs blobs = GetBlobs(img);
+            if (blobs.Count > 0)
             {
-                MCvBlob blob = GetLargest(seq);
-                if (GetSize(blob) >= 100)
+                CvBlob blob = GetLargest(blobs);
+                if (blob.Area >= 100)
                 {
-                    return (RectangleF)GetLargest(seq);
+                    return blob.BoundingBox;
                 }
             }
-            return new RectangleF(0, 0, 0, 0);
+            return new Rectangle(0, 0, 0, 0);
         }
 
-        private BlobSeq GetBlobs(Image<Gray, Byte> img)
+        private CvBlobs GetBlobs(Image<Gray, Byte> img)
         {
-            img = img.Copy();
-            img._Dilate(2);
-            img._Erode(2);
-            BlobSeq seq = new BlobSeq();
-            detector.DetectNewBlob(img, seq, null);
-            return seq;
+            Image<Gray, Byte> im = img.Clone();
+            im._Dilate(2);
+            im._Erode(2);
+            CvBlobs blobs = new CvBlobs();
+            detector.Detect(im, blobs);
+            return blobs;
         }
 
-        private MCvBlob GetLargest(BlobSeq seq)
+        private CvBlob GetLargest(CvBlobs blobs)
         {
-            MCvBlob mb = seq.ElementAtOrDefault(0);
-            float max = 0;
-            foreach (MCvBlob blob in seq)
+            CvBlob mb = null;
+            int max = 0;
+            foreach (CvBlob blob in blobs.Values)
             {
-                float size = GetSize(blob);
+                int size = blob.Area;
                 if (size > max)
                 {
                     max = size;
@@ -64,12 +65,6 @@ namespace Naovigate.Vision
                 }
             }
             return mb;
-        }
-
-        private float GetSize(MCvBlob blob)
-        {
-            SizeF size = blob.Size;
-            return size.Height * size.Width;
         }
     }
 }
