@@ -37,7 +37,6 @@ namespace Naovigate.GUI
         private void postEventButton_Click(object sender, EventArgs e)
         {
             string eventName = eventDropdown.GetItemText(eventDropdown.SelectedItem);
-            Logger.Log(eventName);
             INaoEvent naoEvent = labelToEvent[eventName]();
             EventQueue.Goal.Post(naoEvent);
         }

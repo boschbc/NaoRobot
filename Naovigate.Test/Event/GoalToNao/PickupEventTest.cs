@@ -159,8 +159,15 @@ namespace Naovigate.Test.Event.GoalToNao
 
             Mock<Grabber> mock = new Mock<Grabber>() { CallBase = true };
             mock.Setup(m => m.HoldingObject()).Returns(false);
+            Grabber.Instance = mock.Object;
 
-            //TODO
+            EventQueue.Goal.Suspend();
+            EventQueue.Nao.SubscribeFire(naoEvent => naoEvent.Abort());
+            EventQueue.Nao.Post(pickupEvent);
+            pickupEvent.WaitFor();
+
+            Assert.IsInstanceOf<FailureEvent>(EventQueue.Goal.Peek(),
+                "The event was aborted before the Nao could pick up the object.");
         }
     }
 }
