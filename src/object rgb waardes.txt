@@ -1,0 +1,3 @@
+groen object:
+rgbmin:  0 0 71
+rgbmax: 73 255 255

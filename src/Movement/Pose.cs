@@ -12,7 +12,7 @@ namespace Naovigate.Movement
     public class Pose
     {
         private static long lastStabiliseAttempt = DateTime.Now.Ticks;
-        private static readonly bool ignoreStabalise = true;
+        private static readonly bool ignoreStabalise = false;
         private static readonly float maxAllowedDifference = 0.3f;
         private static readonly float attemptStabaliseLimit = 0.3f;
 

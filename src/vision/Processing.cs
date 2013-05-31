@@ -21,6 +21,7 @@ namespace Naovigate.Vision
         public Processing(Camera cm)
         {
             cam = cm;
+            cam.CalibrateCamera(3);
         }
 
         public ArrayList DetectObject()
@@ -30,11 +31,12 @@ namespace Naovigate.Vision
             return null;   
         }
 
-        public Image<Gray, Byte> EnchancedImage()
+        public Image<Gray, Byte> EnchancedImage(double[] rgb1, double[] rgb2)
         {
             currentImage = cam.GetImage();
-            Rgb p1 = new Rgb(0.0, 120.0, 0.0);
-            Rgb p2 = new Rgb(255.0, 170.0, 255.0);
+            Rgb p1 = new Rgb(rgb1[0],rgb1[1],rgb1[2]);
+            Rgb p2 = new Rgb(rgb2[0], rgb2[1], rgb2[2]);
+
             Image<Gray, Byte> gray = currentImage.InRange(p1,p2);
             return gray;
         }
