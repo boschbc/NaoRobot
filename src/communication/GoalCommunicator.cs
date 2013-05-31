@@ -70,7 +70,7 @@ namespace Naovigate.Communication
         /// </summary>
         public static GoalCommunicator Instance
         {
-            get { return instance == null ? instance = new GoalCommunicator(DefaultIP, DefaultPort) : instance; }
+            get { return instance == null ? instance = new GoalCommunicator(MainProgram.goalIP, DefaultPort) : instance; }
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Naovigate.Communication
                 Logger.Log(this, "Connecting to: " + this.ip.ToString() + ":" + this.port.ToString());
                 client.Connect(this.endPoint);
                 stream = this.client.GetStream();
-                if (communicationStream == null) communicationStream = new CommunicationStream(stream);
+                if (communicationStream == null) communicationStream = new BitStringCommunicationStream(stream);
                 else communicationStream.Stream = stream;
                 Logger.Log(this, "Connection established.");
             } catch{
