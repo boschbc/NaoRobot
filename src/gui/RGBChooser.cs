@@ -22,8 +22,9 @@ namespace Naovigate.GUI
             {
                 track.Invoke(new MethodInvoker(() => GetTrack(track)));
             }
-
-            return track.Value;
+            else
+                return track.Value;
+            return default(double);
         }
 
         public double[] GetMinRGB()

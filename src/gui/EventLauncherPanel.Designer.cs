@@ -36,12 +36,14 @@
             this.radioStandUp = new System.Windows.Forms.RadioButton();
             this.radioGrab = new System.Windows.Forms.RadioButton();
             this.radioMove = new System.Windows.Forms.RadioButton();
+            this.dropdownLauncher1 = new Naovigate.GUI.DropdownLauncher();
             this.eventTypeBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // eventTypeBox
             // 
             this.eventTypeBox.AutoSize = true;
+            this.eventTypeBox.Controls.Add(this.dropdownLauncher1);
             this.eventTypeBox.Controls.Add(this.radioSitDown);
             this.eventTypeBox.Controls.Add(this.radioHalt);
             this.eventTypeBox.Controls.Add(this.radioPutDown);
@@ -51,7 +53,7 @@
             this.eventTypeBox.Controls.Add(this.radioMove);
             this.eventTypeBox.Location = new System.Drawing.Point(3, 3);
             this.eventTypeBox.Name = "eventTypeBox";
-            this.eventTypeBox.Size = new System.Drawing.Size(209, 107);
+            this.eventTypeBox.Size = new System.Drawing.Size(309, 113);
             this.eventTypeBox.TabIndex = 6;
             this.eventTypeBox.TabStop = false;
             this.eventTypeBox.Text = "Commands";
@@ -91,11 +93,11 @@
             // 
             // launchButton
             // 
-            this.launchButton.Location = new System.Drawing.Point(85, 65);
+            this.launchButton.Location = new System.Drawing.Point(209, 16);
             this.launchButton.Name = "launchButton";
             this.launchButton.Size = new System.Drawing.Size(94, 23);
             this.launchButton.TabIndex = 4;
-            this.launchButton.Text = "Launch Event";
+            this.launchButton.Text = "Post to Nao";
             this.launchButton.UseVisualStyleBackColor = true;
             this.launchButton.Click += new System.EventHandler(this.launchButton_Click);
             // 
@@ -131,6 +133,15 @@
             this.radioMove.Text = "Move";
             this.radioMove.UseVisualStyleBackColor = true;
             // 
+            // dropdownLauncher1
+            // 
+            this.dropdownLauncher1.AutoSize = true;
+            this.dropdownLauncher1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.dropdownLauncher1.Location = new System.Drawing.Point(6, 65);
+            this.dropdownLauncher1.Name = "dropdownLauncher1";
+            this.dropdownLauncher1.Size = new System.Drawing.Size(205, 29);
+            this.dropdownLauncher1.TabIndex = 7;
+            // 
             // EventLauncherPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -139,7 +150,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.Controls.Add(this.eventTypeBox);
             this.Name = "EventLauncherPanel";
-            this.Size = new System.Drawing.Size(215, 113);
+            this.Size = new System.Drawing.Size(315, 119);
             this.eventTypeBox.ResumeLayout(false);
             this.eventTypeBox.PerformLayout();
             this.ResumeLayout(false);
@@ -157,6 +168,7 @@
         private System.Windows.Forms.RadioButton radioMove;
         private System.Windows.Forms.RadioButton radioHalt;
         private System.Windows.Forms.RadioButton radioSitDown;
+        private DropdownLauncher dropdownLauncher1;
 
 
     }

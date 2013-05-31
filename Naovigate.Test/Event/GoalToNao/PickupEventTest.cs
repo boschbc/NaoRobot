@@ -131,27 +131,36 @@ namespace Naovigate.Test.Event.GoalToNao
         /// Executes the event with an exception.
         /// Expect a FailureEvent.
         /// </summary>
-
         [Test]
-        public void InvalidFireTest()
+        public void InternalErrorTest()
         {
             EventTestingUtilities.RequireWebots();
+
+            Mock<Grabber> mock = new Mock<Grabber>() { CallBase = true };
+            mock.Setup(m => m.HoldingObject()).Throws(new Exception());
+            Grabber.Instance = mock.Object;
+
             EventQueue.Goal.Suspend();
-            Type[] expectedResults = new Type[2] {typeof(SuccessEvent), typeof(FailureEvent)};
             EventQueue.Nao.Post(pickupEvent);
-            PriorityQueue<INaoEvent> q = (PriorityQueue<INaoEvent>)EventTestingUtilities.GetInstanceField(typeof(EventQueue), EventQueue.Goal, "q");
-            Walk.Instance.StopMove();
-            System.Threading.Thread.Sleep(2500);
-            // stopped move, should have gotten FailureEvent
-            Assert.Contains(q.Dequeue().GetType(), expectedResults);
+            pickupEvent.WaitFor();
+
+            Assert.IsInstanceOf<ErrorEvent>(EventQueue.Goal.Peek(),
+                "An internal error has been encountered, expecting an ErrorEvent.");
         }
 
+        /// <summary>
+        /// Executes the event and immediatly aborts.
+        /// Expects a FailureEvent.
+        /// </summary>
+        [Test]
         public void AbortTest()
         {
             EventTestingUtilities.RequireWebots();
-            pickupEvent.Fire();
-            pickupEvent.Abort();
-            Assert.IsTrue(EventQueue.Nao.IsEmpty());
+
+            Mock<Grabber> mock = new Mock<Grabber>() { CallBase = true };
+            mock.Setup(m => m.HoldingObject()).Returns(false);
+
+            //TODO
         }
     }
 }
