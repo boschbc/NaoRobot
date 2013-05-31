@@ -30,6 +30,7 @@
         {
             this.imageContainer = new System.Windows.Forms.PictureBox();
             this.cameraEnabler = new System.Windows.Forms.CheckBox();
+            this.cameraEnhancer = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.imageContainer)).BeginInit();
             this.SuspendLayout();
             // 
@@ -51,16 +52,28 @@
             this.cameraEnabler.Text = "Enable Camera";
             this.cameraEnabler.UseVisualStyleBackColor = true;
             // 
+            // cameraEnhancer
+            // 
+            this.cameraEnhancer.AutoSize = true;
+            this.cameraEnhancer.Location = new System.Drawing.Point(113, 250);
+            this.cameraEnhancer.Name = "cameraEnhancer";
+            this.cameraEnhancer.Size = new System.Drawing.Size(108, 17);
+            this.cameraEnhancer.TabIndex = 2;
+            this.cameraEnhancer.Text = "Enhance Camera";
+            this.cameraEnhancer.UseVisualStyleBackColor = true;
+            // 
             // CameraMonitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.cameraEnhancer);
             this.Controls.Add(this.cameraEnabler);
             this.Controls.Add(this.imageContainer);
             this.Name = "CameraMonitor";
             this.Size = new System.Drawing.Size(320, 276);
             ((System.ComponentModel.ISupportInitialize)(this.imageContainer)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -68,5 +81,6 @@
 
         private System.Windows.Forms.PictureBox imageContainer;
         private System.Windows.Forms.CheckBox cameraEnabler;
+        private System.Windows.Forms.CheckBox cameraEnhancer;
     }
 }

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Reflection;
 
 using Moq;
 using NUnit.Framework;
@@ -20,7 +18,7 @@ namespace Naovigate.Test.Event.GoalToNao
     /// <summary>
     /// A test-suite for testing of the PickupEvent class.
     /// </summary>
-    [TestFixture]
+    [TestFixture, Timeout(12000)]
     public class PickupEventTest
     {
         private static int ExpectedID = 43;
@@ -31,6 +29,7 @@ namespace Naovigate.Test.Event.GoalToNao
         [TestFixtureSetUp]
         public void initOnce()
         {
+            inputStream = EventTestingUtilities.BuildStream();
             goalComs = new GoalComsStub(null);
         }
 
