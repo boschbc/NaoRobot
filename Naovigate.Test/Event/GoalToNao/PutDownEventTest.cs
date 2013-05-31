@@ -92,8 +92,6 @@ namespace Naovigate.Test.Event.GoalToNao
             EventTestingUtilities.RequireWebots();
 
             Mock<Grabber> mock = new Mock<Grabber>() { CallBase = true };
-            /// The first call should be true (called before the putdown, second call 
-            /// should be false (called after the putdown).
             mock.Setup(m => m.HoldingObject()).Returns(false);
             mock.Setup(m => m.PutDown()).Throws(new Exception());
             Grabber.Instance = mock.Object;

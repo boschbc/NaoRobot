@@ -35,6 +35,14 @@ namespace Naovigate.Event.GoalToNao
         }
 
         /// <summary>
+        /// Returns the ID of the object this event aims to pick up.
+        /// </summary>
+        public int ObjectID
+        {
+            get { return id; }
+        }
+
+        /// <summary>
         /// Extract the ObjectID out of the internal communication stream.
         /// </summary>
         private void Unpack()
