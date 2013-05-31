@@ -133,6 +133,12 @@
     <Compile Include="GUI\NaoDebugger.Designer.cs">
       <DependentUpon>NaoDebugger.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\RGBChooser.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\RGBChooser.Designer.cs">
+      <DependentUpon>RGBChooser.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\StateMonitorPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -175,11 +181,11 @@
   <ItemGroup>
     <Reference Include="Emgu.CV, Version=2.4.2.1777, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Program Files (eigen)\Emgu\emgucv-2.4.9.1847\bin\Emgu.CV.dll</HintPath>
+      <HintPath>..\..\..\..\..\EmguCV\bin\Emgu.CV.dll</HintPath>
     </Reference>
     <Reference Include="Emgu.Util, Version=2.4.2.1777, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Program Files (eigen)\Emgu\emgucv-2.4.9.1847\bin\Emgu.Util.dll</HintPath>
+      <HintPath>..\..\..\..\..\EmguCV\bin\Emgu.Util.dll</HintPath>
     </Reference>
     <Reference Include="Moq">
       <HintPath>lib\Moq.4.0.10827\NET40\Moq.dll</HintPath>
@@ -239,6 +245,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\NaoDebugger.resx">
       <DependentUpon>NaoDebugger.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\RGBChooser.resx">
+      <DependentUpon>RGBChooser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\StateMonitorPanel.resx">
       <DependentUpon>StateMonitorPanel.cs</DependentUpon>

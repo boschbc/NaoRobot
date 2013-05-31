@@ -7,6 +7,7 @@ using Naovigate.Communication;
 using Naovigate.Event;
 using Naovigate.Event.GoalToNao;
 using Naovigate.Event.NaoToGoal;
+using Naovigate.Grabbing;
 using Naovigate.Movement;
 using Naovigate.Util;
 
@@ -29,13 +30,13 @@ namespace Naovigate.Test.Event.GoalToNao
         [TestFixtureSetUp]
         public void initOnce()
         {
-            inputStream = EventTestingUtilities.BuildStream();
             goalComs = new GoalComsStub(null);
         }
 
         [SetUp]
         public void Init()
         {
+            Logger.Clear();
             inputStream = EventTestingUtilities.BuildStream(ExpectedID);
             goalComs.SetStream(inputStream);
             pickupEvent = new PickupEvent();
@@ -44,22 +45,90 @@ namespace Naovigate.Test.Event.GoalToNao
         [TearDown]
         public void TearDown()
         {
-            if (NaoState.Instance.Connected)
-            {
-                Walk.Instance.StopMove();
-                NaoState.Instance.Disconnect();
-            }
+            NaoState.Instance.Disconnect();
+            EventQueue.Nao.Clear();
+            EventQueue.Goal.Clear();
+            EventQueue.Nao.UnsubscribeAll();
         }
 
+        /// <summary>
+        /// Build a new event.
+        /// Expect the correct Object-ID has been extracted out of the stream.
+        /// </summary>
         [Test]
         public void UnpackTest()
         {
-            int id = (int)EventTestingUtilities.GetInstanceField(typeof(PickupEvent), pickupEvent, "id");
-            Assert.AreEqual(id, ExpectedID);
+            Assert.AreEqual(pickupEvent.ObjectID, ExpectedID);
         }
 
-        [Test, Timeout(10000)]
-        public void FireTest()
+        /// <summary>
+        /// Execute a pickup event while the Nao is already holding an object.
+        /// Expects a FailureEvent.
+        /// </summary>
+        [Test]
+        public void ObjectAlreadyHeldTest()
+        {
+            EventTestingUtilities.RequireWebots();
+
+            Mock<Grabber> mock = new Mock<Grabber>() { CallBase = true };
+            mock.Setup(m => m.HoldingObject()).Returns(true);
+            Grabber.Instance = mock.Object;
+
+            EventQueue.Goal.Suspend();
+            EventQueue.Nao.Post(pickupEvent);
+            pickupEvent.WaitFor();
+
+            Assert.IsInstanceOf<FailureEvent>(EventQueue.Goal.Peek(),
+                "The Nao is already holding an object, therefore cannot pick up a new one.");
+        }
+
+        /// <summary>
+        /// Executes a pickup event, but at the end the Nao is not holding any object.
+        /// Expect a FailureEvent.
+        /// </summary>
+        [Test]
+        public void ValidFireObjectNotHeldTest()
+        {
+            EventTestingUtilities.RequireWebots();
+
+            Mock<Grabber> mock = new Mock<Grabber>() { CallBase = true };
+            mock.Setup(m => m.HoldingObject()).Returns(false);
+            Grabber.Instance = mock.Object;
+
+            EventQueue.Goal.Suspend();
+            EventQueue.Nao.Post(pickupEvent);
+            pickupEvent.WaitFor();
+
+            Assert.IsInstanceOf<FailureEvent>(EventQueue.Goal.Peek(),
+                "The event was executed but the Nao is not holding anything.");
+        }
+
+        /// <summary>
+        /// Executes a pickup event successfully.
+        /// Expect a SuccessEvent.
+        /// </summary>
+        [Test]
+        public void ValidFireObjectHeldTest()
+        {
+            EventTestingUtilities.RequireWebots();
+
+            Mock<Grabber> mock = new Mock<Grabber>() { CallBase = true };
+            int callCounter = 0;
+            mock.Setup(m => m.HoldingObject())
+                .Returns(() => callCounter > 0)
+                .Callback(() => callCounter++);
+            Grabber.Instance = mock.Object;
+
+            EventQueue.Goal.Suspend();
+            EventQueue.Nao.Post(pickupEvent);
+            pickupEvent.WaitFor();
+
+            Assert.IsInstanceOf<SuccessEvent>(EventQueue.Goal.Peek(),
+                "The event was successfully executed.");
+        }
+
+        [Test]
+        public void InvalidFireTest()
         {
             EventTestingUtilities.RequireWebots();
             EventQueue.Goal.Suspend();

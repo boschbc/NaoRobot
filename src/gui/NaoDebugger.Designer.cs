@@ -86,7 +86,7 @@
             this.goalSimulatorBox.Controls.Add(this.goalSimulator1);
             this.goalSimulatorBox.Location = new System.Drawing.Point(12, 265);
             this.goalSimulatorBox.Name = "goalSimulatorBox";
-            this.goalSimulatorBox.Size = new System.Drawing.Size(218, 93);
+            this.goalSimulatorBox.Size = new System.Drawing.Size(218, 123);
             this.goalSimulatorBox.TabIndex = 4;
             this.goalSimulatorBox.TabStop = false;
             this.goalSimulatorBox.Text = "GOAL";
@@ -97,7 +97,7 @@
             this.goalSimulator1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.goalSimulator1.Location = new System.Drawing.Point(6, 19);
             this.goalSimulator1.Name = "goalSimulator1";
-            this.goalSimulator1.Size = new System.Drawing.Size(206, 55);
+            this.goalSimulator1.Size = new System.Drawing.Size(206, 85);
             this.goalSimulator1.TabIndex = 0;
             // 
             // eventLauncherPanel
@@ -114,7 +114,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(673, 368);
+            this.ClientSize = new System.Drawing.Size(673, 500);
             this.Controls.Add(this.goalSimulatorBox);
             this.Controls.Add(this.eventLauncherPanel);
             this.Controls.Add(this.stateBox);

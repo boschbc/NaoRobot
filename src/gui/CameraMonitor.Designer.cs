@@ -31,6 +31,7 @@
             this.imageContainer = new System.Windows.Forms.PictureBox();
             this.cameraEnabler = new System.Windows.Forms.CheckBox();
             this.cameraEnhancer = new System.Windows.Forms.CheckBox();
+            this.rgbChooser1 = new Naovigate.GUI.RGBChooser();
             ((System.ComponentModel.ISupportInitialize)(this.imageContainer)).BeginInit();
             this.SuspendLayout();
             // 
@@ -62,15 +63,26 @@
             this.cameraEnhancer.Text = "Enhance Camera";
             this.cameraEnhancer.UseVisualStyleBackColor = true;
             // 
+            // rgbChooser1
+            // 
+            this.rgbChooser1.AutoSize = true;
+            this.rgbChooser1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.rgbChooser1.Location = new System.Drawing.Point(4, 273);
+            this.rgbChooser1.Name = "rgbChooser1";
+            this.rgbChooser1.Size = new System.Drawing.Size(217, 150);
+            this.rgbChooser1.TabIndex = 3;
+            // 
             // CameraMonitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
+            this.Controls.Add(this.rgbChooser1);
             this.Controls.Add(this.cameraEnhancer);
             this.Controls.Add(this.cameraEnabler);
             this.Controls.Add(this.imageContainer);
             this.Name = "CameraMonitor";
-            this.Size = new System.Drawing.Size(320, 276);
+            this.Size = new System.Drawing.Size(320, 426);
             ((System.ComponentModel.ISupportInitialize)(this.imageContainer)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -82,5 +94,6 @@
         private System.Windows.Forms.PictureBox imageContainer;
         private System.Windows.Forms.CheckBox cameraEnabler;
         private System.Windows.Forms.CheckBox cameraEnhancer;
+        private RGBChooser rgbChooser1;
     }
 }
