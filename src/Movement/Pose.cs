@@ -12,7 +12,7 @@ namespace Naovigate.Movement
     public class Pose
     {
         private static long lastStabiliseAttempt = DateTime.Now.Ticks;
-        private static readonly bool ignoreStabalise = false;
+        private static readonly bool ignoreStabalise = true;
         private static readonly float maxAllowedDifference = 0.3f;
         private static readonly float attemptStabaliseLimit = 0.3f;
 
@@ -99,10 +99,9 @@ namespace Naovigate.Movement
         {
             get
             {
-                return true;
-                //if (!IsStable()) 
-                //    AttemptStabilize();
-                //return IsStable();
+                if (!IsStable()) 
+                    AttemptStabilize();
+                return IsStable();
             }
         }
 
@@ -138,6 +137,7 @@ namespace Naovigate.Movement
 
         public bool IsStable()
         {
+            if (ignoreStabalise) return false;
             List<float> rAngles = RightAngles(rLegNames);
             List<float> lAngles = LeftAngles(lLegNames);
             Logger.Log(this, rAngles.Count + " - " + lAngles.Count);
