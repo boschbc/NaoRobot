@@ -210,7 +210,7 @@ namespace Naovigate.Navigation
             truth = false;
 
             // Validate line sanity.
-            if (line.Length < 3)
+            if (line.Length < 4)
                 throw new InvalidDataException("Reached EOL before being able to read marker info.");
 
             // Parse line entries.
@@ -237,7 +237,7 @@ namespace Naovigate.Navigation
             id = -1;
 
             // Validate line sanity.
-            if (line.Length < 4)
+            if (line.Length < 5)
                 throw new InvalidDataException("Reached EOL before being able to read marker info.");
 
             // Parse line entries.

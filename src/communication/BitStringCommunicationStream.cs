@@ -98,7 +98,15 @@ namespace Naovigate.Communication
         /// <returns>A string.</returns>
         public override string ReadString()
         {
-            throw new NotImplementedException();
+            List<byte> value = new List<byte>();
+
+            byte b;
+            while ((b = this.ReadNextByte()) != 0) {
+                value.Add(b);
+            }
+            value.Add(0);
+
+            return Encoding.UTF8.GetString(value.ToArray());
         }
     }
 }

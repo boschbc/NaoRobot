@@ -14,7 +14,7 @@ namespace Naovigate.Communication
         private static GoalServer instance;
         private static string[] seperators = { ",", " ", ":", ";", "-", "+" };
 
-        private CommunicationStream goalStream;
+        private ICommunicationStream goalStream;
         private bool running = false;
         private TcpClient client;
 
@@ -40,7 +40,7 @@ namespace Naovigate.Communication
             TcpListener listener = new TcpListener(IPAddress.Parse(ip), port);
             listener.Start();
             client = listener.AcceptTcpClient();
-            goalStream = new CommunicationStream(client.GetStream());
+            goalStream = new BitStringCommunicationStream(client.GetStream());
             listener.Stop();
             running = true;
             Logger.Log(this, "Server is running.");

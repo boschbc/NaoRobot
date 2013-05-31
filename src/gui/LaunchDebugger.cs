@@ -14,7 +14,7 @@ namespace Naovigate.Testing.GUI
     {
         public static void DebugMain()
         {
-            //new Thread (new ThreadStart(StartGoalServer)).Start();
+            new Thread (new ThreadStart(StartGoalServer)).Start();
             new Thread (new ThreadStart(StartGoalCommunication)).Start();
             StartDebugger();
         }
