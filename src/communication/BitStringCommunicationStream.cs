@@ -34,7 +34,7 @@ namespace Naovigate.Communication
             string s = ToBitString(b, 8);
             Logger.Log(this, "Write " + s);
             byte[] bytes = Encoding.UTF8.GetBytes(s);
-            WriteBytes(bytes, 0, bytes.Length);
+            WriteRaw(bytes, 0, bytes.Length);
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Naovigate.Communication
             byte b;
             do
             {
-                ReadBytesBlocking(buf, 0, buf.Length);
+                ReadRaw(buf, 0, buf.Length);
                 b = buf[0];
                 // ignore newlines
             } while(b == '\n');

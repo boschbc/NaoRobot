@@ -25,7 +25,7 @@ namespace Naovigate.Communication
         /// <param name="len">The amount of bytes to be written.</param>
         public override void Write(byte[] data, int off, int len)
         {
-            WriteBytes(data, off, len);
+            WriteRaw(data, off, len);
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace Naovigate.Communication
         /// <returns></returns>
         public override int Read(byte[] buf, int off, int length)
         {
-            return ReadBytesBlocking(buf, off, length);
+            return ReadRaw(buf, off, length);
         }
 
         public override string ReadString()

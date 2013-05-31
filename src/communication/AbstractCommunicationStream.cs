@@ -191,7 +191,7 @@ namespace Naovigate.Communication
         /// <param name="off">Offset.</param>
         /// <param name="length">The amount of bytes to read.</param>
         /// <returns>length</returns>
-        protected int ReadBytesBlocking(byte[] buf, int off, int length)
+        protected int ReadRaw(byte[] buf, int off, int length)
         {
             long time = DateTime.Now.Ticks;
             if (stream == null) throw new IOException("Stream Closed, this should be given a new stream to use.");
@@ -225,7 +225,7 @@ namespace Naovigate.Communication
         /// <param name="buf">The buffer to be written from.</param>
         /// <param name="off">Offset.</param>
         /// <param name="length">The amount of bytes to read.</param>
-        protected void WriteBytes(byte[] data, int off, int len)
+        protected void WriteRaw(byte[] data, int off, int len)
         {
             if (stream == null)
             {
@@ -255,7 +255,7 @@ namespace Naovigate.Communication
         {
             string msg = "\n";
             byte[] bytes = System.Text.Encoding.UTF8.GetBytes(msg);
-            WriteBytes(bytes, 0, bytes.Length);
+            WriteRaw(bytes, 0, bytes.Length);
         }
 
         /// <summary>
