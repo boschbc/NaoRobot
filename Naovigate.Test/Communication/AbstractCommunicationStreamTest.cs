@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 using Naovigate.Communication;
 using NUnit.Framework;
 
 namespace Naovigate.Test.Communication
 {
+    [TestFixture, Timeout(1000)]
     abstract class AbstractCommunicationStreamTest
     {
         protected ICommunicationStream stream;
@@ -178,6 +176,63 @@ namespace Naovigate.Test.Communication
             byte[] expected = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
             stream.Read(all);
             Assert.AreEqual(expected, all);
+        }
+
+        [Test]
+        public void ReadWriteStringTest()
+        {
+            try
+            {
+                string data = "hello world";
+                stream.WriteString(data);
+                StartRead();
+                string res = stream.ReadString();
+                Assert.AreEqual(data, res);
+            }
+            catch (NotImplementedException)
+            {
+                Assert.Inconclusive();
+            }
+        }
+
+        [Test]
+        public void WriteStringTest()
+        {
+            Assert.Ignore();
+        }
+
+        [Test]
+        public void ReadStringTest()
+        {
+            Assert.Ignore();
+        }
+
+        [Test]
+        public void ReadWriteNewlineTest()
+        {
+            try
+            {
+                stream.WriteNewline();
+                StartRead();
+                string res = stream.ReadString();
+                Assert.AreEqual("\n", res);
+            } catch(NotImplementedException){
+                Assert.Inconclusive();
+            }
+        }
+
+        [Test]
+        public void WriteNewlineTest()
+        {
+            try
+            {
+                stream.WriteNewline();
+                StartRead();
+                int res = internalStream.ReadByte();
+                Assert.AreEqual('\n', res);
+            } catch(NotImplementedException){
+                Assert.Inconclusive();
+            }
         }
 
         [Test]
