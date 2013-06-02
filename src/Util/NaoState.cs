@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Net;
-
 using Aldebaran.Proxies;
 
 using Naovigate.Communication;
@@ -67,6 +66,7 @@ namespace Naovigate.Util
         public virtual void Connect(IPEndPoint endPoint)
         {
             if (Connected) {
+                Logger.Log(this, "Already Connected");
                 return;
             }
             Logger.Log(this, "Connecting to Nao...");
@@ -116,7 +116,7 @@ namespace Naovigate.Util
                 {
                     MotionProxy motion = new MotionProxy(IP.ToString(), Port);
                     motion.Dispose();
-                    return true;
+                    return connected;
                 }
                 catch
                 {
@@ -148,14 +148,16 @@ namespace Naovigate.Util
             {
                 foreach (IDisposable d in proxies)
                 {
+                    Logger.Log("Dispose " + d);
                     d.Dispose();
                 }
-                proxies.Clear();
             }
             catch
             {
+                proxies.Clear();
                 throw new UnavailableConnectionException("Error while disconnecting proxies.", IP.ToString(), Port);
             }
+            proxies.Clear();
         }
 
         /// <summary>
@@ -166,7 +168,7 @@ namespace Naovigate.Util
             LandMarkDetectionProxy landmark = LandMarkDetectionProxy;
             foreach (ArrayList sub in (ArrayList)landmark.getSubscribersInfo())
             {
-                landmark.unsubscribe((String)sub[0]);
+                landmark.unsubscribe(sub[0].ToString());
             }
         }
 
@@ -177,7 +179,7 @@ namespace Naovigate.Util
         {
             foreach (ArrayList sub in (ArrayList)sensors.getSubscribersInfo())
             {
-                sensors.unsubscribe((String)sub[0]);
+                sensors.unsubscribe(sub[0].ToString());
             }
         }
 
@@ -189,7 +191,7 @@ namespace Naovigate.Util
             SonarProxy sonar = SonarProxy;
             foreach (ArrayList sub in (ArrayList)sonar.getSubscribersInfo())
             {
-                sonar.unsubscribe((String)sub[0]);
+                sonar.unsubscribe(sub[0].ToString());
             }
         }
 

@@ -7,3 +7,4 @@ Naovigate.Test/obj
 src/obj
 *.suo
 *.resources
+*log.txt

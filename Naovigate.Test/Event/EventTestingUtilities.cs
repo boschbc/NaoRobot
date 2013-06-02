@@ -1,15 +1,18 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Runtime.ExceptionServices;
 using NUnit.Framework;
 
 using Naovigate.Communication;
 using Naovigate.Util;
+using Naovigate.Movement;
 
 namespace Naovigate.Test.Event
 {
     public class EventTestingUtilities
     {
+        private static bool webotsAbsent = false;
         /// <summary>
         /// Creates a stream and fill it with data.
         /// </summary>
@@ -60,16 +63,42 @@ namespace Naovigate.Test.Event
         /// <returns>True if a connection to Webots was established succesfully.</returns>
         public static bool RequireWebots()
         {
-            try
-            {
-                EventTestingUtilities.ConnectWebots();
-                return true;
-            }
-            catch (UnavailableConnectionException)
+            if (webotsAbsent)
             {
                 Assert.Inconclusive();
                 return false;
             }
+            Logger.Log(typeof(EventTestingUtilities),"Requiring Webots");
+            try
+            {
+                EventTestingUtilities.ConnectWebots();
+                Logger.Log(typeof(EventTestingUtilities), "Connected Webots");
+                return true;
+            }
+            catch (UnavailableConnectionException)
+            {
+                webotsAbsent = true;
+                Assert.Inconclusive();
+                return false;
+            }
+        }
+
+        [HandleProcessCorruptedStateExceptions]
+        public static bool DisconnectWebots()
+        {
+            if (webotsAbsent) return false;
+            if (Naovigate.Util.NaoState.Instance.Connected)
+            {
+                bool res;
+                try
+                {
+                    Walk.Instance.StopMove();
+                    res = true;
+                }
+                catch{ res = false; }
+                return res;
+            }
+            return true;
         }
     }
 }

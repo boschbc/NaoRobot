@@ -154,11 +154,13 @@ namespace Naovigate.Movement
             {
                 return motion.moveIsActive();
             }
-            catch
+            catch(Exception e)
             {
-                Console.WriteLine("MotionError - Moving");
+                Logger.Log(this, e.GetType() + " : " + e.Message);
+                if (e.Message.Contains("Access")) return false;
                 // proxy is busy (moving) so return true
-                return true;
+                else return true;
+                
             }
         }
 

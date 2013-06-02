@@ -87,9 +87,10 @@ namespace Naovigate.Communication
         /// Write a string to the stream.
         /// </summary>
         /// <param name="x">A string.</param>
-        public override void WriteString(string x)
+        public override void WriteString(string msg)
         {
-            throw new NotImplementedException();
+            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(msg);
+            WriteRaw(bytes, 0, bytes.Length);
         }
 
         /// <summary>

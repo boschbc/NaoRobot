@@ -45,7 +45,7 @@ namespace Naovigate.Test.Event.GoalToNao
         [TearDown]
         public void TearDown()
         {
-            NaoState.Instance.Disconnect();
+            EventTestingUtilities.DisconnectWebots();
             EventQueue.Nao.Clear();
             EventQueue.Goal.Clear();
             EventQueue.Nao.UnsubscribeAll();
