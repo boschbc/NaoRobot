@@ -12,6 +12,7 @@ namespace Naovigate.Test.Event
 {
     public class EventTestingUtilities
     {
+        private static bool webotsAbsent = false;
         /// <summary>
         /// Creates a stream and fill it with data.
         /// </summary>
@@ -62,6 +63,11 @@ namespace Naovigate.Test.Event
         /// <returns>True if a connection to Webots was established succesfully.</returns>
         public static bool RequireWebots()
         {
+            if (webotsAbsent)
+            {
+                Assert.Inconclusive();
+                return false;
+            }
             Logger.Log(typeof(EventTestingUtilities),"Requiring Webots");
             try
             {
@@ -71,6 +77,7 @@ namespace Naovigate.Test.Event
             }
             catch (UnavailableConnectionException)
             {
+                webotsAbsent = true;
                 Assert.Inconclusive();
                 return false;
             }
@@ -79,6 +86,7 @@ namespace Naovigate.Test.Event
         [HandleProcessCorruptedStateExceptions]
         public static bool DisconnectWebots()
         {
+            if (webotsAbsent) return false;
             if (Naovigate.Util.NaoState.Instance.Connected)
             {
                 bool res;
