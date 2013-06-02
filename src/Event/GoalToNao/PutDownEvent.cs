@@ -55,11 +55,9 @@ namespace Naovigate.Event.GoalToNao
                 executor = Grabber.Instance.PutDown();
                 executor.NotifyWhenDone(StatusCheck);
                 executor.Start();
-                Logger.Log("fire try OK");
             }
             catch
             {
-                Logger.Log("firecatch");
                 StatusCheck();
             }
         }
@@ -73,15 +71,12 @@ namespace Naovigate.Event.GoalToNao
             
             if (executor != null && executor.Error is InvalidOperationException)
             {
-                Logger.Log("statuscheck invalidop");
                 statusEvent = new FailureEvent(code);
             }
             else
             {
-                Logger.Log("statuscheck else");
                 try
                 {
-                    Logger.Log("statuscheck try");
                     if (Grabber.Instance.HoldingObject())
                         statusEvent = new FailureEvent(code);
                 }
@@ -108,7 +103,6 @@ namespace Naovigate.Event.GoalToNao
             base.Abort();
             if (executor != null)
             {
-                Logger.Log("abort executor is not null");
                 executor.Abort();
             }
 

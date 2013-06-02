@@ -8,5 +8,7 @@ namespace Naovigate.GUI
     interface IRealtimeField
     {
         void UpdateContent();
+
+        void ResetContent();
     }
 }

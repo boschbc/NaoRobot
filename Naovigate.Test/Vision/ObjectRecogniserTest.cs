@@ -7,11 +7,13 @@ using Emgu.Util;
 
 using NUnit.Framework;
 
+using Naovigate.Vision;
+
 namespace Naovigate.Test.Vision
 {[TestFixture]
     class ObjectRecogniserTest
     {
-        Naovigate.Vision.ObjectRecogniser recogniser;
+        ObjectRecogniser recogniser;
 
         [SetUp]
         public void SetUp()

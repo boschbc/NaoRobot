@@ -1,4 +1,4 @@
-﻿namespace Naovigate.GUI
+﻿namespace Naovigate.GUI.State
 {
     partial class EventQueueMonitor
     {

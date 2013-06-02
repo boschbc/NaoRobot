@@ -1,6 +1,6 @@
-﻿namespace Naovigate.GUI
+﻿namespace Naovigate.GUI.State
 {
-    partial class LocationMonitor
+    partial class TemperatureMonitor
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,28 +28,27 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label = new System.Windows.Forms.Label();
+            this.labelAlert = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // label
+            // labelAlert
             // 
-            this.label.AutoSize = true;
-            this.label.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label.Location = new System.Drawing.Point(0, 0);
-            this.label.Name = "label";
-            this.label.Size = new System.Drawing.Size(100, 13);
-            this.label.TabIndex = 0;
-            this.label.Text = "Location: Unknown";
+            this.labelAlert.AutoSize = true;
+            this.labelAlert.Location = new System.Drawing.Point(3, 0);
+            this.labelAlert.Name = "labelAlert";
+            this.labelAlert.Size = new System.Drawing.Size(53, 13);
+            this.labelAlert.TabIndex = 3;
+            this.labelAlert.Text = "Unknown";
             // 
-            // LocationMonitor
+            // TemperatureMonitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.Controls.Add(this.label);
-            this.Name = "LocationMonitor";
-            this.Size = new System.Drawing.Size(100, 13);
+            this.Controls.Add(this.labelAlert);
+            this.Name = "TemperatureMonitor";
+            this.Size = new System.Drawing.Size(59, 13);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -57,6 +56,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label;
+        private System.Windows.Forms.Label labelAlert;
+
     }
 }

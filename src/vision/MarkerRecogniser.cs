@@ -29,9 +29,9 @@ namespace Naovigate.Vision
             memory = NaoState.Instance.MemoryProxy;
 
             Camera camera = new Camera("MarkerRecogniser");
-            camera.StartVideo();
+            camera.Subscribe();
             //camera.CalibrateCamera(3);
-            camera.StopVideo();
+            camera.Unsubscribe();
         }
 
         public static double estimateDistance(float sizeY)

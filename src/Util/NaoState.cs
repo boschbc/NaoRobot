@@ -91,9 +91,9 @@ namespace Naovigate.Util
             {
                 UnsubscribeAll();
             }
-            catch (Exception e)
+            catch (UnavailableConnectionException)
             {
-                Logger.Log(this, "Can't unsubscribe. Are you using WeBots?\n" + e);
+                Logger.Log(this, "Can't unsubscribe. But that's OK if you're using WeBots.");
             }
             ip = null;
             port = -1;
@@ -159,25 +159,66 @@ namespace Naovigate.Util
         }
 
         /// <summary>
-        /// Unsubscribes all instances of LandMarkDetectionProxy, SensorsProxy and SonarProxy.
+        /// Unsubscribes from any landmark-detection proxies.
         /// </summary>
-        private void UnsubscribeAll()
-        { 
+        private void UnsubscribeLandMarkProxies()
+        {
             LandMarkDetectionProxy landmark = LandMarkDetectionProxy;
             foreach (ArrayList sub in (ArrayList)landmark.getSubscribersInfo())
             {
                 landmark.unsubscribe((String)sub[0]);
             }
+        }
+
+        /// <summary>
+        /// Unsubscribes from any sensor proxies.
+        /// </summary>
+        private void UnsubscribeSensorProxies()
+        {
             foreach (ArrayList sub in (ArrayList)sensors.getSubscribersInfo())
             {
                 sensors.unsubscribe((String)sub[0]);
             }
-           
+        }
+
+        /// <summary>
+        /// Unsubscribes from any sonar proxies.
+        /// </summary>
+        private void UnsubscribeSonarProxies()
+        {
             SonarProxy sonar = SonarProxy;
             foreach (ArrayList sub in (ArrayList)sonar.getSubscribersInfo())
             {
                 sonar.unsubscribe((String)sub[0]);
             }
+        }
+
+        /// <summary>
+        /// Unsubscribes all instances of LandMarkDetectionProxy, SensorsProxy and SonarProxy.
+        /// </summary>
+        /// <returns>Whether an error occurred and some proxies could not be unsubbed.</returns>
+        private bool UnsubscribeAll()
+        {
+            bool noError = true;
+            Action[] unsubscribers = new Action[3] 
+            { 
+                UnsubscribeLandMarkProxies, 
+                UnsubscribeSensorProxies, 
+                UnsubscribeSonarProxies 
+            };
+
+            foreach (Action unsub in unsubscribers)
+            {
+                try
+                {
+                    unsub();
+                }
+                catch (UnavailableConnectionException)
+                {
+                    noError = false;
+                }
+            }
+            return noError;
         }
 
         /// <summary>

@@ -1,6 +1,6 @@
-﻿namespace Naovigate.GUI
+﻿namespace Naovigate.GUI.Server
 {
-    partial class DemoLauncherPanel
+    partial class LocalServerControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,31 +28,39 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.launchSonarDemo = new System.Windows.Forms.Button();
+            this.button = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // launchSonarDemo
+            // button
             // 
-            this.launchSonarDemo.Location = new System.Drawing.Point(3, 3);
-            this.launchSonarDemo.Name = "launchSonarDemo";
-            this.launchSonarDemo.Size = new System.Drawing.Size(75, 23);
-            this.launchSonarDemo.TabIndex = 0;
-            this.launchSonarDemo.Text = "Sonar Demo";
-            this.launchSonarDemo.UseVisualStyleBackColor = true;
-            this.launchSonarDemo.Click += new System.EventHandler(this.launchSonarDemo_Click);
+            this.button.AutoSize = true;
+            this.button.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.button.BackColor = System.Drawing.Color.LightCoral;
+            this.button.Location = new System.Drawing.Point(3, 3);
+            this.button.Name = "button";
+            this.button.Size = new System.Drawing.Size(37, 23);
+            this.button.TabIndex = 0;
+            this.button.Text = "OFF";
+            this.button.UseVisualStyleBackColor = false;
+            this.button.Click += new System.EventHandler(this.button_Click);
             // 
-            // DemoLauncherPanel
+            // LocalServerControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.launchSonarDemo);
-            this.Name = "DemoLauncherPanel";
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.Controls.Add(this.button);
+            this.Name = "LocalServerControl";
+            this.Size = new System.Drawing.Size(43, 29);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button launchSonarDemo;
+        private System.Windows.Forms.Button button;
+
     }
 }

@@ -6,6 +6,16 @@ namespace Naovigate.Event.GoalToNao
     public class SayEvent : NaoEvent
     {
         private string text;
+
+        /// <summary>
+        /// Explicit constructor.
+        /// </summary>
+        /// <param name="text">The text to say.</param>
+        public SayEvent(string text)
+        {
+            this.text = text;
+        }
+
         /// <summary>
         /// Extract the MarkerID and Distance parameters from the communication stream.
         /// </summary>

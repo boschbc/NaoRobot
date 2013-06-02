@@ -14,8 +14,8 @@ namespace Naovigate.Testing.GUI
     {
         public static void DebugMain()
         {
-            new Thread (new ThreadStart(StartGoalServer)).Start();
-            new Thread (new ThreadStart(StartGoalCommunication)).Start();
+            //new Thread (new ThreadStart(StartGoalServer)).Start();
+            //new Thread (new ThreadStart(StartGoalCommunication)).Start();
             StartDebugger();
         }
 
@@ -31,9 +31,10 @@ namespace Naovigate.Testing.GUI
 
         private static void StartDebugger()
         {
-            NaoState.Instance.Connect(MainProgram.ip, MainProgram.port);
+            //NaoState.Instance.Connect(MainProgram.ip, MainProgram.port);
+            Application.EnableVisualStyles();
             Application.Run(new NaoDebugger());
-            ExitDebugger();
+            //ExitDebugger();
         }
 
         private static void ExitDebugger()

@@ -23,8 +23,8 @@ namespace Naovigate.Event
         /// </summary>
         public NaoEvent()
         {
-            stream = GoalCommunicator.Instance.Coms;
-            priority = Priority.Medium;
+            Stream = GoalCommunicator.Instance.Stream;
+            Priority = Priority.Medium;
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace Naovigate.Event
         /// <param name="p">A priority. Either Low, Medium or High.</param>
         public NaoEvent(Priority p) : this()
         {
-            priority = p;
+            Priority = p;
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace Naovigate.Event
         public ICommunicationStream Stream
         {
             get { return stream; }
-            set { stream = value; }
+            protected set { stream = value; }
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Naovigate.Event
         public Priority Priority
         {
             get { return priority; }
-            set { priority = value; }
+            protected set { priority = value; }
         }
 
         /// <summary>

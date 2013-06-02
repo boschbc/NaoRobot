@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
+using Naovigate.GUI.Panels;
 namespace Naovigate.GUI
 {
     public partial class NaoDebugger : Form
@@ -14,12 +15,19 @@ namespace Naovigate.GUI
         public NaoDebugger()
         {
             InitializeComponent();
+            Load += new EventHandler(NaoDebugger_Load);
+            FormClosing += new FormClosingEventHandler(NaoDebugger_FormClosing);
         }
 
-        private void NaoDebugger_FormClosed(object sender, FormClosedEventArgs e)
+        void NaoDebugger_Load(object sender, EventArgs e)
         {
-            stateMonitorPanel.StopUpdate();
-            cameraMonitor.StopUpdate();
+           stateMonitorPanel.Active = true;
+        }
+
+        void NaoDebugger_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            stateMonitorPanel.Active = false;
+            liveCamera.Active = false;
         }
     }
 }

@@ -58,7 +58,6 @@ namespace Naovigate.Event
         Priority Priority
         {
             get;
-            set;
         }
 
         /// <summary>

@@ -4,101 +4,136 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+
 using Aldebaran.Proxies;
-
-using Naovigate.Util;
-
 using Emgu.CV;
 using Emgu.CV.Structure;
 using Emgu.Util;
 
+using Naovigate.Util;
+
 namespace Naovigate.Vision
 {
+    /// <summary>
+    /// A class that controls and manages one video proxy to a Nao.
+    /// </summary>
     public class Camera
     {
         private string subscriberID;
         private VideoDeviceProxy videoProxy;
-        private bool enabled;
-
+        
+        /// <summary>
+        /// Creates a new instance using given subscriber-ID.
+        /// </summary>
+        /// <param name="subID">The ID under which to subscribe to the Nao's video proxy.</param>
+        /// <exception cref="UnavailableConnectionException">If not connected to any Nao.</exception>
         public Camera(string subID)
         {
             subscriberID = subID;
             videoProxy = NaoState.Instance.VideoProxy;
-            Enabled = false;
+            Unsubscribe();  //Make sure that there is no other subscriber with this ID
         }
 
-
-        public bool Enabled
+        /// <summary>
+        /// Subscribers to the Nao's video stream.
+        /// </summary>
+        public void Subscribe()
         {
-            get { return enabled; }
-            set
+            if (!NaoState.Instance.Connected)
+                return;
+            try
             {
-                if (value)
-                    StartVideo();
-                else
-                    StopVideo();
-                enabled = value;
+                subscriberID = videoProxy.subscribeCamera(subscriberID, 0,
+                    1 /*kQVGA*/, 13 /*kRGB*/, 30);
+            }
+            catch
+            {
+                Logger.Log(this, "Could not subscribe to video proxy.");  
             }
         }
-        /*
-        * Inits the camera of the Nao with a specified subscriber ID.
-        */
-        public void StartVideo()
-        {
-            if (enabled)
-            {
-                StopVideo();
-            }
-            subscriberID = videoProxy.subscribeCamera(subscriberID, 0, 1 /*kQVGA*/, 13 /*kRGB*/, 30);
-        }
 
-        /*
-        * unsubscribe the camera of the nao with a specified name
-        */
-        public void StopVideo()
+        /// <summary>
+        /// Unsubscribes from the Nao's video stream.
+        /// </summary>
+        public void Unsubscribe()
         {
+            if (!NaoState.Instance.Connected)
+                return;
             try
             {
                 videoProxy.unsubscribe(subscriberID);
             }
             catch
             {
-                return; //Console.WriteLine("DisposeVideo: No Camera subscribed.");
+                Logger.Log(this, "Could not unsubscribe from video proxy.");
             }
         }
 
-        /*
-         * Fetches the current image from Nao's camera, in raw form.
-         * Pre: The video subscription was initiated using StartVideo()
-         * @throws an exception if not connected to any Nao.
-         */
+        /// <summary>
+        /// Fetches an image in raw format from the Nao's camera.
+        /// Pre: The camera is subscribed (using Subscribe()).
+        /// </summary>
+        /// <returns>
+        /// An array containing all sorts of data about the image see NaoQI docs for details.
+        /// Returns null if no image could be read.
+        /// </returns>
         private ArrayList GetRawImage()
         {
-            ArrayList imageObject = (ArrayList)videoProxy.getImageRemote(subscriberID);
-            return imageObject;
+            try
+            {
+                ArrayList imageObject = (ArrayList)videoProxy.getImageRemote(subscriberID);
+                return imageObject;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
-        /*
-         * Fetches the current image from Nao's camera.
-         * @returns null if not connected to any Nao.
-         * is nog niet super efficent
-         */
-        public Image<Rgb, Byte> GetImage()
+        /// <summary>
+        /// Retrieves an image from the Nao's camera.
+        /// </summary>
+        /// <returns>
+        /// A bitmap, or
+        /// null if no image could be retrieved.
+        /// </returns>
+        public Bitmap GetBitMap()
         {
-            if (!NaoState.Instance.Connected)
-                return null;
             ArrayList imageObject = GetRawImage();
-            int width = (int)imageObject[0];
-            int height = (int)imageObject[1];
-            byte[] imageBytes = (byte[])imageObject[6];
+            if (imageObject == null)
+                return null;
+
+            int width = (int) imageObject[0];
+            int height = (int) imageObject[1];
+            byte[] imageBytes = (byte[]) imageObject[6];
             var stride = 4 * ((width * 3 + 3) / 4);
             Bitmap imageBitMap = new Bitmap(width, height, stride,
                                 System.Drawing.Imaging.PixelFormat.Format24bppRgb,
                                 System.Runtime.InteropServices.Marshal.UnsafeAddrOfPinnedArrayElement(imageBytes, 0));
-            Image<Rgb, Byte> img = new Image<Rgb, Byte>(imageBitMap);
-            return img;
-            
+            return imageBitMap;     
         }
+
+        /// <summary>
+        /// Retrieves an image from the Nao's camera.
+        /// </summary>
+        /// <returns>
+        /// An Image object, or
+        /// null if no image could be retrieved.
+        /// </returns>
+        public Image<Rgb, Byte> GetImage()
+        {
+            Bitmap bitmap = GetBitMap();
+            if (bitmap == null)
+                return null;
+
+            Image<Rgb, Byte> image = new Image<Rgb, Byte>(bitmap);
+            return image;
+        }
+
+        /// <summary>
+        /// Who knows what this does?
+        /// </summary>
+        /// <param name="p"></param>
         public void CalibrateCamera(int p)
         {
             videoProxy.setCameraParameter(subscriberID, 22, p);

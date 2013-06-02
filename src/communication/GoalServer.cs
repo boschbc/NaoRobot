@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
 
 using Naovigate.Util;
 
@@ -16,35 +17,8 @@ namespace Naovigate.Communication
 
         private ICommunicationStream goalStream;
         private bool running = false;
+        private TcpListener listener;
         private TcpClient client;
-
-        /// <summary>
-        /// Establish a connection to the default server IP and port.
-        /// </summary>
-        public GoalServer() 
-        {
-            Start(GoalCommunicator.DefaultIP, GoalCommunicator.DefaultPort);
-        }
-
-        /// <summary>
-        /// Establish a connection to given server IP and port.
-        /// </summary>
-        /// <param name="ip">A string containing an IP.</param>
-        /// <param name="port">Port number.</param>
-        public void Start(string ip, int port)
-        {
-            Logger.Log(this, "Starting GOAL server...");
-            if (IsRunning)
-                return;
-            
-            TcpListener listener = new TcpListener(IPAddress.Parse(ip), port);
-            listener.Start();
-            client = listener.AcceptTcpClient();
-            goalStream = new BitStringCommunicationStream(client.GetStream());
-            listener.Stop();
-            running = true;
-            Logger.Log(this, "Server is running.");
-        }
 
         /// <summary>
         /// The GoalServer singleton's instance.
@@ -55,19 +29,62 @@ namespace Naovigate.Communication
         }
 
         /// <summary>
+        /// Create a new server instance.
+        /// </summary>
+        public GoalServer() { }
+
+        /// <summary>
         /// True if the server is currently running.
         /// </summary>
-        public Boolean IsRunning
+        public Boolean Running
         {
             get { return running; }
+            private set { running = value; }
         }
 
         /// <summary>
-        /// Simulate a goal server sending arguments to the GoalCommunicator.
+        /// Start a server listening to given IP and Port.
+        /// </summary>
+        /// <param name="ip">A string containing an IP.</param>
+        /// <param name="port">Port number.</param>
+        public void Start(string ip, int port)
+        {
+            if (Running)
+                return;
+            Logger.Log(this, "Starting GOAL server...");
+            new Thread(() => Listen(ip, port)).Start();
+            Running = true;
+            Logger.Log(this, "Server is running.");
+        }
+
+        public void Listen(string ip, int port)
+        {
+            Logger.Log(this, "Listening...");
+            listener = new TcpListener(IPAddress.Parse(ip), port);
+            listener.Start();
+            try
+            {
+                client = listener.AcceptTcpClient();
+                Logger.Log(this, "Accepted a client.");
+                goalStream = new BitStringCommunicationStream(client.GetStream());
+                listener.Stop();
+                Logger.Log(this, "Stopped listening.");
+            }
+            catch (SocketException)
+            {
+                Logger.Log(this, "Interrupted while listening.");
+            }
+        }
+        
+        /// <summary>
+        /// Sends data to the client.
         /// </summary>
         /// <param name="arg">A string representing the incoming data-stream.</param>
-        private void ExecuteArguments(string arg)
+        private void SendData(string arg)
         {
+            if (!Running)
+                return;
+
             String[] ss = Split(arg);
             
             for (int i = 0; i < ss.Length;i++ )
@@ -108,14 +125,16 @@ namespace Naovigate.Communication
         }
 
         /// <summary>
-        /// Parses incoming data.
+        /// Sends one or more instances of data to the client.
         /// </summary>
         /// <param name="args">One or more strings containing formatted data.</param>
-        public static void Execute(params string[] args)
+        public void SendDataRange(params string[] args)
         {
+            if (!Running)
+                return;
             for (int i = 0; i < args.Length; i++)
             {
-                Instance.ExecuteArguments(args[i]);
+                Instance.SendData(args[i]);
             }
         }
 
@@ -124,19 +143,19 @@ namespace Naovigate.Communication
         /// </summary>
         public void Close()
         {
-            Logger.Log(typeof(GoalServer), "Closing GOAL server...");
+            Logger.Log(this, "Closing GOAL server...");
             try
             {
-                if (instance != null && instance.client != null)
-                {
-                    instance.client.Close();
-                    running = false;
-                    Logger.Log(typeof(GoalServer), "Closed.");
-                }
+                if (listener != null)
+                    listener.Stop();
+                if (client != null)
+                    client.Close();
+                Running = false;
+                Logger.Log(this, "Closed.");
             }
             catch (SocketException e)
             {
-                Logger.Log(typeof(GoalServer), "Exception caught while closing GOAL server:\n" + e);
+                Logger.Log(this, "Exception caught while closing GOAL server:\n" + e);
             }
         }
     }

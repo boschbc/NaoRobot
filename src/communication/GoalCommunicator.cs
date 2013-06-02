@@ -13,13 +13,15 @@ namespace Naovigate.Communication
     /// <summary>
     /// A class that establishes and maintains a TCP connection to the GOAL-server.
     /// </summary>
-    public class GoalCommunicator : IDisposable
+    public class GoalCommunicator
     {
-        public static readonly String DefaultIP = "127.0.0.1";
-        public static readonly int DefaultPort = 6747;
+        public static readonly String DefaultIP = MainProgram.LocalHost;
+        public static readonly int DefaultPort = MainProgram.GoalPort;
 
         protected static GoalCommunicator instance = null;
-        
+
+        private object sLock = new object();
+
         protected IPAddress ip;
         protected int port;
         protected TcpClient client;
@@ -29,12 +31,22 @@ namespace Naovigate.Communication
         protected volatile bool running;
         protected int reconnectAttempCount;
 
+        /// <summary>
+        /// The GoalCommunicator instance.
+        /// </summary>
+        public static GoalCommunicator Instance
+        {
+            get { return instance == null ? instance = new GoalCommunicator(MainProgram.GoalIP, DefaultPort) : instance; }
+        }
+
+        /// <summary>
+        /// Creates a new communicator instance.
+        /// </summary>
         private GoalCommunicator()
         {
-            this.running = false;
+            Running = false;
             reconnectAttempCount = 0;
-            this.client = new TcpClient();
-            instance = this;
+            client = new TcpClient();
         }
 
         /// <summary>
@@ -43,6 +55,7 @@ namespace Naovigate.Communication
         /// </summary>
         /// <param name="ip">String containing an IP.</param>
         /// <param name="port">Port number.</param>
+        /// <exception cref="FormatException">The given string does not contain a properly formatted IP.</exception>
         public GoalCommunicator(String ip, int port) : this()
         {
             this.ip = IPAddress.Parse(ip);
@@ -66,62 +79,101 @@ namespace Naovigate.Communication
         }
 
         /// <summary>
-        /// The GoalCommunicator instance.
-        /// </summary>
-        public static GoalCommunicator Instance
-        {
-            get { return instance == null ? instance = new GoalCommunicator(MainProgram.goalIP, DefaultPort) : instance; }
-        }
-
-        /// <summary>
         /// Establish connection to the server.
         /// </summary>
+        /// <returns>True if connected successfully.</returns>
         public bool Connect()
         {
+            if (Running)
+                return false;
             try
             {
                 Logger.Log(this, "Connecting to: " + this.ip.ToString() + ":" + this.port.ToString());
                 client.Connect(this.endPoint);
                 stream = this.client.GetStream();
-                if (communicationStream == null) communicationStream = new BitStringCommunicationStream(stream);
-                else communicationStream.Stream = stream;
+                if (communicationStream == null)
+                    communicationStream = new BitStringCommunicationStream(stream);
+                else
+                {
+                    communicationStream.Stream = stream;
+                }
                 Logger.Log(this, "Connection established.");
-                EventQueue.Goal.Post(new AgentEvent());
-            } catch{
+                return true;
+            } 
+            catch (SocketException)
+            {
                 Logger.Log(this, "Connection could not be established, is the server running?");
                 return false;
             }
-            return true;
         }
 
         /// <summary>
-        /// attempt to reconnect a number of times.
+        /// Attempt to reconnect a given number of times.
         /// </summary>
-        /// <param name="attempts"></param>
-        /// <returns></returns>
+        /// <param name="attempts">The number of times to attempt reconnection.</param>
+        /// <returns>True if connection has been recovered.</returns>
         private bool Reconnect(int attempts)
         {
-            bool res = false;
-            for (int i = 0; i < attempts && !(res = Reconnect()); i++) ;
-            return attempts == 0 ? false : res;
+            bool success = false;
+            for (int i = 0; i < attempts && !(success = Reconnect()); i++) ;
+            return attempts == 0 ? false : success;
         }
 
         /// <summary>
-        /// reconnect the GoalCommunicator after a connection lost.
-        /// the calling thread will sleep for some time, depending on the attemps that were made.
+        /// Reconnect to the server.
+        /// The calling thread will sleep for some time, depending on the attemps that were made.
         /// </summary>
-        /// <param name="attempt"></param>
         /// <returns>true if the connection was restored, false otherwise.</returns>
         private bool Reconnect()
         {
             reconnectAttempCount++;
-            Logger.Log(this, "Reconnecting... attempt " + reconnectAttempCount + ", timeout = " + (1000 * (1 << reconnectAttempCount)));
-            
+            Logger.Log(this, "Reconnecting... attempt " + reconnectAttempCount + 
+                             ", timeout = " + (1000 * (1 << reconnectAttempCount)));
             client = new TcpClient();
-            bool res = Connect();
+            bool success = Connect();
             Thread.Sleep(500 * (1 << reconnectAttempCount));
-            if (res) reconnectAttempCount = 0; 
-            return res;
+            if (success)
+                reconnectAttempCount = 0; 
+            return success;
+        }
+
+        /// <summary>
+        /// Attempts to read incoming data from the server.
+        /// </summary>
+        private void ReceiveData()
+        {
+            if (!Running)
+                return;
+
+            byte code = 0;
+            try
+            {
+                code = communicationStream.ReadByte();
+                if (!Running)
+                    return;
+                INaoEvent naoEvent = NaoEventFactory.NewEvent(code);
+                EventQueue.Nao.Post(naoEvent);
+            }
+            catch (InvalidOperationException)
+            {
+                Logger.Log(this, "Communication stream got closed.");
+                communicationStream.Open = false;
+            }
+            catch (IOException)
+            {
+                Logger.Log(this, "Communication stream got closed.");
+                communicationStream.Open = false;
+            }
+            catch (InvalidEventCodeException)
+            {
+                Logger.Log(this, "Invalid event code received: " + code);
+                INaoEvent failureEvent = new FailureEvent(code);
+                EventQueue.Goal.Post(failureEvent);
+            }
+            catch (Exception e)
+            {
+                Logger.Log(this, "Unexpected exception occurred while processing incoming data: " + e);
+            }
         }
 
         /// <summary>
@@ -135,47 +187,27 @@ namespace Naovigate.Communication
         /// <summary>
         /// Start the main loop.
         /// </summary>
+        /// <exception cref="UnavailableConnectionException">Could not connect to server.</exception>
         public void Start()
         {
             if (this.client.Connected || Connect())
             {
                 Logger.Log(this, "Entering main loop.");
-                running = true;
-                while (IsRunning)
-                {   //connection lost, attempt to reconnect three times
+                Running = true;
+                while (Running)
+                {   
                     if (!communicationStream.Open && !Reconnect(3))
                     {
-                        throw new UnavailableConnectionException();
+                        throw new UnavailableConnectionException("Connection to server has been lost.",
+                            IP.ToString(), Port);
                     }
-                    byte code = 0;
-                    try
-                    {
-                        code = communicationStream.ReadByte();
-                        INaoEvent naoEvent = NaoEventFactory.NewEvent(code);
-                        EventQueue.Nao.Post(naoEvent);
-                    }
-                    catch (IOException e)  //Communication Stream got closed.
-                    {
-                        Logger.Log(this, "Communication stream closed: " + e.Message);
-                        communicationStream.Open = false;
-                    }
-                    catch (InvalidEventCodeException)  //Received invalid event code.
-                    {
-                        Logger.Log(this, "Invalid event code received: " + code);
-                        INaoEvent failureEvent = new FailureEvent(code);
-                        EventQueue.Goal.Post(failureEvent);
-                    }
-                    catch (Exception e)
-                    {
-                        Logger.Log(this, "Unexpected exception occurred while processing incoming data: " + e.ToString());
-                    }
+                    ReceiveData();
                 }
-                Dispose();
                 Logger.Log(this, "Exiting main loop.");
             }
             else
             {
-                throw new UnavailableConnectionException();
+                throw new UnavailableConnectionException("Could not connect to the server.", IP, Port);
             }
         }
 
@@ -184,54 +216,67 @@ namespace Naovigate.Communication
         /// </summary>
         public void Close()
         {
+            if (!Running)
+                return;
             Logger.Log(this, "Disconnecting from server...");
-            this.running = false;
-            if(communicationStream != null) communicationStream.Close();
+            if(communicationStream != null)
+                communicationStream.Close();
+            if (client != null)
+                client.Close();
+            Running = false;
             Logger.Log(this, "Disconnected.");
-        }
-
-        /// <summary>
-        /// Terminates the communicator and performs clean-up.
-        /// </summary>
-        public void Dispose()
-        {
-            Close();
         }
 
         /// <summary>
         /// The internal network stream.
         /// </summary>
-        public virtual NetworkStream Stream {
-            get { return this.stream; }
-        }
+        //public virtual NetworkStream NetworkStream 
+        //{
+        //    get 
+        //    {
+        //        lock (sLock)
+        //            return stream; 
+        //    }
+        //}
 
         /// <summary>
         /// The internal communication stream.
         /// </summary>
-        public virtual ICommunicationStream Coms
+        public virtual ICommunicationStream Stream
         {
-            get { return this.communicationStream; }
+            get
+            {
+                lock (sLock)
+                    return communicationStream;
+            }
         }
 
         /// <summary>
         /// The connection's IP address.
         /// </summary>
-        public IPAddress IP {
-            get { return this.ip; }
+        public IPAddress IP
+        {
+            get { return ip; }
         }
 
         /// <summary>
         /// The connection's port number.
         /// </summary>
-        public int Port {
-            get { return this.port; }
+        public int Port 
+        {
+            get { return port; }
         }
 
         /// <summary>
         /// The communicator's state.
         /// </summary>
-        public bool IsRunning {
-            get { return this.running; }
+        public bool Running
+        {
+            get { return running; }
+            private set {
+                lock (sLock)
+                    running = value; 
+            }
         }
     }
 }

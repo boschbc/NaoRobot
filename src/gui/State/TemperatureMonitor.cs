@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 using Naovigate.Util;
 
-namespace Naovigate.GUI
+namespace Naovigate.GUI.State
 {
     public partial class TemperatureMonitor : UserControl, IRealtimeField
     {
@@ -34,21 +34,26 @@ namespace Naovigate.GUI
             labelAlert.ForeColor = System.Drawing.Color.Red;
         }
 
+        public void ResetContent()
+        {
+            //Avoid cross-thread exception:
+            if (labelAlert.InvokeRequired)
+                labelAlert.Invoke(new MethodInvoker(ResetContent));
+            SetTemperatureUnknown();
+        }
+
         public void UpdateContent()
         {
             //Avoid cross-thread exception:
             if (labelAlert.InvokeRequired)
-            {
                 labelAlert.Invoke(new MethodInvoker(UpdateContent));
-            }
+            
+            labelAlert.Text = String.Format(Format, NaoState.Instance.Temperature.ToString());
+            if (NaoState.Instance.Temperature > 40)
+                SetTemperatureHot();
             else
-            {
-                labelAlert.Text = String.Format(Format, NaoState.Instance.Temperature.ToString());
-                if (NaoState.Instance.Temperature > 40)
-                    SetTemperatureHot();
-                else
-                    SetTemperatureOK();
-            }
+                SetTemperatureOK();
+            
         }
     }
 }

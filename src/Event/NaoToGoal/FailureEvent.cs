@@ -33,7 +33,7 @@ namespace Naovigate.Event.NaoToGoal
         /// <summary>
         /// Send this event across the connection.
         /// </summary>
-        public override void Fire()
+        protected override void Send()
         {
             SendAsByte();
             if (stream.GetType() == typeof(BitStringCommunicationStream))

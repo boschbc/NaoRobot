@@ -1,5 +1,7 @@
 ﻿using System;
+
 using Naovigate.Communication;
+using Naovigate.Util;
 
 namespace Naovigate.Event.NaoToGoal
 {
@@ -63,13 +65,28 @@ namespace Naovigate.Event.NaoToGoal
         }
 
         /// <summary>
+        /// Sends information across the stream.
+        /// </summary>
+        protected virtual void Send() 
+        {
+            SendAsInt();
+            if (stream.GetType() == typeof(BitStringCommunicationStream))
+                stream.WriteNewline();
+        }
+
+        /// <summary>
         /// Fire this event.
         /// </summary>
         public override void Fire()
         {
-            SendAsInt();
-            if(stream.GetType() == typeof(BitStringCommunicationStream))
-                stream.WriteNewline();
+            try
+            {
+                Send();
+            }
+            catch (Exception e)
+            {
+                Logger.Log(this, "Failed to fire: " + e);
+            }
         }
 
         /// <summary>

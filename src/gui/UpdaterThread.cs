@@ -12,10 +12,10 @@ namespace Naovigate.GUI
         private bool enabled;
         private Action DoWork;
 
-        public UpdaterThread(int interval_, Action DoWork_)
+        public UpdaterThread(int interval, Action DoWork)
         {
-            DoWork = DoWork_;
-            interval = interval_;
+            this.DoWork = DoWork;
+            this.interval = interval;
         }
 
         public bool Enabled

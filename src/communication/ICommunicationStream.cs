@@ -94,7 +94,8 @@ namespace Naovigate.Communication
         /// <summary>
         /// Underlying stream.
         /// </summary>
-        Stream Stream{
+        Stream Stream
+        {
             get;
             set;
         }
@@ -102,7 +103,8 @@ namespace Naovigate.Communication
         /// <summary>
         /// boolean indicationg if this stream is open for data input/output
         /// </summary>
-        bool Open{
+        bool Open
+        {
             get;
             set;
         }

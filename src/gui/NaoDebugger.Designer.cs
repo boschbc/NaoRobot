@@ -28,118 +28,217 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.cameraBox = new System.Windows.Forms.GroupBox();
-            this.cameraMonitor = new Naovigate.GUI.CameraMonitor();
-            this.stateBox = new System.Windows.Forms.GroupBox();
-            this.stateMonitorPanel = new Naovigate.GUI.StateMonitorPanel();
-            this.goalSimulatorBox = new System.Windows.Forms.GroupBox();
-            this.goalSimulator1 = new Naovigate.GUI.GoalSimulator();
-            this.eventLauncherPanel = new Naovigate.GUI.EventLauncherPanel();
-            this.cameraBox.SuspendLayout();
-            this.stateBox.SuspendLayout();
-            this.goalSimulatorBox.SuspendLayout();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.tabControl = new System.Windows.Forms.TabControl();
+            this.eventsTab = new System.Windows.Forms.TabPage();
+            this.goalTab = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.localServerPanel1 = new Naovigate.GUI.Goal.LocalServerPanel();
+            this.remoteServerControl1 = new Naovigate.GUI.Goal.RemoteServerControl();
+            this.stateTab = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.stateMonitorPanel = new Naovigate.GUI.State.StateMonitorPanel();
+            this.naoConnection = new Naovigate.GUI.State.NaoConnection();
+            this.liveCamera = new Naovigate.GUI.LiveCamera.LiveCamera();
+            this.eventLauncherPanel1 = new Naovigate.GUI.Panels.EventLauncherPanel();
+            this.panel1.SuspendLayout();
+            this.tabControl.SuspendLayout();
+            this.eventsTab.SuspendLayout();
+            this.goalTab.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            this.stateTab.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // cameraBox
+            // panel1
             // 
-            this.cameraBox.AutoSize = true;
-            this.cameraBox.Controls.Add(this.cameraMonitor);
-            this.cameraBox.Dock = System.Windows.Forms.DockStyle.Right;
-            this.cameraBox.Location = new System.Drawing.Point(338, 0);
-            this.cameraBox.Name = "cameraBox";
-            this.cameraBox.Size = new System.Drawing.Size(335, 368);
-            this.cameraBox.TabIndex = 0;
-            this.cameraBox.TabStop = false;
-            this.cameraBox.Text = "Camera";
+            this.panel1.Controls.Add(this.tabControl);
+            this.panel1.Controls.Add(this.liveCamera);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(614, 422);
+            this.panel1.TabIndex = 1;
             // 
-            // cameraMonitor
+            // tabControl
             // 
-            this.cameraMonitor.Location = new System.Drawing.Point(9, 19);
-            this.cameraMonitor.Name = "cameraMonitor";
-            this.cameraMonitor.Size = new System.Drawing.Size(320, 276);
-            this.cameraMonitor.TabIndex = 0;
+            this.tabControl.Controls.Add(this.eventsTab);
+            this.tabControl.Controls.Add(this.goalTab);
+            this.tabControl.Controls.Add(this.stateTab);
+            this.tabControl.Dock = System.Windows.Forms.DockStyle.Left;
+            this.tabControl.Location = new System.Drawing.Point(0, 0);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(265, 422);
+            this.tabControl.TabIndex = 1;
             // 
-            // stateBox
+            // eventsTab
             // 
-            this.stateBox.AutoSize = true;
-            this.stateBox.Controls.Add(this.stateMonitorPanel);
-            this.stateBox.Location = new System.Drawing.Point(12, 131);
-            this.stateBox.Name = "stateBox";
-            this.stateBox.Size = new System.Drawing.Size(200, 128);
-            this.stateBox.TabIndex = 2;
-            this.stateBox.TabStop = false;
-            this.stateBox.Text = "State";
+            this.eventsTab.Controls.Add(this.eventLauncherPanel1);
+            this.eventsTab.Location = new System.Drawing.Point(4, 22);
+            this.eventsTab.Name = "eventsTab";
+            this.eventsTab.Padding = new System.Windows.Forms.Padding(3);
+            this.eventsTab.Size = new System.Drawing.Size(257, 396);
+            this.eventsTab.TabIndex = 1;
+            this.eventsTab.Text = "Events";
+            this.eventsTab.UseVisualStyleBackColor = true;
+            // 
+            // goalTab
+            // 
+            this.goalTab.Controls.Add(this.tableLayoutPanel2);
+            this.goalTab.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.goalTab.Location = new System.Drawing.Point(4, 22);
+            this.goalTab.Name = "goalTab";
+            this.goalTab.Size = new System.Drawing.Size(257, 396);
+            this.goalTab.TabIndex = 2;
+            this.goalTab.Text = "Goal";
+            this.goalTab.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 1;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Controls.Add(this.localServerPanel1, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.remoteServerControl1, 0, 1);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 3;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(257, 396);
+            this.tableLayoutPanel2.TabIndex = 0;
+            // 
+            // localServerPanel1
+            // 
+            this.localServerPanel1.AutoSize = true;
+            this.localServerPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.localServerPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.localServerPanel1.Location = new System.Drawing.Point(3, 3);
+            this.localServerPanel1.MinimumSize = new System.Drawing.Size(170, 40);
+            this.localServerPanel1.Name = "localServerPanel1";
+            this.localServerPanel1.Size = new System.Drawing.Size(251, 40);
+            this.localServerPanel1.TabIndex = 0;
+            // 
+            // remoteServerControl1
+            // 
+            this.remoteServerControl1.AutoSize = true;
+            this.remoteServerControl1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.remoteServerControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.remoteServerControl1.Location = new System.Drawing.Point(3, 49);
+            this.remoteServerControl1.MinimumSize = new System.Drawing.Size(235, 20);
+            this.remoteServerControl1.Name = "remoteServerControl1";
+            this.remoteServerControl1.Size = new System.Drawing.Size(251, 71);
+            this.remoteServerControl1.TabIndex = 1;
+            // 
+            // stateTab
+            // 
+            this.stateTab.Controls.Add(this.tableLayoutPanel1);
+            this.stateTab.Location = new System.Drawing.Point(4, 22);
+            this.stateTab.Name = "stateTab";
+            this.stateTab.Padding = new System.Windows.Forms.Padding(3);
+            this.stateTab.Size = new System.Drawing.Size(257, 396);
+            this.stateTab.TabIndex = 0;
+            this.stateTab.Text = "State";
+            this.stateTab.UseVisualStyleBackColor = true;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.ColumnCount = 1;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.stateMonitorPanel, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.naoConnection, 0, 0);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(251, 390);
+            this.tableLayoutPanel1.TabIndex = 0;
             // 
             // stateMonitorPanel
             // 
-            this.stateMonitorPanel.AutoSize = true;
+            this.stateMonitorPanel.Active = false;
             this.stateMonitorPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.stateMonitorPanel.Location = new System.Drawing.Point(6, 19);
+            this.stateMonitorPanel.Location = new System.Drawing.Point(3, 80);
             this.stateMonitorPanel.Name = "stateMonitorPanel";
-            this.stateMonitorPanel.Size = new System.Drawing.Size(163, 90);
-            this.stateMonitorPanel.TabIndex = 1;
+            this.stateMonitorPanel.Size = new System.Drawing.Size(245, 189);
+            this.stateMonitorPanel.TabIndex = 0;
             // 
-            // goalSimulatorBox
+            // naoConnection
             // 
-            this.goalSimulatorBox.AutoSize = true;
-            this.goalSimulatorBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.goalSimulatorBox.Controls.Add(this.goalSimulator1);
-            this.goalSimulatorBox.Location = new System.Drawing.Point(12, 265);
-            this.goalSimulatorBox.Name = "goalSimulatorBox";
-            this.goalSimulatorBox.Size = new System.Drawing.Size(218, 123);
-            this.goalSimulatorBox.TabIndex = 4;
-            this.goalSimulatorBox.TabStop = false;
-            this.goalSimulatorBox.Text = "GOAL";
+            this.naoConnection.AutoSize = true;
+            this.naoConnection.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.naoConnection.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.naoConnection.Location = new System.Drawing.Point(3, 3);
+            this.naoConnection.MinimumSize = new System.Drawing.Size(190, 20);
+            this.naoConnection.Name = "naoConnection";
+            this.naoConnection.Size = new System.Drawing.Size(245, 71);
+            this.naoConnection.TabIndex = 1;
             // 
-            // goalSimulator1
+            // liveCamera
             // 
-            this.goalSimulator1.AutoSize = true;
-            this.goalSimulator1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.goalSimulator1.Location = new System.Drawing.Point(6, 19);
-            this.goalSimulator1.Name = "goalSimulator1";
-            this.goalSimulator1.Size = new System.Drawing.Size(206, 85);
-            this.goalSimulator1.TabIndex = 0;
+            this.liveCamera.Active = false;
+            this.liveCamera.AutoSize = true;
+            this.liveCamera.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.liveCamera.ImageSource = null;
+            this.liveCamera.Location = new System.Drawing.Point(264, 8);
+            this.liveCamera.Name = "liveCamera";
+            this.liveCamera.Size = new System.Drawing.Size(338, 397);
+            this.liveCamera.TabIndex = 0;
             // 
-            // eventLauncherPanel
+            // eventLauncherPanel1
             // 
-            this.eventLauncherPanel.AutoSize = true;
-            this.eventLauncherPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.eventLauncherPanel.Location = new System.Drawing.Point(12, 12);
-            this.eventLauncherPanel.Name = "eventLauncherPanel";
-            this.eventLauncherPanel.Size = new System.Drawing.Size(215, 113);
-            this.eventLauncherPanel.TabIndex = 3;
+            this.eventLauncherPanel1.AutoSize = true;
+            this.eventLauncherPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.eventLauncherPanel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.eventLauncherPanel1.Location = new System.Drawing.Point(3, 3);
+            this.eventLauncherPanel1.Name = "eventLauncherPanel1";
+            this.eventLauncherPanel1.Size = new System.Drawing.Size(251, 104);
+            this.eventLauncherPanel1.TabIndex = 0;
             // 
             // NaoDebugger
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(673, 500);
-            this.Controls.Add(this.goalSimulatorBox);
-            this.Controls.Add(this.eventLauncherPanel);
-            this.Controls.Add(this.stateBox);
-            this.Controls.Add(this.cameraBox);
+            this.ClientSize = new System.Drawing.Size(614, 422);
+            this.Controls.Add(this.panel1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MinimumSize = new System.Drawing.Size(620, 450);
             this.Name = "NaoDebugger";
             this.Text = "NaoDebugger";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.NaoDebugger_FormClosed);
-            this.cameraBox.ResumeLayout(false);
-            this.stateBox.ResumeLayout(false);
-            this.stateBox.PerformLayout();
-            this.goalSimulatorBox.ResumeLayout(false);
-            this.goalSimulatorBox.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.tabControl.ResumeLayout(false);
+            this.eventsTab.ResumeLayout(false);
+            this.eventsTab.PerformLayout();
+            this.goalTab.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
+            this.stateTab.ResumeLayout(false);
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.GroupBox cameraBox;
-        private CameraMonitor cameraMonitor;
-        private StateMonitorPanel stateMonitorPanel;
-        private System.Windows.Forms.GroupBox stateBox;
-        private EventLauncherPanel eventLauncherPanel;
-        private System.Windows.Forms.GroupBox goalSimulatorBox;
-        private GoalSimulator goalSimulator1;
+        private System.Windows.Forms.Panel panel1;
+        private LiveCamera.LiveCamera liveCamera;
+        private System.Windows.Forms.TabControl tabControl;
+        private System.Windows.Forms.TabPage stateTab;
+        private System.Windows.Forms.TabPage eventsTab;
+        private System.Windows.Forms.TabPage goalTab;
+        private State.StateMonitorPanel stateMonitorPanel;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private State.NaoConnection naoConnection;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private Goal.LocalServerPanel localServerPanel1;
+        private Goal.RemoteServerControl remoteServerControl1;
+        private Panels.EventLauncherPanel eventLauncherPanel1;
+
     }
 }

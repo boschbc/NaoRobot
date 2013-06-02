@@ -37,7 +37,7 @@ namespace Naovigate.Event.GoalToNao
         /// <param name="locations">List of MarkerID's</param>
         public GoToEvent(ICollection<Point> locations)
         {
-
+            this.locations = new List<Point>(locations);
         }
         
         /// <summary>

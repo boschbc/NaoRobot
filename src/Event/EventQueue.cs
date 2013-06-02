@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading;
 using System.ComponentModel;
 
+using Naovigate.Communication;
+using Naovigate.Event.NaoToGoal;
 using Naovigate.Util;
 
 namespace Naovigate.Event
@@ -85,25 +87,35 @@ namespace Naovigate.Event
         }
 
         /// <summary>
-        /// Posts one or more events into the queue.
+        /// Posts an event to the queue.
         /// </summary>
-        /// <param name="events">One or more events.</param>
+        /// <param name="events">A NaoEvent.</param>
         /// <exception cref="InvalidOperationException">The queue was terminated prior to this method-invocation.</exception>
-        public void Post(params INaoEvent[] events)
+        public void Post(INaoEvent e)
         {
             if (!IsRunning)
                 throw new InvalidOperationException("Cannot post events to a terminated queue.");
             lock (q)
             {
-                foreach (INaoEvent e in events)
-                {
-                    if (EventPosted != null)
-                        EventPosted(e);
-                    Logger.Log(this, "Posting event: " + e.ToString());
-                    q.Enqueue(e, (int)e.Priority);
-                }
+                if (EventPosted != null)
+                    EventPosted(e);
+                Logger.Log(this, "Posting event: " + e.ToString());
+                q.Enqueue(e, (int)e.Priority);  
             }
             locker.Set();
+        }
+
+        /// <summary>
+        /// Posts one or more events into the queue.
+        /// </summary>
+        /// <param name="events">One or more events.</param>
+        public void Post(params INaoEvent[] events)
+        {
+            lock (q)
+            {
+                foreach (INaoEvent e in events)
+                    Post(e);
+            }
         }
 
         /// <summary>

@@ -1,6 +1,6 @@
-﻿namespace Naovigate.GUI
+﻿namespace Naovigate.GUI.State
 {
-    partial class TemperatureMonitor
+    partial class LocationMonitor
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,38 +28,27 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.labelTitle = new System.Windows.Forms.Label();
-            this.labelAlert = new System.Windows.Forms.Label();
+            this.locationLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // labelTitle
+            // locationLabel
             // 
-            this.labelTitle.AutoSize = true;
-            this.labelTitle.Location = new System.Drawing.Point(-3, 0);
-            this.labelTitle.Name = "labelTitle";
-            this.labelTitle.Size = new System.Drawing.Size(70, 13);
-            this.labelTitle.TabIndex = 0;
-            this.labelTitle.Text = "Temperature:";
+            this.locationLabel.AutoSize = true;
+            this.locationLabel.Location = new System.Drawing.Point(3, 0);
+            this.locationLabel.Name = "locationLabel";
+            this.locationLabel.Size = new System.Drawing.Size(53, 13);
+            this.locationLabel.TabIndex = 6;
+            this.locationLabel.Text = "Unknown";
             // 
-            // labelAlert
-            // 
-            this.labelAlert.AutoSize = true;
-            this.labelAlert.Location = new System.Drawing.Point(65, 0);
-            this.labelAlert.Name = "labelAlert";
-            this.labelAlert.Size = new System.Drawing.Size(53, 13);
-            this.labelAlert.TabIndex = 1;
-            this.labelAlert.Text = "Unknown";
-            // 
-            // TemperatureMonitor
+            // LocationMonitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.Controls.Add(this.labelAlert);
-            this.Controls.Add(this.labelTitle);
-            this.Name = "TemperatureMonitor";
-            this.Size = new System.Drawing.Size(121, 13);
+            this.Controls.Add(this.locationLabel);
+            this.Name = "LocationMonitor";
+            this.Size = new System.Drawing.Size(59, 13);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -67,7 +56,7 @@
 
         #endregion
 
-        private System.Windows.Forms.Label labelTitle;
-        private System.Windows.Forms.Label labelAlert;
+        private System.Windows.Forms.Label locationLabel;
+
     }
 }

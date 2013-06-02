@@ -10,7 +10,7 @@ using Naovigate.Event.NaoToGoal;
 using Naovigate.Event.GoalToNao;
 using Naovigate.Util;
 
-namespace Naovigate.GUI
+namespace Naovigate.GUI.State
 {
     public partial class EventQueueMonitor : UserControl
     {

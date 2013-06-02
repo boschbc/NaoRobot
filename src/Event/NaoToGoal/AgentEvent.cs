@@ -5,21 +5,27 @@ using Naovigate.Util;
 
 namespace Naovigate.Event.NaoToGoal
 {
-    /*
-     * Send the Nao id. The id consists of the last number of the ip address.
-     */
+    /// <summary>
+    /// Send the Nao ID.
+    /// </summary>
     public class AgentEvent : DataSendingNaoEvent
     {
         public new static readonly EventCode code = EventCode.Agent;
 
-        /*
-         * Explicit constructor.
-         */
+        /// <summary>
+        /// Implicit constructor.
+        /// </summary>
         public AgentEvent() : base((byte) EventCode.Agent, AgentEvent.ID) { }
 
-        /*
-         * Get the ID of the currently connected to Nao agent.
-         */
+        /// <summary>
+        /// Explicit constructor.
+        /// </summary>
+        /// <param name="id"></param>
+        public AgentEvent(int id) : base((byte)EventCode.Agent, id) { }
+
+        /// <summary>
+        /// Get the ID of the currently connected to Nao agent.
+        /// </summary>
         private static int ID
         {
             get { return NaoState.Instance.IP.GetHashCode(); }

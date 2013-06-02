@@ -22,10 +22,10 @@ namespace Naovigate.Communication
         private static readonly int ticksToMsRatio = 10000;
         protected static readonly int timeoutInMs = 10000;
         protected static readonly int timeout = timeoutInMs * ticksToMsRatio;
-        protected Queue<byte> buffer;
-        protected Stream stream;
-        protected object wLock = new object();
-        protected object rLock = new object();
+        private Queue<byte> buffer;
+        private Stream stream;
+        private object wLock = new object();
+        private object rLock = new object();
 
         /// <summary>
         /// Creates a new instance wrapped around a given stream.
@@ -33,13 +33,12 @@ namespace Naovigate.Communication
         /// <param name="stream">The stream to wrap.</param>
         public AbstractCommunicationStream(Stream stream)
         {
-            this.stream = stream;
-            InitStream();
+            Stream = stream;
             buffer = new Queue<byte>();
         }
 
         /// <summary>
-        /// set the timeout of this stream, if this stream supports timeouts
+        /// Sets the timeout of this stream, if this stream supports timeouts.
         /// </summary>
         protected void InitStream()
         {
@@ -51,32 +50,28 @@ namespace Naovigate.Communication
         }
 
         /// <summary>
-        /// buffer the data 
+        /// Buffers given data. 
         /// </summary>
-        /// <param name="data">the data</param>
-        /// <param name="off">point to start writing from</param>
-        /// <param name="len">the amount of bytes to buffer</param>
+        /// <param name="data">Byte array.</param>
+        /// <param name="off">Offset.</param>
+        /// <param name="len">The amount of bytes to buffer.</param>
         protected void Buffer(byte[] data, int off, int len)
         {
-            Logger.Log(this, "Stream null, Buffering data.");
+            Logger.Log(this, "Buffering data.");
             for (int i = off; i < off + len; i++)
             {
                 buffer.Enqueue(data[i]);
             }
         }
 
-        
-
         /// <summary>
         /// Write to the stream.
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="data">Byte array.</param>
         public void Write(byte[] data)
         {
             Write(data, 0, data.Length);
-        }
-        
-        
+        }  
         
         /// <summary>
         /// Write a byte to the stream.
@@ -106,14 +101,14 @@ namespace Naovigate.Communication
         }
 
         /// <summary>
-        /// Writes the last bytes from x.
+        /// Retrieves the last len bytes of a given long and writes them to the stream.
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="bytes"></param>
-        public void WriteBytesFromValue(long x, int bytes)
+        /// <param name="x">A long to be chunked.</param>
+        /// <param name="len">The amount of bytes to chunk and write to the stream.</param>
+        public void WriteBytesFromValue(long x, int len)
         {
-            byte[] data = new byte[bytes];
-            for (int i = bytes - 1; i >= 0; i--)
+            byte[] data = new byte[len];
+            for (int i = len - 1; i >= 0; i--)
             {
                 data[i] = (byte)(x & 0xFF);
                 x = x >> 8;
@@ -130,8 +125,6 @@ namespace Naovigate.Communication
         {
             return Read(buf, 0, buf.Length);
         }
-
-        
 
         /// <summary>
         /// Read a byte.
@@ -167,7 +160,8 @@ namespace Naovigate.Communication
         /// <returns>A long.</returns>
         public long ReadBytesToValue(int bytes)
         {
-            if (bytes > 8) throw new ArgumentException("Can't read more then 8 bytes to a 64 bit value.");
+            if (bytes > 8)
+                throw new ArgumentException("Can't read more then 8 bytes to a 64 bit value.");
             byte[] buf = new byte[bytes];
             Read(buf);
             long res = 0;
@@ -184,7 +178,7 @@ namespace Naovigate.Communication
          */
 
         /// <summary>
-        /// Fill the buffer buf with data from the stream, starting at off.
+        /// Fill the buffer buf with data from the stream, starting at given offset.
         /// blocks until the bytes are available.
         /// </summary>
         /// <param name="buf">The buff to be filled.</param>
@@ -194,7 +188,8 @@ namespace Naovigate.Communication
         protected int ReadRaw(byte[] buf, int off, int length)
         {
             long time = DateTime.Now.Ticks;
-            if (stream == null) throw new IOException("Stream Closed, this should be given a new stream to use.");
+            if (stream == null)
+                throw new IOException("Stream Closed, this should be given a new stream to use.");
             // start at offset
             int pos = off;
             lock (rLock)
@@ -294,7 +289,7 @@ namespace Naovigate.Communication
         public bool Open
         {
             get { return stream != null; }
-            set { if(!value) stream = null; }
+            set { if (!value) stream = null; }
         }
 
         /// <summary>
@@ -303,11 +298,14 @@ namespace Naovigate.Communication
         public void Close()
         {
             buffer.Clear();
-            if(stream != null) stream.Close();
+            if (stream != null)
+            {
+                stream.Close();
+            }
         }
 
         /// <summary>
-        /// Write from data to the stream, starting from given offset, writing len bytes.
+        /// Write data to the stream, starting from given offset, writing len bytes.
         /// </summary>
         /// <param name="data">Data to be written to the socket.</param>
         /// <param name="off">Offset.</param>
@@ -315,7 +313,7 @@ namespace Naovigate.Communication
         public abstract void Write(byte[] data, int off, int len);
 
         /// <summary>
-        /// Fill the buffer buf with data from the stream, starting at off.
+        /// Fill the buffer with data from the stream, starting at given offset.
         /// </summary>
         /// <param name="buf">The buff to be filled.</param>
         /// <param name="off">Offset.</param>

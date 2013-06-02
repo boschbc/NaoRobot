@@ -1,4 +1,4 @@
-﻿namespace Naovigate.GUI
+﻿namespace Naovigate.GUI.State
 {
     partial class BatteryMonitor
     {
@@ -29,44 +29,33 @@
         private void InitializeComponent()
         {
             this.batteryGauge = new System.Windows.Forms.ProgressBar();
-            this.label = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // batteryGauge
             // 
-            this.batteryGauge.Location = new System.Drawing.Point(52, 9);
+            this.batteryGauge.Location = new System.Drawing.Point(0, 0);
             this.batteryGauge.MaximumSize = new System.Drawing.Size(100, 15);
             this.batteryGauge.Name = "batteryGauge";
-            this.batteryGauge.Size = new System.Drawing.Size(100, 15);
+            this.batteryGauge.Size = new System.Drawing.Size(74, 15);
             this.batteryGauge.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.batteryGauge.TabIndex = 0;
-            // 
-            // label
-            // 
-            this.label.AutoSize = true;
-            this.label.Location = new System.Drawing.Point(3, 9);
-            this.label.Name = "label";
-            this.label.Size = new System.Drawing.Size(43, 13);
-            this.label.TabIndex = 1;
-            this.label.Text = "Battery:";
+            this.batteryGauge.TabIndex = 2;
             // 
             // BatteryMonitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.Controls.Add(this.label);
             this.Controls.Add(this.batteryGauge);
             this.Name = "BatteryMonitor";
-            this.Size = new System.Drawing.Size(161, 32);
+            this.Size = new System.Drawing.Size(77, 18);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
         private System.Windows.Forms.ProgressBar batteryGauge;
-        private System.Windows.Forms.Label label;
+
     }
 }

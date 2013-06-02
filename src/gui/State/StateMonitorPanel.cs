@@ -7,7 +7,7 @@ using System.Threading;
 using Naovigate.Communication;
 using Naovigate.Util;
 
-namespace Naovigate.GUI
+namespace Naovigate.GUI.State
 {
     public partial class StateMonitorPanel : UserControl
     {
@@ -15,7 +15,7 @@ namespace Naovigate.GUI
 
         private List<IRealtimeField> debugWidgets;
         private int fps;
-        private UpdaterThread worker;
+        private UpdaterThread updater;
         
         public StateMonitorPanel()
         {
@@ -23,18 +23,17 @@ namespace Naovigate.GUI
             Init();
         }
 
-        public StateMonitorPanel(int fps_)
+        public StateMonitorPanel(int fps)
         {
-            fps = fps_;
+            this.fps = fps;
             Init();
         }
 
         private void Init()
         {
-            worker = new UpdaterThread(Interval, UpdateContent);
+            updater = new UpdaterThread(Interval, UpdateContent);
             InitializeComponent();
             InitializeDebugWidgets();
-            worker.Enabled = true;
         }
 
         private void InitializeDebugWidgets()
@@ -50,15 +49,20 @@ namespace Naovigate.GUI
             get { return 1000 / fps; }
         }
 
-        public void StopUpdate()
+        public bool Active
         {
-            worker.Enabled = false;
+            get { return updater.Enabled; }
+            set { updater.Enabled = value; }
         }
-
+        
         private void UpdateContent()
         {
             if (!NaoState.Instance.Connected)
+            {
+                foreach (IRealtimeField rf in debugWidgets)
+                    rf.ResetContent();
                 return;
+            }
             else if (NaoState.Instance.OutOfDate(Interval))
             {
                 try
@@ -67,7 +71,7 @@ namespace Naovigate.GUI
                 }
                 catch (UnavailableConnectionException)
                 {
-                    Logger.Log(this, "Failed UpdateContent(). Connection unavailable.");
+                    Logger.Log(this, "Failed to update. Connection unavailable.");
                     return;
                 }
             }
