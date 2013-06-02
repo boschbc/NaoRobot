@@ -1,7 +1,7 @@
 ﻿using System;
 
 using NUnit.Framework;
-
+using System.Runtime.ExceptionServices;
 using Naovigate.Movement;
 using Naovigate.Event;
 using System.Drawing;
@@ -12,7 +12,7 @@ using Naovigate.Test.Communication;
 
 namespace Naovigate.Test.Event.GoalToNao
 {
-    [TestFixture, Timeout(2500)]
+    [TestFixture, Timeout(12000)]
     public class GoToEventTest
     {
         private GoToEvent goToEvent;
@@ -36,14 +36,10 @@ namespace Naovigate.Test.Event.GoalToNao
         public void TearDown()
         {
             goalComs.SetStream(emptyStream);
-            if (Naovigate.Util.NaoState.Instance.Connected)
-            {
-                Walk.Instance.StopMove();
-                Naovigate.Util.NaoState.Instance.Disconnect();
-            }
+            EventTestingUtilities.DisconnectWebots();
         }
 
-        [Test]
+        [Test, HandleProcessCorruptedStateExceptions]
         public void UnpackTest()
         {
             CommunicationStream stream = EventTestingUtilities.BuildStream(
@@ -55,12 +51,13 @@ namespace Naovigate.Test.Event.GoalToNao
             Assert.AreEqual(new Point(1, 1), nodes[0]);
         }
 
-        [Test]
+        [Test, HandleProcessCorruptedStateExceptions]
         public void FireTest()
         {
             EventTestingUtilities.RequireWebots();
             EventQueue.Nao.Post(goToEvent);
-            while(!EventQueue.Nao.IsEmpty()) System.Threading.Thread.Sleep(100);
+            EventQueue.Nao.WaitFor();
+            System.Threading.Thread.Sleep(500);
             Assert.IsTrue(Walk.Instance.IsMoving());
         }
     }

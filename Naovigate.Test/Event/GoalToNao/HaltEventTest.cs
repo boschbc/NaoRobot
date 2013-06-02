@@ -7,7 +7,7 @@ using Naovigate.Communication;
 using Naovigate.Util;
 namespace Naovigate.Test.Event.GoalToNao
 {
-    [TestFixture, Timeout(2500)]
+    [TestFixture, Timeout(12000)]
     public class HaltEventTest
     {
         private HaltEvent haltEvent;
@@ -21,11 +21,7 @@ namespace Naovigate.Test.Event.GoalToNao
         [TearDown]
         public void TearDown()
         {
-            if (NaoState.Instance.Connected)
-            {
-                Walk.Instance.StopMove();
-                NaoState.Instance.Disconnect();
-            }
+            EventTestingUtilities.DisconnectWebots();
         }
 
         [Test]
