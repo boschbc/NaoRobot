@@ -145,7 +145,7 @@ namespace Naovigate.Navigation
                             tiles = new Tile[height, width];
                             for (int i = 0; i < height; i++)
                                 for (int j = 0; j < width; j++)
-                                    tiles[i, j] = new Tile(i, j);
+                                    tiles[i, j] = new Tile(j, i);
 
                             break;
 
@@ -299,7 +299,7 @@ namespace Naovigate.Navigation
         /// </summary>
         public Tile TileAt(int x, int y)
         {
-            return this.tiles[x, y];
+            return this.tiles[y, x];
         }
 
         /// <summary>
@@ -307,7 +307,7 @@ namespace Naovigate.Navigation
         /// </summary>
         public void SetTile(int x, int y, Tile t)
         {
-            this.tiles[x, y] = t;
+            this.tiles[y, x] = t;
         }
 
         /// <summary>
@@ -317,7 +317,7 @@ namespace Naovigate.Navigation
         /// <param name="y">The y coordinate.</param>
         public bool WithinBorders(int x, int y)
         {
-            return x >= 0 && x < this.width && y > 0 && y < this.height;
+            return x >= 0 && x < this.width && y >= 0 && y < this.height;
         }
 
     }

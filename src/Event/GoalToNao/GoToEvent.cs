@@ -70,7 +70,7 @@ namespace Naovigate.Event.GoalToNao
                 List<RouteEntry> route = Planner.PlanRoute(NaoState.Instance.Map, locations);
                 foreach (RouteEntry entry in route)
                 {
-                    worker = Walk.Instance.WalkTowardsMarker((float)entry.Direction.ToRadian(), entry.MarkerID, entry.Distance);
+                    worker = Walk.Instance.WalkTowardsMarker((float)entry.Direction.ToRadian(), entry.MarkerID, entry.WantedDistance);
                     worker.WaitFor();
                 }
             }
