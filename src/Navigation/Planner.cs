@@ -8,6 +8,13 @@ namespace Naovigate.Navigation
 {
     class Planner
     {
+        /// <summary>
+        /// Plans the route. Takes as argument the map and a list of tiles, returns a planned list of RouteEntries.
+        /// Returns null if no route could be planned.
+        /// </summary>
+        /// <returns>The route.</returns>
+        /// <param name="map">Map to plan on.</param>
+        /// <param name="points">Points to plan.</param>
         public static List<RouteEntry> PlanRoute(Map map, List<Point> points)
         {
             Point? pos = null;
@@ -37,7 +44,7 @@ namespace Naovigate.Navigation
                 else
                     continue;
 
-                Console.WriteLine("Selected direction: {0}", Enum.GetName(typeof(Map.Direction), target));
+                // Get the tile and start searching.
                 Map.Tile tile = map.TileAt(pos.Value.X, pos.Value.Y);
                 int distance = 0;
                 while (true)
@@ -47,7 +54,6 @@ namespace Naovigate.Navigation
                     int y = tile.Y + (target == Map.Direction.Up ? -1 : target == Map.Direction.Down ? 1 : 0);
 
                     // If we reached the outskirts and found no marker, this is an unplannable route.
-                    Console.WriteLine("Checking point ({0}, {1})... ({2}, {3})", x, y, map.WithinBorders(x, y), map.TileAt(x, y).HasMarkerAt(target));
                     if (!map.WithinBorders(x, y))
                         return null;
 
