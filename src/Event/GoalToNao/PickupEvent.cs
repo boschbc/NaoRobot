@@ -9,7 +9,10 @@ using Naovigate.Util;
 namespace Naovigate.Event.GoalToNao
 {
     /// <summary>
-    /// A class representing a PickUp event as specified in the API.
+    /// A class representing a PickUp event.
+    /// When fired, the Nao will look for a given object ID,
+    /// if the object is not visible, posts a failure-event.
+    /// Otherwise, walks towards the object and grabs it.
     /// </summary>
     public class PickupEvent : NaoEvent
     {
@@ -55,23 +58,9 @@ namespace Naovigate.Event.GoalToNao
         /// </summary>
         public override void Fire()
         {
-            NaoEvent statusEvent = new SuccessEvent(code); ;
-            try
-            {
-                // go to the object first
-
-                //executor = Walk.Instance.WalkTowardsObject(0, id, 0);
-                //executor.WaitFor();
-
-                // grab the object
-                executor = Grabber.Instance.Grab();
-                executor.WaitFor();
-            }
-            catch
-            {
-                statusEvent = new FailureEvent(code);
-            }
-            EventQueue.Goal.Post(statusEvent);
+            executor = new ObjectSearchThread(ObjectID);
+            executor.Start();
+            executor.WaitFor();
         }
 
         /// <summary>
