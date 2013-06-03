@@ -20,12 +20,9 @@ namespace Naovigate.Event.Internal
         }
 
         /// <summary>
-        /// Aborts execution of the event.
+        /// Does nothing.
         /// </summary>
-        public override void Abort()
-        {
-            throw new NotImplementedException();
-        }
+        public override void Abort(){}
 
         /// <summary>
         /// Returns a string representation of this event.

@@ -16,23 +16,6 @@ namespace Naovigate.Util
         private static bool enabled = true;
         private static bool logToFile = true;
 
-        /// <summary>
-        /// Multiplies given string in an integer and returns the result.
-        /// Credit goes to DrJokepu of stackoverflow.com
-        /// </summary>
-        /// <param name="source">A string to multiply.</param>
-        /// <param name="multiplier">An integer.</param>
-        /// <returns>The source string repeated as many times as the given multiplier.</returns>
-        private static string Multiply(this string source, int multiplier)
-        {
-            StringBuilder sb = new StringBuilder(multiplier * source.Length);
-            for (int i = 0; i < multiplier; i++)
-            {
-                sb.Append(source);
-            }
-
-            return sb.ToString();
-        }
 
         /// <summary>
         /// Clears the contents of the log file and resets the internal output ID.

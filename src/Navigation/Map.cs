@@ -130,44 +130,51 @@ namespace Naovigate.Navigation
             using (FileStream f = File.Open(file, FileMode.Open))
             using (StreamReader r = new StreamReader(f))
             {
-                // Read command line.
-                string[] line = r.ReadLine().Split(' ', '\t', '\n');
-
-                // Determine command type.
-                switch (line[0][0])
+                while (!r.EndOfStream)
                 {
-                    // Metadata about the map size.
-                    case (char)EntryType.Size:
-                        ParseSize(line, out width, out height);
+                    // Read command line.
+                    string[] line = r.ReadLine().Split(' ', '\t', '\n');
 
-                        tiles = new Tile[width, height];
-                        for (int i = 0; i < width; i++)
-                            for (int j = 0; j < height; j++)
-                                tiles[i, j] = new Tile(i, j);
+                    // Determine command type.
+                    switch (line[0][0])
+                    {
+                        // Metadata about the map size.
+                        case (char)EntryType.Size:
+                            ParseSize(line, out width, out height);
 
-                        break;
+                            tiles = new Tile[height, width];
+                            for (int i = 0; i < height; i++)
+                                for (int j = 0; j < width; j++)
+                                    tiles[i, j] = new Tile(i, j);
 
-                    // Info about wall presence on a certain (x, y, direction).
-                    case (char)EntryType.WallInfo:
-                        ParsePositionFlag(line, out x, out y, out direction, out truth);
-                        tiles[x, y].SetWallAt(direction, truth);
+                            break;
 
-                        // Set adjoint point walls, too.
-                        if (direction == Direction.Left && x > 0)
-                            tiles[x - 1, y].SetWallAt(Direction.Right, truth);
-                        else if (direction == Direction.Right && x < width - 1)
-                            tiles[x + 1, y].SetWallAt(Direction.Left, truth);
-                        else if (direction == Direction.Up && y > 0)
-                            tiles[x, y - 1].SetWallAt(Direction.Down, truth);
-                        else if (direction == Direction.Down && y < height - 1)
-                            tiles[x, y + 1].SetWallAt(Direction.Up, truth);
-                        break;
+                        // Info about wall presence on a certain (x, y, direction).
+                        case (char)EntryType.WallInfo:
+                            ParsePositionFlag(line, out x, out y, out direction, out truth);
+                            tiles[y, x].SetWallAt(direction, truth);
 
-                    // Info about marker presence on a certain (x, y, direction).
-                    case (char)EntryType.MarkerInfo:
-                        ParsePositionValue(line, out x, out y, out direction, out id);
-                        tiles[x, y].SetMarkerAt(direction, id);
-                        break;
+                            // Set adjoint point walls, too.
+                            if (direction == Direction.Left && x > 0)
+                                tiles[y, x - 1].SetWallAt(Direction.Right, truth);
+                            else if (direction == Direction.Right && x < width - 1)
+                                tiles[y, x + 1].SetWallAt(Direction.Left, truth);
+                            else if (direction == Direction.Up && y > 0)
+                                tiles[y - 1, x].SetWallAt(Direction.Down, truth);
+                            else if (direction == Direction.Down && y < height - 1)
+                                tiles[y + 1, x].SetWallAt(Direction.Up, truth);
+                            break;
+
+                        // Info about marker presence on a certain (x, y, direction).
+                        case (char)EntryType.MarkerInfo:
+                            ParsePositionValue(line, out x, out y, out direction, out id);
+                            tiles[y, x].SetMarkerAt(direction, id);
+                            break;
+                        
+                        // What this?
+                        default:
+                            throw new InvalidDataException(String.Format("Could not parse map data: unknown data entry {0}", line[0][0]));
+                    }
                 }
             }
 
@@ -272,6 +279,22 @@ namespace Naovigate.Navigation
         }
 
         /// <summary>
+        /// Gets the map width.
+        /// </summary>
+        public int Width
+        {
+            get { return this.width; }
+        }
+
+        /// <summary>
+        /// Gets the map height.
+        /// </summary>
+        public int Height
+        {
+            get { return this.height; }
+        }
+
+        /// <summary>
         /// Retrieve the tile at position (x, y).
         /// </summary>
         public Tile TileAt(int x, int y)
@@ -296,6 +319,7 @@ namespace Naovigate.Navigation
         {
             return x >= 0 && x < this.width && y > 0 && y < this.height;
         }
+
     }
 
     public static class DirectionExtension
@@ -333,5 +357,6 @@ namespace Naovigate.Navigation
             return multiplier * (Math.PI / 180.0);
         }
     }
+
 }
 

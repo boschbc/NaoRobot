@@ -52,12 +52,12 @@ namespace Naovigate.Event.Internal
             Walk.Instance.WalkTo(delta.X, delta.Y, 0.0f);
         }
 
-        /*
-         * unimplemented
-         */
+        /// <summary>
+        /// Stop walking.
+        /// </summary>
         public override void Abort()
         {
-            throw new NotImplementedException();
+            Walk.Instance.StopMove();
         }
 
         /*

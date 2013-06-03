@@ -39,14 +39,18 @@ namespace Naovigate.GUI.State
             //Avoid cross-thread exception:
             if (labelAlert.InvokeRequired)
                 labelAlert.Invoke(new MethodInvoker(ResetContent));
-            SetTemperatureUnknown();
+            else
+                SetTemperatureUnknown();
         }
 
         public void UpdateContent()
         {
             //Avoid cross-thread exception:
             if (labelAlert.InvokeRequired)
+            {
                 labelAlert.Invoke(new MethodInvoker(UpdateContent));
+                return;
+            }
             
             labelAlert.Text = String.Format(Format, NaoState.Instance.Temperature.ToString());
             if (NaoState.Instance.Temperature > 40)

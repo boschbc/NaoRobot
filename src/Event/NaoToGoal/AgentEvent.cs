@@ -21,7 +21,8 @@ namespace Naovigate.Event.NaoToGoal
         /// Explicit constructor.
         /// </summary>
         /// <param name="id"></param>
-        public AgentEvent(int id) : base((byte)EventCode.Agent, id) { }
+        public AgentEvent(int id)
+            : base((byte)EventCode.Agent, id) { }
 
         /// <summary>
         /// Get the ID of the currently connected to Nao agent.

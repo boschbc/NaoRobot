@@ -41,7 +41,9 @@ namespace Naovigate.GUI.LiveCamera
         {
             try
             {
+                Logger.Log(this, "Creating camera...");
                 camera = new Camera(SUBSCRIBER_ID);
+                Logger.Log(this, "Camera created.");
             }
             catch (UnavailableConnectionException) 
             {
@@ -80,7 +82,8 @@ namespace Naovigate.GUI.LiveCamera
             //Avoid cross-thread exception:
             if (cameraEnabled.InvokeRequired)
                 cameraEnabled.Invoke(new MethodInvoker(UpdateEnabledCheckBox));
-            cameraEnabled.Checked = active;
+            else
+                cameraEnabled.Checked = active;
         }
 
         public Camera Camera
@@ -109,7 +112,10 @@ namespace Naovigate.GUI.LiveCamera
 
         public void ResetContent()
         {
-            imageContainer.Image = new Bitmap(1, 1);
+            if (imageContainer.InvokeRequired)
+                imageContainer.Invoke(new MethodInvoker(ResetContent));
+            else
+                imageContainer.Image = new Bitmap(1, 1);
         }
 
         public void UpdateContent()
