@@ -7,7 +7,7 @@ using System.Diagnostics;
 namespace Naovigate.Navigation
 {
     /// <summary>
-    /// A class that represents the overview map of the world we're discovering.
+    /// A class that represents the overview map of the world we're exploring.
     /// </summary>
     public class Map
     {
