@@ -24,7 +24,7 @@ namespace Naovigate.Event
         public NaoEvent()
         {
             Stream = GoalCommunicator.Instance.Stream;
-            Priority = Priority.Medium;
+            Priority = Priority.Low;
         }
 
         /// <summary>

@@ -24,13 +24,15 @@ namespace Naovigate.Event
         Failure = 0x82,
         Location = 0x89,
         DistanceTo = 0x8A,
-        AtObject = 0x8B,
+        //AtObject = 0x8B,
         See = 0x8C,
         Holding = 0x8D,
         Agent = 0x8E,
         State = 0x8F,
-        DataSending = 0x83,
-        MapOverview = 0x84,
+        //DataSending = 0x83,
+        //MapOverview = 0x84,
+        //LookForObject = 0x85,
+        
 
         //Goal to Nao
         Exit = 0x00,

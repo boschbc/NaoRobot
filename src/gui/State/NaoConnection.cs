@@ -17,6 +17,7 @@ namespace Naovigate.GUI.State
         public NaoConnection()
         {
             InitializeComponent();
+            ipChooser.IP = MainProgram.NaoIP;
         }
 
         private void button_Click(object sender, EventArgs e)
