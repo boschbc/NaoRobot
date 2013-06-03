@@ -30,6 +30,7 @@ namespace Naovigate.Vision
 
         public void Init()
         {
+            colors = new List<Hsv>();
             Hsv redObjectMIn = new Hsv(0.0, 0.0, 0.0);
             Hsv redObjectMax = new Hsv ( 180.0, 255.0, 255.0);
             Hsv greenObjectMin = new Hsv ( 63, 66, 43 );
@@ -85,7 +86,7 @@ namespace Naovigate.Vision
         public Rectangle biggestRectangle(List<Rectangle> rectangles)
         {
             Console.WriteLine("to be implemented");
-            return rectangles[0];
+            return rectangles[1];
         }
 
         public double ObjectAngle(Image<Hsv,byte> img)
@@ -98,20 +99,21 @@ namespace Naovigate.Vision
         }
 
 
-        public Image<Gray, Byte> EnchancedImage(double[] rgb1, double[] rgb2)
+        public Image<Hsv, Byte> EnchancedImage(double[] rgb1, double[] rgb2)
         {
             currentImage = cam.GetImage();
             
-            Hsv p1 = new Hsv(63.0,66.0,43.0);
-            Hsv p2 = new Hsv(116, 199, 123);
+            Hsv p1 = new Hsv(rgb1[0],rgb1[1],rgb1[2]);
+            Hsv p2 = new Hsv(rgb2[0], rgb2[1], rgb2[2]);
             Image<Hsv, byte> hsv = currentImage.Convert<Hsv, byte>();
 
             Rectangle rec = SearchForObjects(hsv);
 
             Image<Gray, Byte> gray = hsv.InRange(p1, p2);
-            Gray gr = new Gray(100.0);
-            gray.Draw(rec, gr, 5);
-            return gray;
+            Image<Hsv, Byte> ret = gray.Convert<Hsv, Byte>();
+            Hsv col = new Hsv(116,199,122);
+            ret.Draw(rec, col, 2);
+            return ret;
         }
     }
 }

@@ -44,7 +44,7 @@ namespace Naovigate.GUI.LiveCamera
                 return null;
             Processing ps = new Processing(Target);
             Image<Rgb, Byte> image = Target.GetImage();
-            Image<Gray, Byte> enhanced = ps.EnchancedImage(Min, Max);
+            Image<Hsv, Byte> enhanced = ps.EnchancedImage(Min, Max);
             return enhanced.ToBitmap(image.Width, image.Height);
         }
     }
