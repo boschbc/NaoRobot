@@ -5,7 +5,10 @@ using System.Text;
 
 using Naovigate.Event;
 using Naovigate.Event.GoalToNao;
+using Naovigate.GUI.Popups.ParamChooser;
 using Naovigate.Util;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace Naovigate.GUI.Events
 {
@@ -13,21 +16,38 @@ namespace Naovigate.GUI.Events
     {
         public NaoEventLauncher() : base()
         {
+
             Customize("Post to Nao",
-                new List<Func<INaoEvent>>() 
+                new Dictionary<String,Func<INaoEvent>>() 
             {
-                () => new ExitEvent(),
-                () => new HaltEvent(),
-                () => new PickupEvent(1),
-                () => new PutDownEvent(),
-                () => new SayEvent("I am a toy")
+                { "ExitEvent", () => new ExitEvent() },
+                { "GoToEvent", () => new GoToEvent(UserParameter<List<Point>>()) },
+                { "HaltEvent", () => new HaltEvent() },
+                { "PickupEvent", () => new PickupEvent(UserParameter<int>()) },
+                { "PutDownEvent", () => new PutDownEvent() },
+                { "SayEvent", () => new SayEvent(UserParameter<string>()) }
             });
+        }
+
+        protected override void InitializeParameterMap()
+        {
+            Logger.Log();
+            base.InitializeParameterMap();
+            AddParameterMapping(typeof(List<Point>), AskUserForLocationList);
+        }
+
+        private Object AskUserForLocationList()
+        {
+            return DisplayPopup(new LocationsChooser());
         }
 
         protected override void PostEvent(INaoEvent naoEvent)
         {
             if (NaoState.Instance.Connected)
                 EventQueue.Nao.Post(naoEvent);
+            else
+                Logger.Log(this, 
+                    "Cannot post " + naoEvent + ", NaoState is not connected to any Nao.");
         }
     }
 }

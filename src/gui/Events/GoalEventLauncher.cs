@@ -15,27 +15,28 @@ namespace Naovigate.GUI.Events
         public GoalEventLauncher() : base() 
         {
             Customize("Post to Goal",
-                new List<Func<INaoEvent>>()
+                new Dictionary<String, Func<INaoEvent>>()
                 {
-                    () => new AgentEvent(0),
-                    () => new ErrorEvent(),
-                    () => new FailureEvent(EventCode.GoTo),
-                    () => new HoldingEvent(0),
-                    () => new LocationEvent(0),
-                    () => new SeeEvent(0, 0),
-                    () => new StateEvent(0),
-                    () => new SuccessEvent(EventCode.GoTo)
+                    { "AgentEvent", () => new AgentEvent(UserParameter<int>()) },
+                    { "ErrorEvent", () => new ErrorEvent() },
+                    { "FailureEvent", () => new FailureEvent(EventCode.GoTo) },
+                    { "HoldingEvent", () => new HoldingEvent(UserParameter<int>()) },
+                    { "LocationEvent", () => new LocationEvent(UserParameter<int>()) },
+                    { "SeeEvent", () => new SeeEvent(UserParameter<int>(), UserParameter<int>()) },
+                    { "StateEvent", () => new StateEvent(UserParameter<int>()) },
+                    { "SuccessEvent", () => new SuccessEvent(EventCode.GoTo) }
                 });
         }
             
         
         protected override void PostEvent(INaoEvent goalEvent)
         {
-            EventQueue.Goal.Post(goalEvent);
-            //else
-            //    Logger.Log(this, "Cannot post event: " + goalEvent + 
-            //                     ". Not connected to Goal Server.");
-
+            if (GoalCommunicator.Instance.Running)
+                EventQueue.Goal.Post(goalEvent);
+            else
+                Logger.Log(this, 
+                    "Cannot post " + goalEvent + 
+                    ", goal communicator is not connected to any server.");
         }
     }
 }

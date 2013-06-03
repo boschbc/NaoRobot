@@ -86,6 +86,7 @@
             // 
             // imageContainer
             // 
+            this.imageContainer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.imageContainer.Location = new System.Drawing.Point(6, 20);
             this.imageContainer.Name = "imageContainer";
             this.imageContainer.Size = new System.Drawing.Size(320, 240);

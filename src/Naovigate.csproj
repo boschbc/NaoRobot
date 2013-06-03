@@ -88,6 +88,31 @@
     <Compile Include="GUI\Goal\LocalServerPanel.Designer.cs">
       <DependentUpon>LocalServerPanel.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Popups\ParamChooser\IntegerChooser.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Popups\ParamChooser\IntegerChooser.Designer.cs">
+      <DependentUpon>IntegerChooser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Popups\ParamChooser\IParamChooser.cs" />
+    <Compile Include="GUI\Popups\ParamChooser\LocationsChooser.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Popups\ParamChooser\LocationsChooser.Designer.cs">
+      <DependentUpon>LocationsChooser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Popups\ParamChooser\StringChooser.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Popups\ParamChooser\StringChooser.Designer.cs">
+      <DependentUpon>StringChooser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Popups\UserInputPopup.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\Popups\UserInputPopup.Designer.cs">
+      <DependentUpon>UserInputPopup.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\State\NaoConnection.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -156,6 +181,12 @@
     </Compile>
     <Compile Include="GUI\Util\ColorFilter.Designer.cs">
       <DependentUpon>ColorFilter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Util\PointControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Util\PointControl.Designer.cs">
+      <DependentUpon>PointControl.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Util\RGBChooser.cs">
       <SubType>UserControl</SubType>
@@ -270,6 +301,18 @@
     <EmbeddedResource Include="GUI\NaoDebugger.resx">
       <DependentUpon>NaoDebugger.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Popups\ParamChooser\IntegerChooser.resx">
+      <DependentUpon>IntegerChooser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Popups\ParamChooser\LocationsChooser.resx">
+      <DependentUpon>LocationsChooser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Popups\ParamChooser\StringChooser.resx">
+      <DependentUpon>StringChooser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Popups\UserInputPopup.resx">
+      <DependentUpon>UserInputPopup.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\State\NaoConnection.resx">
       <DependentUpon>NaoConnection.cs</DependentUpon>
     </EmbeddedResource>
@@ -299,6 +342,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Util\ColorFilter.resx">
       <DependentUpon>ColorFilter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Util\PointControl.resx">
+      <DependentUpon>PointControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Util\RGBChooser.resx">
       <DependentUpon>RGBChooser.cs</DependentUpon>

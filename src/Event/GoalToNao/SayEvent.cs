@@ -31,6 +31,15 @@ namespace Naovigate.Event.GoalToNao
         {
             NaoState.Instance.SpeechProxy.say(text);
         }
+
+        /// <summary>
+        /// Returns a string representation of this event.
+        /// </summary>
+        /// <returns>A human-readable string.</returns>
+        public override string ToString()
+        {
+            return base.ToString() + "<" + text + ">";
+        }
     }
 }
 

@@ -85,7 +85,7 @@ namespace Naovigate.Util
         /// </summary>
         public static void Log()
         {
-            Log(DefaultInvokerName, "<<< " + id + " >>>");
+            Log(typeof(Logger), "Ping!");
         }
 
         /// <summary>

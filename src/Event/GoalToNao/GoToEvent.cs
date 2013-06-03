@@ -38,6 +38,8 @@ namespace Naovigate.Event.GoalToNao
         /// <param name="locations">List of MarkerID's</param>
         public GoToEvent(ICollection<Point> locations)
         {
+            if (locations == null)
+                this.locations = new List<Point>();
             this.locations = new List<Point>(locations);
         }
         
@@ -102,6 +104,17 @@ namespace Naovigate.Event.GoalToNao
             }
         }
 
+        /// <summary>
+        /// Returns a string representation of this event.
+        /// </summary>
+        /// <returns>A human-readable string.</returns>
+        public override string ToString()
+        {
+ 	        string s = base.ToString() + "<\n\t";
+            foreach (Point p in locations)
+                s += p.ToString() + ",\n\t";
+            return s.Substring(0, s.Length - 1) + ">";
+        }
         
     }
 }
