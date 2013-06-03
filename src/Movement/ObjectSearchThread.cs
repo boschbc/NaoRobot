@@ -45,7 +45,13 @@ namespace Naovigate.Movement
             Processing processor = new Processing(cm);
             while (running)
             {
-                processor.DetectObject();
+                ArrayList ObjectData = processor.DetectObject();
+                if (ObjectData.Count == 2)
+                {
+                    Console.WriteLine("Fire pickup event with the data from the ObjectData");
+                    //while in the pickup event is running keep getting the objectData
+                    //The object data -> objectdata[0] = distance objectData[1] = angle;
+                }
             }
             Console.WriteLine("Exit LookForObjects");
         }

@@ -46,7 +46,7 @@ namespace Naovigate.Vision
             colors.Add(blueObjectMin);
             colors.Add(blueObjectMax);
         }
-
+        //checks of there is a object in sight and then returns a array with distance and angle
         public ArrayList DetectObject()
         {
             currentImage = cam.GetImage();
@@ -83,7 +83,8 @@ namespace Naovigate.Vision
         public ArrayList ObjectData(Rectangle objectRectangle)
         {
             ArrayList ret = new ArrayList();
-
+            ret[0] = ObjectDistance(objectRectangle);
+            ret[1] = ObjectAngle(objectRectangle);
             return ret;
         }
 
@@ -104,7 +105,7 @@ namespace Naovigate.Vision
             double locX = loc.X;
             double centerX = currentImage.Width / 2;
             double deltaX = centerX - locX;
-
+ 
             double angle = Math.Tan(deltaX / ObjectDistance(rec));
             return angle;
         }
@@ -115,6 +116,7 @@ namespace Naovigate.Vision
             double width = rec.Width;
             double height = rec.Height;
             double opp = width * height;
+
             double dist = opp / naoFactor;
             return dist;
         }
