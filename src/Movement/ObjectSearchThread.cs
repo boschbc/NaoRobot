@@ -13,10 +13,23 @@ namespace Naovigate.Movement
         private int objectId;
         private double dist;
 
+        public ObjectSearchThread(int objectID)
+        {
+            //TODO
+        }
+
         public ObjectSearchThread(int objectID, double dist)
         {
             this.objectId = objectID;
             this.dist = dist;
+        }
+
+        /// <summary>
+        /// True if the object was found.
+        /// </summary>
+        public bool ObjectFound
+        {
+            get { return true; }
         }
 
         public override void Run()

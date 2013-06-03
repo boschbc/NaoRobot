@@ -19,6 +19,7 @@ namespace Naovigate.GUI.Goal
         public RemoteServerControl()
         {
             InitializeComponent();
+            ipChooser.IP = MainProgram.GoalIP;
         }
 
         private void Connect()
