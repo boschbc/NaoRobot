@@ -53,8 +53,7 @@ namespace Naovigate.Event.GoalToNao
             try
             {
                 executor = Grabber.Instance.PutDown();
-                executor.NotifyWhenDone(StatusCheck);
-                executor.Start();
+                executor.WaitFor();
             }
             catch
             {
@@ -91,8 +90,7 @@ namespace Naovigate.Event.GoalToNao
 
         public override void WaitFor()
         {
-            while (!Finished)
-                Thread.Sleep(100);   
+            if(executor != null) executor.WaitFor();  
         }
 
         /// <summary>

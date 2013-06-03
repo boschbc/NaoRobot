@@ -18,7 +18,8 @@ namespace Naovigate.Navigation
         {
             Size = 'S',
             WallInfo = 'W',
-            MarkerInfo = 'M'
+            MarkerInfo = 'M',
+            TileInfo = 'I'
         }
 
         /// <summary>
@@ -41,11 +42,13 @@ namespace Naovigate.Navigation
             private bool[] walls;
             private int x;
             private int y;
+            private int id;
 
-            public Tile(int x, int y)
+            public Tile(int x, int y, int id = -1)
             {
                 this.x = x;
                 this.y = y;
+                this.id = id;
                 this.markers = new[] { -1, -1, -1, -1 };
                 this.walls = new[] { false, false, false, false };
             }
@@ -106,6 +109,16 @@ namespace Naovigate.Navigation
             {
                 get { return this.y; }
             }
+
+            /// <summary>
+            /// The tile ID.
+            /// </summary>
+            /// <value>The ID.</value>
+            public int ID
+            {
+                get { return this.id; }
+                set { this.id = value; }
+            }
         }
 
         private int height;
@@ -130,44 +143,57 @@ namespace Naovigate.Navigation
             using (FileStream f = File.Open(file, FileMode.Open))
             using (StreamReader r = new StreamReader(f))
             {
-                // Read command line.
-                string[] line = r.ReadLine().Split(' ', '\t', '\n');
-
-                // Determine command type.
-                switch (line[0][0])
+                while (!r.EndOfStream)
                 {
-                    // Metadata about the map size.
-                    case (char)EntryType.Size:
-                        ParseSize(line, out width, out height);
+                    // Read command line.
+                    string[] line = r.ReadLine().Split(' ', '\t', '\n');
 
-                        tiles = new Tile[width, height];
-                        for (int i = 0; i < width; i++)
-                            for (int j = 0; j < height; j++)
-                                tiles[i, j] = new Tile(i, j);
+                    // Determine command type.
+                    switch (line[0][0])
+                    {
+                        // Metadata about the map size.
+                        case (char)EntryType.Size:
+                            ParseSize(line, out width, out height);
 
-                        break;
+                            tiles = new Tile[height, width];
+                            for (int i = 0; i < height; i++)
+                                for (int j = 0; j < width; j++)
+                                    tiles[i, j] = new Tile(j, i);
 
-                    // Info about wall presence on a certain (x, y, direction).
-                    case (char)EntryType.WallInfo:
-                        ParsePositionFlag(line, out x, out y, out direction, out truth);
-                        tiles[x, y].SetWallAt(direction, truth);
+                            break;
 
-                        // Set adjoint point walls, too.
-                        if (direction == Direction.Left && x > 0)
-                            tiles[x - 1, y].SetWallAt(Direction.Right, truth);
-                        else if (direction == Direction.Right && x < width - 1)
-                            tiles[x + 1, y].SetWallAt(Direction.Left, truth);
-                        else if (direction == Direction.Up && y > 0)
-                            tiles[x, y - 1].SetWallAt(Direction.Down, truth);
-                        else if (direction == Direction.Down && y < height - 1)
-                            tiles[x, y + 1].SetWallAt(Direction.Up, truth);
-                        break;
+                        // Info about wall presence on a certain (x, y, direction).
+                        case (char)EntryType.WallInfo:
+                            ParsePositionFlag(line, out x, out y, out direction, out truth);
+                            tiles[y, x].SetWallAt(direction, truth);
 
-                    // Info about marker presence on a certain (x, y, direction).
-                    case (char)EntryType.MarkerInfo:
-                        ParsePositionValue(line, out x, out y, out direction, out id);
-                        tiles[x, y].SetMarkerAt(direction, id);
-                        break;
+                            // Set adjoint point walls, too.
+                            if (direction == Direction.Left && x > 0)
+                                tiles[y, x - 1].SetWallAt(Direction.Right, truth);
+                            else if (direction == Direction.Right && x < width - 1)
+                                tiles[y, x + 1].SetWallAt(Direction.Left, truth);
+                            else if (direction == Direction.Up && y > 0)
+                                tiles[y - 1, x].SetWallAt(Direction.Down, truth);
+                            else if (direction == Direction.Down && y < height - 1)
+                                tiles[y + 1, x].SetWallAt(Direction.Up, truth);
+                            break;
+
+                        // Info about marker presence on a certain (x, y, direction).
+                        case (char)EntryType.MarkerInfo:
+                            ParsePositionValue(line, out x, out y, out direction, out id);
+                            tiles[y, x].SetMarkerAt(direction, id);
+                            break;
+                           
+                        // Info about a tile.
+                        case (char)EntryType.TileInfo:
+                            ParsePositionValue(line, out x, out y, out id);
+                            tiles[y, x].ID = id;
+                            break;
+                        
+                        // What this?
+                        default:
+                            throw new InvalidDataException(String.Format("Could not parse map data: unknown data entry {0}", line[0][0]));
+                    }
                 }
             }
 
@@ -219,14 +245,44 @@ namespace Naovigate.Navigation
                 y = Int32.Parse(line[2]);
                 dir = (Direction)Enum.ToObject(typeof(Direction), Byte.Parse(line[3]));
                 truth = true;
-            } catch (System.Exception e) {
+            } catch (Exception e) {
                 if (e is OverflowException || e is FormatException)
                     throw new InvalidDataException("Invalid marker info entry specified.");
+                throw;
             }
         }
 
         /// <summary>
         /// Parse a position flag entry, containing a position, direction and truth value. Used for marker and wall entries.
+        /// </summary>
+        private static void ParsePositionValue(string[] line, out int x, out int y, out int id)
+        {
+            // Default values.
+            x = 0;
+            y = 0;
+            id = -1;
+
+            // Validate line sanity.
+            if (line.Length < 4)
+                throw new InvalidDataException("Reached EOL before being able to read marker info.");
+            
+            // Parse line entries.
+            try
+            {
+                x = Int32.Parse(line[1]);
+                y = Int32.Parse(line[2]);
+                id = Int32.Parse(line[3]);
+            }
+            catch (Exception e)
+            {
+                if (e is OverflowException || e is FormatException)
+                    throw new InvalidDataException("Invalid marker info entry specified.");
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Parse a position value entry, containing a position, direction and truth value. Used for marker and wall entries.
         /// </summary>
         private static void ParsePositionValue(string[] line, out int x, out int y, out Direction dir, out int id)
         {
@@ -248,10 +304,11 @@ namespace Naovigate.Navigation
                 dir = (Direction)Enum.ToObject(typeof(Direction), Byte.Parse(line[3]));
                 id = Int32.Parse(line[4]);
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 if (e is OverflowException || e is FormatException)
                     throw new InvalidDataException("Invalid marker info entry specified.");
+                throw;
             }
         }
 
@@ -272,11 +329,42 @@ namespace Naovigate.Navigation
         }
 
         /// <summary>
+        /// Gets the map width.
+        /// </summary>
+        public int Width
+        {
+            get { return this.width; }
+        }
+
+        /// <summary>
+        /// Gets the map height.
+        /// </summary>
+        public int Height
+        {
+            get { return this.height; }
+        }
+
+        /// <summary>
         /// Retrieve the tile at position (x, y).
         /// </summary>
         public Tile TileAt(int x, int y)
         {
-            return this.tiles[x, y];
+            return this.tiles[y, x];
+        }
+
+        /// <summary>
+        /// Receive the tile with ID id.
+        /// </summary>
+        /// <param name="id">Identifier.</param>
+        public Tile TileWithID(int id)
+        {
+            if (id == -1)
+                return null;
+
+            foreach (Tile t in this.tiles)
+                if (t.ID == id)
+                    return t;
+            return null;
         }
 
         /// <summary>
@@ -284,7 +372,7 @@ namespace Naovigate.Navigation
         /// </summary>
         public void SetTile(int x, int y, Tile t)
         {
-            this.tiles[x, y] = t;
+            this.tiles[y, x] = t;
         }
 
         /// <summary>
@@ -294,8 +382,9 @@ namespace Naovigate.Navigation
         /// <param name="y">The y coordinate.</param>
         public bool WithinBorders(int x, int y)
         {
-            return x >= 0 && x < this.width && y > 0 && y < this.height;
+            return x >= 0 && x < this.width && y >= 0 && y < this.height;
         }
+
     }
 
     public static class DirectionExtension
@@ -333,5 +422,6 @@ namespace Naovigate.Navigation
             return multiplier * (Math.PI / 180.0);
         }
     }
+
 }
 

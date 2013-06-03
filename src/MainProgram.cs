@@ -14,7 +14,7 @@ using Naovigate.Util;
 using Naovigate.Testing.GUI;
 using Naovigate.Vision;
 using Naovigate.Event;
-
+using Naovigate.Movement;
 namespace Naovigate
 {
     class MainProgram
@@ -34,12 +34,13 @@ namespace Naovigate
                 LaunchDebugger.DebugMain();
             else
             {
-                NaoState.Instance.Connect(LocalHost, 9559);
+                NaoState.Instance.Connect(nao2, 9559);
+                MarkerSearchThread m = new MarkerSearchThread(64, 0);
+                m.Start();
                 //new TestingGoalServer().Start();
-                GoalCommunicator c = new GoalCommunicator("192.168.0.127", GoalCommunicator.DefaultPort);
-                c.StartAsync();
-                while (c.Stream == null) ;
-                EventQueue.Goal.Post(new AgentEvent());
+                //GoalCommunicator c = new GoalCommunicator("127.0.0.1", GoalCommunicator.DefaultPort);
+                //c.StartAsync();
+
             }
 
             Console.WriteLine("Done");

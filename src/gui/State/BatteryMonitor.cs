@@ -21,7 +21,8 @@ namespace Naovigate.GUI.State
             //Avoid cross-thread exception:
             if (batteryGauge.InvokeRequired)
                 batteryGauge.Invoke(new MethodInvoker(ResetContent));
-            batteryGauge.Value = 0;
+            else
+                batteryGauge.Value = 0;
         }
 
         public void UpdateContent()
@@ -29,7 +30,8 @@ namespace Naovigate.GUI.State
             //Avoid cross-thread exception:
             if (batteryGauge.InvokeRequired)
                 batteryGauge.Invoke(new MethodInvoker(UpdateContent));
-            batteryGauge.Value = NaoState.Instance.BatteryPercentageLeft;
+            else
+                batteryGauge.Value = NaoState.Instance.BatteryPercentageLeft;
         }
     }
 }

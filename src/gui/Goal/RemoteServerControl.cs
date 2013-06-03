@@ -19,6 +19,7 @@ namespace Naovigate.GUI.Goal
         public RemoteServerControl()
         {
             InitializeComponent();
+            ipChooser.IP = MainProgram.GoalIP;
         }
 
         private void Connect()
@@ -32,6 +33,7 @@ namespace Naovigate.GUI.Goal
             if (communicator != null)
                 communicator.Close();
             communicator = new GoalCommunicator(ipChooser.IP, GoalCommunicator.DefaultPort);
+            GoalCommunicator.Instance = communicator;
             new Thread(new ThreadStart(Connect)).Start();
         }
     }

@@ -18,7 +18,6 @@ namespace Naovigate.GUI.Events
                 new List<Func<INaoEvent>>()
                 {
                     () => new AgentEvent(0),
-                    () => new DistanceToEvent(143),
                     () => new ErrorEvent(),
                     () => new FailureEvent(EventCode.GoTo),
                     () => new HoldingEvent(0),

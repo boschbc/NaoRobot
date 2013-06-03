@@ -21,9 +21,12 @@ namespace Naovigate.Vision
 
         public static ObjectRecogniser instance = null;
 
-        public static ObjectRecogniser GetInstance()
+        public static ObjectRecogniser Instance()
         {
-            return instance == null ? instance = new ObjectRecogniser() : instance;
+        get:
+            {
+                return instance == null ? instance = new ObjectRecogniser() : instance;
+            }
         }
         
         //returns 0,0,0,0 when there is no object in the image returns the bounding box of the object otherwise

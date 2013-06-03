@@ -30,7 +30,8 @@ namespace Naovigate.GUI.State
             //Avoid cross-thread exception:
             if (locationLabel.InvokeRequired)
                 locationLabel.Invoke(new MethodInvoker(ResetContent));
-            locationLabel.Text = "Unknown";
+            else
+                locationLabel.Text = "Unknown";
         }
 
         public void UpdateContent()
@@ -38,7 +39,8 @@ namespace Naovigate.GUI.State
             //Avoid cross-thread exception:
             if (locationLabel.InvokeRequired)
                 locationLabel.Invoke(new MethodInvoker(UpdateContent));
-            UpdateLocation();
+            else
+                UpdateLocation();
         }
     }
 }

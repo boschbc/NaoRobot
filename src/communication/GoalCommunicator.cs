@@ -37,6 +37,7 @@ namespace Naovigate.Communication
         public static GoalCommunicator Instance
         {
             get { return instance == null ? instance = new GoalCommunicator(MainProgram.GoalIP, DefaultPort) : instance; }
+            set { instance = value; }
         }
 
         /// <summary>
@@ -144,7 +145,6 @@ namespace Naovigate.Communication
         {
             if (!Running)
                 return;
-
             byte code = 0;
             try
             {
@@ -201,7 +201,10 @@ namespace Naovigate.Communication
                         throw new UnavailableConnectionException("Connection to server has been lost.",
                             IP.ToString(), Port);
                     }
-                    ReceiveData();
+                    if (stream.DataAvailable)
+                        ReceiveData();
+                    else
+                        Thread.Sleep(1);
                 }
                 Logger.Log(this, "Exiting main loop.");
             }
@@ -246,7 +249,7 @@ namespace Naovigate.Communication
         {
             get
             {
-                lock (sLock)
+               
                     return communicationStream;
             }
         }
@@ -274,7 +277,7 @@ namespace Naovigate.Communication
         {
             get { return running; }
             private set {
-                lock (sLock)
+                
                     running = value; 
             }
         }
