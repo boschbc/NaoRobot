@@ -30,9 +30,9 @@
         {
             this.boundingBox = new System.Windows.Forms.GroupBox();
             this.cameraEnhanced = new System.Windows.Forms.CheckBox();
+            this.cameraEnhancer = new Naovigate.GUI.LiveCamera.CameraEnhancerPanel();
             this.cameraEnabled = new System.Windows.Forms.CheckBox();
             this.imageContainer = new System.Windows.Forms.PictureBox();
-            this.cameraEnhancer = new Naovigate.GUI.LiveCamera.CameraEnhancerPanel();
             this.boundingBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageContainer)).BeginInit();
             this.SuspendLayout();
@@ -61,6 +61,17 @@
             this.cameraEnhanced.TabIndex = 4;
             this.cameraEnhanced.Text = "Enhance";
             this.cameraEnhanced.UseVisualStyleBackColor = true;
+            this.cameraEnhanced.CheckedChanged += new System.EventHandler(this.cameraEnhanced_CheckedChanged);
+            // 
+            // cameraEnhancer
+            // 
+            this.cameraEnhancer.AutoSize = true;
+            this.cameraEnhancer.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.cameraEnhancer.Location = new System.Drawing.Point(120, 266);
+            this.cameraEnhancer.Name = "cameraEnhancer";
+            this.cameraEnhancer.Size = new System.Drawing.Size(206, 106);
+            this.cameraEnhancer.TabIndex = 5;
+            this.cameraEnhancer.Target = null;
             // 
             // cameraEnabled
             // 
@@ -80,16 +91,6 @@
             this.imageContainer.Size = new System.Drawing.Size(320, 240);
             this.imageContainer.TabIndex = 2;
             this.imageContainer.TabStop = false;
-            // 
-            // cameraEnhancer
-            // 
-            this.cameraEnhancer.AutoSize = true;
-            this.cameraEnhancer.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.cameraEnhancer.Location = new System.Drawing.Point(120, 266);
-            this.cameraEnhancer.Name = "cameraEnhancer";
-            this.cameraEnhancer.Size = new System.Drawing.Size(206, 106);
-            this.cameraEnhancer.TabIndex = 5;
-            this.cameraEnhancer.Target = null;
             // 
             // LiveCamera
             // 

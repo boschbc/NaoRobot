@@ -31,8 +31,8 @@
             this.boundingBox = new System.Windows.Forms.GroupBox();
             this.maxLabel = new System.Windows.Forms.Label();
             this.minLabel = new System.Windows.Forms.Label();
-            this.maxRGB = new Naovigate.GUI.Util.RGBChooser();
             this.minRGB = new Naovigate.GUI.Util.RGBChooser();
+            this.maxRGB = new Naovigate.GUI.Util.RGBChooser();
             this.boundingBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -40,8 +40,8 @@
             // 
             this.boundingBox.Controls.Add(this.maxLabel);
             this.boundingBox.Controls.Add(this.minLabel);
-            this.boundingBox.Controls.Add(this.maxRGB);
             this.boundingBox.Controls.Add(this.minRGB);
+            this.boundingBox.Controls.Add(this.maxRGB);
             this.boundingBox.Location = new System.Drawing.Point(3, 3);
             this.boundingBox.Name = "boundingBox";
             this.boundingBox.Size = new System.Drawing.Size(200, 100);
@@ -67,23 +67,23 @@
             this.minLabel.TabIndex = 6;
             this.minLabel.Text = "Min:";
             // 
-            // maxRGB
-            // 
-            this.maxRGB.AutoSize = true;
-            this.maxRGB.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.maxRGB.Location = new System.Drawing.Point(48, 53);
-            this.maxRGB.Name = "maxRGB";
-            this.maxRGB.Size = new System.Drawing.Size(141, 26);
-            this.maxRGB.TabIndex = 5;
-            // 
             // minRGB
             // 
             this.minRGB.AutoSize = true;
             this.minRGB.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.minRGB.Location = new System.Drawing.Point(48, 21);
+            this.minRGB.Location = new System.Drawing.Point(48, 53);
             this.minRGB.Name = "minRGB";
             this.minRGB.Size = new System.Drawing.Size(141, 26);
-            this.minRGB.TabIndex = 4;
+            this.minRGB.TabIndex = 5;
+            // 
+            // maxRGB
+            // 
+            this.maxRGB.AutoSize = true;
+            this.maxRGB.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.maxRGB.Location = new System.Drawing.Point(48, 21);
+            this.maxRGB.Name = "maxRGB";
+            this.maxRGB.Size = new System.Drawing.Size(141, 26);
+            this.maxRGB.TabIndex = 4;
             // 
             // CameraEnhancerPanel
             // 
@@ -105,8 +105,8 @@
         private System.Windows.Forms.GroupBox boundingBox;
         private System.Windows.Forms.Label maxLabel;
         private System.Windows.Forms.Label minLabel;
-        private Util.RGBChooser maxRGB;
         private Util.RGBChooser minRGB;
+        private Util.RGBChooser maxRGB;
 
     }
 }

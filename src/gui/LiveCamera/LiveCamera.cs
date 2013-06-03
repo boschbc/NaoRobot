@@ -82,7 +82,8 @@ namespace Naovigate.GUI.LiveCamera
             //Avoid cross-thread exception:
             if (cameraEnabled.InvokeRequired)
                 cameraEnabled.Invoke(new MethodInvoker(UpdateEnabledCheckBox));
-            cameraEnabled.Checked = active;
+            else
+                cameraEnabled.Checked = active;
         }
 
         public Camera Camera
@@ -113,7 +114,8 @@ namespace Naovigate.GUI.LiveCamera
         {
             if (imageContainer.InvokeRequired)
                 imageContainer.Invoke(new MethodInvoker(ResetContent));
-            imageContainer.Image = new Bitmap(1, 1);
+            else
+                imageContainer.Image = new Bitmap(1, 1);
         }
 
         public void UpdateContent()
