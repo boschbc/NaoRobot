@@ -41,7 +41,9 @@ namespace Naovigate.GUI.LiveCamera
         {
             try
             {
+                Logger.Log(this, "Creating camera...");
                 camera = new Camera(SUBSCRIBER_ID);
+                Logger.Log(this, "Camera created.");
             }
             catch (UnavailableConnectionException) 
             {
@@ -109,6 +111,8 @@ namespace Naovigate.GUI.LiveCamera
 
         public void ResetContent()
         {
+            if (imageContainer.InvokeRequired)
+                imageContainer.Invoke(new MethodInvoker(ResetContent));
             imageContainer.Image = new Bitmap(1, 1);
         }
 

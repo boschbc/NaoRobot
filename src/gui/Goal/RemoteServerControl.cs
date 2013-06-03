@@ -32,6 +32,7 @@ namespace Naovigate.GUI.Goal
             if (communicator != null)
                 communicator.Close();
             communicator = new GoalCommunicator(ipChooser.IP, GoalCommunicator.DefaultPort);
+            GoalCommunicator.Instance = communicator;
             new Thread(new ThreadStart(Connect)).Start();
         }
     }
