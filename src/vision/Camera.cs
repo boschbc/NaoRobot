@@ -81,6 +81,7 @@ namespace Naovigate.Vision
         {
             try
             {
+                videoProxy.setColorSpace(subscriberID, 13);
                 ArrayList imageObject = (ArrayList)videoProxy.getImageRemote(subscriberID);
                 return imageObject;
             }
@@ -125,8 +126,16 @@ namespace Naovigate.Vision
             Bitmap bitmap = GetBitMap();
             if (bitmap == null)
                 return null;
-
-            Image<Rgb, Byte> image = new Image<Rgb, Byte>(bitmap);
+            Image<Rgb, Byte> image;
+            try
+            {
+                image = new Image<Rgb, Byte>(bitmap);
+            }
+            catch (NotSupportedException) 
+            {
+                Image<Bgr,Byte> imageBgr = new Image<Bgr, Byte>(GetBitMap());
+                image = imageBgr.Convert<Rgb, Byte>();
+            }
             return image;
         }
 

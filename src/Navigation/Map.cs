@@ -7,7 +7,7 @@ using System.Diagnostics;
 namespace Naovigate.Navigation
 {
     /// <summary>
-    /// A class that represents the overview map of the world we're discovering.
+    /// A class that represents the overview map of the world we're exploring.
     /// </summary>
     public class Map
     {
@@ -18,7 +18,8 @@ namespace Naovigate.Navigation
         {
             Size = 'S',
             WallInfo = 'W',
-            MarkerInfo = 'M'
+            MarkerInfo = 'M',
+            TileInfo = 'I'
         }
 
         /// <summary>
@@ -41,11 +42,13 @@ namespace Naovigate.Navigation
             private bool[] walls;
             private int x;
             private int y;
+            private int id;
 
-            public Tile(int x, int y)
+            public Tile(int x, int y, int id = -1)
             {
                 this.x = x;
                 this.y = y;
+                this.id = id;
                 this.markers = new[] { -1, -1, -1, -1 };
                 this.walls = new[] { false, false, false, false };
             }
@@ -106,6 +109,16 @@ namespace Naovigate.Navigation
             {
                 get { return this.y; }
             }
+
+            /// <summary>
+            /// The tile ID.
+            /// </summary>
+            /// <value>The ID.</value>
+            public int ID
+            {
+                get { return this.id; }
+                set { this.id = value; }
+            }
         }
 
         private int height;
@@ -145,7 +158,7 @@ namespace Naovigate.Navigation
                             tiles = new Tile[height, width];
                             for (int i = 0; i < height; i++)
                                 for (int j = 0; j < width; j++)
-                                    tiles[i, j] = new Tile(i, j);
+                                    tiles[i, j] = new Tile(j, i);
 
                             break;
 
@@ -169,6 +182,12 @@ namespace Naovigate.Navigation
                         case (char)EntryType.MarkerInfo:
                             ParsePositionValue(line, out x, out y, out direction, out id);
                             tiles[y, x].SetMarkerAt(direction, id);
+                            break;
+                           
+                        // Info about a tile.
+                        case (char)EntryType.TileInfo:
+                            ParsePositionValue(line, out x, out y, out id);
+                            tiles[y, x].ID = id;
                             break;
                         
                         // What this?
@@ -226,14 +245,44 @@ namespace Naovigate.Navigation
                 y = Int32.Parse(line[2]);
                 dir = (Direction)Enum.ToObject(typeof(Direction), Byte.Parse(line[3]));
                 truth = true;
-            } catch (System.Exception e) {
+            } catch (Exception e) {
                 if (e is OverflowException || e is FormatException)
                     throw new InvalidDataException("Invalid marker info entry specified.");
+                throw;
             }
         }
 
         /// <summary>
         /// Parse a position flag entry, containing a position, direction and truth value. Used for marker and wall entries.
+        /// </summary>
+        private static void ParsePositionValue(string[] line, out int x, out int y, out int id)
+        {
+            // Default values.
+            x = 0;
+            y = 0;
+            id = -1;
+
+            // Validate line sanity.
+            if (line.Length < 4)
+                throw new InvalidDataException("Reached EOL before being able to read marker info.");
+            
+            // Parse line entries.
+            try
+            {
+                x = Int32.Parse(line[1]);
+                y = Int32.Parse(line[2]);
+                id = Int32.Parse(line[3]);
+            }
+            catch (Exception e)
+            {
+                if (e is OverflowException || e is FormatException)
+                    throw new InvalidDataException("Invalid marker info entry specified.");
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Parse a position value entry, containing a position, direction and truth value. Used for marker and wall entries.
         /// </summary>
         private static void ParsePositionValue(string[] line, out int x, out int y, out Direction dir, out int id)
         {
@@ -255,10 +304,11 @@ namespace Naovigate.Navigation
                 dir = (Direction)Enum.ToObject(typeof(Direction), Byte.Parse(line[3]));
                 id = Int32.Parse(line[4]);
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 if (e is OverflowException || e is FormatException)
                     throw new InvalidDataException("Invalid marker info entry specified.");
+                throw;
             }
         }
 
@@ -299,7 +349,22 @@ namespace Naovigate.Navigation
         /// </summary>
         public Tile TileAt(int x, int y)
         {
-            return this.tiles[x, y];
+            return this.tiles[y, x];
+        }
+
+        /// <summary>
+        /// Receive the tile with ID id.
+        /// </summary>
+        /// <param name="id">Identifier.</param>
+        public Tile TileWithID(int id)
+        {
+            if (id == -1)
+                return null;
+
+            foreach (Tile t in this.tiles)
+                if (t.ID == id)
+                    return t;
+            return null;
         }
 
         /// <summary>
@@ -307,7 +372,7 @@ namespace Naovigate.Navigation
         /// </summary>
         public void SetTile(int x, int y, Tile t)
         {
-            this.tiles[x, y] = t;
+            this.tiles[y, x] = t;
         }
 
         /// <summary>
@@ -317,7 +382,7 @@ namespace Naovigate.Navigation
         /// <param name="y">The y coordinate.</param>
         public bool WithinBorders(int x, int y)
         {
-            return x >= 0 && x < this.width && y > 0 && y < this.height;
+            return x >= 0 && x < this.width && y >= 0 && y < this.height;
         }
 
     }
