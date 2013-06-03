@@ -34,10 +34,12 @@ namespace Naovigate
                 LaunchDebugger.DebugMain();
             else
             {
-                NaoState.Instance.Connect(LocalHost, 9559);
+                NaoState.Instance.Connect(nao2, 9559);
+                MarkerSearchThread mt = new MarkerSearchThread(64, 1);
+                mt.Start();
                 //new TestingGoalServer().Start();
-                GoalCommunicator c = new GoalCommunicator("127.0.0.1", GoalCommunicator.DefaultPort);
-                c.StartAsync();
+                //GoalCommunicator c = new GoalCommunicator("127.0.0.1", GoalCommunicator.DefaultPort);
+                //c.StartAsync();
             }
 
             Console.WriteLine("Done");

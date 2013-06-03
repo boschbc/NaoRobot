@@ -20,6 +20,8 @@ namespace Naovigate.Vision
         private Image<Rgb, Byte> currentImage;
         private List<Hsv> colors;
         ObjectRecogniser rec;
+        List<Rectangle> rectangles;
+        double naoFactor = 2;
 
         public Processing(Camera cm)
         {
@@ -54,7 +56,6 @@ namespace Naovigate.Vision
                 return null;
             else
             {
-
                 ArrayList objdata = ObjectData(objectRectangle);
                 return objdata;
             }  
@@ -62,7 +63,7 @@ namespace Naovigate.Vision
 
         public Rectangle SearchForObjects(Image<Hsv, Byte> hsv)
         {
-            List<Rectangle> rectangles = new List<Rectangle>();
+            rectangles = new List<Rectangle>();
             for (int i = 0; i < colors.Count / 2; i++)
             {
                 Image<Gray, Byte> rangedImg = hsv.InRange(colors[i], colors[i + 1]);
@@ -78,11 +79,15 @@ namespace Naovigate.Vision
                 return biggestRectangle(rectangles);
         }
 
+        //constructs a arraylist of data from the objectRectangle
         public ArrayList ObjectData(Rectangle objectRectangle)
-        {   
-            return null;
+        {
+            ArrayList ret = new ArrayList();
+
+            return ret;
         }
 
+        //returns the biggest rectangle object
         public Rectangle biggestRectangle(List<Rectangle> rectangles)
         {
             Console.WriteLine("to be implemented");
@@ -92,31 +97,40 @@ namespace Naovigate.Vision
                 return rectangles[0];
         }
 
-        public double ObjectAngle(Image<Hsv,byte> img)
+        //determins the angle between the nao and the object
+        public double ObjectAngle(Rectangle rec)
         {
-            return 0.0;
+            Point loc = rec.Location;
+            double locX = loc.X;
+            double centerX = currentImage.Width / 2;
+            double deltaX = centerX - locX;
+
+            double angle = Math.Tan(deltaX / ObjectDistance(rec));
+            return angle;
         }
-        public double ObjectDistance(Image<Hsv, byte> img)
+
+        //determins the distance between the object and the nao
+        public double ObjectDistance(Rectangle rec)
         {
-            return 0.0;
+            double width = rec.Width;
+            double height = rec.Height;
+            double opp = width * height;
+            double dist = opp / naoFactor;
+            return dist;
         }
 
 
         public Image<Hsv, Byte> EnchancedImage(double[] rgb1, double[] rgb2)
         {
-            currentImage = cam.GetImage();
+            DetectObject();
             Image<Hsv, byte> hsv = currentImage.Convert<Hsv, byte>();
-
             Hsv p1 = new Hsv(rgb1[0], rgb1[1], rgb1[2]);
             Hsv p2 = new Hsv(rgb2[0], rgb2[1], rgb2[2]);
             Rectangle rec = SearchForObjects(hsv);
 
-            //Image<Gray, Byte> gray = hsv.InRange(colors[2], colors[3]);
-            Image<Gray, Byte> gray = hsv.InRange(p1, p2);
-            Image<Hsv, Byte> ret = gray.Convert<Hsv, Byte>();
             Hsv col = new Hsv(116,199,122);
-            ret.Draw(rec, col, 2);
-            return ret;
+            hsv.Draw(rec, col, 2);
+            return hsv;
         }
     }
 }
