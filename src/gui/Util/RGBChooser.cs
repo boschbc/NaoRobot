@@ -32,8 +32,14 @@ namespace Naovigate.GUI.Util
         public double[] RGB
         {
             get 
-            { 
-                return new double[3]
+            {
+                if (red.InvokeRequired)
+                    return (double[]) red.Invoke(new Func<double[]>(() => RGB));
+                else if (green.InvokeRequired)
+                    return (double[])green.Invoke(new Func<double[]>(() => RGB));
+                else if (blue.InvokeRequired)
+                    return (double[])blue.Invoke(new Func<double[]>(() => RGB));
+                else return new double[3]
                 { 
                     (double) red.Value, 
                     (double) green.Value, 

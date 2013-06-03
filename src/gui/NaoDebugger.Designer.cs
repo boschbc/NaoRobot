@@ -31,6 +31,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.eventsTab = new System.Windows.Forms.TabPage();
+            this.eventLauncherPanel1 = new Naovigate.GUI.Panels.EventLauncherPanel();
             this.goalTab = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.localServerPanel1 = new Naovigate.GUI.Goal.LocalServerPanel();
@@ -40,7 +41,6 @@
             this.stateMonitorPanel = new Naovigate.GUI.State.StateMonitorPanel();
             this.naoConnection = new Naovigate.GUI.State.NaoConnection();
             this.liveCamera = new Naovigate.GUI.LiveCamera.LiveCamera();
-            this.eventLauncherPanel1 = new Naovigate.GUI.Panels.EventLauncherPanel();
             this.panel1.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.eventsTab.SuspendLayout();
@@ -82,6 +82,16 @@
             this.eventsTab.TabIndex = 1;
             this.eventsTab.Text = "Events";
             this.eventsTab.UseVisualStyleBackColor = true;
+            // 
+            // eventLauncherPanel1
+            // 
+            this.eventLauncherPanel1.AutoSize = true;
+            this.eventLauncherPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.eventLauncherPanel1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.eventLauncherPanel1.Location = new System.Drawing.Point(3, 3);
+            this.eventLauncherPanel1.Name = "eventLauncherPanel1";
+            this.eventLauncherPanel1.Size = new System.Drawing.Size(251, 104);
+            this.eventLauncherPanel1.TabIndex = 0;
             // 
             // goalTab
             // 
@@ -188,16 +198,6 @@
             this.liveCamera.Name = "liveCamera";
             this.liveCamera.Size = new System.Drawing.Size(338, 397);
             this.liveCamera.TabIndex = 0;
-            // 
-            // eventLauncherPanel1
-            // 
-            this.eventLauncherPanel1.AutoSize = true;
-            this.eventLauncherPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.eventLauncherPanel1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.eventLauncherPanel1.Location = new System.Drawing.Point(3, 3);
-            this.eventLauncherPanel1.Name = "eventLauncherPanel1";
-            this.eventLauncherPanel1.Size = new System.Drawing.Size(251, 104);
-            this.eventLauncherPanel1.TabIndex = 0;
             // 
             // NaoDebugger
             // 
