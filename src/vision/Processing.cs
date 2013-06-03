@@ -86,7 +86,10 @@ namespace Naovigate.Vision
         public Rectangle biggestRectangle(List<Rectangle> rectangles)
         {
             Console.WriteLine("to be implemented");
-            return rectangles[1];
+            if(rectangles.Count ==2)
+                return rectangles[1];            
+            else
+                return rectangles[0];
         }
 
         public double ObjectAngle(Image<Hsv,byte> img)
@@ -102,13 +105,13 @@ namespace Naovigate.Vision
         public Image<Hsv, Byte> EnchancedImage(double[] rgb1, double[] rgb2)
         {
             currentImage = cam.GetImage();
-            
-            Hsv p1 = new Hsv(rgb1[0],rgb1[1],rgb1[2]);
-            Hsv p2 = new Hsv(rgb2[0], rgb2[1], rgb2[2]);
             Image<Hsv, byte> hsv = currentImage.Convert<Hsv, byte>();
 
+            Hsv p1 = new Hsv(rgb1[0], rgb1[1], rgb1[2]);
+            Hsv p2 = new Hsv(rgb2[0], rgb2[1], rgb2[2]);
             Rectangle rec = SearchForObjects(hsv);
 
+            //Image<Gray, Byte> gray = hsv.InRange(colors[2], colors[3]);
             Image<Gray, Byte> gray = hsv.InRange(p1, p2);
             Image<Hsv, Byte> ret = gray.Convert<Hsv, Byte>();
             Hsv col = new Hsv(116,199,122);
