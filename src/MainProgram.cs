@@ -36,10 +36,8 @@ namespace Naovigate
             {
                 NaoState.Instance.Connect(LocalHost, 9559);
                 //new TestingGoalServer().Start();
-                GoalCommunicator c = new GoalCommunicator("192.168.0.127", GoalCommunicator.DefaultPort);
+                GoalCommunicator c = new GoalCommunicator("127.0.0.1", GoalCommunicator.DefaultPort);
                 c.StartAsync();
-                while (c.Stream == null) ;
-                EventQueue.Goal.Post(new AgentEvent());
             }
 
             Console.WriteLine("Done");
