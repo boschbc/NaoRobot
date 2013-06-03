@@ -18,7 +18,8 @@ namespace Naovigate.Navigation
         {
             Size = 'S',
             WallInfo = 'W',
-            MarkerInfo = 'M'
+            MarkerInfo = 'M',
+            TileInfo = 'I'
         }
 
         /// <summary>
@@ -41,11 +42,13 @@ namespace Naovigate.Navigation
             private bool[] walls;
             private int x;
             private int y;
+            private int id;
 
-            public Tile(int x, int y)
+            public Tile(int x, int y, int id = -1)
             {
                 this.x = x;
                 this.y = y;
+                this.id = id;
                 this.markers = new[] { -1, -1, -1, -1 };
                 this.walls = new[] { false, false, false, false };
             }
@@ -105,6 +108,16 @@ namespace Naovigate.Navigation
             public int Y
             {
                 get { return this.y; }
+            }
+
+            /// <summary>
+            /// The tile ID.
+            /// </summary>
+            /// <value>The ID.</value>
+            public int ID
+            {
+                get { return this.id; }
+                set { this.id = value; }
             }
         }
 
@@ -170,6 +183,12 @@ namespace Naovigate.Navigation
                             ParsePositionValue(line, out x, out y, out direction, out id);
                             tiles[y, x].SetMarkerAt(direction, id);
                             break;
+                           
+                        // Info about a tile.
+                        case (char)EntryType.TileInfo:
+                            ParsePositionValue(line, out x, out y, out id);
+                            tiles[y, x].ID = id;
+                            break;
                         
                         // What this?
                         default:
@@ -226,14 +245,44 @@ namespace Naovigate.Navigation
                 y = Int32.Parse(line[2]);
                 dir = (Direction)Enum.ToObject(typeof(Direction), Byte.Parse(line[3]));
                 truth = true;
-            } catch (System.Exception e) {
+            } catch (Exception e) {
                 if (e is OverflowException || e is FormatException)
                     throw new InvalidDataException("Invalid marker info entry specified.");
+                throw;
             }
         }
 
         /// <summary>
         /// Parse a position flag entry, containing a position, direction and truth value. Used for marker and wall entries.
+        /// </summary>
+        private static void ParsePositionValue(string[] line, out int x, out int y, out int id)
+        {
+            // Default values.
+            x = 0;
+            y = 0;
+            id = -1;
+
+            // Validate line sanity.
+            if (line.Length < 4)
+                throw new InvalidDataException("Reached EOL before being able to read marker info.");
+            
+            // Parse line entries.
+            try
+            {
+                x = Int32.Parse(line[1]);
+                y = Int32.Parse(line[2]);
+                id = Int32.Parse(line[3]);
+            }
+            catch (Exception e)
+            {
+                if (e is OverflowException || e is FormatException)
+                    throw new InvalidDataException("Invalid marker info entry specified.");
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Parse a position value entry, containing a position, direction and truth value. Used for marker and wall entries.
         /// </summary>
         private static void ParsePositionValue(string[] line, out int x, out int y, out Direction dir, out int id)
         {
@@ -255,10 +304,11 @@ namespace Naovigate.Navigation
                 dir = (Direction)Enum.ToObject(typeof(Direction), Byte.Parse(line[3]));
                 id = Int32.Parse(line[4]);
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 if (e is OverflowException || e is FormatException)
                     throw new InvalidDataException("Invalid marker info entry specified.");
+                throw;
             }
         }
 
@@ -300,6 +350,21 @@ namespace Naovigate.Navigation
         public Tile TileAt(int x, int y)
         {
             return this.tiles[y, x];
+        }
+
+        /// <summary>
+        /// Receive the tile with ID id.
+        /// </summary>
+        /// <param name="id">Identifier.</param>
+        public Tile TileWithID(int id)
+        {
+            if (id == -1)
+                return null;
+
+            foreach (Tile t in this.tiles)
+                if (t.ID == id)
+                    return t;
+            return null;
         }
 
         /// <summary>
