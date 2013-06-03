@@ -21,7 +21,7 @@ namespace Naovigate.Event.Internal
         /// </summary>
         public override void Abort()
         {
-            throw new NotImplementedException();
+            Grabber.Instance.Abort();
         }
 
         /// <summary>
