@@ -52,11 +52,16 @@ namespace Naovigate.Event.GoalToNao
         {
             try
             {
+                Logger.Log(this, "PutDownWorker");
                 executor = Grabber.Instance.PutDown();
+                executor.Start();
+                Logger.Log(this, "Wait");
                 executor.WaitFor();
+                Logger.Log(this, "Done");
             }
-            catch
+            catch(Exception e)
             {
+                Logger.Log(this, e.Message);
                 StatusCheck();
             }
         }

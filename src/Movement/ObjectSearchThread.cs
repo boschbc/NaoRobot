@@ -35,7 +35,7 @@ namespace Naovigate.Movement
 
         public override void Run()
         {
-            LookForObject();
+            Call(() => LookForObject());
         }
 
         //Looks for a object and then dissects the data

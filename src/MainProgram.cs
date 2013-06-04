@@ -14,7 +14,6 @@ using Naovigate.Util;
 using Naovigate.Testing.GUI;
 using Naovigate.Vision;
 using Naovigate.Event;
-using Naovigate.Movement;
 namespace Naovigate
 {
     class MainProgram
@@ -34,9 +33,13 @@ namespace Naovigate
                 LaunchDebugger.DebugMain();
             else
             {
-                NaoState.Instance.Connect(nao2, 9559);
-                MarkerSearchThread m = new MarkerSearchThread(64, 0);
-                m.Start();
+                NaoState.Instance.Connect(LocalHost, 9559);
+                float pi = (float)Math.PI;
+
+                Walk.Instance.Turn(2*pi);
+                Thread.Sleep(2000);
+                Walk.Instance.StopMove();
+                //Walk.Instance.StopMove();
                 //new TestingGoalServer().Start();
                 //GoalCommunicator c = new GoalCommunicator("127.0.0.1", GoalCommunicator.DefaultPort);
                 //c.StartAsync();
