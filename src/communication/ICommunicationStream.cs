@@ -86,7 +86,8 @@ namespace Naovigate.Communication
         long ReadLong();
 
         /// <summary>
-        /// Read a string.
+        /// Read a string until the next newline.
+        /// Consumes the newline.
         /// </summary>
         /// <returns>A string.</returns>
         string ReadString();

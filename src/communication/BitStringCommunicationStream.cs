@@ -70,7 +70,21 @@ namespace Naovigate.Communication
             return (byte) value;
         }
 
+        /// <summary>
+        /// Return the next byte of the stream, ignoring newlines.
+        /// </summary>
+        /// <returns>The next byte of the stream, ignoring newlines.</returns>
         private byte ReadNextByte()
+        {
+            return ReadNextByte(true);
+        }
+
+        /// <summary>
+        /// Return the next byte of the stream.
+        /// </summary>
+        /// <param name="ignoreNewline"></param>
+        /// <returns>The next byte of the stream.</returns>
+        private byte ReadNextByte(bool ignoreNewline)
         {
             byte[] buf = new byte[1];
             byte b;
@@ -79,7 +93,7 @@ namespace Naovigate.Communication
                 ReadRaw(buf, 0, buf.Length);
                 b = buf[0];
                 // ignore newlines
-            } while(b == '\n');
+            } while (ignoreNewline && b == '\n');
             return b;
         }
 
@@ -94,18 +108,18 @@ namespace Naovigate.Communication
         }
 
         /// <summary>
-        /// Read a string.
+        /// Read a string, stopping at the first newline.
+        /// consumes the newline
         /// </summary>
-        /// <returns>A string.</returns>
+        /// <returns>A string. Consumed newlines.</returns>
         public override string ReadString()
         {
             List<byte> value = new List<byte>();
 
             byte b;
-            while ((b = this.ReadNextByte()) != 0) {
+            while ((b = ReadNextByte(false)) != '\n') {
                 value.Add(b);
             }
-            value.Add(0);
 
             return Encoding.UTF8.GetString(value.ToArray());
         }

@@ -185,6 +185,7 @@ namespace Naovigate.Test.Communication
             {
                 string data = "hello world";
                 stream.WriteString(data);
+                stream.WriteNewline();
                 StartRead();
                 string res = stream.ReadString();
                 Assert.AreEqual(data, res);
@@ -198,13 +199,42 @@ namespace Naovigate.Test.Communication
         [Test]
         public void WriteStringTest()
         {
-            Assert.Ignore();
+            try
+            {
+                string data = new string(new char[] { '0', '1', '2' });
+                stream.WriteString(data);
+                StartRead();
+                byte[] buf = new byte[internalStream.Length];
+                if(internalStream.Read(buf, 0, buf.Length) != buf.Length){
+                    Assert.Inconclusive();
+                }
+                Assert.AreEqual('0', buf[0]);
+                Assert.AreEqual('1', buf[1]);
+                Assert.AreEqual('2', buf[2]);
+                
+            }
+            catch (NotImplementedException)
+            {
+                Assert.Inconclusive();
+            }
+            
         }
 
         [Test]
         public void ReadStringTest()
         {
-            Assert.Ignore();
+            try
+            {
+                string data = "hello world";
+                byte[] bin = System.Text.Encoding.UTF8.GetBytes(data + "\n");
+                internalStream.Write(bin, 0, bin.Length);
+                StartRead();
+                Assert.AreEqual(data, stream.ReadString());
+            }
+            catch (NotImplementedException)
+            {
+                Assert.Inconclusive();
+            }
         }
 
         [Test]
@@ -215,7 +245,9 @@ namespace Naovigate.Test.Communication
                 stream.WriteNewline();
                 StartRead();
                 string res = stream.ReadString();
-                Assert.AreEqual("\n", res);
+
+                // ReadString consumes the newline, so we expect nothing.
+                Assert.AreEqual("", res);
             } catch(NotImplementedException){
                 Assert.Inconclusive();
             }
