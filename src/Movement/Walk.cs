@@ -91,6 +91,14 @@ namespace Naovigate.Movement
         }
 
         /// <summary>
+        /// Turn the Nao
+        /// </summary>
+        public void Turn(float rad)
+        {
+            WalkTo(0, 0, rad);
+        }
+
+        /// <summary>
         /// Start walking with normalized speed x, y and theta
         /// </summary>
         /// <param name="x">Speed along the X-axis.</param>
