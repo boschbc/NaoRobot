@@ -22,7 +22,7 @@ namespace Naovigate
         public static readonly int GoalPort = 6747;
         public static readonly string LocalHost = "127.0.0.1";
         public static readonly string nao2 = "192.168.0.108";
-        public static readonly string NaoIP = LocalHost;
+        public static readonly string NaoIP = nao2;
         public static readonly string GoalIP = LocalHost;
 
         public static void Main(String[] args)
@@ -33,16 +33,9 @@ namespace Naovigate
                 LaunchDebugger.DebugMain();
             else
             {
-                NaoState.Instance.Connect(LocalHost, 9559);
-                float pi = (float)Math.PI;
-
-                Walk.Instance.Turn(2*pi);
-                Thread.Sleep(2000);
-                Walk.Instance.StopMove();
-                //Walk.Instance.StopMove();
-                //new TestingGoalServer().Start();
-                //GoalCommunicator c = new GoalCommunicator("127.0.0.1", GoalCommunicator.DefaultPort);
-                //c.StartAsync();
+                NaoState.Instance.Connect(NaoIP, 9559);
+                // -x - 0.5
+                Pose.Instance.Look(-.6f);
 
             }
 

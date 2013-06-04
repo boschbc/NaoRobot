@@ -28,7 +28,8 @@ namespace Naovigate.GUI.Events
                                                        UserParameter<float>()) },
                     { "ShutdownEvent", () => new ShutdownEvent() },
                     { "SitDownEvent", () => new SitDownEvent() },
-                    { "StandUpEvent", () => new StandUpEvent() }
+                    { "StandUpEvent", () => new StandUpEvent() },
+                    { "GoToMarkerEvent", () => new GoToMarkerEvent(UserParameter<int>(), UserParameter<int>()) }
                 });
         }
 
