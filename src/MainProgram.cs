@@ -14,7 +14,6 @@ using Naovigate.Util;
 using Naovigate.Testing.GUI;
 using Naovigate.Vision;
 using Naovigate.Event;
-using Naovigate.Movement;
 namespace Naovigate
 {
     class MainProgram

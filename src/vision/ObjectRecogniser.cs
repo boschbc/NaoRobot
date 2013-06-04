@@ -21,10 +21,9 @@ namespace Naovigate.Vision
 
         public static ObjectRecogniser instance = null;
 
-        public static ObjectRecogniser Instance()
+        public static ObjectRecogniser Instance
         {
-        get:
-            {
+            get{
                 return instance == null ? instance = new ObjectRecogniser() : instance;
             }
         }

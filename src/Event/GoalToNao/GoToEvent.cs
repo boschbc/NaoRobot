@@ -12,8 +12,7 @@ using Naovigate.Util;
 namespace Naovigate.Event.GoalToNao
 {
     /// <summary>
-    /// Move to the marker MarkerID, if it is in range of the Nao.
-    /// The Nao will stop Distance rooms away from the marker.
+    /// follow the given path, stopping on the last node.
     /// </summary>
     public class GoToEvent : NaoEvent
     {

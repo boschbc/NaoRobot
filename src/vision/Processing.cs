@@ -26,7 +26,7 @@ namespace Naovigate.Vision
         public Processing(Camera cm)
         {
             cam = cm;
-            rec = ObjectRecogniser.Instance();
+            rec = ObjectRecogniser.Instance;
             Init();
         }
 
