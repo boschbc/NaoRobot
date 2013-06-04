@@ -14,6 +14,7 @@ namespace Naovigate.Event.Internal
     {
         public new static readonly EventCode code = EventCode.Move;
         private PointF delta;
+        private float rotation;
 
         /*
          * Default contructor.
@@ -23,9 +24,9 @@ namespace Naovigate.Event.Internal
             Unpack();
         }
 
-        public MoveEvent(float deltaX, float deltaY)
+        public MoveEvent(float deltaX, float deltaY, float rotation)
         {
-            SetDelta(deltaX, deltaY);
+            SetDelta(deltaX, deltaY, rotation);
         }
 
         /*
@@ -33,15 +34,16 @@ namespace Naovigate.Event.Internal
          */
         private void Unpack()
         {
-            SetDelta(stream.ReadInt(), stream.ReadInt());
+            SetDelta(stream.ReadInt(), stream.ReadInt(), stream.ReadInt());
         }
 
         /*
          * Programmatically set the move's destination.
          */
-        public void SetDelta(float x, float y)
+        public void SetDelta(float x, float y, float rotation)
         {
             delta = new PointF(x, y);
+            this.rotation = rotation;
         }
 
         /*
@@ -49,7 +51,7 @@ namespace Naovigate.Event.Internal
          */ 
         public override void Fire()
         {
-            Walk.Instance.WalkTo(delta.X, delta.Y, 0.0f);
+            Walk.Instance.WalkTo(delta.X, delta.Y, rotation);
         }
 
         /// <summary>

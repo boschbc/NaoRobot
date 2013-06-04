@@ -42,6 +42,7 @@ namespace Naovigate.GUI.State
             debugWidgets.Add(locationMonitor);
             debugWidgets.Add(batteryMonitor);
             debugWidgets.Add(temperatureMonitor);
+            debugWidgets.Add(rotationMonitor);
         }
 
         public int Interval

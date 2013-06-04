@@ -32,9 +32,11 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.locationMonitor = new Naovigate.GUI.State.LocationMonitor();
             this.temperatureMonitor = new Naovigate.GUI.State.TemperatureMonitor();
             this.batteryMonitor = new Naovigate.GUI.State.BatteryMonitor();
+            this.rotationMonitor = new Naovigate.GUI.State.RotationMonitor();
             this.tableLayoutPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -49,10 +51,13 @@
             this.tableLayoutPanel.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel.Controls.Add(this.label2, 0, 1);
             this.tableLayoutPanel.Controls.Add(this.label3, 0, 2);
+            this.tableLayoutPanel.Controls.Add(this.label4, 0, 3);
+            this.tableLayoutPanel.Controls.Add(this.rotationMonitor, 1, 3);
             this.tableLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
-            this.tableLayoutPanel.RowCount = 3;
+            this.tableLayoutPanel.RowCount = 4;
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -85,9 +90,19 @@
             this.label3.Dock = System.Windows.Forms.DockStyle.Left;
             this.label3.Location = new System.Drawing.Point(3, 38);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(43, 40);
+            this.label3.Size = new System.Drawing.Size(43, 24);
             this.label3.TabIndex = 5;
             this.label3.Text = "Battery:";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Dock = System.Windows.Forms.DockStyle.Left;
+            this.label4.Location = new System.Drawing.Point(3, 62);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(50, 19);
+            this.label4.TabIndex = 6;
+            this.label4.Text = "Rotation:";
             // 
             // locationMonitor
             // 
@@ -116,8 +131,18 @@
             this.batteryMonitor.Dock = System.Windows.Forms.DockStyle.Right;
             this.batteryMonitor.Location = new System.Drawing.Point(84, 41);
             this.batteryMonitor.Name = "batteryMonitor";
-            this.batteryMonitor.Size = new System.Drawing.Size(76, 34);
+            this.batteryMonitor.Size = new System.Drawing.Size(76, 18);
             this.batteryMonitor.TabIndex = 2;
+            // 
+            // rotationMonitor
+            // 
+            this.rotationMonitor.AutoSize = true;
+            this.rotationMonitor.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.rotationMonitor.Dock = System.Windows.Forms.DockStyle.Right;
+            this.rotationMonitor.Location = new System.Drawing.Point(101, 65);
+            this.rotationMonitor.Name = "rotationMonitor";
+            this.rotationMonitor.Size = new System.Drawing.Size(59, 13);
+            this.rotationMonitor.TabIndex = 7;
             // 
             // StateMonitorPanel
             // 
@@ -142,6 +167,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
+        private RotationMonitor rotationMonitor;
 
     }
 }

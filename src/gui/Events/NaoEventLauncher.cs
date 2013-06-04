@@ -19,19 +19,18 @@ namespace Naovigate.GUI.Events
 
             Customize("Post to Nao",
                 new Dictionary<String,Func<INaoEvent>>() 
-            {
-                { "ExitEvent", () => new ExitEvent() },
-                { "GoToEvent", () => new GoToEvent(UserParameter<List<Point>>()) },
-                { "HaltEvent", () => new HaltEvent() },
-                { "PickupEvent", () => new PickupEvent(UserParameter<int>()) },
-                { "PutDownEvent", () => new PutDownEvent() },
-                { "SayEvent", () => new SayEvent(UserParameter<string>()) }
-            });
+                {
+                    { "ExitEvent", () => new ExitEvent() },
+                    { "GoToEvent", () => new GoToEvent(UserParameter<List<Point>>()) },
+                    { "HaltEvent", () => new HaltEvent() },
+                    { "PickupEvent", () => new PickupEvent(UserParameter<int>()) },
+                    { "PutDownEvent", () => new PutDownEvent() },
+                    { "SayEvent", () => new SayEvent(UserParameter<string>()) }
+                });
         }
 
         protected override void InitializeParameterMap()
         {
-            Logger.Log();
             base.InitializeParameterMap();
             AddParameterMapping(typeof(List<Point>), AskUserForLocationList);
         }

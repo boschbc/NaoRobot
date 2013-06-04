@@ -31,18 +31,20 @@
             this.boundingBox = new System.Windows.Forms.GroupBox();
             this.naoEventLauncher1 = new Naovigate.GUI.Events.NaoEventLauncher();
             this.goalEventLauncher1 = new Naovigate.GUI.Events.GoalEventLauncher();
+            this.internalEventLauncher1 = new Naovigate.GUI.Events.InternalEventLauncher();
             this.boundingBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // boundingBox
             // 
             this.boundingBox.AutoSize = true;
+            this.boundingBox.Controls.Add(this.internalEventLauncher1);
             this.boundingBox.Controls.Add(this.naoEventLauncher1);
             this.boundingBox.Controls.Add(this.goalEventLauncher1);
             this.boundingBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.boundingBox.Location = new System.Drawing.Point(0, 0);
             this.boundingBox.Name = "boundingBox";
-            this.boundingBox.Size = new System.Drawing.Size(220, 104);
+            this.boundingBox.Size = new System.Drawing.Size(220, 140);
             this.boundingBox.TabIndex = 0;
             this.boundingBox.TabStop = false;
             this.boundingBox.Text = "Events";
@@ -65,6 +67,15 @@
             this.goalEventLauncher1.Size = new System.Drawing.Size(208, 30);
             this.goalEventLauncher1.TabIndex = 0;
             // 
+            // internalEventLauncher1
+            // 
+            this.internalEventLauncher1.AutoSize = true;
+            this.internalEventLauncher1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.internalEventLauncher1.Location = new System.Drawing.Point(6, 91);
+            this.internalEventLauncher1.Name = "internalEventLauncher1";
+            this.internalEventLauncher1.Size = new System.Drawing.Size(208, 30);
+            this.internalEventLauncher1.TabIndex = 2;
+            // 
             // EventLauncherPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -73,7 +84,7 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.Controls.Add(this.boundingBox);
             this.Name = "EventLauncherPanel";
-            this.Size = new System.Drawing.Size(220, 104);
+            this.Size = new System.Drawing.Size(220, 140);
             this.boundingBox.ResumeLayout(false);
             this.boundingBox.PerformLayout();
             this.ResumeLayout(false);
@@ -86,5 +97,6 @@
         private System.Windows.Forms.GroupBox boundingBox;
         private Events.NaoEventLauncher naoEventLauncher1;
         private Events.GoalEventLauncher goalEventLauncher1;
+        private Events.InternalEventLauncher internalEventLauncher1;
     }
 }

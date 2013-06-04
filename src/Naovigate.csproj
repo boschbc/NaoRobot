@@ -82,6 +82,9 @@
     <Compile Include="Event\NaoToGoal\SuccessEvent.cs" />
     <Compile Include="Grabbing\GrabWorker.cs" />
     <Compile Include="Grabbing\PutDownWorker.cs" />
+    <Compile Include="GUI\Events\InternalEventLauncher.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="GUI\Goal\LocalServerPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -118,6 +121,12 @@
     </Compile>
     <Compile Include="GUI\State\NaoConnection.Designer.cs">
       <DependentUpon>NaoConnection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\State\RotationMonitor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\State\RotationMonitor.Designer.cs">
+      <DependentUpon>RotationMonitor.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Util\IPChooser.cs">
       <SubType>UserControl</SubType>
@@ -316,6 +325,9 @@
     <EmbeddedResource Include="GUI\State\NaoConnection.resx">
       <DependentUpon>NaoConnection.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="GUI\State\RotationMonitor.resx">
+      <DependentUpon>RotationMonitor.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Util\IPChooser.resx">
       <DependentUpon>IPChooser.cs</DependentUpon>
     </EmbeddedResource>
@@ -366,5 +378,4 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
 </Project>

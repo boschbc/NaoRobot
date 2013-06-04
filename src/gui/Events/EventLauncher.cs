@@ -29,6 +29,7 @@ namespace Naovigate.GUI.Events
         protected virtual void InitializeParameterMap()
         {
             AddParameterMapping(typeof(int), AskUserForInteger);
+            AddParameterMapping(typeof(float), AskUserForFloat);
             AddParameterMapping(typeof(string), AskUserForString);
         }
 
@@ -70,6 +71,11 @@ namespace Naovigate.GUI.Events
         private Object AskUserForInteger()
         {
             return DisplayPopup(new IntegerChooser());
+        }
+
+        private Object AskUserForFloat()
+        {
+            return AskUserForInteger();
         }
 
         private Object AskUserForString()

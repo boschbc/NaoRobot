@@ -43,6 +43,7 @@
             // 
             // postButton
             // 
+            this.postButton.AutoSize = true;
             this.postButton.Location = new System.Drawing.Point(130, 4);
             this.postButton.Name = "postButton";
             this.postButton.Size = new System.Drawing.Size(75, 23);
@@ -62,6 +63,7 @@
             this.Name = "EventLauncher";
             this.Size = new System.Drawing.Size(208, 30);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

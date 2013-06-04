@@ -1,6 +1,6 @@
-﻿namespace Naovigate.GUI.Popups.ParamChooser
+﻿namespace Naovigate.GUI.State
 {
-    partial class IntegerChooser
+    partial class RotationMonitor
     {
         /// <summary> 
         /// Required designer variable.
@@ -28,39 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.value = new System.Windows.Forms.NumericUpDown();
-            ((System.ComponentModel.ISupportInitialize)(this.value)).BeginInit();
+            this.rotationLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
-            // value
+            // rotationLabel
             // 
-            this.value.DecimalPlaces = 1;
-            this.value.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.value.Location = new System.Drawing.Point(0, 0);
-            this.value.Name = "value";
-            this.value.Size = new System.Drawing.Size(56, 20);
-            this.value.TabIndex = 0;
+            this.rotationLabel.AutoSize = true;
+            this.rotationLabel.Location = new System.Drawing.Point(3, 0);
+            this.rotationLabel.Name = "rotationLabel";
+            this.rotationLabel.Size = new System.Drawing.Size(53, 13);
+            this.rotationLabel.TabIndex = 0;
+            this.rotationLabel.Text = "Unknown";
             // 
-            // IntegerChooser
+            // RotationMonitor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.Controls.Add(this.value);
-            this.Name = "IntegerChooser";
-            this.Size = new System.Drawing.Size(59, 23);
-            ((System.ComponentModel.ISupportInitialize)(this.value)).EndInit();
+            this.Controls.Add(this.rotationLabel);
+            this.Name = "RotationMonitor";
+            this.Size = new System.Drawing.Size(59, 13);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.NumericUpDown value;
+        private System.Windows.Forms.Label rotationLabel;
     }
 }
