@@ -118,6 +118,11 @@ namespace Naovigate.Util
                 Thread.Sleep(100);
             if (Error != null)
                 throw Error;
+            if (Aborted)
+            {
+                errorCaught = new ThreadInterruptedException();
+                throw Error;
+            }
         }
 
         public void NotifyWhenDone(Action handler)

@@ -19,7 +19,8 @@ namespace Naovigate.Movement
         private static readonly ArrayList rLegNames = new ArrayList(new string[]{"RHipYawPitch", "RHipRoll", "RHipPitch", "RKneePitch", "RAnklePitch", "RAnkleRoll"});
         private static readonly ArrayList lLegNames = new ArrayList(new string[] { "LHipYawPitch", "LHipRoll", "LHipPitch", "LKneePitch", "LAnklePitch", "LAnkleRoll" });
         private static readonly ArrayList kneelNames = new ArrayList(new String[] { "LHipPitch", "RHipPitch", "LKneePitch", "RKneePitch", "LAnklePitch", "RAnklePitch" });
-        
+
+        private float lastDepth;
         
         private static Pose instance;
         MotionProxy motion;
@@ -93,6 +94,26 @@ namespace Naovigate.Movement
             angles.Add(-depth);
 
             motion.angleInterpolationWithSpeed(kneelNames, angles, 0.3F);
+        }
+
+        /// <summary>
+        /// Move the nao head forwards or backwards.
+        /// depth ranges from -0.5f to 0.5f.
+        /// here negative value makes the nao look up, positive values make nao look down.
+        /// heigth = 0f makes the nao look forwards.
+        /// </summary>
+        /// <param name="depth"></param>
+        public void Look(float depth)
+        {
+            if (depth < -0.5f) depth = -0.5f;
+            if (depth > 0.5f) depth = 0.5f;
+            Logger.Log(this, "Look: "+depth);
+            // avoid motors grinding
+            if (depth != lastDepth)
+            {
+                lastDepth = depth;
+                motion.angleInterpolationWithSpeed(new ArrayList(new string[] { "HeadPitch" }), new ArrayList(new float[] { depth }), 0.1f);
+            }
         }
 
         public bool Balanced
