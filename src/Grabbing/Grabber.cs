@@ -117,7 +117,7 @@ namespace Naovigate.Grabbing
         /// <returns>A boolean.</returns>
         public virtual Boolean HoldingObject()
         {
-            //TODO 
+            //TODO
             return true;
         }
 
@@ -129,6 +129,7 @@ namespace Naovigate.Grabbing
             if (worker != null)
             {
                 worker.Abort();
+                worker = null;
             }
         }
     }

@@ -110,5 +110,13 @@ namespace Naovigate.Event.GoalToNao
             }
 
         }
+
+        /// <summary>
+        /// return this event's EventCode.
+        /// </summary>
+        public override EventCode EventCode
+        {
+            get { return EventCode.PutDown; }
+        }
     }
 }

@@ -55,7 +55,12 @@ namespace Naovigate.Event
         Move = 0x40,
         Colliding = 0x41,
         StandUp = 0x42,
-        SitDown = 0x43
+        SitDown = 0x43,
+        ShutDown = 0x44,
+        Crouch = 0x45,
+        GoToMarker = 0x46,
+        Grab = 0x47,
+        Turn = 0x48,
     }
 
     /// <summary>
@@ -79,6 +84,10 @@ namespace Naovigate.Event
             get;
         }
 
+        EventCode EventCode
+        {
+            get;
+        }
         /// <summary>
         /// Fires the event.
         /// </summary>

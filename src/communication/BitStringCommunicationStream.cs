@@ -53,6 +53,10 @@ namespace Naovigate.Communication
             return len;
         }
 
+        /// <summary>
+        /// read a byte from the stream
+        /// </summary>
+        /// <returns></returns>
         private byte ReadByteFromBitString()
         {
             byte[] str = new byte[8];
@@ -65,7 +69,8 @@ namespace Naovigate.Communication
             int value = 0;
             for (int i = str.Length - 1; i >= 0;i-- )
             {
-                value = value + (bitstring[i] == '1' ? 1 << (str.Length - i - 1) : 0);
+                if (bitstring[i] == '1')
+                    value += 1 << (str.Length - i - 1);
             }
             return (byte) value;
         }

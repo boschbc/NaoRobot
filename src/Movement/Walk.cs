@@ -155,7 +155,7 @@ namespace Naovigate.Movement
         /// <param name="markerID"></param>
         /// <param name="dist"></param>
         /// <returns></returns>
-        public MarkerSearchThread WalkTowardsMarker(float dir, int markerID, double dist)
+        public MarkerSearchThread WalkTowardsMarker(float dir, int markerID, int dist)
         {
             StopLooking();
             WalkTo(0, 0, dir);

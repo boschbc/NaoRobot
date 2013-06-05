@@ -25,6 +25,14 @@ namespace Naovigate.Event.Internal
         public override void Abort() { }
 
         /// <summary>
+        /// return this event's EventCode.
+        /// </summary>
+        public override EventCode EventCode
+        {
+            get { return EventCode.Crouch; }
+        }
+
+        /// <summary>
         /// Returns a string representation of this event.
         /// </summary>
         /// <returns>A string.</returns>

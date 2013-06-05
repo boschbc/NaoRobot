@@ -73,6 +73,13 @@ namespace Naovigate.Event.Internal
         }
 
         /// <summary>
+        /// return this event's EventCode.
+        /// </summary>
+        public override EventCode EventCode
+        {
+            get { return EventCode.Move; }
+        }
+        /// <summary>
         /// Returns a human-readable string describing an instance of this class.
         /// </summary>
         /// <returns>A human readable string.</returns>

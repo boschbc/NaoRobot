@@ -21,7 +21,15 @@ namespace Naovigate.Event
         public override void Fire()
         {
             Walk.Instance.StopLooking();
-            Walk.Instance.StopMoving();
+            Walk.Instance.StopMove();
+        }
+
+        /// <summary>
+        /// return this event's EventCode.
+        /// </summary>
+        public override EventCode EventCode
+        {
+            get { return EventCode.Colliding; }
         }
 
         /// <summary>

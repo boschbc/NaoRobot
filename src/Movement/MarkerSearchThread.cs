@@ -15,11 +15,11 @@ namespace Naovigate.Movement
     public class MarkerSearchThread : ActionExecutor
     {
         private int markerID;
-        private double dist;
+        private int dist;
         private bool stoppedMyself = false;
         private float headPos = 0f;
 
-        public MarkerSearchThread(int markerID, double dist)
+        public MarkerSearchThread(int markerID, int dist)
         {
             this.markerID = markerID;
             this.dist = dist;
@@ -61,7 +61,6 @@ namespace Naovigate.Movement
                     Walk.Instance.StopMoving();
                     if (headPos > 0.5f)
                     {
-
                         Logger.Log(this, "NO MARKERS - CANT FIND MORE - EXIT PLEASE");
                         Pose.Instance.Look(0f);
                         Abort();
@@ -87,7 +86,9 @@ namespace Naovigate.Movement
                 if ((int)((ArrayList)marker[1])[0] == markerID)
                 {
                     Logger.Log(this, "Correct marker: " + Running);
-                    Running = calculate(marker) ? false : Running;
+                    bool reached = calculate(marker);
+                    Running = reached ? false : Running;
+                    if (reached) Naovigate.Event.EventQueue.Goal.Post(new Naovigate.Event.NaoToGoal.SeeEvent(markerID, dist));
                     break;
                 }
             }
@@ -107,7 +108,7 @@ namespace Naovigate.Movement
             }
             float sizeY = ((float)((ArrayList)marker[0])[4]);
 
-            if (MarkerRecogniser.estimateDistance(sizeY) <= dist)
+            if (MarkerRecogniser.estimateDistance(sizeY) <= (double)dist)
             {
                 reached = true;
             }

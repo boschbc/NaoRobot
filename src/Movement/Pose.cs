@@ -189,17 +189,7 @@ namespace Naovigate.Movement
                 List<float> left = Angles(lLegNames, false);
                 List<float> right = Angles(rLegNames, false);
                 ArrayList angles = new ArrayList();
-                for (int i = 0; i < 6; i++)
-                {
-                    Logger.Log(this, lLegNames[i] + ": " + format(left[i]) + " - " + format(right[i]) + " Diff = " + format(left[i] - right[i]));
-                    if (Math.Abs(left[i] - right[i]) < attemptStabaliseLimit)
-                    {
-                        float avg = (left[i] + right[i]) / 2;
-                        if (lLegNames[i].ToString().Contains("Roll"))
-                            avg = -avg;
-                        angles.Add(avg);
-                    }
-                }
+                FillDataArray(angles, left, right);
                 if (angles.Count == 6)
                 {
                     Logger.Log(this, "Stabilising");
@@ -211,6 +201,21 @@ namespace Naovigate.Movement
                 return angles.Count == 6;
             }
             return false;
+        }
+
+        private void FillDataArray(ArrayList angles, List<float> left, List<float> right)
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                Logger.Log(this, lLegNames[i] + ": " + format(left[i]) + " - " + format(right[i]) + " Diff = " + format(left[i] - right[i]));
+                if (Math.Abs(left[i] - right[i]) < attemptStabaliseLimit)
+                {
+                    float avg = (left[i] + right[i]) / 2;
+                    if (lLegNames[i].ToString().Contains("Roll"))
+                        avg = -avg;
+                    angles.Add(avg);
+                }
+            }
         }
     }
 }

@@ -46,6 +46,7 @@ namespace Naovigate.Event
                 return naoInstance;
             }
         }
+        private INaoEvent current;
 
         /// <summary>
         /// The EventQueue instance for outgoing events.
@@ -237,8 +238,8 @@ namespace Naovigate.Event
         /// </summary>
         private void FireNextEvent()
         {
-            INaoEvent e = NextEvent;
-            if (e != null)
+            current = NextEvent;
+            if (current != null)
             {
                 FireEvent(e);
             }
@@ -258,6 +259,14 @@ namespace Naovigate.Event
             if (EventFired != null)
                 EventFired(e);
             Logger.Log(this, "Event " + e + " finished firing.");
+        }
+
+        public INaoEvent Current
+        {
+            get
+            {
+                return current;
+            }
         }
 
         /// <summary>
@@ -295,6 +304,17 @@ namespace Naovigate.Event
         {
             lock (q)
                 q.Clear();
+        }
+
+        public List<INaoEvent> ClearAndGet()
+        {
+            List<INaoEvent> events = new List<INaoEvent>();
+            while (q.IsEmpty())
+            {
+                INaoEvent e = NextEvent;
+                if(e != null) events.Add(e);
+            }
+            return events;
         }
 
         /// <summary>

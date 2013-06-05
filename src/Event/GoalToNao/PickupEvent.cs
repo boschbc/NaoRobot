@@ -143,5 +143,13 @@ namespace Naovigate.Event.GoalToNao
                 EventQueue.Goal.Post(new ErrorEvent());
             }
         }
+
+        /// <summary>
+        /// return this event's EventCode.
+        /// </summary>
+        public override EventCode EventCode
+        {
+            get { return EventCode.Pickup; }
+        }
     }
 }
