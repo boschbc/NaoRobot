@@ -31,11 +31,46 @@ namespace Naovigate.Event
         private bool running;
 
         private EventWaitHandle locker = new AutoResetEvent(false);
-        
+
         /// <summary>
-        /// Boolean saying if the event queue is handling an event.
+        /// The EventQueue instance for incoming events.
         /// </summary>
-        private bool inAction;
+        public static EventQueue Nao
+        {
+            get
+            {
+                if (naoInstance == null)
+                {
+                    naoInstance = new EventQueue();
+                }
+                return naoInstance;
+            }
+        }
+
+        /// <summary>
+        /// The EventQueue instance for outgoing events.
+        /// </summary>
+        public static EventQueue Goal
+        {
+            get
+            {
+                if (goalInstance == null)
+                {
+                    goalInstance = new EventQueue();
+                }
+                return goalInstance;
+            }
+        }
+
+        /// <summary>
+        /// The current event being fired.
+        /// Equals null if there is no event firing.
+        /// </summary>
+        public INaoEvent CurrentlyFiring
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         /// Creates a new EventQueue instance and starts the main thread.
@@ -95,6 +130,11 @@ namespace Naovigate.Event
         {
             if (!IsRunning)
                 throw new InvalidOperationException("Cannot post events to a terminated queue.");
+            if (e.ExecutionBehavior == ExecutionBehavior.Instantaneous)
+            {
+                FireEvent(e);
+                return;
+            }
             lock (q)
             {
                 if (EventPosted != null)
@@ -141,36 +181,6 @@ namespace Naovigate.Event
         }
 
         /// <summary>
-        /// The EventQueue instance for incoming events.
-        /// </summary>
-        public static EventQueue Nao
-        {
-            get
-            {
-                if (naoInstance == null)
-                {
-                    naoInstance = new EventQueue();
-                }
-                return naoInstance;
-            }
-        }
-
-        /// <summary>
-        /// The EventQueue instance for outgoing events.
-        /// </summary>
-        public static EventQueue Goal
-        {
-            get
-            {
-                if (goalInstance == null)
-                {
-                    goalInstance = new EventQueue();
-                }
-                return goalInstance;
-            }
-        }
-
-        /// <summary>
         /// The queue's main loop. Iterates through incoming events and fires them in sequence.
         /// </summary>
         private void Run()
@@ -181,7 +191,7 @@ namespace Naovigate.Event
             {
                 while (!IsEmpty() && !suspended)
                 {
-                    FireEvent();
+                    FireNextEvent();
                 }
                 locker.WaitOne();
             }
@@ -225,20 +235,29 @@ namespace Naovigate.Event
         /// <summary>
         /// Fires an event.
         /// </summary>
-        private void FireEvent()
+        private void FireNextEvent()
         {
-            inAction = true;
             INaoEvent e = NextEvent;
             if (e != null)
             {
-                // there was an event available, fire it
-                Logger.Log(this, "Firing " + e + ".\n" + EventsQueuedCount() + " events pending.");
-                e.Fire();
-                if (EventFired != null)
-                    EventFired(e);
-                Logger.Log(this, "Event " + e + " finished firing.");
+                FireEvent(e);
             }
-            inAction = false;
+        }
+
+        private void FireEvent(INaoEvent e)
+        {
+            Logger.Log(this, "Firing: " + e);
+            if (e.ExecutionBehavior == ExecutionBehavior.Durative)
+            {
+                CurrentlyFiring = e;
+                e.Fire();
+                CurrentlyFiring = null;
+            }
+            else
+                e.Fire();
+            if (EventFired != null)
+                EventFired(e);
+            Logger.Log(this, "Event " + e + " finished firing.");
         }
 
         /// <summary>
@@ -247,7 +266,8 @@ namespace Naovigate.Event
         /// <returns>The amount of pending events.</returns>
         public int EventsQueuedCount()
         {
-            return q.Size();
+            lock (q)
+                return q.Size();
         }
 
         /// <summary>
@@ -256,7 +276,7 @@ namespace Naovigate.Event
         /// <returns>A boolean.</returns>
         public bool IsEmpty()
         {
-            return EventsQueuedCount() == 0 && !inAction;
+            return EventsQueuedCount() == 0 && !(CurrentlyFiring == null);
         }
         
         /// <summary>
@@ -273,7 +293,8 @@ namespace Naovigate.Event
         /// </summary>
         public void Clear()
         {
-            q.Clear();
+            lock (q)
+                q.Clear();
         }
 
         /// <summary>

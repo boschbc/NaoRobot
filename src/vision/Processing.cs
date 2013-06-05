@@ -23,9 +23,9 @@ namespace Naovigate.Vision
         List<Rectangle> rectangles;
         double naoFactor = 2;
 
-        public Processing(Camera cm)
+        public Processing(Camera camera)
         {
-            cam = cm;
+            cam = camera;
             rec = ObjectRecogniser.Instance;
             Init();
         }

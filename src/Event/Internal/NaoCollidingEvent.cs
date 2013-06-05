@@ -21,7 +21,7 @@ namespace Naovigate.Event
         public override void Fire()
         {
             Walk.Instance.StopLooking();
-            Walk.Instance.StopMove();
+            Walk.Instance.StopMoving();
         }
 
         /// <summary>

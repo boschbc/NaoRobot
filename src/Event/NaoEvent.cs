@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Naovigate.Communication;
+using Naovigate.Event.NaoToGoal;
 using Naovigate.Util;
 
 namespace Naovigate.Event
@@ -25,6 +26,7 @@ namespace Naovigate.Event
         {
             Stream = GoalCommunicator.Instance.Stream;
             Priority = Priority.Low;
+            ExecutionBehavior = ExecutionBehavior.Durative;
         }
 
         /// <summary>
@@ -34,6 +36,28 @@ namespace Naovigate.Event
         public NaoEvent(Priority p) : this()
         {
             Priority = p;
+        }
+
+        /// <summary>
+        /// Creates an empty NaoEvent instance with the specified execution behavior.
+        /// </summary>
+        /// <param name="e">A behavior. Either Durative or Instantaneous.</param>
+        public NaoEvent(ExecutionBehavior e)
+            : this()
+        {
+            ExecutionBehavior = e;
+        }
+
+        /// <summary>
+        /// Creates an empty NaoEvent instance with the specified priority and execution behavior.
+        /// </summary>
+        /// <param name="p">A priority. Either Low, Medium or High.</param>
+        /// <param name="e">A behavior. Either Durative or Instantaneous.</param>
+        public NaoEvent(Priority p, ExecutionBehavior e)
+            : this()
+        {
+            Priority = p;
+            ExecutionBehavior = e;
         }
 
         /// <summary>
@@ -55,6 +79,15 @@ namespace Naovigate.Event
         }
 
         /// <summary>
+        /// This event's execution trait.
+        /// </summary>
+        public ExecutionBehavior ExecutionBehavior
+        {
+            get;
+            protected set;
+        }
+
+        /// <summary>
         /// True if this event's execution was aborted.
         /// </summary>
         public bool Aborted
@@ -72,6 +105,30 @@ namespace Naovigate.Event
         /// Has no effect if the event has not been fired.
         /// </summary>
         public virtual void WaitFor() { }
+
+        /// <summary>
+        /// Posts a failure event to the goal event-queue.
+        /// </summary>
+        protected void ReportFailure()
+        {
+            EventQueue.Goal.Post(new FailureEvent(code));
+        }
+
+        /// <summary>
+        /// Posts a success event to the goal event-queue.
+        /// </summary>
+        protected void ReportSuccess()
+        {
+            EventQueue.Goal.Post(new SuccessEvent(code));
+        }
+
+        /// <summary>
+        /// Posts an error event to the goal event-queue.
+        /// </summary>
+        protected void ReportError()
+        {
+            EventQueue.Goal.Post(new ErrorEvent());
+        }
 
         /// <summary>
         /// Aborts execution of this event.

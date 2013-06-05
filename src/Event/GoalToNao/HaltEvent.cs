@@ -5,6 +5,7 @@ using Naovigate.Event.NaoToGoal;
 using Naovigate.Grabbing;
 using Naovigate.Movement;
 using Naovigate.Vision;
+using Naovigate.Util;
 
 namespace Naovigate.Event.GoalToNao
 {
@@ -16,7 +17,7 @@ namespace Naovigate.Event.GoalToNao
     public class HaltEvent : NaoEvent
     {
         public new static readonly EventCode code = EventCode.Halt;
-        public HaltEvent() : base(Priority.Medium) { }
+        public HaltEvent() : base(Priority.Medium, ExecutionBehavior.Instantaneous) { }
         
         
         /// <summary>
@@ -27,12 +28,14 @@ namespace Naovigate.Event.GoalToNao
             NaoEvent statusEvent = new SuccessEvent(code); ;
             try
             {
-                Walk.Instance.StopMove();
-                Grabber.Instance.Abort();
+                EventQueue.Nao.Clear();
+                if (EventQueue.Nao.CurrentlyFiring != null)
+                    EventQueue.Nao.CurrentlyFiring.Abort();
             }
             catch
             {
-                statusEvent = new FailureEvent(code);
+                //If the Nao can't halt then there is something serious going on:
+                statusEvent = new ErrorEvent();
             }
             EventQueue.Goal.Post(statusEvent);
         }

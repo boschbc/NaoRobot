@@ -38,7 +38,10 @@ namespace Naovigate.Event.Internal
         /// <summary>
         /// Aborts execution of the event.
         /// </summary>
-        public override void Abort() { }
+        public override void Abort() 
+        {
+            Walk.Instance.StopMoving();
+        }
 
         /// <summary>
         /// Returns a string representation of this event.

@@ -4,6 +4,15 @@ using Naovigate.Communication;
 namespace Naovigate.Event
 {
     /// <summary>
+    /// The two possible trait for the execution of an event.
+    /// </summary>
+    public enum ExecutionBehavior
+    {
+        Durative,
+        Instantaneous
+    }
+
+    /// <summary>
     /// Enumeration describing the different priority levels of Nao-events.
     /// </summary>
     public enum Priority
@@ -54,6 +63,14 @@ namespace Naovigate.Event
     /// </summary>
     public interface INaoEvent
     {
+        /// <summary>
+        /// The event's execution-trait property.
+        /// </summary>
+        ExecutionBehavior ExecutionBehavior
+        {
+            get;
+        }
+
         /// <summary>
         /// The event's priority property.
         /// </summary>

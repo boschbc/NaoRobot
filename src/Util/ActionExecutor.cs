@@ -10,9 +10,9 @@ namespace Naovigate.Util
     /// </summary>
     public abstract class ActionExecutor
     {
-        protected bool running;
-        protected bool aborted;
-        protected Exception errorCaught = null;
+        private bool running;
+        private bool aborted;
+        private Exception errorCaught = null;
         private event Action Done;
 
         /// <summary>

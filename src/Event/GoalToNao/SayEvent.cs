@@ -11,7 +11,7 @@ namespace Naovigate.Event.GoalToNao
         /// Explicit constructor.
         /// </summary>
         /// <param name="text">The text to say.</param>
-        public SayEvent(string text)
+        public SayEvent(string text) : base(ExecutionBehavior.Instantaneous)
         {
             this.text = text;
         }

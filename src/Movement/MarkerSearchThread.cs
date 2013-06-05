@@ -27,7 +27,7 @@ namespace Naovigate.Movement
 
         public override void Run()
         {
-            running = true;
+            Running = true;
             try
             {
                 LookForMarker();
@@ -45,10 +45,10 @@ namespace Naovigate.Movement
             ArrayList markers;
             Logger.Log(this, "Look for marker");
             Call(() => Walk.Instance.StartWalking(0.5F, 0, 0));
-            while (running)
+            while (Running)
             {
                 Thread.Sleep(1000);
-				if (!stoppedMyself && !Walk.Instance.IsMoving()) running = false;
+				if (!stoppedMyself && !Walk.Instance.IsMoving()) Running = false;
                 ArrayList data = rec.GetMarkerData();
                 markers = data.Count == 0 ? data : (ArrayList)data[1];
                 if (markers.Count == 0)
@@ -58,7 +58,7 @@ namespace Naovigate.Movement
                     Logger.Log(this, "Head: "+headPos);
                     Call(() => Pose.Instance.Look(headPos));
                     stoppedMyself = true;
-                    Walk.Instance.StopMove();
+                    Walk.Instance.StopMoving();
                     if (headPos > 0.5f)
                     {
 
@@ -72,9 +72,9 @@ namespace Naovigate.Movement
                     checkMarkers(markers);
                 }
             }
-            Walk.Instance.StopMove();
+            Walk.Instance.StopMoving();
             Pose.Instance.Look(0f);
-            Logger.Log("Exit LookForMarker : "+running);
+            Logger.Log("Exit LookForMarker : "+Running);
         }
 
         private void checkMarkers(ArrayList markers)
@@ -86,8 +86,8 @@ namespace Naovigate.Movement
                 ArrayList marker = (ArrayList)markers[i];
                 if ((int)((ArrayList)marker[1])[0] == markerID)
                 {
-                    Logger.Log(this, "Correct marker: " + running);
-                    running = calculate(marker) ? false : running;
+                    Logger.Log(this, "Correct marker: " + Running);
+                    Running = calculate(marker) ? false : Running;
                     break;
                 }
             }
@@ -96,12 +96,12 @@ namespace Naovigate.Movement
         //Change direction towards the marker and return true iff we reached our destination
         private bool calculate(ArrayList marker)
         {
-            Logger.Log(this, "Calculate: "+running);
+            Logger.Log(this, "Calculate: "+Running);
             bool reached = false;
             float angle = ((float)((ArrayList)marker[0])[1]) / 4F;
-            if (running)
+            if (Running)
             {
-                Logger.Log(this, "StartWalking: "+running);
+                Logger.Log(this, "StartWalking: "+Running);
                 Call(() => Walk.Instance.StartWalking(0.5F, 0, Math.Max(-1, Math.Min(1, angle))));
                 Call(() => stoppedMyself = false);
             }

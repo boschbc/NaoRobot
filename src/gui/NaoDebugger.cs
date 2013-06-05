@@ -15,6 +15,7 @@ namespace Naovigate.GUI
         public NaoDebugger()
         {
             InitializeComponent();
+            tabControl.SelectedIndex = 2;
             Load += new EventHandler(NaoDebugger_Load);
             FormClosing += new FormClosingEventHandler(NaoDebugger_FormClosing);
         }

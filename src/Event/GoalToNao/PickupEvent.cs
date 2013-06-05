@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 using Naovigate.Communication;
 using Naovigate.Event.NaoToGoal;
@@ -58,15 +59,78 @@ namespace Naovigate.Event.GoalToNao
         /// </summary>
         public override void Fire()
         {
-            executor = new ObjectSearchThread(ObjectID);
+            if (ValidationCheck())
+                if (Pickup())
+                    VerifyObjectHeld();
+        }
+
+        private bool ValidationCheck()
+        {
+            if (!Grabber.Instance.HoldingObject())
+                return true;
+            else
+            {
+                ReportFailure();
+                return false;
+            }
+        }
+
+        private bool Pickup()
+        {
+            try
+            {
+                GoInfrontOfObject();
+                ObjectPickupThread results = executor as ObjectPickupThread;
+                if (!results.ObjectFound)
+                {
+                    ReportFailure();
+                    return false;
+                }
+                else
+                    GrabObject();
+               
+                return true;
+            }
+            catch (ThreadInterruptedException)
+            {
+                Logger.Log(this, "Aborted.");
+                VerifyObjectHeld();
+            }
+            catch (Exception e)
+            {
+                Logger.Log(this, "An unexpected exception occurred: " + e.Message);
+                VerifyObjectHeld();
+            }
+            return false;
+        }
+
+        private void GoInfrontOfObject()
+        {
+            executor = new ObjectPickupThread(ObjectID);
             executor.Start();
             executor.WaitFor();
+        }
+
+        private void GrabObject()
+        {
+            executor = Grabber.Instance.Grab();
+            executor.Start();
+            executor.WaitFor();
+        }
+
+        private void VerifyObjectHeld()
+        {
+            ObjectPickupThread results = executor as ObjectPickupThread;
+            if (results.ObjectFound && Grabber.Instance.HoldingObject())
+                ReportSuccess();
+            else
+                ReportFailure();
         }
 
         /// <summary>
         /// Aborts the event's execution.
         /// </summary>
-        public override  void Abort()
+        public override void Abort()
         {
             if (executor == null)
                 return;

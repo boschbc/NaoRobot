@@ -13,7 +13,7 @@ namespace Naovigate.Event.GoalToNao
         public new static readonly EventCode code = EventCode.Exit;
         private static readonly String ExitMessage = "Never gonna give you up. Shutting down.";
         
-        public ExitEvent() : base(Priority.High) { }
+        public ExitEvent() : base(Priority.High, ExecutionBehavior.Instantaneous) { }
 
         /// <summary>
         /// Fires the event.

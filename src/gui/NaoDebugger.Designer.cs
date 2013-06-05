@@ -70,7 +70,7 @@
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
             this.tabControl.Size = new System.Drawing.Size(265, 422);
-            this.tabControl.TabIndex = 1;
+            this.tabControl.TabIndex = 2;
             // 
             // eventsTab
             // 

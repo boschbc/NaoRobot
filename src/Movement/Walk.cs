@@ -47,6 +47,37 @@ namespace Naovigate.Movement
         }
 
         /// <summary>
+        /// Sets the stiffness of the Nao's motors on if it is not already so.
+        /// </summary>
+        public void InitMove()
+        {
+            if (!motion.robotIsWakeUp())
+                motion.wakeUp();
+            if (!motion.moveIsActive())
+                motion.moveInit();
+        }
+
+        /// <summary>
+        /// Blocks the thread until the Nao is not moving.
+        /// </summary>
+        public void WaitForMoveToEnd()
+        {
+            motion.waitUntilMoveIsFinished();
+        }
+
+        /// <summary>
+        /// The Nao will walk towards given coordinates.
+        /// </summary>
+        /// <param name="x">X-coordinate.</param>
+        /// <param name="y">Y-coordinate.</param>
+        /// <param name="theta">The angle with which to move towards the destination.</param>
+        public void WalkTo(float x, float y, float theta)
+        {
+            InitMove();
+            motion.post.moveTo(x, y, theta);
+        }
+
+        /// <summary>
         /// Prepares the Nao's posture to be able to walk while holding an object.
         /// </summary>
         public bool WalkWithObject
@@ -59,77 +90,13 @@ namespace Naovigate.Movement
         }
 
         /// <summary>
-        /// The Nao will walk towards given coordinates.
-        /// </summary>
-        /// <param name="x">X-coordinate.</param>
-        /// <param name="y">Y-coordinate.</param>
-        /// <param name="theta">The angle with which to move towards the destination.</param>
-        public void WalkTo(float x, float y, float theta)
-        {
-            InitMove();
-            motion.moveTo(x, y, theta);
-        }
-
-        /// <summary>
-        /// The Nao will adjust it's posture and walk as if holding an object.
-        /// </summary>
-        public void WalkWhileHolding()
-        {
-            motion.setWalkArmsEnable(false, false);
-            motion.moveToward(0.8F, 0, 0);
-            //motion.setWalkArmsEnable(true, true);
-        }
-
-        /// <summary>
-        /// Sets the stiffness of the Nao's motors on if it is not already so.
-        /// </summary>
-        public void InitMove()
-        {
-            if (!motion.robotIsWakeUp())
-                motion.wakeUp();
-            if (!motion.moveIsActive())
-                motion.moveInit();
-        }
-
-        public void MoveTo(float x, float y)
-        {
-            motion.moveTo(x, y, 0f);
-        }
-
-        public void MoveExact(float x, float y, float accuracy)
-        {
-            if (accuracy < 0.01)
-                accuracy = 0.01f;
-            NaoState.Instance.Update();
-            PointF goal = new PointF(NaoState.Instance.Location.X + x,
-                                     NaoState.Instance.Location.Y + y);
-            PointF move = new PointF(goal.X - NaoState.Instance.Location.X,
-                                     goal.Y - NaoState.Instance.Location.Y);
-            PointF mistake = new PointF(Math.Abs(move.X), Math.Abs(move.Y));
-            while (mistake.X > accuracy || mistake.Y > accuracy)
-            {
-                Logger.Log(this, "Current location: " + NaoState.Instance.Location);
-                Logger.Log(this, "Goal: " + goal);
-                Logger.Log(this, "Move: " + move);
-                Logger.Log(this, "Mistake: " + mistake);
-                MoveTo(move.X, move.Y);
-                NaoState.Instance.Update();
-                move.X = goal.X - NaoState.Instance.Location.X;
-                move.Y = goal.Y - NaoState.Instance.Location.Y;
-                mistake.X = Math.Abs(move.X);
-                mistake.Y = Math.Abs(move.Y);
-            }
-            Logger.Log(this, "Current location: " + NaoState.Instance.Location);
-            Logger.Log(this, "Goal: " + goal);
-            Logger.Log(this, "Mistake: " + mistake);
-        }
-        /// <summary>
         /// Turn the Nao.
         /// This method may be inaccurate at times.
         /// </summary>
         public void Turn(float rad)
         {
             WalkTo(0, 0, rad);
+            WaitForMoveToEnd();
         }
 
         private float Normalize(float rad)
@@ -151,8 +118,6 @@ namespace Naovigate.Movement
         {
             if (accuracy < 0.01)
                 accuracy = 0.01f;
-            Logger.Log(this, "Rotating: " + rad);
-            Logger.Log(this, "Accuracy: " + accuracy);
             NaoState.Instance.Update();
             rad = Normalize(rad);
             Logger.Log(this, rad);
@@ -207,12 +172,12 @@ namespace Naovigate.Movement
         /// <param name="objectID"></param>
         /// <param name="dist"></param>
         /// <returns></returns>
-        public virtual ObjectSearchThread WalkTowardsObject(float dir,int objectID,double dist)
+        public virtual ObjectPickupThread WalkTowardsObject(float dir,int objectID,double dist)
         {
             StopLooking();
             WalkTo(0, 0, dir);
             StartWalking(0.5F, 0, 0);
-            ObjectSearchThread t = new ObjectSearchThread(objectID , dist);
+            ObjectPickupThread t = new ObjectPickupThread(objectID , dist);
             t.Start();
             return t;
         }
@@ -222,7 +187,7 @@ namespace Naovigate.Movement
         /// </summary>
         public void StopLooking()
         {
-            StopMove();
+            StopMoving();
         }
 
         /// <summary>
@@ -248,9 +213,10 @@ namespace Naovigate.Movement
         /// <summary>
         /// Stops the Nao from moving.
         /// </summary>
-        public void StopMove()
+        public void StopMoving()
         {
-            motion.stopMove();
+            Logger.Log(this, "Stopping...");
+            motion.post.stopMove();
         }
     }
 }

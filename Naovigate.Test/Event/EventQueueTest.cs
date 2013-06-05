@@ -143,7 +143,14 @@ namespace Naovigate.Test.Event
 		public TEvent(Tracker t, Priority p){
 			this.t = t;
 			this.p = p;
+            this.ExecutionBehavior = ExecutionBehavior.Durative;
 		}
+
+        public ExecutionBehavior ExecutionBehavior
+        {
+            get;
+            set;
+        }
 
         public Priority Priority
         {

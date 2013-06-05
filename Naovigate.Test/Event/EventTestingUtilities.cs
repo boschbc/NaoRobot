@@ -92,7 +92,7 @@ namespace Naovigate.Test.Event
                 bool res;
                 try
                 {
-                    Walk.Instance.StopMove();
+                    Walk.Instance.StopMoving();
                     res = true;
                 }
                 catch{ res = false; }
