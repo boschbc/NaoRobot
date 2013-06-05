@@ -1,4 +1,4 @@
-﻿namespace Naovigate.GUI.Popups.ParamChooser
+﻿namespace Naovigate.GUI.Events.Parameters
 {
     partial class LocationsChooser
     {
@@ -37,6 +37,7 @@
             // tableLayoutPanel
             // 
             this.tableLayoutPanel.AutoSize = true;
+            this.tableLayoutPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.tableLayoutPanel.ColumnCount = 2;
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.tableLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -48,18 +49,19 @@
             this.tableLayoutPanel.RowCount = 1;
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 150F));
-            this.tableLayoutPanel.Size = new System.Drawing.Size(235, 150);
+            this.tableLayoutPanel.Size = new System.Drawing.Size(37, 29);
             this.tableLayoutPanel.TabIndex = 6;
             // 
             // flowLayoutPanel
             // 
             this.flowLayoutPanel.AutoScroll = true;
+            this.flowLayoutPanel.AutoSize = true;
+            this.flowLayoutPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.flowLayoutPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.flowLayoutPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel.Location = new System.Drawing.Point(32, 3);
-            this.flowLayoutPanel.MinimumSize = new System.Drawing.Size(200, 100);
             this.flowLayoutPanel.Name = "flowLayoutPanel";
-            this.flowLayoutPanel.Size = new System.Drawing.Size(200, 144);
+            this.flowLayoutPanel.Size = new System.Drawing.Size(2, 23);
             this.flowLayoutPanel.TabIndex = 4;
             // 
             // addPointButton
@@ -67,7 +69,7 @@
             this.addPointButton.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.addPointButton.AutoSize = true;
             this.addPointButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.addPointButton.Location = new System.Drawing.Point(3, 63);
+            this.addPointButton.Location = new System.Drawing.Point(3, 3);
             this.addPointButton.Name = "addPointButton";
             this.addPointButton.Size = new System.Drawing.Size(23, 23);
             this.addPointButton.TabIndex = 2;
@@ -80,9 +82,10 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.Controls.Add(this.tableLayoutPanel);
             this.Name = "LocationsChooser";
-            this.Size = new System.Drawing.Size(235, 150);
+            this.Size = new System.Drawing.Size(37, 29);
             this.tableLayoutPanel.ResumeLayout(false);
             this.tableLayoutPanel.PerformLayout();
             this.ResumeLayout(false);

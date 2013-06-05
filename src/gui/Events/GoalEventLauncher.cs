@@ -14,17 +14,49 @@ namespace Naovigate.GUI.Events
     {
         public GoalEventLauncher() : base() 
         {
+            string AgentID = "AgentID";
+            string ObjectID = "ObjectID";
+            string RoomID = "RoomID";
+            string Code = "Code";
+            string State = "State";
+            string Distance = "Distance";
+
             Customize("Post to Goal",
-                new Dictionary<String, Func<INaoEvent>>()
+                new Dictionary<String, Constructor>()
                 {
-                    { "AgentEvent", () => new AgentEvent(UserParameter<int>()) },
-                    { "ErrorEvent", () => new ErrorEvent() },
-                    { "FailureEvent", () => new FailureEvent(EventCode.GoTo) },
-                    { "HoldingEvent", () => new HoldingEvent(UserParameter<int>()) },
-                    { "LocationEvent", () => new LocationEvent(UserParameter<int>()) },
-                    { "SeeEvent", () => new SeeEvent(UserParameter<int>(), UserParameter<int>()) },
-                    { "StateEvent", () => new StateEvent(UserParameter<int>()) },
-                    { "SuccessEvent", () => new SuccessEvent(EventCode.GoTo) }
+                    { "AgentEvent", 
+                        new Constructor(
+                            () => new AgentEvent(GetParameter<int>(AgentID)),
+                            new UserParameter<int>(AgentID)) },
+                    { "ErrorEvent", 
+                        new Constructor(
+                            () => new ErrorEvent()) },
+                    { "FailureEvent", 
+                        new Constructor(
+                            () => new FailureEvent(GetParameter<byte>(Code)),
+                            new UserParameter<int>(Code)) },
+                    { "HoldingEvent", 
+                        new Constructor(
+                            () => new HoldingEvent(GetParameter<int>(ObjectID)),
+                            new UserParameter<int>(ObjectID)) },
+                    { "LocationEvent", 
+                        new Constructor(
+                            () => new LocationEvent(GetParameter<int>(RoomID)),
+                            new UserParameter<int>(RoomID)) },
+                    { "SeeEvent", 
+                        new Constructor(
+                            () => new SeeEvent(GetParameter<int>(ObjectID),
+                                               GetParameter<int>(Distance)),
+                            new UserParameter<int>(ObjectID),
+                            new UserParameter<int>(Distance)) },
+                    { "StateEvent", 
+                        new Constructor(
+                            () => new StateEvent(GetParameter<int>(State)),
+                            new UserParameter<int>(State)) },
+                    { "SuccessEvent", 
+                        new Constructor(
+                            () => new SuccessEvent(GetParameter<byte>(Code)),
+                            new UserParameter<int>(Code)) }
                 });
         }
             

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Naovigate.GUI.Popups.ParamChooser
+namespace Naovigate.GUI.Events.Parameters
 {
     public partial class StringChooser : UserControl, IParamChooser
     {

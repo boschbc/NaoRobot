@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 using Naovigate.GUI.Util;
 
-namespace Naovigate.GUI.Popups.ParamChooser
+namespace Naovigate.GUI.Events.Parameters
 {
     public partial class LocationsChooser : UserControl, IParamChooser
     {
@@ -22,10 +22,12 @@ namespace Naovigate.GUI.Popups.ParamChooser
 
         public void AddPoint()
         {
-            PointControl p = new PointControl();
-            flowLayoutPanel.Controls.Add(p);
             if (points == null)
                 points = new List<PointControl>();
+            if (points.Count >= 3)
+                return;
+            PointControl p = new PointControl();
+            flowLayoutPanel.Controls.Add(p);
             points.Add(p);
         }
 

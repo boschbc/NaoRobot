@@ -1,4 +1,4 @@
-﻿namespace Naovigate.GUI.Popups.ParamChooser
+﻿namespace Naovigate.GUI.Events.Parameters
 {
     partial class IntegerChooser
     {
@@ -34,7 +34,7 @@
             // 
             // value
             // 
-            this.value.DecimalPlaces = 1;
+            this.value.DecimalPlaces = 2;
             this.value.Increment = new decimal(new int[] {
             1,
             0,

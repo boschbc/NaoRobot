@@ -1,4 +1,4 @@
-﻿namespace Naovigate.GUI.Popups.ParamChooser
+﻿namespace Naovigate.GUI.Events.Parameters
 {
     partial class StringChooser
     {
@@ -35,18 +35,18 @@
             // 
             this.value.Location = new System.Drawing.Point(3, 3);
             this.value.Name = "value";
-            this.value.Size = new System.Drawing.Size(147, 20);
+            this.value.Size = new System.Drawing.Size(86, 20);
             this.value.TabIndex = 0;
             // 
-            // StringParameterChooser
+            // StringChooser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.Controls.Add(this.value);
-            this.Name = "StringParameterChooser";
-            this.Size = new System.Drawing.Size(153, 26);
+            this.Name = "StringChooser";
+            this.Size = new System.Drawing.Size(92, 26);
             this.ResumeLayout(false);
             this.PerformLayout();
 

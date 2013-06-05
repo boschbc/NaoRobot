@@ -90,7 +90,7 @@
             this.eventLauncherPanel1.Dock = System.Windows.Forms.DockStyle.Top;
             this.eventLauncherPanel1.Location = new System.Drawing.Point(3, 3);
             this.eventLauncherPanel1.Name = "eventLauncherPanel1";
-            this.eventLauncherPanel1.Size = new System.Drawing.Size(251, 104);
+            this.eventLauncherPanel1.Size = new System.Drawing.Size(251, 237);
             this.eventLauncherPanel1.TabIndex = 0;
             // 
             // goalTab

@@ -5,7 +5,6 @@ using System.Text;
 
 using Naovigate.Event;
 using Naovigate.Event.Internal;
-using Naovigate.GUI.Popups.ParamChooser;
 using Naovigate.Util;
 using System.Drawing;
 using System.Windows.Forms;
@@ -17,18 +16,43 @@ namespace Naovigate.GUI.Events
         public InternalEventLauncher()
             : base()
         {
-
+            string Rotation = "Rotation";
+            string Accuracy = "Accuracy";
+            string VelocityX = "VelocityX";
+            string VelocityY = "VelocityY";
+            
             Customize("Post to Internal",
-                new Dictionary<String, Func<INaoEvent>>() 
+                new Dictionary<String, Constructor>() 
                 {
-                    { "CrouchEvent", () => new CrouchEvent() },
-                    { "GrabEvent", () => new GrabEvent() },
-                    { "MoveEvent", () => new MoveEvent(UserParameter<float>(), 
-                                                       UserParameter<float>(),
-                                                       UserParameter<float>()) },
-                    { "ShutdownEvent", () => new ShutdownEvent() },
-                    { "SitDownEvent", () => new SitDownEvent() },
-                    { "StandUpEvent", () => new StandUpEvent() }
+                    { "CrouchEvent", 
+                        new Constructor(
+                            () => new CrouchEvent()) },
+                    { "GrabEvent", 
+                        new Constructor(
+                            () => new GrabEvent()) },
+                    { "MoveEvent", 
+                        new Constructor(
+                            () => new MoveEvent(GetParameter<float>(VelocityX), 
+                                                GetParameter<float>(VelocityY),
+                                                GetParameter<float>(Rotation)),
+                            new UserParameter<float>(VelocityX),
+                            new UserParameter<float>(VelocityY),
+                            new UserParameter<float>(Rotation)) },
+                    { "TurnEvent", 
+                        new Constructor(
+                            () => new TurnEvent(GetParameter<float>(Rotation),
+                                                GetParameter<float>(Accuracy)),
+                            new UserParameter<float>(Rotation),
+                            new UserParameter<float>(Accuracy)) },
+                    { "ShutdownEvent", 
+                        new Constructor(
+                            () => new ShutdownEvent()) },
+                    { "SitDownEvent", 
+                        new Constructor(
+                            () => new SitDownEvent()) },
+                    { "StandUpEvent", 
+                        new Constructor(
+                            () => new StandUpEvent()) },
                 });
         }
 

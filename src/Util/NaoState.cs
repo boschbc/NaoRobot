@@ -177,6 +177,8 @@ namespace Naovigate.Util
         /// </summary>
         private void UnsubscribeSensorProxies()
         {
+            if (!Connected)
+                return;
             foreach (ArrayList sub in (ArrayList)sensors.getSubscribersInfo())
             {
                 sensors.unsubscribe(sub[0].ToString());

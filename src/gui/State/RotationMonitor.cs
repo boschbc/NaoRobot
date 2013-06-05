@@ -21,7 +21,7 @@ namespace Naovigate.GUI.State
         private void UpdateRotation()
         {
             rotationLabel.Text = String.Format("{0}°",
-                NaoState.Instance.Rotation);
+                Math.Round(NaoState.Instance.Rotation, 3).ToString("0.000"));
         }
 
         public void ResetContent()

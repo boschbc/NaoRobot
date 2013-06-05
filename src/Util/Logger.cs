@@ -10,7 +10,7 @@ namespace Naovigate.Util
     {
         private static readonly string Format = "{0} [{1}] :: {2} :: {3}";
         private static readonly string DefaultInvokerName = "Token";
-        private static readonly string logFilePath = "log.txt";
+        private static readonly string LogFilePath = "log.txt";
 
         private static int id = 0;
         private static bool enabled = true;
@@ -22,8 +22,8 @@ namespace Naovigate.Util
         /// </summary>
         public static void Clear()
         {
-            lock (logFilePath)
-                System.IO.File.WriteAllText(logFilePath, "");
+            lock (LogFilePath)
+                System.IO.File.WriteAllText(LogFilePath, "");
             id = 0;
         }
 
@@ -47,8 +47,8 @@ namespace Naovigate.Util
             string formatted = String.Format(Format, id++, time, invoker, message);
             Console.WriteLine(formatted);
             if (logToFile)
-                lock (logFilePath)
-                    System.IO.File.AppendAllText(logFilePath, formatted + "\n");
+                lock (LogFilePath)
+                    System.IO.File.AppendAllText(LogFilePath, formatted + "\n");
         }
 
         /// <summary>

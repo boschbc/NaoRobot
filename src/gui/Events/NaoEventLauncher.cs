@@ -5,7 +5,7 @@ using System.Text;
 
 using Naovigate.Event;
 using Naovigate.Event.GoalToNao;
-using Naovigate.GUI.Popups.ParamChooser;
+using Naovigate.GUI.Events.Parameters;
 using Naovigate.Util;
 using System.Drawing;
 using System.Windows.Forms;
@@ -16,28 +16,42 @@ namespace Naovigate.GUI.Events
     {
         public NaoEventLauncher() : base()
         {
+            string Locations = "Locations";
+            string ObjectID = "ObjectID";
+            string Speech = "Speech";
 
             Customize("Post to Nao",
-                new Dictionary<String,Func<INaoEvent>>() 
+                new Dictionary<String,Constructor>() 
                 {
-                    { "ExitEvent", () => new ExitEvent() },
-                    { "GoToEvent", () => new GoToEvent(UserParameter<List<Point>>()) },
-                    { "HaltEvent", () => new HaltEvent() },
-                    { "PickupEvent", () => new PickupEvent(UserParameter<int>()) },
-                    { "PutDownEvent", () => new PutDownEvent() },
-                    { "SayEvent", () => new SayEvent(UserParameter<string>()) }
+                    { "ExitEvent", 
+                        new Constructor(
+                            () => new ExitEvent()) },
+                    { "GoToEvent", 
+                        new Constructor(
+                            () => new GoToEvent(GetParameter<List<Point>>(Locations)),
+                            new UserParameter<List<Point>>(Locations)) },
+                    { "HaltEvent", 
+                        new Constructor(
+                            () => new HaltEvent()) },
+                    { "PickupEvent", 
+                        new Constructor(
+                            () => new PickupEvent(GetParameter<int>(ObjectID)),
+                            new UserParameter<int>(ObjectID)) },
+                    { "PutDownEvent", 
+                        new Constructor(
+                            () => new PutDownEvent()) },
+                    { "SayEvent", 
+                        new Constructor(
+                            () => new SayEvent(GetParameter<string>(Speech)),
+                            new UserParameter<string>(Speech)) },
                 });
         }
 
-        protected override void InitializeParameterMap()
+        protected override void PopulateParameterMap()
         {
-            base.InitializeParameterMap();
-            AddParameterMapping(typeof(List<Point>), AskUserForLocationList);
-        }
-
-        private Object AskUserForLocationList()
-        {
-            return DisplayPopup(new LocationsChooser());
+            base.PopulateParameterMap();
+            AddParameterMapping(typeof(List<Point>), 
+                () => new LocationsChooser() as IParamChooser);
         }
 
         protected override void PostEvent(INaoEvent naoEvent)

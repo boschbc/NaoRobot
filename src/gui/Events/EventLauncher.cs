@@ -8,93 +8,74 @@ using System.Text;
 using System.Windows.Forms;
 
 using Naovigate.Event;
-using Naovigate.GUI.Popups;
-using Naovigate.GUI.Popups.ParamChooser;
+using Naovigate.GUI.Events.Parameters;
 using Naovigate.Util;
 
 namespace Naovigate.GUI.Events
 {
     public partial class EventLauncher : UserControl
     {
-        private Dictionary<String, Func<INaoEvent>> eventBuilders;
-        private Dictionary<Type, Func<Object>> parameterMap;
+        //public delegate Object GetParameterHandler(string name);
+        public Func<String, Object> GetParameterObject
+        {
+            get;
+            set;
+        }
+
+        public Func<Constructor, Dictionary<Type, Func<IParamChooser>>, Boolean> CanPost
+        {
+            get;
+            set;
+        }
+
+        public delegate void EventChosenHandler(Constructor contructor, 
+                                                Dictionary<Type,Func<IParamChooser>> chooser);
+        public event EventChosenHandler OnEventChosen;
+
+        
+        private Dictionary<String, Constructor> eventConstructors;
+        private Dictionary<Type, Func<IParamChooser>> parameterMap;
 
         public EventLauncher()
         {
             InitializeComponent();
-            parameterMap = new Dictionary<Type, Func<Object>>();
-            InitializeParameterMap();
+            parameterMap = new Dictionary<Type, Func<IParamChooser>>();
+            PopulateParameterMap();
         }
+    
+        protected virtual void PostEvent(INaoEvent naoEvent) { }
 
-        protected virtual void InitializeParameterMap()
+        protected T GetParameter<T>(string name)
         {
-            AddParameterMapping(typeof(int), AskUserForInteger);
-            AddParameterMapping(typeof(float), AskUserForFloat);
-            AddParameterMapping(typeof(string), AskUserForString);
+            return (T)Convert.ChangeType(GetParameterObject(name), typeof(T));
         }
 
-        protected void AddParameterMapping(Type key, Func<Object> value)
+        protected virtual void PopulateParameterMap()
+        {
+            AddParameterMapping(typeof(int), () => new IntegerChooser() as IParamChooser);
+            AddParameterMapping(typeof(float), () => new IntegerChooser() as IParamChooser);
+            AddParameterMapping(typeof(string), () => new StringChooser() as IParamChooser);
+        }
+
+        protected void AddParameterMapping(Type key, Func<IParamChooser> value)
         {
             parameterMap.Add(key, value);
         }
 
-        public void Customize(string buttonLabel, Dictionary<String, Func<INaoEvent>> builders)
+        protected void Customize(string buttonLabel, Dictionary<String, Constructor> builders)
         {
-            InitializeEventBuilders(builders);
+            eventConstructors = builders;
             PopulateSelector();
             CustomizeButton(buttonLabel);
         }
 
-        protected virtual void PostEvent(INaoEvent e) { }
-
-        protected T UserParameter<T>()
-        {
-            Object result = parameterMap[typeof(T)]();
-            if (result == null)
-                return default(T);
-            else
-                return (T) Convert.ChangeType(result, typeof(T));
-        }
-
-        protected Object DisplayPopup(IParamChooser chooser)
-        {
-            using (UserInputPopup popup = new UserInputPopup())
-            {
-                popup.SetParamChooser(chooser);
-                var result = popup.ShowDialog();
-                if (result == DialogResult.OK)
-                    return chooser.Value;
-            }
-            return null;
-        }
-
-        private Object AskUserForInteger()
-        {
-            return DisplayPopup(new IntegerChooser());
-        }
-
-        private Object AskUserForFloat()
-        {
-            return AskUserForInteger();
-        }
-
-        private Object AskUserForString()
-        {
-            return DisplayPopup(new StringChooser());
-        }
-
-        private void InitializeEventBuilders(Dictionary<String, Func<INaoEvent>> builders)
-        {
-            eventBuilders = builders;
-        }
-
         private void PopulateSelector()
         {
-            foreach (string eventName in eventBuilders.Keys)
+            foreach (string eventName in eventConstructors.Keys)
             {
-                Func<INaoEvent> buildEvent = eventBuilders[eventName];
+                Constructor eventConstructor = eventConstructors[eventName];
                 eventSelector.Items.Add(
-                    new ComboboxItem(eventName, buildEvent));
+                    new DynamicEventItem(eventName, eventConstructor));
             }
         }
 
@@ -103,25 +84,106 @@ namespace Naovigate.GUI.Events
             postButton.Text = label;
         }
 
-        private void postButton_Click(object sender, EventArgs e)
+        private void eventSelector_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ComboboxItem item = (eventSelector.SelectedItem as ComboboxItem);
+            DynamicEventItem item = (eventSelector.SelectedItem as DynamicEventItem);
             if (item == null)
                 return;
-            INaoEvent naoEvent = item.Value();
-            PostEvent(naoEvent);
+            OnEventChosen(item.Constructor, parameterMap);
+        }
+
+        private void postButton_Click(object sender, EventArgs e)
+        {
+            DynamicEventItem item = (eventSelector.SelectedItem as DynamicEventItem);
+            if (item == null)
+                return;
+            if (CanPost(item.Constructor, parameterMap))
+                PostEvent(item.Constructor.Instantiate());
+                
         }
     }
 
-    public class ComboboxItem
+    public interface IParameterGetter
+    {
+        T GetParameter<T>();
+    }
+
+    public interface IUserParameter
+    {
+        string Name
+        {
+            get;
+        }
+
+        Type Type
+        {
+            get;
+        }
+
+        IParamChooser Chooser
+        {
+            get;
+        }
+    }
+
+    public class UserParameter<T> : IUserParameter
+    {
+        public UserParameter(string name)
+        {
+            Name = name;
+            Type = typeof(T);
+        }
+
+        public string Name
+        {
+            get;
+            set;
+        }
+
+        public Type Type
+        {
+            get;
+            set;
+        }
+
+        public IParamChooser Chooser
+        {
+            get;
+            set;
+        }
+    }
+
+    public class Constructor
+    {
+        private Func<INaoEvent> instantiate;
+        private IUserParameter[] parameters;
+        
+        public Constructor(Func<INaoEvent> instantiate, params IUserParameter[] parameters)
+        {
+            this.instantiate = instantiate;
+            this.parameters = parameters;
+        }
+
+        public Func<INaoEvent> Instantiate
+        {
+            get { return instantiate; }
+        }
+
+        public IUserParameter[] Parameters
+        {
+            get { return parameters; }
+        }
+    }
+
+    public class DynamicEventItem
     {
         public string Text { get; set; }
-        public Func<INaoEvent> Value { get; set; }
+        public Constructor Constructor { get; set; }
 
-        public ComboboxItem(string text, Func<INaoEvent> value)
+        public DynamicEventItem(string text, Constructor constructor)
         {
             Text = text;
-            Value = value;
+            Constructor = constructor;
         }
 
         public override string ToString()

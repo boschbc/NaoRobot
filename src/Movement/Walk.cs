@@ -7,6 +7,7 @@ using Aldebaran.Proxies;
 
 using Naovigate.Util;
 using Naovigate.Vision;
+using System.Drawing;
 
 namespace Naovigate.Movement
 {
@@ -66,7 +67,7 @@ namespace Naovigate.Movement
         public void WalkTo(float x, float y, float theta)
         {
             InitMove();
-            motion.post.moveTo(x, y, theta);
+            motion.moveTo(x, y, theta);
         }
 
         /// <summary>
@@ -90,12 +91,84 @@ namespace Naovigate.Movement
                 motion.moveInit();
         }
 
+        public void MoveTo(float x, float y)
+        {
+            motion.moveTo(x, y, 0f);
+        }
+
+        public void MoveExact(float x, float y, float accuracy)
+        {
+            if (accuracy < 0.01)
+                accuracy = 0.01f;
+            NaoState.Instance.Update();
+            PointF goal = new PointF(NaoState.Instance.Location.X + x,
+                                     NaoState.Instance.Location.Y + y);
+            PointF move = new PointF(goal.X - NaoState.Instance.Location.X,
+                                     goal.Y - NaoState.Instance.Location.Y);
+            PointF mistake = new PointF(Math.Abs(move.X), Math.Abs(move.Y));
+            while (mistake.X > accuracy || mistake.Y > accuracy)
+            {
+                Logger.Log(this, "Current location: " + NaoState.Instance.Location);
+                Logger.Log(this, "Goal: " + goal);
+                Logger.Log(this, "Move: " + move);
+                Logger.Log(this, "Mistake: " + mistake);
+                MoveTo(move.X, move.Y);
+                NaoState.Instance.Update();
+                move.X = goal.X - NaoState.Instance.Location.X;
+                move.Y = goal.Y - NaoState.Instance.Location.Y;
+                mistake.X = Math.Abs(move.X);
+                mistake.Y = Math.Abs(move.Y);
+            }
+            Logger.Log(this, "Current location: " + NaoState.Instance.Location);
+            Logger.Log(this, "Goal: " + goal);
+            Logger.Log(this, "Mistake: " + mistake);
+        }
         /// <summary>
-        /// Turn the Nao
+        /// Turn the Nao.
+        /// This method may be inaccurate at times.
         /// </summary>
         public void Turn(float rad)
         {
             WalkTo(0, 0, rad);
+        }
+
+        private float Normalize(float rad)
+        {
+            rad %= (float)Math.PI;
+            if (rad > Math.PI)
+                rad -= (float)Math.PI;
+            if (rad < -Math.PI)
+                rad += (float)Math.PI;
+            return rad;
+        }
+
+        /// <summary>
+        /// Turns the Nao accurately using the specified accuracy-degree.
+        /// </summary>
+        /// <param name="rad">The angle to turn in radians. A positive value means clockwise rotation.</param>
+        /// <param name="accuracy">How accurately to turn.</param>i
+        public void TurnExact(float rad, float accuracy)
+        {
+            if (accuracy < 0.01)
+                accuracy = 0.01f;
+            Logger.Log(this, "Rotating: " + rad);
+            Logger.Log(this, "Accuracy: " + accuracy);
+            NaoState.Instance.Update();
+            rad = Normalize(rad);
+            Logger.Log(this, rad);
+            float goal = Normalize(NaoState.Instance.Rotation + rad);
+            float rotation = Normalize(goal - NaoState.Instance.Rotation);
+            float mistake = Math.Abs(rotation);
+            while (mistake > accuracy)
+            {
+                Logger.Log(this, "naoRotation: " + NaoState.Instance.Rotation);
+                Logger.Log(this, "goalRotation: " + goal);
+                Logger.Log(this, "helperRotation: " + rotation);
+                Turn(rotation);
+                NaoState.Instance.Update();
+                rotation = Normalize(goal - NaoState.Instance.Rotation);
+                mistake = Math.Abs(rotation);
+            }
         }
 
         /// <summary>

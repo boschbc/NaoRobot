@@ -40,6 +40,7 @@
             this.eventSelector.Name = "eventSelector";
             this.eventSelector.Size = new System.Drawing.Size(121, 21);
             this.eventSelector.TabIndex = 0;
+            this.eventSelector.SelectedIndexChanged += new System.EventHandler(this.eventSelector_SelectedIndexChanged);
             // 
             // postButton
             // 

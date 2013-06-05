@@ -68,6 +68,7 @@
     <Compile Include="Event\INaoEvent.cs" />
     <Compile Include="Event\Internal\SitDownEvent.cs" />
     <Compile Include="Event\Internal\StandUpEvent.cs" />
+    <Compile Include="Event\Internal\TurnEvent.cs" />
     <Compile Include="Event\InvalidEventCodeException.cs" />
     <Compile Include="Event\Internal\MoveEvent.cs" />
     <Compile Include="Event\NaoEvent.cs" />
@@ -86,36 +87,36 @@
     <Compile Include="GUI\Events\InternalEventLauncher.cs">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="GUI\Events\ParameterPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Events\ParameterPanel.Designer.cs">
+      <DependentUpon>ParameterPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Goal\LocalServerPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GUI\Goal\LocalServerPanel.Designer.cs">
       <DependentUpon>LocalServerPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Popups\ParamChooser\IntegerChooser.cs">
+    <Compile Include="GUI\Events\Parameters\IntegerChooser.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GUI\Popups\ParamChooser\IntegerChooser.Designer.cs">
+    <Compile Include="GUI\Events\Parameters\IntegerChooser.Designer.cs">
       <DependentUpon>IntegerChooser.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Popups\ParamChooser\IParamChooser.cs" />
-    <Compile Include="GUI\Popups\ParamChooser\LocationsChooser.cs">
+    <Compile Include="GUI\Events\IParamChooser.cs" />
+    <Compile Include="GUI\Events\Parameters\LocationsChooser.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GUI\Popups\ParamChooser\LocationsChooser.Designer.cs">
+    <Compile Include="GUI\Events\Parameters\LocationsChooser.Designer.cs">
       <DependentUpon>LocationsChooser.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Popups\ParamChooser\StringChooser.cs">
+    <Compile Include="GUI\Events\Parameters\StringChooser.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GUI\Popups\ParamChooser\StringChooser.Designer.cs">
+    <Compile Include="GUI\Events\Parameters\StringChooser.Designer.cs">
       <DependentUpon>StringChooser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\Popups\UserInputPopup.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\Popups\UserInputPopup.Designer.cs">
-      <DependentUpon>UserInputPopup.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\State\NaoConnection.cs">
       <SubType>UserControl</SubType>
@@ -305,23 +306,23 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="GUI\Events\ParameterPanel.resx">
+      <DependentUpon>ParameterPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Goal\LocalServerPanel.resx">
       <DependentUpon>LocalServerPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\NaoDebugger.resx">
       <DependentUpon>NaoDebugger.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Popups\ParamChooser\IntegerChooser.resx">
+    <EmbeddedResource Include="GUI\Events\Parameters\IntegerChooser.resx">
       <DependentUpon>IntegerChooser.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Popups\ParamChooser\LocationsChooser.resx">
+    <EmbeddedResource Include="GUI\Events\Parameters\LocationsChooser.resx">
       <DependentUpon>LocationsChooser.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Popups\ParamChooser\StringChooser.resx">
+    <EmbeddedResource Include="GUI\Events\Parameters\StringChooser.resx">
       <DependentUpon>StringChooser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Popups\UserInputPopup.resx">
-      <DependentUpon>UserInputPopup.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\State\NaoConnection.resx">
       <DependentUpon>NaoConnection.cs</DependentUpon>
