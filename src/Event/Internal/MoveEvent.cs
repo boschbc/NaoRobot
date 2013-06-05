@@ -62,6 +62,14 @@ namespace Naovigate.Event.Internal
             Walk.Instance.StopMove();
         }
 
+        /// <summary>
+        /// return this event's EventCode.
+        /// </summary>
+        public override EventCode EventCode
+        {
+            get { return EventCode.Move; }
+        }
+
         /*
          * Returns a human-readable string describing an instance of this class.
          */

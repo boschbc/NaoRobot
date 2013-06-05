@@ -82,6 +82,11 @@ namespace Naovigate.Event
             Aborted = true;
         }
 
+        public abstract EventCode EventCode
+        {
+            get;
+        }
+
         /// <summary>
         /// Returns a human-readable representation of the event.
         /// </summary>

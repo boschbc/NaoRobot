@@ -25,6 +25,14 @@ namespace Naovigate.Event
         }
 
         /// <summary>
+        /// return this event's EventCode.
+        /// </summary>
+        public override EventCode EventCode
+        {
+            get { return EventCode.Colliding; }
+        }
+
+        /// <summary>
         /// Does nothing.
         /// </summary>
         public override void Abort() {}

@@ -36,6 +36,7 @@ namespace Naovigate.Event
         /// Boolean saying if the event queue is handling an event.
         /// </summary>
         private bool inAction;
+        private INaoEvent current;
 
         /// <summary>
         /// Creates a new EventQueue instance and starts the main thread.
@@ -228,17 +229,26 @@ namespace Naovigate.Event
         private void FireEvent()
         {
             inAction = true;
-            INaoEvent e = NextEvent;
-            if (e != null)
+            current = NextEvent;
+            if (current != null)
             {
                 // there was an event available, fire it
-                Logger.Log(this, "Firing " + e + ".\n" + EventsQueuedCount() + " events pending.");
-                e.Fire();
+                Logger.Log(this, "Firing " + current + ".\n" + EventsQueuedCount() + " events pending.");
+                
+                current.Fire();
                 if (EventFired != null)
-                    EventFired(e);
-                Logger.Log(this, "Event " + e + " finished firing.");
+                    EventFired(current);
+                Logger.Log(this, "Event " + current + " finished firing.");
             }
             inAction = false;
+        }
+
+        public INaoEvent Current
+        {
+            get
+            {
+                return current;
+            }
         }
 
         /// <summary>
@@ -274,6 +284,17 @@ namespace Naovigate.Event
         public void Clear()
         {
             q.Clear();
+        }
+
+        public List<INaoEvent> ClearAndGet()
+        {
+            List<INaoEvent> events = new List<INaoEvent>();
+            while (q.IsEmpty())
+            {
+                INaoEvent e = NextEvent;
+                if(e != null) events.Add(e);
+            }
+            return events;
         }
 
         /// <summary>

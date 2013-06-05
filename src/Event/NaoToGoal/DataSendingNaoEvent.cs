@@ -96,5 +96,13 @@ namespace Naovigate.Event.NaoToGoal
         {
             aborted = true;
         }
+
+        /// <summary>
+        /// return this event's EventCode.
+        /// </summary>
+        public override EventCode EventCode
+        {
+            get { return (EventCode)eventCode; }
+        }
     }
 }

@@ -50,7 +50,6 @@
     <Compile Include="Communication\AbstractCommunicationStream.cs" />
     <Compile Include="Communication\BitStringCommunicationStream.cs" />
     <Compile Include="Communication\ICommunicationStream.cs" />
-    <Compile Include="Communication\TestingGoalServer.cs" />
     <Compile Include="Communication\UnavailableConnectionException.cs" />
     <Compile Include="Event\GoalToNao\ExitEvent.cs" />
     <Compile Include="Event\GoalToNao\SayEvent.cs" />

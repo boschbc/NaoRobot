@@ -159,5 +159,10 @@ namespace Naovigate.Test.Event
         {
 
         }
+
+        public EventCode EventCode
+        {
+            get { return EventCode.Exit; }
+        }
 	}
 }

@@ -5,6 +5,7 @@ using Naovigate.Navigation;
 namespace Naovigate.Test.Navigation
 {
     
+    [TestFixture, Timeout(1000)]
     public class MapTest
     {
         private string[] wallMap = {
@@ -53,12 +54,6 @@ namespace Naovigate.Test.Navigation
         private static string mapFile = "MapTest.map";
         private Map m;
 
-        [TestFixtureSetUp]
-        public void InitMaps()
-        {
-
-        }
-
         [SetUp]
         public void Setup()
         {
@@ -98,6 +93,28 @@ namespace Naovigate.Test.Navigation
         {
             Map.Tile t = m.TileAt(0, 0);
             Assert.IsTrue(t.HasWallAt(Map.Direction.Down));
+        }
+
+        [Test]
+        public void SetGetTest()
+        {
+            Map.Tile expected = new Map.Tile(2, 2, 654);
+            m.SetTile(2, 2, expected);
+            Assert.AreEqual(expected, m.TileAt(2, 2));
+        }
+
+        [Test, ExpectedException(typeof(IndexOutOfRangeException))]
+        public void InvalidSetTest()
+        {
+            m.SetTile(3, 7, new Map.Tile(3, 7, 4673));
+        }
+
+        [Test]
+        public void ConsistencySetTest()
+        {
+            m.SetTile(1, 2, new Map.Tile(9001, 9002, 42));
+            Assert.AreEqual(1, m.TileAt(1, 2).X);
+            Assert.AreEqual(2, m.TileAt(1, 2).Y);
         }
     }
 }

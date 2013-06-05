@@ -86,6 +86,7 @@ namespace Naovigate.Test.Event
         [HandleProcessCorruptedStateExceptions]
         public static bool DisconnectWebots()
         {
+
             if (webotsAbsent) return false;
             if (Naovigate.Util.NaoState.Instance.Connected)
             {
@@ -93,6 +94,7 @@ namespace Naovigate.Test.Event
                 try
                 {
                     Walk.Instance.StopMove();
+                    Naovigate.Grabbing.Grabber.Instance.Abort();
                     res = true;
                 }
                 catch{ res = false; }

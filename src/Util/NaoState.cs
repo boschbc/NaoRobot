@@ -8,7 +8,6 @@ using System.Net;
 using Aldebaran.Proxies;
 
 using Naovigate.Communication;
-using Naovigate.Movement;
 using Naovigate.Navigation;
 
 namespace Naovigate.Util
@@ -24,7 +23,7 @@ namespace Naovigate.Util
         protected int batteryLeft;
         protected float temperature;
 
-        protected List<IDisposable> proxies = new List<IDisposable>();
+        protected ISet<IDisposable> proxies = new HashSet<IDisposable>();
         protected bool connected = false;
         protected Stopwatch Stopwatch = new Stopwatch();
 
@@ -320,8 +319,7 @@ namespace Naovigate.Util
         {
             get
             {
-                BatteryProxy res = createProxy<BatteryProxy>();
-                return res;
+                return createProxy<BatteryProxy>();
             }
         }
 
@@ -333,8 +331,7 @@ namespace Naovigate.Util
         {
             get
             {
-                LandMarkDetectionProxy res = createProxy<LandMarkDetectionProxy>();
-                return res;
+                return createProxy<LandMarkDetectionProxy>();
             }
         }
         
@@ -346,9 +343,7 @@ namespace Naovigate.Util
         {
             get
             {
-                VisionRecognitionProxy res = createProxy<VisionRecognitionProxy>();
-                proxies.Add(res);
-                return res;
+                return createProxy<VisionRecognitionProxy>();
             }
         }
 
@@ -361,8 +356,7 @@ namespace Naovigate.Util
         {
             get
             {
-                MemoryProxy res = createProxy<MemoryProxy>();
-                return res;
+                return createProxy<MemoryProxy>();
             }
         }
 
@@ -374,8 +368,7 @@ namespace Naovigate.Util
         {
             get
             {
-                MotionProxy res = createProxy<MotionProxy>();
-                return res;
+                return createProxy<MotionProxy>();
             }
         }
 
@@ -387,8 +380,7 @@ namespace Naovigate.Util
         {
             get
             {
-                RobotPostureProxy res = createProxy<RobotPostureProxy>();
-                return res;
+                return createProxy<RobotPostureProxy>();
             }
         }
 
@@ -400,8 +392,7 @@ namespace Naovigate.Util
         {
             get
             {
-                SensorsProxy res = createProxy<SensorsProxy>();
-                return res;
+                return createProxy<SensorsProxy>();
             }
         }
 
@@ -413,8 +404,7 @@ namespace Naovigate.Util
         {
             get
             {
-                SonarProxy res = createProxy<SonarProxy>();
-                return res;
+                return createProxy<SonarProxy>();
             }
         }
 
@@ -426,8 +416,7 @@ namespace Naovigate.Util
         {
             get
             {
-                TextToSpeechProxy res = createProxy<TextToSpeechProxy>();
-                return res;
+                return createProxy<TextToSpeechProxy>();
             }
         }
 
@@ -439,8 +428,7 @@ namespace Naovigate.Util
         {
             get
             {
-                VideoDeviceProxy res = createProxy<VideoDeviceProxy>();
-                return res;
+                return createProxy<VideoDeviceProxy>();
             }
         }
 
