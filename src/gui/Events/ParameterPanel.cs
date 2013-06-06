@@ -29,13 +29,11 @@ namespace Naovigate.GUI.Events
             contentTabelPanel.Controls.Add(label, 0, rowIndex);
             contentTabelPanel.Controls.Add(paramControl, 1, rowIndex);
             rowIndex++;
-            doneButton.Visible = true;
         }
 
         public void ClearAllParameters()
         {
             contentTabelPanel.Controls.Clear();
-            doneButton.Visible = false;
             rowIndex = 0;
             parameterMap.Clear();
         }

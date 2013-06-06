@@ -31,11 +31,9 @@
             this.boundingBox = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
-            this.doneButton = new System.Windows.Forms.Button();
             this.contentTabelPanel = new System.Windows.Forms.TableLayoutPanel();
             this.boundingBox.SuspendLayout();
             this.tableLayoutPanel.SuspendLayout();
-            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // boundingBox
@@ -72,24 +70,10 @@
             this.flowLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.flowLayoutPanel1.AutoSize = true;
             this.flowLayoutPanel1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flowLayoutPanel1.Controls.Add(this.doneButton);
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(92, 99);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(141, 129);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(49, 29);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(0, 0);
             this.flowLayoutPanel1.TabIndex = 1;
-            // 
-            // doneButton
-            // 
-            this.doneButton.AutoSize = true;
-            this.doneButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.doneButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.doneButton.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.doneButton.Location = new System.Drawing.Point(3, 3);
-            this.doneButton.Name = "doneButton";
-            this.doneButton.Size = new System.Drawing.Size(43, 23);
-            this.doneButton.TabIndex = 2;
-            this.doneButton.Text = "Done";
-            this.doneButton.UseVisualStyleBackColor = true;
             // 
             // contentTabelPanel
             // 
@@ -102,7 +86,7 @@
             this.contentTabelPanel.Name = "contentTabelPanel";
             this.contentTabelPanel.RowCount = 1;
             this.contentTabelPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.contentTabelPanel.Size = new System.Drawing.Size(138, 90);
+            this.contentTabelPanel.Size = new System.Drawing.Size(138, 119);
             this.contentTabelPanel.TabIndex = 2;
             // 
             // ParameterPanel
@@ -115,8 +99,6 @@
             this.boundingBox.PerformLayout();
             this.tableLayoutPanel.ResumeLayout(false);
             this.tableLayoutPanel.PerformLayout();
-            this.flowLayoutPanel1.ResumeLayout(false);
-            this.flowLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -127,7 +109,6 @@
         private System.Windows.Forms.GroupBox boundingBox;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
-        private System.Windows.Forms.Button doneButton;
         private System.Windows.Forms.TableLayoutPanel contentTabelPanel;
 
     }

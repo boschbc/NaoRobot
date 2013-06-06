@@ -99,16 +99,18 @@ namespace Naovigate.Movement
             WaitForMoveToEnd();
         }
 
-        private float Normalize(float rad)
+        private float ToNaoRadians(float rad)
         {
-            rad %= (float)Math.PI;
+            //if (Math.Abs(rad) > (2 * Math.PI))
+            //    rad %= (float)(2 * Math.PI);
+            if (Math.Abs(rad) > Math.PI)
+                rad %= (float)Math.PI;
             if (rad > Math.PI)
-                rad -= (float)Math.PI;
-            if (rad < -Math.PI)
-                rad += (float)Math.PI;
+                rad -= (float)(2 * Math.PI);
+            else if (rad < -Math.PI)
+                rad += (float)(2 * Math.PI);
             return rad;
         }
-
         /// <summary>
         /// Turns the Nao accurately using the specified accuracy-degree.
         /// </summary>
@@ -119,19 +121,24 @@ namespace Naovigate.Movement
             if (accuracy < 0.01)
                 accuracy = 0.01f;
             NaoState.Instance.Update();
-            rad = Normalize(rad);
+            
             Logger.Log(this, rad);
-            float goal = Normalize(NaoState.Instance.Rotation + rad);
-            float rotation = Normalize(goal - NaoState.Instance.Rotation);
+            float goal = ToNaoRadians(NaoState.Instance.Rotation + rad);
+            float rotation = ToNaoRadians(goal - NaoState.Instance.Rotation);
             float mistake = Math.Abs(rotation);
+            Logger.Log(this, "naoRotation: " + NaoState.Instance.Rotation);
+            Logger.Log(this, "goalRotation: " + goal);
+            Logger.Log(this, "helperRotation: " + rotation);
+            Logger.Log(this, "mistake: " + mistake);
             while (mistake > accuracy)
             {
                 Logger.Log(this, "naoRotation: " + NaoState.Instance.Rotation);
                 Logger.Log(this, "goalRotation: " + goal);
                 Logger.Log(this, "helperRotation: " + rotation);
+                Logger.Log(this, "mistake: " + mistake);
                 Turn(rotation);
                 NaoState.Instance.Update();
-                rotation = Normalize(goal - NaoState.Instance.Rotation);
+                rotation = ToNaoRadians(goal - NaoState.Instance.Rotation);
                 mistake = Math.Abs(rotation);
             }
         }

@@ -36,7 +36,7 @@ namespace Naovigate.Vision
             Hsv redObjectMIn = new Hsv(0.0, 0.0, 0.0);
             Hsv redObjectMax = new Hsv ( 180.0, 255.0, 255.0);
             Hsv greenObjectMin = new Hsv ( 63, 66, 43 );
-            Hsv greenObjectMax = new Hsv ( 116, 199, 123 );
+            Hsv greenObjectMax = new Hsv ( 116, 199, 180 );
             Hsv blueObjectMin = new Hsv (0, 0, 0);
             Hsv blueObjectMax = new Hsv (255, 255, 255);
             colors.Add(redObjectMIn);
@@ -83,8 +83,8 @@ namespace Naovigate.Vision
         public ArrayList ObjectData(Rectangle objectRectangle)
         {
             ArrayList ret = new ArrayList();
-            ret[0] = ObjectDistance(objectRectangle);
-            ret[1] = ObjectAngle(objectRectangle);
+            ret.Add(ObjectDistance(objectRectangle));
+            ret.Add(ObjectAngle(objectRectangle));
             return ret;
         }
 
@@ -92,10 +92,11 @@ namespace Naovigate.Vision
         public Rectangle biggestRectangle(List<Rectangle> rectangles)
         {
             Console.WriteLine("to be implemented");
-            if(rectangles.Count ==2)
-                return rectangles[1];            
+           
+            if(rectangles.Count ==1)
+                return rectangles[0];            
             else
-                return rectangles[0];
+                return rectangles[1];
         }
 
         //determins the angle between the nao and the object

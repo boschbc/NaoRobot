@@ -41,6 +41,11 @@
             0,
             65536});
             this.value.Location = new System.Drawing.Point(0, 0);
+            this.value.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            -2147483648});
             this.value.Name = "value";
             this.value.Size = new System.Drawing.Size(56, 20);
             this.value.TabIndex = 0;

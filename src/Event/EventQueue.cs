@@ -174,9 +174,9 @@ namespace Naovigate.Event
         /// </summary>
         public void Resume()
         {
+            Logger.Log(this, "Resumed.");
             if (!suspended)
                 return;
-            Logger.Log(this, "Resumed.");
             suspended = false;
             locker.Set();
         }

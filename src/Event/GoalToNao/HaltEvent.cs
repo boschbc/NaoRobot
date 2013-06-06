@@ -31,11 +31,11 @@ namespace Naovigate.Event.GoalToNao
             {
                 EventQueue.Nao.Suspend();
                 // stop these in all cases
-                
+                Logger.Log(this, 1);
                 Walk.Instance.StopMoving();
-                
+                Logger.Log(this, 2);
                 Grabber.Instance.Abort();
-                
+                Logger.Log(this, 3);
                 // stop all event in the queue, including the currently fired one.
                 INaoEvent cur = EventQueue.Nao.Current;
                 if (cur != null) 
