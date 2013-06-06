@@ -77,6 +77,8 @@
     <Compile Include="Event\DataSendingNaoEventTest.cs" />
     <Compile Include="Event\GoalToNao\PutDownEventTest.cs" />
     <Compile Include="Navigation\MapTest.cs" />
+    <Compile Include="Navigation\RequireMap.cs" />
+    <Compile Include="Navigation\TileTest.cs" />
     <Compile Include="Util\NaoStateStub.cs" />
     <Compile Include="Util\PriorityQueueTest.cs" />
     <Compile Include="Event\EventQueueTest.cs" />

@@ -4,7 +4,7 @@ using Naovigate.Grabbing;
 
 namespace Naovigate.Event.Internal
 {
-    class GrabEvent : NaoEvent
+    public class GrabEvent : NaoEvent
     {
         public GrabEvent() { }
 
@@ -21,6 +21,7 @@ namespace Naovigate.Event.Internal
         /// </summary>
         public override void Abort()
         {
+            Naovigate.Util.Logger.Log(this, "Aborted");
             Grabber.Instance.Abort();
         }
 

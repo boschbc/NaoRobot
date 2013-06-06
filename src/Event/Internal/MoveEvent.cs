@@ -11,7 +11,7 @@ namespace Naovigate.Event.Internal
     /// <summary>
     /// An event that makes the Nao move towards a given destination.
     /// </summary>
-    class MoveEvent : NaoEvent
+    public class MoveEvent : NaoEvent
     {
         public new static readonly EventCode code = EventCode.Move;
         private PointF point;

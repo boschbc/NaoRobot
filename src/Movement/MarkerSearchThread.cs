@@ -4,6 +4,8 @@ using System.Collections;
 using Naovigate.Util;
 using Naovigate.Movement;
 using Naovigate.Vision;
+using Naovigate.Event;
+using Naovigate.Event.NaoToGoal;
 
 namespace Naovigate.Movement
 {
@@ -16,12 +18,13 @@ namespace Naovigate.Movement
     {
         private int markerID;
         private double dist;
-        private bool seenMarker = false;
         private float headPos = 0f;
 
         public MarkerSearchThread(int markerID, int dist)
         {
             this.markerID = markerID;
+            // distance to wall, so add 0.5 distance to effectively
+            // end up in the middle of the room.
             this.dist = dist + 0.5;
         }
 
@@ -30,7 +33,7 @@ namespace Naovigate.Movement
             Running = true;
             try
             {
-                LookForMarker();
+                Call(() => LookForMarker());
             }
             finally
             {
@@ -56,7 +59,8 @@ namespace Naovigate.Movement
                 if (markers.Count == 0 && sonar.IsTooClose())
                 {
                     Logger.Log(this, "I probably reached the marker");
-                    if (dist <= 1) Naovigate.Event.EventQueue.Goal.Post(new Naovigate.Event.NaoToGoal.SeeEvent(markerID, (int)(dist - 0.5)));
+                    // wrong, See = object, were looking at markers here, need LocationEvent
+                    //if (dist <= 1) EventQueue.Goal.Post(new SeeEvent(markerID, (int)(dist - 0.5)));
                     Running = false;
                 }
             }
@@ -74,10 +78,10 @@ namespace Naovigate.Movement
                 if ((int)((ArrayList)marker[1])[0] == markerID)
                 {
                     Logger.Log(this, "Correct marker: " + Running);
-                    seenMarker = true;
                     bool reached = calculate(marker);
                     Running = reached ? false : Running;
-                    if (reached) Naovigate.Event.EventQueue.Goal.Post(new Naovigate.Event.NaoToGoal.SeeEvent(markerID, (int)(dist-0.5)));
+                    // wrong, See = object, were looking at markers here, need LocationEvent
+                    //if (reached) EventQueue.Goal.Post(new SeeEvent(markerID, (int)(dist-0.5)));
                     break;
                 }
             }

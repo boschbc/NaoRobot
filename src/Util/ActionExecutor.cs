@@ -10,9 +10,6 @@ namespace Naovigate.Util
     /// </summary>
     public abstract class ActionExecutor
     {
-        private bool running;
-        private bool aborted;
-        private Exception errorCaught = null;
         private event Action Done;
 
         /// <summary>
@@ -20,8 +17,8 @@ namespace Naovigate.Util
         /// </summary>
         public bool Running
         {
-            get { return running; }
-            protected set { running = value; }
+            get;
+            protected set;
         }
 
         /// <summary>
@@ -29,8 +26,8 @@ namespace Naovigate.Util
         /// </summary>
         public bool Aborted
         {
-            get { return aborted; }
-            protected set { aborted = value; }
+            get;
+            protected set;
         }
 
         /// <summary>
@@ -39,8 +36,8 @@ namespace Naovigate.Util
         /// </summary>
         public Exception Error
         {
-            get { return errorCaught; }
-            protected set { errorCaught = value; }
+            get;
+            protected set;
         }
 
         /// <summary>
@@ -120,11 +117,15 @@ namespace Naovigate.Util
                 throw Error;
             if (Aborted)
             {
-                errorCaught = new ThreadInterruptedException();
+                Error = new ThreadInterruptedException();
                 throw Error;
             }
         }
 
+        /// <summary>
+        /// Call the given handler when this ActionExecutor finishes.
+        /// </summary>
+        /// <param name="handler"></param>
         public void NotifyWhenDone(Action handler)
         {
             Done += handler;
