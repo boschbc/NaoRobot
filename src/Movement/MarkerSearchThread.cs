@@ -59,7 +59,8 @@ namespace Naovigate.Movement
                 if (markers.Count == 0 && sonar.IsTooClose())
                 {
                     Logger.Log(this, "I probably reached the marker");
-                    if (dist <= 1) EventQueue.Goal.Post(new SeeEvent(markerID, (int)(dist - 0.5)));
+                    // wrong, See = object, were looking at markers here, need LocationEvent
+                    //if (dist <= 1) EventQueue.Goal.Post(new SeeEvent(markerID, (int)(dist - 0.5)));
                     Running = false;
                 }
             }
@@ -79,7 +80,8 @@ namespace Naovigate.Movement
                     Logger.Log(this, "Correct marker: " + Running);
                     bool reached = calculate(marker);
                     Running = reached ? false : Running;
-                    if (reached) EventQueue.Goal.Post(new SeeEvent(markerID, (int)(dist-0.5)));
+                    // wrong, See = object, were looking at markers here, need LocationEvent
+                    //if (reached) EventQueue.Goal.Post(new SeeEvent(markerID, (int)(dist-0.5)));
                     break;
                 }
             }
