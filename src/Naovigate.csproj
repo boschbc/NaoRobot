@@ -67,6 +67,7 @@
     <Compile Include="Event\INaoEvent.cs" />
     <Compile Include="Event\Internal\SitDownEvent.cs" />
     <Compile Include="Event\Internal\StandUpEvent.cs" />
+    <Compile Include="Event\Internal\TestEvent.cs" />
     <Compile Include="Event\Internal\TurnEvent.cs" />
     <Compile Include="Event\InvalidEventCodeException.cs" />
     <Compile Include="Event\Internal\MoveEvent.cs" />
@@ -245,7 +246,7 @@
     </Compile>
     <Compile Include="MainProgram.cs" />
     <Compile Include="Movement\MarkerSearchThread.cs" />
-    <Compile Include="Movement\ObjectPickupThread.cs" />
+    <Compile Include="Movement\ObjectSearchThread.cs" />
     <Compile Include="Movement\Pose.cs" />
     <Compile Include="Movement\Walk.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

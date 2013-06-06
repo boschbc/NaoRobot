@@ -35,14 +35,18 @@ namespace Naovigate
                 LaunchDebugger.DebugMain();
             else
             {
-                NaoState.Instance.Connect(NaoIP, 9559);
-                // -x - 0.5
-                Pose.Instance.Look(0.5f);
-
             }
+        }
 
-            Console.WriteLine("Done");
-            Console.Read();
+        public static void Test()
+        {
+            NaoState.Instance.Connect(NaoIP, 9559);
+            ObjectSearchThread search = new ObjectSearchThread(1);
+            search.Run();
+            while (search.Running)
+            {
+                Thread.Sleep(1000);
+            }
         }
 
         private static void Setup()

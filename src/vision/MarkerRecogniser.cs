@@ -15,7 +15,7 @@ namespace Naovigate.Vision
 
         public static MarkerRecogniser instance = null;
 
-        public static double FRANKENAO2C = 5.414;
+        public static double FRANKENAO2C = 5.577;
 
         public static MarkerRecogniser GetInstance()
         {
@@ -30,7 +30,7 @@ namespace Naovigate.Vision
 
             Camera camera = new Camera("MarkerRecogniser");
             camera.Subscribe();
-            //camera.CalibrateCamera(3);
+            camera.CalibrateCamera(3);
             camera.Unsubscribe();
         }
 

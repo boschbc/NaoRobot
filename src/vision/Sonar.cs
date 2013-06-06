@@ -25,10 +25,6 @@ namespace Naovigate.Vision
                 memoryProxy = new MemoryProxy(ip, 9559);
 
                 ActivateSonar();
-
-                timer = new Timer();
-                timer.Elapsed += new ElapsedEventHandler(OnTimedEvent);
-                timer.Interval = 500;
         }
 
         public static Sonar Instance
@@ -59,48 +55,23 @@ namespace Naovigate.Vision
          */
         public void Deactivate()
         {
-            StopChecking();
             sonarProxy.unsubscribe("Nao");
             Console.WriteLine("Deactivating sonar");
         }
 
         /*
          * Check if the Nao is too close (within 0.3 metres) to a wall (or other object)
-         * If the Nao is too close, raise a NaoCollidingEvent and stop checking
          * */
-        public void OnTimedEvent(object source, ElapsedEventArgs ev) {
-            if (timer.Enabled)
-            {
+        public bool IsTooClose() {
                 float left = getSonarDataLeft();
                 float right = getSonarDataRight();
 
                 bool collidingLeft = left <= 0.3;
                 bool collidingRight = right <= 0.3;
 
-                if (collidingLeft || collidingRight)
-                {
-                    EventQueue.Nao.Post(new NaoCollidingEvent(collidingLeft, collidingRight));
-                    StopChecking();
-                }
-            }
+                return (collidingLeft || collidingRight);
         }
-
-        /*
-         * Start checking for collisions
-         * */
-        public void StartChecking()
-        {
-            timer.Start();
-        }
-
-        /*
-         * Stop checking for collisions
-         * */
-        public void StopChecking()
-        {
-            timer.Stop();
-        }
-
+        
         /*
          * get value of sonar left
          * */

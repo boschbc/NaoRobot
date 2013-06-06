@@ -179,15 +179,15 @@ namespace Naovigate.Movement
         /// <param name="objectID"></param>
         /// <param name="dist"></param>
         /// <returns></returns>
-        public virtual ObjectPickupThread WalkTowardsObject(float dir,int objectID,double dist)
-        {
-            StopLooking();
-            WalkTo(0, 0, dir);
-            StartWalking(0.5F, 0, 0);
-            ObjectPickupThread t = new ObjectPickupThread(objectID , dist);
-            t.Start();
-            return t;
-        }
+        //public virtual ObjectSearchThread WalkTowardsObject(float dir,int objectID,double dist)
+        //{
+        //    StopLooking();
+        //    WalkTo(0, 0, dir);
+        //    StartWalking(0.5F, 0, 0);
+        //    ObjectSearchThread t = new ObjectSearchThread(objectID , dist);
+        //    t.Start();
+        //    return t;
+        //}
 
         /// <summary>
         /// The Nao will stop looking for markers and stop moving.
