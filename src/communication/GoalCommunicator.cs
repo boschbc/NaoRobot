@@ -99,6 +99,7 @@ namespace Naovigate.Communication
                     communicationStream.Stream = stream;
                 }
                 Logger.Log(this, "Connection established.");
+                EventQueue.Goal.Post(new AgentEvent());
                 return true;
             } 
             catch (SocketException)
