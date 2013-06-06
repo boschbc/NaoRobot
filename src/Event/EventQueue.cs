@@ -320,10 +320,11 @@ namespace Naovigate.Event
         public List<INaoEvent> ClearAndGet()
         {
             List<INaoEvent> events = new List<INaoEvent>();
-            while (q.IsEmpty())
+            while (!q.IsEmpty())
             {
                 INaoEvent e = NextEvent;
-                if(e != null) events.Add(e);
+                if(e != null)
+                    events.Add(e);
             }
             return events;
         }
