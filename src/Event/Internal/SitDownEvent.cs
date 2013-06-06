@@ -7,7 +7,7 @@ namespace Naovigate.Event.Internal
     /// <summary>
     /// An event which makes the Nao to sit down.
     /// </summary>
-    class SitDownEvent : NaoEvent
+    public class SitDownEvent : NaoEvent
     {
         public SitDownEvent() { }
 

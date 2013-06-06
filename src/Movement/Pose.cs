@@ -108,7 +108,7 @@ namespace Naovigate.Movement
             if (depth < -0.5f) depth = -0.5f;
             if (depth > 0.5f) depth = 0.5f;
             Logger.Log(this, "Look: "+depth);
-            // avoid motors grinding
+            // avoid motors grinding, there has to be a difference
             if (depth != lastDepth)
             {
                 lastDepth = depth;

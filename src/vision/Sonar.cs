@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Aldebaran.Proxies;
-using System.Timers;
+using Naovigate.Util;
 using Naovigate.Event;
 
 namespace Naovigate.Vision
@@ -12,13 +12,14 @@ namespace Naovigate.Vision
     {
         private SonarProxy sonarProxy;
         private MemoryProxy memoryProxy;
-        private Timer timer;
 
         private static Sonar instance = null;
 
-        /*
-         * makes Sonar and memory Proxies
-         */
+
+        /// <summary>
+        /// makes Sonar and memory Proxies
+        /// </summary>
+        /// <param name="ip"></param>
         public Sonar(String ip)
         {
                 sonarProxy = new SonarProxy(ip, 9559);
@@ -27,6 +28,9 @@ namespace Naovigate.Vision
                 ActivateSonar();
         }
 
+        /// <summary>
+        /// The Sonar instance
+        /// </summary>
         public static Sonar Instance
         {
             get {
@@ -34,9 +38,9 @@ namespace Naovigate.Vision
             }
         }
 
-        /*
-         * activates sonar
-         */
+        /// <summary>
+        /// activates sonar
+        /// </summary>
         public void ActivateSonar()
         {
             try
@@ -46,22 +50,23 @@ namespace Naovigate.Vision
             }
             catch (Exception)
             {
-                Console.WriteLine("No sonar subscription");
+                Logger.Log(this, "No sonar subscription");
             }                            
         }
-
-        /*
-         * deactivates sonar
-         */
+        
+        /// <summary>
+        /// deactivates sonar
+        /// </summary>
         public void Deactivate()
         {
             sonarProxy.unsubscribe("Nao");
-            Console.WriteLine("Deactivating sonar");
+            Logger.Log(this, "Deactivating sonar");
         }
 
-        /*
-         * Check if the Nao is too close (within 0.3 metres) to a wall (or other object)
-         * */
+        /// <summary>
+        /// Check if the Nao is too close (within 0.3 metres) to a wall (or other object)
+        /// </summary>
+        /// <returns></returns>
         public bool IsTooClose() {
                 float left = getSonarDataLeft();
                 float right = getSonarDataRight();
@@ -72,17 +77,19 @@ namespace Naovigate.Vision
                 return (collidingLeft || collidingRight);
         }
         
-        /*
-         * get value of sonar left
-         * */
+        /// <summary>
+        /// get value of sonar left
+        /// </summary>
+        /// <returns></returns>
         public float getSonarDataLeft()
         { 
             return (float)memoryProxy.getData("Device/SubDeviceList/US/Left/Sensor/Value");            
         }
 
-        /*
-         * get value of sonar left
-         * */
+        /// <summary>
+        /// get value of sonar left
+        /// </summary>
+        /// <returns></returns>
         public float getSonarDataRight()
         {
             return (float)memoryProxy.getData("Device/SubDeviceList/US/Right/Sensor/Value");
