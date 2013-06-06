@@ -12,7 +12,7 @@ namespace Naovigate.Movement
     public class ObjectSearchThread : ActionExecutor
     {
         private int objectId;
-        private bool reached = false;
+        public bool reached = false;
         private Camera camera;
 
         public ObjectSearchThread(int objectID)
@@ -31,7 +31,7 @@ namespace Naovigate.Movement
             get;
             private set;
         }
-        
+
         public override void Run()
         {
             Running = true;
@@ -47,12 +47,8 @@ namespace Naovigate.Movement
         {
             Pose.Instance.Look(0.5F);
             Processing processor = new Processing(camera);
-            while (Running)
-            {
-                Rectangle ob = processor.DetectObject();
-                ObjectFound = ob.Width!=0;
-                return;
-            }
+            Rectangle ob = processor.DetectObject();
+            ObjectFound = ob.Width != 0;
         }
 
         private void GoInfrontOfObject()
@@ -75,6 +71,10 @@ namespace Naovigate.Movement
                     {
                         Call(() => walk.StartWalking(0.4F, 0F, processor.calculateTheta(ob)));
                     }
+                }
+                else
+                {
+                    Running = false;
                 }
             }
             walk.StopMoving();
