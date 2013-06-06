@@ -241,7 +241,7 @@ namespace Naovigate.Event
             current = NextEvent;
             if (current != null)
             {
-                FireEvent(e);
+                FireEvent(current);
             }
         }
 

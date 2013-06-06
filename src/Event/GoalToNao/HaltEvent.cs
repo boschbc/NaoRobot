@@ -31,7 +31,7 @@ namespace Naovigate.Event.GoalToNao
             {
                 EventQueue.Nao.Suspend();
                 // stop these in all cases
-                Walk.Instance.StopMove();
+                Walk.Instance.StopMoving();
                 Grabber.Instance.Abort();
 
                 // stop all event in the queue, including the currently fired one.
