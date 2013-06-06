@@ -234,7 +234,7 @@ namespace Naovigate.Event
         }
 
         /// <summary>
-        /// Fires an event.
+        /// Fires the next event in queue.
         /// </summary>
         private void FireNextEvent()
         {
@@ -245,6 +245,10 @@ namespace Naovigate.Event
             }
         }
 
+        /// <summary>
+        /// Fires given event.
+        /// </summary>
+        /// <param name="e">An event.</param>
         private void FireEvent(INaoEvent e)
         {
             Logger.Log(this, "Firing: " + e);
@@ -261,6 +265,9 @@ namespace Naovigate.Event
             Logger.Log(this, "Event " + e + " finished firing.");
         }
 
+        /// <summary>
+        /// The current event being fired.
+        /// </summary>
         public INaoEvent Current
         {
             get
@@ -306,6 +313,10 @@ namespace Naovigate.Event
                 q.Clear();
         }
 
+        /// <summary>
+        /// Clears the queue and returns all events that were removed.
+        /// </summary>
+        /// <returns>List of events.</returns>
         public List<INaoEvent> ClearAndGet()
         {
             List<INaoEvent> events = new List<INaoEvent>();
