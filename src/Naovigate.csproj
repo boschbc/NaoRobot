@@ -67,6 +67,7 @@
     <Compile Include="Event\INaoEvent.cs" />
     <Compile Include="Event\Internal\SitDownEvent.cs" />
     <Compile Include="Event\Internal\StandUpEvent.cs" />
+    <Compile Include="Event\Internal\TestEvent.cs" />
     <Compile Include="Event\Internal\TurnEvent.cs" />
     <Compile Include="Event\InvalidEventCodeException.cs" />
     <Compile Include="Event\Internal\MoveEvent.cs" />

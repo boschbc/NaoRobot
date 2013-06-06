@@ -43,6 +43,11 @@ namespace Naovigate
             }
         }
 
+        public static void Test()
+        {
+
+        }
+
         private static void Setup()
         {
             Logger.Clear();
