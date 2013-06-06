@@ -80,7 +80,7 @@ namespace Naovigate.Event.GoalToNao
             try
             {
                 GoInfrontOfObject();
-                ObjectPickupThread results = executor as ObjectPickupThread;
+                ObjectSearchThread results = executor as ObjectSearchThread;
                 if (!results.ObjectFound)
                 {
                     ReportFailure();
@@ -106,7 +106,7 @@ namespace Naovigate.Event.GoalToNao
 
         private void GoInfrontOfObject()
         {
-            executor = new ObjectPickupThread(ObjectID);
+            executor = new ObjectSearchThread(ObjectID);
             executor.Start();
             executor.WaitFor();
         }
@@ -120,7 +120,7 @@ namespace Naovigate.Event.GoalToNao
 
         private void VerifyObjectHeld()
         {
-            ObjectPickupThread results = executor as ObjectPickupThread;
+            ObjectSearchThread results = executor as ObjectSearchThread;
             if (results.ObjectFound && Grabber.Instance.HoldingObject())
                 ReportSuccess();
             else

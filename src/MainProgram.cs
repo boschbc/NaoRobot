@@ -21,8 +21,8 @@ namespace Naovigate
         public static readonly int NaoPort = 9559;
         public static readonly int GoalPort = 6747;
         public static readonly string LocalHost = "127.0.0.1";
-        public static readonly string nao2 = "192.168.0.108";
-        public static readonly string NaoIP = LocalHost;
+        public static readonly string nao2 = "192.168.0.126";
+        public static readonly string NaoIP = nao2;
         public static readonly string GoalIP = LocalHost;
 
         public static void Main(String[] args)
@@ -34,9 +34,16 @@ namespace Naovigate
             else
             {
                 NaoState.Instance.Connect(NaoIP, 9559);
-                // -x - 0.5
-                Pose.Instance.Look(-.6f);
-
+                Pose.Instance.StandUp();
+                Pose.Instance.Look(0.5F);
+                Camera cam = new Camera("Processing");
+                cam.Subscribe();
+                cam.CalibrateCamera(3);
+                Processing p = new Processing(cam);
+                
+                    NaoState.Instance.Connect(NaoIP, 9559);
+                    ObjectSearchThread search = new ObjectSearchThread(1);
+                    search.Run();
             }
 
             Console.WriteLine("Done");

@@ -15,14 +15,14 @@ namespace Naovigate.Movement
     public class MarkerSearchThread : ActionExecutor
     {
         private int markerID;
-        private int dist;
-        private bool stoppedMyself = false;
+        private double dist;
+        private bool seenMarker = false;
         private float headPos = 0f;
 
         public MarkerSearchThread(int markerID, int dist)
         {
             this.markerID = markerID;
-            this.dist = dist;
+            this.dist = dist + 0.5;
         }
 
         public override void Run()
@@ -42,43 +42,31 @@ namespace Naovigate.Movement
         {
             Pose.Instance.Look(headPos);
             MarkerRecogniser rec = MarkerRecogniser.GetInstance();
+            Sonar sonar = Sonar.Instance;
             ArrayList markers;
             Logger.Log(this, "Look for marker");
             Call(() => Walk.Instance.StartWalking(0.5F, 0, 0));
             while (Running)
             {
                 Thread.Sleep(1000);
-				if (!stoppedMyself && !Walk.Instance.IsMoving()) Running = false;
+                if (!Walk.Instance.IsMoving()) Running = false;
                 ArrayList data = rec.GetMarkerData();
                 markers = data.Count == 0 ? data : (ArrayList)data[1];
-                if (markers.Count == 0)
+                checkMarkers(markers);
+                if (markers.Count == 0 && sonar.IsTooClose())
                 {
-                    Logger.Log(this, "Temp stop, look for markers.");
-                    headPos += 0.1f;
-                    Logger.Log(this, "Head: "+headPos);
-                    Call(() => Pose.Instance.Look(headPos));
-                    stoppedMyself = true;
-                    Walk.Instance.StopMoving();
-                    if (headPos > 0.5f)
-                    {
-                        Logger.Log(this, "NO MARKERS - CANT FIND MORE - EXIT PLEASE");
-                        Pose.Instance.Look(0f);
-                        Abort();
-                    }
-                }
-                else
-                {
-                    checkMarkers(markers);
+                    Logger.Log(this, "I probably reached the marker");
+                    if (dist <= 1) Naovigate.Event.EventQueue.Goal.Post(new Naovigate.Event.NaoToGoal.SeeEvent(markerID, (int)(dist - 0.5)));
+                    Running = false;
                 }
             }
             Walk.Instance.StopMoving();
-            Pose.Instance.Look(0f);
-            Logger.Log("Exit LookForMarker : "+Running);
+            Logger.Log("Exit LookForMarker : " + Running);
         }
 
         private void checkMarkers(ArrayList markers)
         {
-            Logger.Log(this, "checkMarkers: "+markers.Count);
+            Logger.Log(this, "checkMarkers: " + markers.Count);
             for (int i = 0; i < markers.Count; i++)
             {
                 Logger.Log(this, "marker: " + i);
@@ -86,9 +74,10 @@ namespace Naovigate.Movement
                 if ((int)((ArrayList)marker[1])[0] == markerID)
                 {
                     Logger.Log(this, "Correct marker: " + Running);
+                    seenMarker = true;
                     bool reached = calculate(marker);
                     Running = reached ? false : Running;
-                    if (reached) Naovigate.Event.EventQueue.Goal.Post(new Naovigate.Event.NaoToGoal.SeeEvent(markerID, dist));
+                    if (reached) Naovigate.Event.EventQueue.Goal.Post(new Naovigate.Event.NaoToGoal.SeeEvent(markerID, (int)(dist-0.5)));
                     break;
                 }
             }
@@ -97,14 +86,13 @@ namespace Naovigate.Movement
         //Change direction towards the marker and return true iff we reached our destination
         private bool calculate(ArrayList marker)
         {
-            Logger.Log(this, "Calculate: "+Running);
+            Logger.Log(this, "Calculate: " + Running);
             bool reached = false;
             float angle = ((float)((ArrayList)marker[0])[1]) / 4F;
             if (Running)
             {
-                Logger.Log(this, "StartWalking: "+Running);
+                Logger.Log(this, "StartWalking: " + Running);
                 Call(() => Walk.Instance.StartWalking(0.5F, 0, Math.Max(-1, Math.Min(1, angle))));
-                Call(() => stoppedMyself = false);
             }
             float sizeY = ((float)((ArrayList)marker[0])[4]);
 
@@ -112,9 +100,7 @@ namespace Naovigate.Movement
             {
                 reached = true;
             }
-            // look forward
-            Pose.Instance.Look(0f);
             return reached;
         }
-    }    
+    }
 }

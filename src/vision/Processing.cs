@@ -33,11 +33,11 @@ namespace Naovigate.Vision
         public void Init()
         {
             colors = new List<Hsv>();
-            Hsv redObjectMIn = new Hsv(0.0, 0.0, 0.0);
-            Hsv redObjectMax = new Hsv ( 180.0, 255.0, 255.0);
+            Hsv redObjectMIn = new Hsv(255, 255, 255);
+            Hsv redObjectMax = new Hsv ( 255.0, 255.0, 255.0);
             Hsv greenObjectMin = new Hsv ( 63, 66, 43 );
-            Hsv greenObjectMax = new Hsv ( 116, 199, 123 );
-            Hsv blueObjectMin = new Hsv (0, 0, 0);
+            Hsv greenObjectMax = new Hsv ( 116, 199, 180 );
+            Hsv blueObjectMin = new Hsv (255, 255, 255);
             Hsv blueObjectMax = new Hsv (255, 255, 255);
             colors.Add(redObjectMIn);
             colors.Add(redObjectMax);
@@ -47,18 +47,27 @@ namespace Naovigate.Vision
             colors.Add(blueObjectMax);
         }
         //checks of there is a object in sight and then returns a array with distance and angle
-        public ArrayList DetectObject()
+        public Rectangle DetectObject()
         {
             currentImage = cam.GetImage();
             Image<Hsv, Byte> hsvImg = currentImage.Convert<Hsv, Byte>();
-            Rectangle objectRectangle = SearchForObjects(hsvImg);
-            if (objectRectangle.Height == 0)
-                return null;
-            else
+            return SearchForObjects(hsvImg);
+        }
+
+        public bool closeEnough(Rectangle rect)
+        {
+            return rect.Width >= 155;
+        }
+
+        public float calculateTheta(Rectangle rect)
+        {
+            int middle = rect.Left + rect.Right - currentImage.Width;
+            float ret = 0;
+            if (Math.Abs(middle) > 50)
             {
-                ArrayList objdata = ObjectData(objectRectangle);
-                return objdata;
-            }  
+                ret =  middle > 0 ? -0.1F : 0.1F;
+            }
+            return ret;
         }
 
         public Rectangle SearchForObjects(Image<Hsv, Byte> hsv)
@@ -83,46 +92,26 @@ namespace Naovigate.Vision
         public ArrayList ObjectData(Rectangle objectRectangle)
         {
             ArrayList ret = new ArrayList();
-            ret[0] = ObjectDistance(objectRectangle);
-            ret[1] = ObjectAngle(objectRectangle);
+            ret.Add(objectRectangle.Left);
+            ret.Add(objectRectangle.Right);
             return ret;
         }
 
         //returns the biggest rectangle object
         public Rectangle biggestRectangle(List<Rectangle> rectangles)
         {
-            Console.WriteLine("to be implemented");
-            if(rectangles.Count ==2)
-                return rectangles[1];            
-            else
-                return rectangles[0];
+            Rectangle max = new Rectangle(0, 0, 0, 0);
+            foreach (Rectangle rect in rectangles)
+            {
+                if (max.Width < rect.Width)
+                {
+                    max = rect;
+                }
+            }
+            return max;
         }
 
-        //determins the angle between the nao and the object
-        public double ObjectAngle(Rectangle rec)
-        {
-            Point loc = rec.Location;
-            double locX = loc.X;
-            double centerX = currentImage.Width / 2;
-            double deltaX = centerX - locX;
- 
-            double angle = Math.Tan(deltaX / ObjectDistance(rec));
-            return angle;
-        }
-
-        //determins the distance between the object and the nao
-        public double ObjectDistance(Rectangle rec)
-        {
-            double width = rec.Width;
-            double height = rec.Height;
-            double opp = width * height;
-
-            double dist = opp / naoFactor;
-            return dist;
-        }
-
-
-        public Image<Hsv, Byte> EnchancedImage(double[] rgb1, double[] rgb2)
+        public Image<Gray, Byte> EnchancedImage(double[] rgb1, double[] rgb2)
         {
             DetectObject();
             Image<Hsv, byte> hsv = currentImage.Convert<Hsv, byte>();
@@ -130,10 +119,10 @@ namespace Naovigate.Vision
             Hsv p2 = new Hsv(rgb2[0], rgb2[1], rgb2[2]);
             Rectangle rec = SearchForObjects(hsv);
 
-            Hsv col = new Hsv(116,199,122);
-            hsv.Draw(rec, col, 2);
-            return hsv;
+            Image<Gray, Byte> rangedImg = hsv.InRange(colors[2], colors[3]);
+            Gray col = new Gray(100);
+            rangedImg.Draw(rec, col, 2);
+            return rangedImg;
         }
     }
 }
-
