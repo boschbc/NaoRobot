@@ -39,7 +39,6 @@ namespace Naovigate.GUI.LiveCamera
 
         public Image Enhance()
         {
-            Naovigate.Util.Logger.Log();
             if (Target == null)
                 return null;
             Processing ps = new Processing(Target);

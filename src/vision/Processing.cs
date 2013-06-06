@@ -35,7 +35,7 @@ namespace Naovigate.Vision
             colors = new List<Hsv>();
             Hsv redObjectMIn = new Hsv(255, 255, 255);
             Hsv redObjectMax = new Hsv ( 255.0, 255.0, 255.0);
-            Hsv greenObjectMin = new Hsv ( 63, 66, 43 );
+            Hsv greenObjectMin = new Hsv ( 80, 150, 43 );
             Hsv greenObjectMax = new Hsv ( 116, 199, 180 );
             Hsv blueObjectMin = new Hsv (255, 255, 255);
             Hsv blueObjectMax = new Hsv (255, 255, 255);
@@ -56,7 +56,7 @@ namespace Naovigate.Vision
 
         public bool closeEnough(Rectangle rect)
         {
-            return rect.Width >= 155;
+            return rect.Width >= 135;
         }
 
         public float calculateTheta(Rectangle rect)

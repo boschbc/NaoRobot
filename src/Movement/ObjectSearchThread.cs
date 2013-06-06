@@ -20,6 +20,7 @@ namespace Naovigate.Movement
             this.objectId = objectID;
             camera = new Camera("ObjectSearch");
             camera.Subscribe();
+            camera.CalibrateCamera(3);
         }
 
 
@@ -47,7 +48,7 @@ namespace Naovigate.Movement
         {
             Pose.Instance.Look(0.5F);
             Processing processor = new Processing(camera);
-            Call(() => Walk.Instance.StartWalking(0F,0F,0.1F));
+            Call(() => Walk.Instance.StartWalking(0F,0F,-0.1F));
             while (Running && !ObjectFound)
             {
                 Rectangle ob = processor.DetectObject();
