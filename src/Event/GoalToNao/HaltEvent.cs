@@ -31,13 +31,18 @@ namespace Naovigate.Event.GoalToNao
             {
                 EventQueue.Nao.Suspend();
                 // stop these in all cases
+                
                 Walk.Instance.StopMoving();
+                
                 Grabber.Instance.Abort();
-
+                
                 // stop all event in the queue, including the currently fired one.
                 INaoEvent cur = EventQueue.Nao.Current;
-                if (cur != null) cur.Abort();
+                if (cur != null) 
+                    cur.Abort();
+                Logger.Log();
                 List<INaoEvent> events = EventQueue.Nao.ClearAndGet();
+                Logger.Log();
                 foreach(INaoEvent e in events){
                     if (e != null)
                     {
@@ -45,7 +50,7 @@ namespace Naovigate.Event.GoalToNao
                         EventQueue.Goal.Post(new FailureEvent(e.EventCode));
                     }
                 }
-
+                
                 // and continue as normal
                 EventQueue.Nao.Resume();
             }

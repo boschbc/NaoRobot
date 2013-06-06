@@ -83,7 +83,29 @@
     <Compile Include="Event\NaoToGoal\SuccessEvent.cs" />
     <Compile Include="Grabbing\GrabWorker.cs" />
     <Compile Include="Grabbing\PutDownWorker.cs" />
+    <Compile Include="Communication\GoalServer.cs" />
+    <Compile Include="GUI\Events\EventLauncher.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Events\EventLauncher.Designer.cs">
+      <DependentUpon>EventLauncher.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Events\EventLauncherPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Events\EventLauncherPanel.Designer.cs">
+      <DependentUpon>EventLauncherPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Events\GoalEventLauncher.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="GUI\Events\InternalEventLauncher.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Events\IParamChooser.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GUI\Events\NaoEventLauncher.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GUI\Events\ParameterPanel.cs">
@@ -92,19 +114,12 @@
     <Compile Include="GUI\Events\ParameterPanel.Designer.cs">
       <DependentUpon>ParameterPanel.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Goal\LocalServerPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\Goal\LocalServerPanel.Designer.cs">
-      <DependentUpon>LocalServerPanel.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI\Events\Parameters\IntegerChooser.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GUI\Events\Parameters\IntegerChooser.Designer.cs">
       <DependentUpon>IntegerChooser.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Events\IParamChooser.cs" />
     <Compile Include="GUI\Events\Parameters\LocationsChooser.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -117,41 +132,29 @@
     <Compile Include="GUI\Events\Parameters\StringChooser.Designer.cs">
       <DependentUpon>StringChooser.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\State\NaoConnection.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\State\NaoConnection.Designer.cs">
-      <DependentUpon>NaoConnection.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\State\RotationMonitor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\State\RotationMonitor.Designer.cs">
-      <DependentUpon>RotationMonitor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\Util\IPChooser.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\Util\IPChooser.Designer.cs">
-      <DependentUpon>IPChooser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\State\BatteryMonitor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\State\BatteryMonitor.Designer.cs">
-      <DependentUpon>BatteryMonitor.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI\Goal\LocalServerControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GUI\Goal\LocalServerControl.Designer.cs">
       <DependentUpon>LocalServerControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Goal\LocalServerPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Goal\LocalServerPanel.Designer.cs">
+      <DependentUpon>LocalServerPanel.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Goal\RemoteServerControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GUI\Goal\RemoteServerControl.Designer.cs">
       <DependentUpon>RemoteServerControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\IRealtimeField.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GUI\LaunchDebugger.cs">
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="GUI\LiveCamera\CameraEnhancerPanel.cs">
       <SubType>UserControl</SubType>
@@ -165,14 +168,17 @@
     <Compile Include="GUI\LiveCamera\LiveCamera.Designer.cs">
       <DependentUpon>LiveCamera.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Events\EventLauncher.cs">
+    <Compile Include="GUI\NaoDebugger.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\NaoDebugger.Designer.cs">
+      <DependentUpon>NaoDebugger.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\State\BatteryMonitor.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="GUI\Events\EventLauncher.Designer.cs">
-      <DependentUpon>EventLauncher.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\Events\GoalEventLauncher.cs">
-      <SubType>UserControl</SubType>
+    <Compile Include="GUI\State\BatteryMonitor.Designer.cs">
+      <DependentUpon>BatteryMonitor.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\State\EventQueueMonitor.cs">
       <SubType>UserControl</SubType>
@@ -180,47 +186,23 @@
     <Compile Include="GUI\State\EventQueueMonitor.Designer.cs">
       <DependentUpon>EventQueueMonitor.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\Events\NaoEventLauncher.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Communication\GoalServer.cs" />
-    <Compile Include="GUI\IRealtimeField.cs" />
-    <Compile Include="GUI\LaunchDebugger.cs" />
-    <Compile Include="GUI\Util\ColorFilter.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\Util\ColorFilter.Designer.cs">
-      <DependentUpon>ColorFilter.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\Util\PointControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\Util\PointControl.Designer.cs">
-      <DependentUpon>PointControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\Util\RGBChooser.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\Util\RGBChooser.Designer.cs">
-      <DependentUpon>RGBChooser.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\NaoDebugger.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI\NaoDebugger.Designer.cs">
-      <DependentUpon>NaoDebugger.cs</DependentUpon>
-    </Compile>
-    <Compile Include="GUI\Events\EventLauncherPanel.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\Events\EventLauncherPanel.Designer.cs">
-      <DependentUpon>EventLauncherPanel.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI\State\LocationMonitor.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="GUI\State\LocationMonitor.Designer.cs">
       <DependentUpon>LocationMonitor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\State\NaoConnection.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\State\NaoConnection.Designer.cs">
+      <DependentUpon>NaoConnection.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\State\RotationMonitor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\State\RotationMonitor.Designer.cs">
+      <DependentUpon>RotationMonitor.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\State\StateMonitorPanel.cs">
       <SubType>UserControl</SubType>
@@ -234,7 +216,33 @@
     <Compile Include="GUI\State\TemperatureMonitor.Designer.cs">
       <DependentUpon>TemperatureMonitor.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\UpdaterThread.cs" />
+    <Compile Include="GUI\UpdaterThread.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GUI\Util\ColorFilter.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Util\ColorFilter.Designer.cs">
+      <DependentUpon>ColorFilter.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Util\IPChooser.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Util\IPChooser.Designer.cs">
+      <DependentUpon>IPChooser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Util\PointControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Util\PointControl.Designer.cs">
+      <DependentUpon>PointControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Util\RGBChooser.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Util\RGBChooser.Designer.cs">
+      <DependentUpon>RGBChooser.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainProgram.cs" />
     <Compile Include="Movement\MarkerSearchThread.cs" />
     <Compile Include="Movement\ObjectSearchThread.cs" />
@@ -305,14 +313,14 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="GUI\Events\EventLauncher.resx">
+      <DependentUpon>EventLauncher.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Events\EventLauncherPanel.resx">
+      <DependentUpon>EventLauncherPanel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Events\ParameterPanel.resx">
       <DependentUpon>ParameterPanel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Goal\LocalServerPanel.resx">
-      <DependentUpon>LocalServerPanel.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\NaoDebugger.resx">
-      <DependentUpon>NaoDebugger.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Events\Parameters\IntegerChooser.resx">
       <DependentUpon>IntegerChooser.cs</DependentUpon>
@@ -323,20 +331,11 @@
     <EmbeddedResource Include="GUI\Events\Parameters\StringChooser.resx">
       <DependentUpon>StringChooser.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\State\NaoConnection.resx">
-      <DependentUpon>NaoConnection.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\State\RotationMonitor.resx">
-      <DependentUpon>RotationMonitor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Util\IPChooser.resx">
-      <DependentUpon>IPChooser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\State\BatteryMonitor.resx">
-      <DependentUpon>BatteryMonitor.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="GUI\Goal\LocalServerControl.resx">
       <DependentUpon>LocalServerControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Goal\LocalServerPanel.resx">
+      <DependentUpon>LocalServerPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Goal\RemoteServerControl.resx">
       <DependentUpon>RemoteServerControl.cs</DependentUpon>
@@ -347,32 +346,41 @@
     <EmbeddedResource Include="GUI\LiveCamera\LiveCamera.resx">
       <DependentUpon>LiveCamera.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Events\EventLauncher.resx">
-      <DependentUpon>EventLauncher.cs</DependentUpon>
+    <EmbeddedResource Include="GUI\NaoDebugger.resx">
+      <DependentUpon>NaoDebugger.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\State\BatteryMonitor.resx">
+      <DependentUpon>BatteryMonitor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\State\EventQueueMonitor.resx">
       <DependentUpon>EventQueueMonitor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Util\ColorFilter.resx">
-      <DependentUpon>ColorFilter.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Util\PointControl.resx">
-      <DependentUpon>PointControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Util\RGBChooser.resx">
-      <DependentUpon>RGBChooser.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Events\EventLauncherPanel.resx">
-      <DependentUpon>EventLauncherPanel.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="GUI\State\LocationMonitor.resx">
       <DependentUpon>LocationMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\State\NaoConnection.resx">
+      <DependentUpon>NaoConnection.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\State\RotationMonitor.resx">
+      <DependentUpon>RotationMonitor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\State\StateMonitorPanel.resx">
       <DependentUpon>StateMonitorPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\State\TemperatureMonitor.resx">
       <DependentUpon>TemperatureMonitor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Util\ColorFilter.resx">
+      <DependentUpon>ColorFilter.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Util\IPChooser.resx">
+      <DependentUpon>IPChooser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Util\PointControl.resx">
+      <DependentUpon>PointControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Util\RGBChooser.resx">
+      <DependentUpon>RGBChooser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

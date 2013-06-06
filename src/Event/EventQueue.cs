@@ -29,6 +29,7 @@ namespace Naovigate.Event
         private Thread thread;
         private bool suspended;
         private bool running;
+        private bool inAction;
 
         private EventWaitHandle locker = new AutoResetEvent(false);
 
@@ -61,16 +62,6 @@ namespace Naovigate.Event
                 }
                 return goalInstance;
             }
-        }
-
-        /// <summary>
-        /// The current event being fired.
-        /// Equals null if there is no event firing.
-        /// </summary>
-        public INaoEvent CurrentlyFiring
-        {
-            get;
-            private set;
         }
 
         /// <summary>
@@ -192,7 +183,9 @@ namespace Naovigate.Event
             {
                 while (!IsEmpty() && !suspended)
                 {
+                    inAction = true;
                     FireNextEvent();
+                    inAction = false;
                 }
                 locker.WaitOne();
             }
@@ -254,9 +247,7 @@ namespace Naovigate.Event
             Logger.Log(this, "Firing: " + e);
             if (e.ExecutionBehavior == ExecutionBehavior.Durative)
             {
-                CurrentlyFiring = e;
                 e.Fire();
-                CurrentlyFiring = null;
             }
             else
                 e.Fire();
@@ -292,7 +283,7 @@ namespace Naovigate.Event
         /// <returns>A boolean.</returns>
         public bool IsEmpty()
         {
-            return EventsQueuedCount() == 0 && !(CurrentlyFiring == null);
+            return EventsQueuedCount() == 0 && !inAction;
         }
         
         /// <summary>
@@ -300,8 +291,10 @@ namespace Naovigate.Event
         /// </summary>
         public void WaitFor()
         {
+            Logger.Log(this, "waitfor");
             while (!suspended && !IsEmpty())
                 Thread.Sleep(100);
+            Logger.Log(this, "wait end");
         }
         
         /// <summary>
@@ -320,10 +313,11 @@ namespace Naovigate.Event
         public List<INaoEvent> ClearAndGet()
         {
             List<INaoEvent> events = new List<INaoEvent>();
-            while (q.IsEmpty())
+            while (!q.IsEmpty())
             {
                 INaoEvent e = NextEvent;
-                if(e != null) events.Add(e);
+                if(e != null)
+                    events.Add(e);
             }
             return events;
         }
