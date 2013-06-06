@@ -24,6 +24,12 @@ namespace Naovigate.GUI.Events
             Customize("Post to Internal",
                 new Dictionary<String, Constructor>() 
                 {
+                    { "GoToMarkerEvent",
+                        new Constructor(
+                            () => new GoToMarkerEvent(GetParameter<int>("ID"),
+                                                      GetParameter<int>("Distance")),
+                            new UserParameter<int>("ID"),
+                            new UserParameter<int>("Distance")) },
                     { "CrouchEvent", 
                         new Constructor(
                             () => new CrouchEvent()) },

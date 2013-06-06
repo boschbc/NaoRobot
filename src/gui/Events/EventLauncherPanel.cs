@@ -51,6 +51,8 @@ namespace Naovigate.GUI.Panels
             else if (chosenEventConstructor != constructor)
             {
                 HandleEventChosen(constructor, chooserMap);
+                if (constructor.Parameters == null)
+                    return true;
                 return false;
             }
             else
