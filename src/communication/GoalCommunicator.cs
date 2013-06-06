@@ -164,8 +164,9 @@ namespace Naovigate.Communication
                 Logger.Log(this, "Communication stream got closed.");
                 communicationStream.Open = false;
             }
-            catch (InvalidEventCodeException)
+            catch (InvalidEventCodeException e)
             {
+                Logger.Except(e);
                 Logger.Log(this, "Invalid event code received: " + code);
                 INaoEvent failureEvent = new FailureEvent(code);
                 EventQueue.Goal.Post(failureEvent);

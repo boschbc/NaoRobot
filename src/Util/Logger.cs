@@ -80,6 +80,16 @@ namespace Naovigate.Util
             Log(DefaultInvokerName, messageObject);
         }
 
+        public static void Except(Exception e)
+        {
+            string msg = "Exception " + e.GetType().Name;
+            Log(DefaultInvokerName, e);
+            if (NaoState.Instance.Connected)
+            {
+                NaoState.Instance.SpeechProxy.say(msg);
+            }
+        }
+
         /// <summary>
         /// Logs a ping.
         /// </summary>
