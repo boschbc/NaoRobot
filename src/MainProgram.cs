@@ -50,6 +50,11 @@ namespace Naovigate
             Console.Read();
         }
 
+        public static void Test()
+        {
+
+        }
+
         private static void Setup()
         {
             Logger.Clear();
