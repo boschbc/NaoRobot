@@ -38,8 +38,11 @@ namespace Naovigate.Event.GoalToNao
                 
                 // stop all event in the queue, including the currently fired one.
                 INaoEvent cur = EventQueue.Nao.Current;
-                if (cur != null) cur.Abort();
+                if (cur != null) 
+                    cur.Abort();
+                Logger.Log();
                 List<INaoEvent> events = EventQueue.Nao.ClearAndGet();
+                Logger.Log();
                 foreach(INaoEvent e in events){
                     if (e != null)
                     {
@@ -47,7 +50,7 @@ namespace Naovigate.Event.GoalToNao
                         EventQueue.Goal.Post(new FailureEvent(e.EventCode));
                     }
                 }
-                Logger.Log();
+                
                 // and continue as normal
                 EventQueue.Nao.Resume();
             }

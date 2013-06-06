@@ -9,6 +9,7 @@ using System.Windows.Forms;
 
 using Naovigate.Event;
 using Naovigate.GUI.Events;
+using Naovigate.Util;
 
 namespace Naovigate.GUI.Panels
 {
@@ -51,7 +52,7 @@ namespace Naovigate.GUI.Panels
             else if (chosenEventConstructor != constructor)
             {
                 HandleEventChosen(constructor, chooserMap);
-                if (constructor.Parameters == null)
+                if (constructor.Parameters.Length  == 0)
                     return true;
                 return false;
             }
