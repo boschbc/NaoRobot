@@ -13,53 +13,67 @@ namespace Naovigate.Event.GoalToNao
     /// Stop all actions the Nao is doing:
     /// - Aborts any grabbing operations.
     /// - Aborts any movement operations.
-    /// - Remove all pending event from the EventQueue, and fires FailureEvents for them.
+    /// - Remove all pending events from the EventQueue, and fires FailureEvents for them.
     /// </summary>
     public class HaltEvent : NaoEvent
     {
         public new static readonly EventCode code = EventCode.Halt;
+
         public HaltEvent() : base(Priority.Medium, ExecutionBehavior.Instantaneous) { }
-        
         
         /// <summary>
         /// Fires the event.
         /// </summary>
         public override void Fire()
         {
-            NaoEvent statusEvent = new SuccessEvent(code); ;
             try
             {
                 EventQueue.Nao.Suspend();
-                // stop these in all cases
-                Logger.Log(this, 1);
-                Walk.Instance.StopMoving();
-                Logger.Log(this, 2);
-                Grabber.Instance.Abort();
-                Logger.Log(this, 3);
-                // stop all event in the queue, including the currently fired one.
-                INaoEvent cur = EventQueue.Nao.Current;
-                if (cur != null) 
-                    cur.Abort();
-                Logger.Log();
-                List<INaoEvent> events = EventQueue.Nao.ClearAndGet();
-                Logger.Log();
-                foreach(INaoEvent e in events){
-                    if (e != null)
-                    {
-                        e.Abort();
-                        EventQueue.Goal.Post(new FailureEvent(e.EventCode));
-                    }
-                }
-                
-                // and continue as normal
+                HaltNao();
+                AbortCurrentEvent();
+                ClearEventQueue();
                 EventQueue.Nao.Resume();
+                ReportSuccess();
             }
             catch
             {
                 //If the Nao can't halt then there is something serious going on:
-                statusEvent = new ErrorEvent();
+                ReportError();
             }
-            EventQueue.Goal.Post(statusEvent);
+        }
+
+        /// <summary>
+        /// Halts any moving/grabbing operation the Nao is currently doing.
+        /// </summary>
+        private void HaltNao()
+        {
+            Walk.Instance.StopMoving();
+            Grabber.Instance.Abort();
+        }
+
+        /// <summary>
+        /// Aborts the event that is currently being fired (if any).
+        /// </summary>
+        private void AbortCurrentEvent()
+        {
+            if (EventQueue.Nao.Current != null)
+                EventQueue.Nao.Current.Abort();
+        }
+
+        /// <summary>
+        /// Clears the Nao event-queue and emits a failure event for each event that was cleared.
+        /// </summary>
+        private void ClearEventQueue()
+        {
+            List<INaoEvent> events = EventQueue.Nao.ClearAndGet();
+            foreach (INaoEvent e in events)
+            {
+                if (e != null)
+                {
+                    e.Abort();
+                    EventQueue.Goal.Post(new FailureEvent(e.EventCode));
+                }
+            }
         }
 
         /// <summary>

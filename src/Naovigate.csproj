@@ -73,6 +73,7 @@
     <Compile Include="Event\Internal\MoveEvent.cs" />
     <Compile Include="Event\NaoEvent.cs" />
     <Compile Include="Event\NaoEventFactory.cs" />
+    <Compile Include="Event\NaoToGoal\DroppedObjectEvent.cs" />
     <Compile Include="Event\NaoToGoal\ErrorEvent.cs" />
     <Compile Include="Event\NaoToGoal\FailureEvent.cs" />
     <Compile Include="Event\NaoToGoal\SeeEvent.cs" />

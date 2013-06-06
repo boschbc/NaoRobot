@@ -20,28 +20,79 @@ namespace Naovigate.Movement
         private static readonly ArrayList lLegNames = new ArrayList(new string[] { "LHipYawPitch", "LHipRoll", "LHipPitch", "LKneePitch", "LAnklePitch", "LAnkleRoll" });
         private static readonly ArrayList kneelNames = new ArrayList(new String[] { "LHipPitch", "RHipPitch", "LKneePitch", "RKneePitch", "LAnklePitch", "RAnklePitch" });
 
-        private float lastDepth;
         
         private static Pose instance;
-        MotionProxy motion;
-        RobotPostureProxy posture;
-        
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public Pose()
-        {
-            motion = NaoState.Instance.MotionProxy;
-            posture = NaoState.Instance.PostureProxy;
-            instance = this;
-        }
 
+        /// <summary>
+        /// This singleton's instance.
+        /// </summary>
         public static Pose Instance
         {
             get
             {
                 return instance == null ? instance = new Pose() : instance;
             }
+        }
+
+        private float lastDepth;
+
+        private MotionProxy motion;
+        private RobotPostureProxy posture;
+
+        /// <summary>
+        /// A motion proxy.
+        /// </summary>
+        private MotionProxy Motion
+        {
+            get
+            {
+                if (NaoState.Instance.Connected)
+                {
+                    if (motion == null)
+                        motion = NaoState.Instance.MotionProxy;
+                }
+                else
+                    motion = null;
+                return motion;
+            }
+            set { motion = value; }
+        }
+
+        /// <summary>
+        /// A robot posture proxy.
+        /// </summary>
+        private RobotPostureProxy Posture
+        {
+            get
+            {
+                if (NaoState.Instance.Connected)
+                {
+                    if (posture == null)
+                        posture = NaoState.Instance.PostureProxy;
+                }
+                else
+                    posture = null;
+                return posture;
+            }
+            set { posture = value; }
+        }
+        
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public Pose()
+        {
+            NaoState.Instance.OnDisconnect += ResetProxies;
+            //instance = this;
+        }
+
+        /// <summary>
+        /// Forces this classes' proxy properties to refresh.
+        /// </summary>
+        private void ResetProxies(string ip, int port)
+        {
+            Motion = null;
+            Posture = null;
         }
 
         private static void Add(ArrayList list, String part)
@@ -55,7 +106,7 @@ namespace Naovigate.Movement
         /// </summary>
         public void StandUp()
         {
-            posture.goToPosture("Stand", 1f);
+            Posture.goToPosture("Stand", 1f);
         }
 
         /// <summary>
@@ -63,7 +114,7 @@ namespace Naovigate.Movement
         /// </summary>
         public void SitDown()
         {
-            posture.goToPosture("Sit", 0.5f);
+            Posture.goToPosture("Sit", 0.5f);
         }
 
         /// <summary>
@@ -71,7 +122,7 @@ namespace Naovigate.Movement
         /// </summary>
         public void Crouch()
         {
-            posture.goToPosture("Crouch", 0.5f);
+            Posture.goToPosture("Crouch", 0.5f);
         }
 
         /// <summary>
@@ -93,7 +144,7 @@ namespace Naovigate.Movement
             angles.Add(-depth);//low
             angles.Add(-depth);
 
-            motion.angleInterpolationWithSpeed(kneelNames, angles, 0.3F);
+            Motion.angleInterpolationWithSpeed(kneelNames, angles, 0.3F);
         }
 
         /// <summary>
@@ -112,7 +163,8 @@ namespace Naovigate.Movement
             if (depth != lastDepth)
             {
                 lastDepth = depth;
-                motion.angleInterpolationWithSpeed(new ArrayList(new string[] { "HeadPitch" }), new ArrayList(new float[] { depth }), 0.1f);
+                Motion.angleInterpolationWithSpeed(
+                    new ArrayList(new string[] { "HeadPitch" }), new ArrayList(new float[] { depth }), 0.1f);
             }
         }
 
@@ -135,7 +187,7 @@ namespace Naovigate.Movement
 
         private List<float> Angles(ArrayList names, bool reverseRolls)
         {
-            List<float> angles = motion.getAngles(names, false);
+            List<float> angles = Motion.getAngles(names, false);
             for (int i = 0; i < names.Count; i++)
             {
                 if (names[i].ToString().Contains("Roll"))
@@ -196,7 +248,7 @@ namespace Naovigate.Movement
                     ArrayList names = new ArrayList(lLegNames);
                     names.AddRange(rLegNames);
                     angles.AddRange(angles);
-                    motion.setAngles(names, angles, 0.1f);
+                    Motion.setAngles(names, angles, 0.1f);
                 }
                 return angles.Count == 6;
             }

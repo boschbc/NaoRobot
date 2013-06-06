@@ -16,27 +16,15 @@ namespace Naovigate.Movement
     /// </summary>
     public class Walk
     {
-        private MotionProxy motion; 
-        private RobotPostureProxy posture; 
-
         private static Walk instance = null;
-
-        /// <summary>
-        /// Default constructor.
-        /// </summary>
-        public Walk()
-        {
-            motion = NaoState.Instance.MotionProxy;
-            posture = NaoState.Instance.PostureProxy;
-            instance = this;
-        }
 
         /// <summary>
         /// Returns this singleton's instance.
         /// </summary>
         public static Walk Instance
         {
-            get {
+            get
+            {
                 if (instance == null)
                 {
                     instance = new Walk();
@@ -46,15 +34,74 @@ namespace Naovigate.Movement
             set { instance = value; }
         }
 
+        private MotionProxy motion;
+        private RobotPostureProxy posture;
+
+        /// <summary>
+        /// A motion proxy.
+        /// </summary>
+        private MotionProxy Motion
+        {
+            get
+            {
+                if (NaoState.Instance.Connected)
+                {
+                    if (motion == null)
+                        motion = NaoState.Instance.MotionProxy;
+                }
+                else
+                    motion = null;
+                return motion;
+            }
+            set { motion = value; }
+        }
+
+        /// <summary>
+        /// A robot posture proxy.
+        /// </summary>
+        private RobotPostureProxy Posture
+        {
+            get
+            {
+                if (NaoState.Instance.Connected)
+                {
+                    if (posture == null)
+                        posture = NaoState.Instance.PostureProxy;
+                }
+                else
+                    posture = null;
+                return posture;
+            }
+            set { posture = value; }
+        }
+        
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        public Walk()
+        {
+            NaoState.Instance.OnDisconnect += ResetProxies;
+            //instance = this;
+        }
+
+        /// <summary>
+        /// Forces this classes' proxy properties to refresh.
+        /// </summary>
+        private void ResetProxies(string ip, int port)
+        {
+            Motion = null;
+            Posture = null;
+        }
+
         /// <summary>
         /// Sets the stiffness of the Nao's motors on if it is not already so.
         /// </summary>
         public void InitMove()
         {
-            if (!motion.robotIsWakeUp())
-                motion.wakeUp();
-            if (!motion.moveIsActive())
-                motion.moveInit();
+            if (!Motion.robotIsWakeUp())
+                Motion.wakeUp();
+            if (!Motion.moveIsActive())
+                Motion.moveInit();
         }
 
         /// <summary>
@@ -62,7 +109,7 @@ namespace Naovigate.Movement
         /// </summary>
         public void WaitForMoveToEnd()
         {
-            motion.waitUntilMoveIsFinished();
+            Motion.waitUntilMoveIsFinished();
         }
 
         /// <summary>
@@ -74,7 +121,7 @@ namespace Naovigate.Movement
         public void WalkTo(float x, float y, float theta)
         {
             InitMove();
-            motion.post.moveTo(x, y, theta);
+            Motion.post.moveTo(x, y, theta);
         }
 
         /// <summary>
@@ -84,8 +131,10 @@ namespace Naovigate.Movement
         {
             set
             {
-                if (value) motion.setWalkArmsEnable(false, false);
-                else motion.setWalkArmsEnable(true, true);
+                if (value)
+                    Motion.setWalkArmsEnable(false, false);
+                else
+                    Motion.setWalkArmsEnable(true, true);
             }
         }
 
@@ -101,14 +150,14 @@ namespace Naovigate.Movement
 
         private float ToNaoRadians(float rad)
         {
-            //if (Math.Abs(rad) > (2 * Math.PI))
-            //    rad %= (float)(2 * Math.PI);
             if (Math.Abs(rad) > Math.PI)
+            {
                 rad %= (float)Math.PI;
-            if (rad > Math.PI)
-                rad -= (float)(2 * Math.PI);
-            else if (rad < -Math.PI)
-                rad += (float)(2 * Math.PI);
+                if (rad > 0)
+                    rad -= (float)(Math.PI);
+                else if (rad < 0)
+                    rad += (float)(Math.PI);
+            }
             return rad;
         }
         /// <summary>
@@ -120,27 +169,22 @@ namespace Naovigate.Movement
         {
             if (accuracy < 0.01)
                 accuracy = 0.01f;
+
+            
             NaoState.Instance.Update();
             
-            Logger.Log(this, rad);
             float goal = ToNaoRadians(NaoState.Instance.Rotation + rad);
             float rotation = ToNaoRadians(goal - NaoState.Instance.Rotation);
             float mistake = Math.Abs(rotation);
-            Logger.Log(this, "naoRotation: " + NaoState.Instance.Rotation);
-            Logger.Log(this, "goalRotation: " + goal);
-            Logger.Log(this, "helperRotation: " + rotation);
-            Logger.Log(this, "mistake: " + mistake);
             while (mistake > accuracy)
             {
-                Logger.Log(this, "naoRotation: " + NaoState.Instance.Rotation);
-                Logger.Log(this, "goalRotation: " + goal);
-                Logger.Log(this, "helperRotation: " + rotation);
-                Logger.Log(this, "mistake: " + mistake);
+                Logger.Log(this, NaoState.Instance.Rotation + " " + goal + " " + rotation + " " + mistake);
                 Turn(rotation);
                 NaoState.Instance.Update();
                 rotation = ToNaoRadians(goal - NaoState.Instance.Rotation);
                 mistake = Math.Abs(rotation);
             }
+            Logger.Log(this, NaoState.Instance.Rotation + " " + goal + " " + rotation + " " + mistake); 
         }
 
         /// <summary>
@@ -152,7 +196,7 @@ namespace Naovigate.Movement
         public void StartWalking(float x, float y, float theta)
         {
             InitMove();
-            motion.moveToward(x, y, theta);
+            Motion.moveToward(x, y, theta);
         }
 
         /// <summary>
@@ -173,23 +217,6 @@ namespace Naovigate.Movement
         }
 
         /// <summary>
-        /// Turn (normalized) dir and walk till the Nao is within dist pieces of wall of the object with id ObjectID
-        /// </summary>
-        /// <param name="dir">???</param>
-        /// <param name="objectID"></param>
-        /// <param name="dist"></param>
-        /// <returns></returns>
-        //public virtual ObjectSearchThread WalkTowardsObject(float dir,int objectID,double dist)
-        //{
-        //    StopLooking();
-        //    WalkTo(0, 0, dir);
-        //    StartWalking(0.5F, 0, 0);
-        //    ObjectSearchThread t = new ObjectSearchThread(objectID , dist);
-        //    t.Start();
-        //    return t;
-        //}
-
-        /// <summary>
         /// The Nao will stop looking for markers and stop moving.
         /// </summary>
         public void StopLooking()
@@ -205,7 +232,7 @@ namespace Naovigate.Movement
         {
             try
             {
-                return motion.moveIsActive();
+                return Motion.moveIsActive();
             }
             catch(Exception e)
             {
@@ -223,7 +250,7 @@ namespace Naovigate.Movement
         public void StopMoving()
         {
             Logger.Log(this, "Stopping...");
-            motion.post.stopMove();
+            Motion.post.stopMove();
         }
     }
 }

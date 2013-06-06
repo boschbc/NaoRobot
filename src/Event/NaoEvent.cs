@@ -15,8 +15,6 @@ namespace Naovigate.Event
 
         private Priority priority;
         protected ICommunicationStream stream;
-        private bool aborted;
-
 
         /// <summary>
         /// Create a no-arguments-required event.
@@ -92,8 +90,8 @@ namespace Naovigate.Event
         /// </summary>
         public bool Aborted
         {
-            get { return aborted; }
-            private set { aborted = value; }
+            get;
+            private set;
         }
         /// <summary>
         /// Fires the event.
@@ -109,7 +107,7 @@ namespace Naovigate.Event
         /// <summary>
         /// Posts a failure event to the goal event-queue.
         /// </summary>
-        protected void ReportFailure()
+        protected virtual void ReportFailure()
         {
             EventQueue.Goal.Post(new FailureEvent(code));
         }
@@ -117,7 +115,7 @@ namespace Naovigate.Event
         /// <summary>
         /// Posts a success event to the goal event-queue.
         /// </summary>
-        protected void ReportSuccess()
+        protected virtual void ReportSuccess()
         {
             EventQueue.Goal.Post(new SuccessEvent(code));
         }
@@ -125,7 +123,7 @@ namespace Naovigate.Event
         /// <summary>
         /// Posts an error event to the goal event-queue.
         /// </summary>
-        protected void ReportError()
+        protected virtual void ReportError()
         {
             EventQueue.Goal.Post(new ErrorEvent());
         }

@@ -14,6 +14,10 @@ namespace Naovigate.Util
 {
     public class NaoState
     {
+        public delegate void ConnectionChangeHandler(string ip, int port);
+        public event ConnectionChangeHandler OnConnect;
+        public event ConnectionChangeHandler OnDisconnect;
+        
         protected static NaoState instance = null;
 
         protected IPAddress ip;
@@ -147,7 +151,7 @@ namespace Naovigate.Util
             {
                 foreach (IDisposable d in proxies)
                 {
-                    Logger.Log("Dispose " + d);
+                    Logger.Log(this, "Disposing of: " + d);
                     d.Dispose();
                 }
             }
@@ -432,6 +436,15 @@ namespace Naovigate.Util
             }
         }
 
+        public bool HoldingObject
+        {
+            get
+            {
+                if (!Connected)
+                    return false;
+                return (float) memory.getData("Device/SubDeviceList/LHand/Touch/Right/Sensor/Value") > 0;
+            }
+        }
         /// <summary>
         /// Gets a value indicating whether this <see cref="Naovigate.Util.NaoState"/>'s data is out of date.
         /// </summary>
@@ -453,7 +466,7 @@ namespace Naovigate.Util
 
             try
             {
-                List<float> vector = motion.getRobotPosition(false);
+                List<float> vector = motion.getRobotPosition(true);
                 location = new PointF(vector[0], vector[1]);
                 rotation = vector[2];  
                 batteryLeft = battery.getBatteryCharge();

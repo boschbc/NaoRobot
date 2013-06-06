@@ -12,7 +12,6 @@ namespace Naovigate.Movement
     public class ObjectSearchThread : ActionExecutor
     {
         private int objectId;
-        public bool reached = false;
         private Camera camera;
 
         public ObjectSearchThread(int objectID)
@@ -25,6 +24,15 @@ namespace Naovigate.Movement
 
 
         /// <summary>
+        /// True if the Nao managed to position itself in front of the object.
+        /// </summary>
+        public bool PositionedCorrectly
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
         /// True if the object was found.
         /// </summary>
         public bool ObjectFound
@@ -35,7 +43,6 @@ namespace Naovigate.Movement
 
         public override void Run()
         {
-            Running = true;
             Call(LookForObject);
             if (ObjectFound)
                 Call(GoInfrontOfObject);
@@ -74,7 +81,7 @@ namespace Naovigate.Movement
                 {
                     if (processor.closeEnough(ob))
                     {
-                        reached = true;
+                        PositionedCorrectly = true;
                         Running = false;
                     }
                     else

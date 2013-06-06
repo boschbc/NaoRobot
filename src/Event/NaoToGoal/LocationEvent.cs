@@ -6,16 +6,17 @@ using Naovigate.Util;
 
 namespace Naovigate.Event.NaoToGoal
 {
-    /*
-     * Sends the position the Nao is at to Goal.
-     */
+    /// <summary>
+    /// Sends the position of the Nao to goal.
+    /// </summary>
     public class LocationEvent : DataSendingNaoEvent
     {
         public new static readonly EventCode code = EventCode.Location;
 
-        /*
-         * Implicit constructor.
-         */
+        /// <summary>
+        /// Explicit constructor.
+        /// </summary>
+        /// <param name="roomID">The room the Nao is in.</param>
         public LocationEvent(int roomID) : base((byte) EventCode.Location, roomID) { }
 
     }

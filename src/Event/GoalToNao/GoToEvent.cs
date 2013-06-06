@@ -21,8 +21,7 @@ namespace Naovigate.Event.GoalToNao
         private List<Point> locations;
 
         private MarkerSearchThread worker;
-        private bool aborted;
-
+        
         /// <summary>
         /// Creates a new GoToEvent.
         /// </summary>
@@ -39,7 +38,8 @@ namespace Naovigate.Event.GoalToNao
         {
             if (locations == null)
                 this.locations = new List<Point>();
-            this.locations = new List<Point>(locations);
+            else
+                this.locations = new List<Point>(locations);
         }
         
         /// <summary>
@@ -66,24 +66,23 @@ namespace Naovigate.Event.GoalToNao
         /// </summary>
         public override void Fire()
         {
-            NaoEvent statusEvent = new SuccessEvent(code);
             try
             {
                 List<RouteEntry> route = Planner.PlanRoute(NaoState.Instance.Map, locations);
                 foreach (RouteEntry entry in route)
                 {
-                    if (!aborted)
+                    if (!Aborted)
                     {
                         worker = Walk.Instance.WalkTowardsMarker((float)entry.Direction.ToRadian(), entry.MarkerID, entry.WantedDistance);
                         worker.WaitFor();
                     }
                 }
+                ReportSuccess();
             }
             catch
             {
-                statusEvent = new FailureEvent(code);
+                ReportFailure();
             }
-            EventQueue.Goal.Post(statusEvent);
         }
 
         /// <summary>
@@ -91,7 +90,7 @@ namespace Naovigate.Event.GoalToNao
         /// </summary>
         public override void Abort()
         {
-            aborted = true;
+            base.Abort();
             try
             {
                 if (worker != null)
@@ -99,7 +98,7 @@ namespace Naovigate.Event.GoalToNao
             }
             catch
             {
-                EventQueue.Goal.Post(new ErrorEvent());
+                ReportError();
             }
         }
 

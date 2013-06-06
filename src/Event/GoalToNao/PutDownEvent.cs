@@ -28,76 +28,39 @@ namespace Naovigate.Event.GoalToNao
         }
 
         /// <summary>
-        /// True if the event's execution has been started.
-        /// </summary>
-        public bool Started
-        {
-            get { return started; }
-            private set { started = value; }
-        }
-
-        /// <summary>
-        /// True if the event's execution has finished.
-        /// </summary>
-        public bool Finished
-        {
-            get { return done; }
-            private set { done = value; }
-        }
-
-        /// <summary>
         /// Fires the event.
         /// </summary>
         public override void Fire()
         {
             try
             {
-                Logger.Log(this, "PutDownWorker");
                 executor = Grabber.Instance.PutDown();
                 executor.Start();
-                Logger.Log(this, "Wait");
                 executor.WaitFor();
-                Logger.Log(this, "Done");
             }
-            catch(Exception e)
+            catch { }
+            finally
             {
-                Logger.Log(this, e.Message);
-                StatusCheck();
+                VerifyObjectNotHeld();
             }
         }
 
         /// <summary>
-        /// Checks whether execution was succesful, and posts a response event accordingly.
+        /// Verifies that the Nao indeed holds an object at the end of this event's execution.
         /// </summary>
-        private void StatusCheck()
+        private void VerifyObjectNotHeld()
         {
-            INaoEvent statusEvent = new SuccessEvent(code);
-            
-            if (executor != null && executor.Error is InvalidOperationException)
-            {
-                statusEvent = new FailureEvent(code);
-            }
+            if (!Grabber.Instance.HoldingObject())
+                ReportSuccess();
             else
-            {
-                try
-                {
-                    if (Grabber.Instance.HoldingObject())
-                        statusEvent = new FailureEvent(code);
-                }
-                catch
-                {
-                    statusEvent = new ErrorEvent();
-                }
-            }
-            EventQueue.Goal.Post(statusEvent);
-            Finished = true;
+                ReportFailure();
         }
 
-        public override void WaitFor()
+        protected override void ReportSuccess()
         {
-            if(executor != null) executor.WaitFor();  
+            base.ReportSuccess();
+            EventQueue.Goal.Post(new DroppedObjectEvent())
         }
-
         /// <summary>
         /// Aborts this event's execution.
         /// </summary>
@@ -105,10 +68,7 @@ namespace Naovigate.Event.GoalToNao
         {
             base.Abort();
             if (executor != null)
-            {
                 executor.Abort();
-            }
-
         }
 
         /// <summary>

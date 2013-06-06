@@ -18,7 +18,6 @@ namespace Naovigate.Event.GoalToNao
     public class PickupEvent : NaoEvent
     {
         public new static readonly EventCode code = EventCode.Pickup;
-        private int id;
         private ActionExecutor executor;
 
         /// <summary>
@@ -35,7 +34,7 @@ namespace Naovigate.Event.GoalToNao
         /// <param name="id">Objectd ID</param>
         public PickupEvent(int id)
         {
-            this.id = id;
+            ObjectID = id;
         }
 
         /// <summary>
@@ -43,7 +42,8 @@ namespace Naovigate.Event.GoalToNao
         /// </summary>
         public int ObjectID
         {
-            get { return id; }
+            get;
+            private set;
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Naovigate.Event.GoalToNao
         /// </summary>
         private void Unpack()
         {
-            id = stream.ReadInt();
+            ObjectID = stream.ReadInt();
         }
 
         /// <summary>
@@ -64,6 +64,10 @@ namespace Naovigate.Event.GoalToNao
                     VerifyObjectHeld();
         }
 
+        /// <summary>
+        /// Checks whether the Nao is not already holding an object.
+        /// </summary>
+        /// <returns>True if the Nao is not holding anything and may pick up a new object.</returns>
         private bool ValidationCheck()
         {
             if (!Grabber.Instance.HoldingObject())
@@ -75,35 +79,44 @@ namespace Naovigate.Event.GoalToNao
             }
         }
 
+        /// <summary>
+        /// Positions the Nao in front of the object, and then grabs it.
+        /// </summary>
+        /// <returns>True if the Nao was positioned correctly and the grab was successful.</returns>
         private bool Pickup()
         {
             try
             {
                 GoInfrontOfObject();
                 ObjectSearchThread results = executor as ObjectSearchThread;
-                if (!results.ObjectFound)
+                if (!results.PositionedCorrectly)
                 {
                     ReportFailure();
                     return false;
                 }
                 else
                     GrabObject();
-               
+
                 return true;
             }
             catch (ThreadInterruptedException)
             {
                 Logger.Log(this, "Aborted.");
-                VerifyObjectHeld();
             }
             catch (Exception e)
             {
                 Logger.Log(this, "An unexpected exception occurred: " + e.Message);
+            }
+            finally
+            {
                 VerifyObjectHeld();
             }
             return false;
         }
 
+        /// <summary>
+        /// Positions the Nao in front of the object.
+        /// </summary>
         private void GoInfrontOfObject()
         {
             executor = new ObjectSearchThread(ObjectID);
@@ -111,6 +124,9 @@ namespace Naovigate.Event.GoalToNao
             executor.WaitFor();
         }
 
+        /// <summary>
+        /// Grabs an object in front of the Nao.
+        /// </summary>
         private void GrabObject()
         {
             executor = Grabber.Instance.Grab();
@@ -118,13 +134,25 @@ namespace Naovigate.Event.GoalToNao
             executor.WaitFor();
         }
 
+        /// <summary>
+        /// Verifies that the Nao indeed holds an object at the end of this event's execution.
+        /// </summary>
         private void VerifyObjectHeld()
         {
             ObjectSearchThread results = executor as ObjectSearchThread;
-            if (results.ObjectFound && Grabber.Instance.HoldingObject())
+            if (results.ObjectFound && results.PositionedCorrectly && Grabber.Instance.HoldingObject())
                 ReportSuccess();
             else
                 ReportFailure();
+        }
+
+        /// <summary>
+        /// Post a success event and a holding event to GOAL.
+        /// </summary>
+        protected override void ReportSuccess()
+        {
+            base.ReportSuccess();
+            EventQueue.Goal.Post(new HoldingEvent(ObjectID));
         }
 
         /// <summary>
@@ -132,6 +160,7 @@ namespace Naovigate.Event.GoalToNao
         /// </summary>
         public override void Abort()
         {
+            base.Abort();
             if (executor == null)
                 return;
             try

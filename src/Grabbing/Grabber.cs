@@ -117,8 +117,9 @@ namespace Naovigate.Grabbing
         /// <returns>A boolean.</returns>
         public virtual Boolean HoldingObject()
         {
-            //TODO
-            return true;
+            Logger.Log(this, "HOlding: " + NaoState.Instance.HoldingObject);
+            return NaoState.Instance.HoldingObject;
+            //return true;
         }
 
         /// <summary>

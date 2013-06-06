@@ -40,7 +40,8 @@ namespace Naovigate.GUI.State
             if (locationLabel.InvokeRequired)
                 locationLabel.Invoke(new MethodInvoker(UpdateContent));
             else
-                UpdateLocation();
+                if (!locationLabel.IsDisposed)
+                    UpdateLocation();
         }
     }
 }
