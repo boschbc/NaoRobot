@@ -57,7 +57,7 @@ namespace Naovigate.Event.GoalToNao
             locations = new List<Point>();
             for (int i = 0; i < nodes;i++ )
             {
-                locations.Add(new Point((stream.ReadInt() - 5) / 10, (stream.ReadInt() - 5) / 10);
+                locations.Add(new Point((stream.ReadInt() - 5) / 10, (stream.ReadInt() - 5) / 10));
             }
         }
 
