@@ -5,20 +5,17 @@ using System.Text;
 
 namespace Naovigate.Event.NaoToGoal
 {
-    class DroppedObjectEvent
+    /// <summary>
+    /// Notify goal that the Nao is no longer holding an object.
+    /// </summary>
+    public class DroppedObjectEvent : DataSendingNaoEvent
     {
+        public new static readonly EventCode code = EventCode.Dropped;
+
         /// <summary>
-        /// Notify goal that the Nao is no longer holding an object.
+        /// Default constructor.
         /// </summary>
-        public class DroppedObjectEvent : DataSendingNaoEvent
-        {
-            public new static readonly EventCode code = EventCode.Holding;
+        public DroppedObjectEvent() : base((byte)EventCode.Dropped) { }
 
-            /// <summary>
-            /// Default constructor.
-            /// </summary>
-            public DroppedObjectEvent() : base((byte)EventCode.Holding) { }
-
-        }
     }
 }

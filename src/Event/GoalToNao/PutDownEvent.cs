@@ -59,7 +59,7 @@ namespace Naovigate.Event.GoalToNao
         protected override void ReportSuccess()
         {
             base.ReportSuccess();
-            EventQueue.Goal.Post(new DroppedObjectEvent())
+            EventQueue.Goal.Post(new DroppedObjectEvent());
         }
         /// <summary>
         /// Aborts this event's execution.

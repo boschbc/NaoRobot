@@ -19,7 +19,7 @@ namespace Naovigate.GUI.Events
             string RoomID = "RoomID";
             string Code = "Code";
             string State = "State";
-            string Distance = "Distance";
+            string Location = "Location";
 
             Customize("Post to Goal",
                 new Dictionary<String, Constructor>()
@@ -46,9 +46,9 @@ namespace Naovigate.GUI.Events
                     { "SeeEvent", 
                         new Constructor(
                             () => new SeeEvent(GetParameter<int>(ObjectID),
-                                               GetParameter<int>(Distance)),
+                                               GetParameter<int>(Location)),
                             new UserParameter<int>(ObjectID),
-                            new UserParameter<int>(Distance)) },
+                            new UserParameter<int>(Location)) },
                     { "StateEvent", 
                         new Constructor(
                             () => new StateEvent(GetParameter<int>(State)),
