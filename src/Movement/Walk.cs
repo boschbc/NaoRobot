@@ -210,7 +210,7 @@ namespace Naovigate.Movement
         {
             StopLooking();
             WalkTo(0, 0, dir);
-            StartWalking(0.5F, 0, 0);
+            StartWalking(0.7F, 0, 0);
             MarkerSearchThread t = new MarkerSearchThread(markerID,dist);
             t.Start();
             return t;
