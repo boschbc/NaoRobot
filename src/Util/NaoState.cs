@@ -72,7 +72,9 @@ namespace Naovigate.Util
                 Logger.Log(this, "Already Connected");
                 return;
             }
+            
             Logger.Log(this, "Connecting to Nao...");
+            OnConnect(IP.ToString(), Port);
             connected = true;
             ip = endPoint.Address;
             port = endPoint.Port;
@@ -89,7 +91,8 @@ namespace Naovigate.Util
             if (!Connected) {
                 return;
             }
-			Logger.Log(this, "Disconnecting from Nao...");
+            Logger.Log(this, "Disconnecting from Nao...");
+            OnDisconnect(IP.ToString(), Port);
             try
             {
                 UnsubscribeAll();
