@@ -85,6 +85,12 @@ namespace Naovigate.Event.GoalToNao
             }
         }
 
+        protected override void ReportSuccess()
+        {
+            base.ReportSuccess();
+            EventQueue.Goal.Post(new LocationEvent(locations[locations.Count-1].X, locations[locations.Count-1].Y));
+        }
+
         /// <summary>
         /// Abort this event's execution.
         /// </summary>

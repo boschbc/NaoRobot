@@ -109,7 +109,7 @@ namespace Naovigate.Event
         /// </summary>
         protected virtual void ReportFailure()
         {
-            EventQueue.Goal.Post(new FailureEvent(code));
+            EventQueue.Goal.Post(new FailureEvent(EventCode));
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace Naovigate.Event
         /// </summary>
         protected virtual void ReportSuccess()
         {
-            EventQueue.Goal.Post(new SuccessEvent(code));
+            EventQueue.Goal.Post(new SuccessEvent(EventCode));
         }
 
         /// <summary>
