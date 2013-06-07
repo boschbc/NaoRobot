@@ -452,6 +452,7 @@ namespace Naovigate.Util
                 Pose.Instance.Look(0.5f);
                 Processing processor = new Processing(new Camera("HoldingObject"));
                 Rectangle rectangle = processor.DetectObject();
+                Pose.Instance.Look(0f);
                 if (rectangle.Width > 0)
                     return true;
                 else
