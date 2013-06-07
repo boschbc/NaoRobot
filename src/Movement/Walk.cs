@@ -187,6 +187,11 @@ namespace Naovigate.Movement
             Logger.Log(this, NaoState.Instance.Rotation + " " + goal + " " + rotation + " " + mistake); 
         }
 
+        public void TurnExactTo(float rad)
+        {
+            float rotation = ToNaoRadians(rad - NaoState.Instance.Rotation);
+            TurnExact(rotation, 0.1f);
+        }
         /// <summary>
         /// Start walking with normalized speed x, y and theta
         /// </summary>

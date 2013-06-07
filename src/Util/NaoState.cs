@@ -189,6 +189,8 @@ namespace Naovigate.Util
         {
             if (!Connected)
                 return;
+            if (sensors == null)
+                return;
             foreach (ArrayList sub in (ArrayList)sensors.getSubscribersInfo())
             {
                 sensors.unsubscribe(sub[0].ToString());
