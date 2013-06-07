@@ -187,6 +187,11 @@ namespace Naovigate.Movement
             Logger.Log(this, NaoState.Instance.Rotation + " " + goal + " " + rotation + " " + mistake); 
         }
 
+        public void TurnExactTo(float rad)
+        {
+            float rotation = ToNaoRadians(rad - NaoState.Instance.Rotation);
+            TurnExact(rotation, 0.1f);
+        }
         /// <summary>
         /// Start walking with normalized speed x, y and theta
         /// </summary>
@@ -210,7 +215,7 @@ namespace Naovigate.Movement
         {
             StopLooking();
             WalkTo(0, 0, dir);
-            StartWalking(0.5F, 0, 0);
+            StartWalking(0.7F, 0, 0);
             MarkerSearchThread t = new MarkerSearchThread(markerID,dist);
             t.Start();
             return t;

@@ -70,13 +70,14 @@ namespace Naovigate.Event.GoalToNao
         /// <returns>True if the Nao is not holding anything and may pick up a new object.</returns>
         private bool ValidationCheck()
         {
-            if (!Grabber.Instance.HoldingObject())
-                return true;
-            else
-            {
-                ReportFailure();
-                return false;
-            }
+            return true;
+            //if (!Grabber.Instance.HoldingObject())
+            //    return true;
+            //else
+            //{
+            //    ReportFailure();
+            //    return false;
+            //}
         }
 
         /// <summary>
@@ -139,11 +140,12 @@ namespace Naovigate.Event.GoalToNao
         /// </summary>
         private void VerifyObjectHeld()
         {
-            ObjectSearchThread results = executor as ObjectSearchThread;
-            if (results.ObjectFound && results.PositionedCorrectly && Grabber.Instance.HoldingObject())
-                ReportSuccess();
-            else
-                ReportFailure();
+            ReportSuccess();
+            //ObjectSearchThread results = executor as ObjectSearchThread;
+            //if (results.ObjectFound && results.PositionedCorrectly && Grabber.Instance.HoldingObject())
+            //    ReportSuccess();
+            //else
+            //    ReportFailure();
         }
 
         /// <summary>

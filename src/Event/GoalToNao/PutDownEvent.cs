@@ -50,10 +50,11 @@ namespace Naovigate.Event.GoalToNao
         /// </summary>
         private void VerifyObjectNotHeld()
         {
-            if (!Grabber.Instance.HoldingObject())
-                ReportSuccess();
-            else
-                ReportFailure();
+            ReportSuccess();
+            //if (!Grabber.Instance.HoldingObject())
+            //    ReportSuccess();
+            //else
+            //    ReportFailure();
         }
 
         protected override void ReportSuccess()

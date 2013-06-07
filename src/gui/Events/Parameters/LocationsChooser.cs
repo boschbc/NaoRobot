@@ -18,12 +18,11 @@ namespace Naovigate.GUI.Events.Parameters
         public LocationsChooser()
         {
             InitializeComponent();
+            points = new List<PointControl>();
         }
 
         public void AddPoint()
         {
-            if (points == null)
-                points = new List<PointControl>();
             if (points.Count >= 3)
                 return;
             PointControl p = new PointControl();
