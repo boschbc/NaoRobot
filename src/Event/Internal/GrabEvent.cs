@@ -1,7 +1,7 @@
 ﻿using System;
 
 using Naovigate.Grabbing;
-
+using Naovigate.Util;
 namespace Naovigate.Event.Internal
 {
     public class GrabEvent : NaoEvent
@@ -14,6 +14,8 @@ namespace Naovigate.Event.Internal
         public override void Fire()
         {
             Grabber.Instance.Grab();
+            Grabber.Instance.WaitFor();
+            Logger.Log(this, NaoState.Instance.HoldingObject);
         }
 
         /// <summary>

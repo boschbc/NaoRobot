@@ -8,7 +8,9 @@ using System.Net;
 using Aldebaran.Proxies;
 
 using Naovigate.Communication;
+using Naovigate.Movement;
 using Naovigate.Navigation;
+using Naovigate.Vision;
 
 namespace Naovigate.Util
 {
@@ -74,7 +76,8 @@ namespace Naovigate.Util
             }
             
             Logger.Log(this, "Connecting to Nao...");
-            OnConnect(IP.ToString(), Port);
+            if (OnConnect != null)
+                OnConnect(IP.ToString(), Port);
             connected = true;
             ip = endPoint.Address;
             port = endPoint.Port;
@@ -92,7 +95,8 @@ namespace Naovigate.Util
                 return;
             }
             Logger.Log(this, "Disconnecting from Nao...");
-            OnDisconnect(IP.ToString(), Port);
+            if (OnDisconnect != null)
+                OnDisconnect(IP.ToString(), Port);
             try
             {
                 UnsubscribeAll();
@@ -445,7 +449,13 @@ namespace Naovigate.Util
             {
                 if (!Connected)
                     return false;
-                return (float) memory.getData("Device/SubDeviceList/LHand/Touch/Right/Sensor/Value") > 0;
+                Pose.Instance.Look(0.5f);
+                Processing processor = new Processing(new Camera("HoldingObject"));
+                Rectangle rectangle = processor.DetectObject();
+                if (rectangle.Width > 0)
+                    return true;
+                else
+                    return false;
             }
         }
         /// <summary>
