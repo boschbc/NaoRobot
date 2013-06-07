@@ -412,14 +412,14 @@ namespace Naovigate.Navigation
         {
             double multiplier = 0.0;
             if (dir == Map.Direction.Up)
-                multiplier = 0.0;
+                multiplier = -1.0
             else if (dir == Map.Direction.Right)
-                multiplier = 0.5;
+                multiplier = -0.5
             else if (dir == Map.Direction.Down)
-                multiplier = 1.0;
+                multiplier = 0
             else if (dir == Map.Direction.Left)
-                multiplier = -0.5;
-            return multiplier * (Math.PI / 180.0);
+                multiplier = 0.5;
+            return multiplier * Math.PI;
         }
     }
 
