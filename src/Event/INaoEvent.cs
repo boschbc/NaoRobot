@@ -36,6 +36,7 @@ namespace Naovigate.Event
         //AtObject = 0x8B,
         See = 0x8C,
         Holding = 0x8D,
+        Dropped = 0x86,
         Agent = 0x8E,
         State = 0x8F,
         //DataSending = 0x83,
