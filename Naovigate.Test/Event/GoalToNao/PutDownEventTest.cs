@@ -56,7 +56,7 @@ namespace Naovigate.Test.Event.GoalToNao
             EventTestingUtilities.DisconnectWebots();
             EventQueue.Nao.Clear();
             EventQueue.Goal.Clear();
-            EventQueue.Nao.UnsubscribeAll();
+            EventQueue.Nao.ClearSubscribers();
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Naovigate.Test.Event.GoalToNao
             mock.Setup(m => m.HoldingObject()).Returns(false);
             Grabber.Instance = mock.Object;
 
-            EventQueue.Goal.Suspend();
+            EventQueue.Goal.Suspended = true;;
             EventQueue.Nao.Post(putdownEvent);
             putdownEvent.WaitFor();
             
@@ -94,7 +94,7 @@ namespace Naovigate.Test.Event.GoalToNao
             mock.Setup(m => m.PutDown()).Throws(new Exception());
             Grabber.Instance = mock.Object;
             
-            EventQueue.Goal.Suspend();
+            EventQueue.Goal.Suspended = true;;
             EventQueue.Nao.Post(putdownEvent);
             putdownEvent.WaitFor();
 
@@ -117,7 +117,7 @@ namespace Naovigate.Test.Event.GoalToNao
             mock.Setup(m => m.PutDown()).Throws(new Exception());
             Grabber.Instance = mock.Object;
 
-            EventQueue.Goal.Suspend();
+            EventQueue.Goal.Suspended = true;;
             EventQueue.Nao.Post(putdownEvent);
             putdownEvent.WaitFor();
 
@@ -139,7 +139,7 @@ namespace Naovigate.Test.Event.GoalToNao
             mock.Setup(m => m.HoldingObject()).Throws(new Exception());
             Grabber.Instance = mock.Object;
             
-            EventQueue.Goal.Suspend();
+            EventQueue.Goal.Suspended = true;;
             EventQueue.Nao.Post(putdownEvent);
             putdownEvent.WaitFor();
 
@@ -163,7 +163,7 @@ namespace Naovigate.Test.Event.GoalToNao
                 .Callback(() => callCounter++);
             Grabber.Instance = mock.Object;
 
-            EventQueue.Goal.Suspend();
+            EventQueue.Goal.Suspended = true;;
             EventQueue.Nao.Post(putdownEvent);
             putdownEvent.WaitFor();
 
@@ -185,8 +185,8 @@ namespace Naovigate.Test.Event.GoalToNao
             mock.Setup(m => m.HoldingObject()).Returns(true);
             Grabber.Instance = mock.Object;
             
-            EventQueue.Goal.Suspend();
-            EventQueue.Nao.SubscribeFire(naoEvent => naoEvent.Abort());
+            EventQueue.Goal.Suspended = true;;
+            EventQueue.Nao.EventFiring += (naoEvent => naoEvent.Abort());
             EventQueue.Nao.Post(putdownEvent);
             putdownEvent.WaitFor();
             Assert.IsInstanceOf<FailureEvent>(EventQueue.Goal.Peek(),

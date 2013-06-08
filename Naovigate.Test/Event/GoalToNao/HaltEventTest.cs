@@ -38,10 +38,10 @@ namespace Naovigate.Test.Event.GoalToNao
         {
             EventTestingUtilities.RequireWebots();
             Walk.Instance.StartWalking(1, 1, 0);
-            EventQueue.Nao.Suspend();
+            EventQueue.Nao.Suspended = true;
             EventQueue.Nao.Post(haltEvent);
             haltEvent.Abort();
-            EventQueue.Nao.Resume();
+            EventQueue.Nao.Suspended = false;
             System.Threading.Thread.Sleep(500);
             Assert.IsTrue(Walk.Instance.IsMoving());
         }

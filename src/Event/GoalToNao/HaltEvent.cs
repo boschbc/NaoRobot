@@ -28,11 +28,11 @@ namespace Naovigate.Event.GoalToNao
         {
             try
             {
-                EventQueue.Nao.Suspend();
+                EventQueue.Nao.Suspended = true;
                 HaltNao();
                 AbortCurrentEvent();
                 ClearEventQueue();
-                EventQueue.Nao.Resume();
+                EventQueue.Nao.Suspended = false;
                 ReportSuccess();
             }
             catch

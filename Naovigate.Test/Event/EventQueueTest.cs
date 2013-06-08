@@ -103,7 +103,7 @@ namespace Naovigate.Test.Event
         [Test]
         public void SuspendAndResumeTest()
         {
-            q.Suspend();
+            q.Suspended = true;;
             Add(new TEvent(t, Priority.Low),
                     new TEvent(t, Priority.High),
                     new TEvent(t, Priority.Medium),
@@ -112,7 +112,7 @@ namespace Naovigate.Test.Event
             Thread.Sleep(250);
             // none fired, queue is suspended
             Assert.AreEqual(0, t.events.Count());
-            q.Resume();
+            q.Suspended = false;;
             WaitFor();
 
             // should all be fired as normal

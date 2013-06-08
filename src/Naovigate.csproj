@@ -182,12 +182,6 @@
     <Compile Include="GUI\State\BatteryMonitor.Designer.cs">
       <DependentUpon>BatteryMonitor.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUI\State\EventQueueMonitor.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\State\EventQueueMonitor.Designer.cs">
-      <DependentUpon>EventQueueMonitor.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI\State\LocationMonitor.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -353,9 +347,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\State\BatteryMonitor.resx">
       <DependentUpon>BatteryMonitor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\State\EventQueueMonitor.resx">
-      <DependentUpon>EventQueueMonitor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\State\LocationMonitor.resx">
       <DependentUpon>LocationMonitor.cs</DependentUpon>

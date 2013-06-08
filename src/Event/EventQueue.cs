@@ -19,16 +19,15 @@ namespace Naovigate.Event
     /// </summary>
     public class EventQueue
     {
+        public delegate void EventFiredHandler(INaoEvent e);
+        public event EventFiredHandler EventFiring;
+
         private static EventQueue naoInstance;
         private static EventQueue goalInstance;
 
-        protected event Action<INaoEvent> EventPosted;
-        protected event Action<INaoEvent> EventFired;
-        
         private PriorityQueue<INaoEvent> q;
         private Thread thread;
         private bool suspended;
-        private bool running;
         private bool inAction;
 
         private EventWaitHandle locker = new AutoResetEvent(false);
@@ -47,8 +46,7 @@ namespace Naovigate.Event
                 return naoInstance;
             }
         }
-        private INaoEvent current;
-
+        
         /// <summary>
         /// The EventQueue instance for outgoing events.
         /// </summary>
@@ -70,47 +68,55 @@ namespace Naovigate.Event
         public EventQueue()
         {
             q = new PriorityQueue<INaoEvent>(4);
-            running = true;
             thread = new Thread(new ThreadStart(Run));
             thread.IsBackground = true;
             thread.Start();
         }
 
         /// <summary>
-        /// Subscribes a given method to this goal communicator.
-        /// The method will be invoked each time an event was posted.
-        /// </summary>
-        /// <param name="handler">The handler which will be called when an event is posted.</param>
-        public void SubscribePost(Action<INaoEvent> handler)
-        {
-            EventPosted += handler;
-        }
-
-        /// <summary>
-        /// Subscribes a given method to this goal communicator.
-        /// The method will be invoked each time an event was posted.
-        /// </summary>
-        /// <param name="handler">The handler which will be called when an event is posted.</param>
-        public void SubscribeFire(Action<INaoEvent> handler)
-        {
-            EventFired += handler;
-        }
-
-        /// <summary>
-        /// Unsubscribes all handlers from both the Post and Fire events.
-        /// </summary>
-        public void UnsubscribeAll()
-        {
-            EventPosted = null;
-            EventFired = null;
-        }
-
-        /// <summary>
         /// True if the queue's main loop is currently running.
         /// </summary>
-        public bool IsRunning
+        public bool Running
         {
-            get { return running; }
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// True if the queue's main loop is currently suspended.
+        /// </summary>
+        public bool Suspended
+        {
+            get { return suspended; }
+            set
+            {
+                if (!value && suspended)
+                {
+                    Logger.Log(this, "Resumed.");
+                    locker.Set();
+                }
+                else
+                    Logger.Log(this, "Suspended.");
+                suspended = value;    
+            }
+        }
+
+        /// <summary>
+        /// The current event being fired.
+        /// </summary>
+        public INaoEvent Current
+        {
+            get;
+            private set;
+        }
+
+
+        /// <summary>
+        /// Clears all subscribers of the 'EventFiring' event.
+        /// </summary>
+        public void ClearSubscribers()
+        {
+            EventFiring = null;
         }
 
         /// <summary>
@@ -120,7 +126,7 @@ namespace Naovigate.Event
         /// <exception cref="InvalidOperationException">The queue was terminated prior to this method-invocation.</exception>
         public void Post(INaoEvent e)
         {
-            if (!IsRunning)
+            if (!Running)
                 throw new InvalidOperationException("Cannot post events to a terminated queue.");
             if (e.ExecutionBehavior == ExecutionBehavior.Instantaneous)
             {
@@ -129,8 +135,6 @@ namespace Naovigate.Event
             }
             lock (q)
             {
-                if (EventPosted != null)
-                    EventPosted(e);
                 Logger.Log(this, "Posting event: " + e.ToString());
                 q.Enqueue(e, (int)e.Priority);  
             }
@@ -151,35 +155,13 @@ namespace Naovigate.Event
         }
 
         /// <summary>
-        /// Suspends the firing of events. events may still be added to the queue whlie suspended.
-        /// </summary>
-        public void Suspend()
-        {
-            Logger.Log(this, "Suspended.");
-            suspended = true;
-        }
-
-        /// <summary>
-        /// Continue firing events.
-        /// If the EventQueue was not suspended, has no effect.
-        /// </summary>
-        public void Resume()
-        {
-            Logger.Log(this, "Resumed.");
-            if (!suspended)
-                return;
-            suspended = false;
-            locker.Set();
-        }
-
-        /// <summary>
         /// The queue's main loop. Iterates through incoming events and fires them in sequence.
         /// </summary>
         private void Run()
         {
             Logger.Log(this, "Entering main loop...");
-            running = true;
-            while (IsRunning)
+            Running = true;
+            while (Running)
             {
                 while (!IsEmpty() && !suspended)
                 {
@@ -200,13 +182,10 @@ namespace Naovigate.Event
         {
             get
             {
-                // lock queue, we dont want concurrent modifications
                 lock (q)
                 {
                     if (!q.IsEmpty())
-                    {
                         return q.Dequeue();
-                    }
                 }
                 return null;
             }
@@ -231,11 +210,9 @@ namespace Naovigate.Event
         /// </summary>
         private void FireNextEvent()
         {
-            current = NextEvent;
-            if (current != null)
-            {
-                FireEvent(current);
-            }
+            Current = NextEvent;
+            if (Current != null)
+                FireEvent(Current);
         }
 
         /// <summary>
@@ -245,47 +222,41 @@ namespace Naovigate.Event
         private void FireEvent(INaoEvent e)
         {
             Logger.Log(this, "Firing: " + e);
-            if (e.ExecutionBehavior == ExecutionBehavior.Durative)
-            {
-                e.Fire();
-            }
-            else
-                e.Fire();
-            if (EventFired != null)
-                EventFired(e);
+            if (EventFiring != null)
+                EventFiring(e);
+            e.Fire();
             Logger.Log(this, "Event " + e + " finished firing.");
         }
 
-        /// <summary>
-        /// The current event being fired.
-        /// </summary>
-        public INaoEvent Current
-        {
-            get
-            {
-                return current;
-            }
-        }
-
+        
         /// <summary>
         /// The amount of pending events.
         /// </summary>
         /// <returns>The amount of pending events.</returns>
-        public int EventsQueuedCount()
+        public int Size()
         {
             lock (q)
                 return q.Size();
         }
 
         /// <summary>
-        /// Returns true if there are no pending events.
+        /// Returns true if there are no pending events and no event is currently being fired.
         /// </summary>
         /// <returns>A boolean.</returns>
         public bool IsEmpty()
         {
-            return EventsQueuedCount() == 0 && !inAction;
+            return Size() == 0 && !inAction;
         }
-        
+
+        /// <summary>
+        /// Clears all queued events. Any event that is currently being executed will not be interrupted.
+        /// </summary>
+        public void Clear()
+        {
+            lock (q)
+                q.Clear();
+        }
+
         /// <summary>
         /// Blocks the thread until the next time the queue becomes empty or suspended.
         /// </summary>
@@ -295,15 +266,6 @@ namespace Naovigate.Event
             while (!suspended && !IsEmpty())
                 Thread.Sleep(100);
             Logger.Log(this, "wait end");
-        }
-        
-        /// <summary>
-        /// Clears all queued events. Any event that is currently being executed will not be interrupted.
-        /// </summary>
-        public void Clear()
-        {
-            lock (q)
-                q.Clear();
         }
 
         /// <summary>
@@ -329,7 +291,7 @@ namespace Naovigate.Event
         public void Abort()
         {
             Clear();
-            running = false;
+            Running = false;
             locker.Set();
             Logger.Log(this, "Shutting down...");
         }
