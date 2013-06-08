@@ -45,28 +45,14 @@ namespace Naovigate.Navigation
                         // Metadata about the map size.
                         case (char)EntryType.Size:
                             ParseSize(line, out width, out height);
-
-                            tiles = new Tile[height, width];
-                            for (int i = 0; i < height; i++)
-                                for (int j = 0; j < width; j++)
-                                    tiles[i, j] = new Tile(j, i);
-
+                            tiles = CreateTiles(width, height);
                             break;
 
                         // Info about wall presence on a certain (x, y, direction).
                         case (char)EntryType.WallInfo:
                             ParsePositionFlag(line, out x, out y, out direction, out truth);
                             tiles[y, x].SetWallAt(direction, truth);
-
-                            // Set adjoint point walls, too.
-                            if (direction == Direction.Left && x > 0)
-                                tiles[y, x - 1].SetWallAt(Direction.Right, truth);
-                            else if (direction == Direction.Right && x < width - 1)
-                                tiles[y, x + 1].SetWallAt(Direction.Left, truth);
-                            else if (direction == Direction.Up && y > 0)
-                                tiles[y - 1, x].SetWallAt(Direction.Down, truth);
-                            else if (direction == Direction.Down && y < height - 1)
-                                tiles[y + 1, x].SetWallAt(Direction.Up, truth);
+                            SetAdjointWalls(direction, tiles, x, y, truth);
                             break;
 
                         // Info about marker presence on a certain (x, y, direction).
@@ -87,9 +73,7 @@ namespace Naovigate.Navigation
                     }
                 }
             }
-
-            Map m = new Map(tiles);
-            return m;
+            return new Map(tiles);
         }
 
         /// <summary>
@@ -102,8 +86,7 @@ namespace Naovigate.Navigation
             height = 0;
 
             // Validate line sanity.
-            if (line.Length < 3)
-                throw new InvalidDataException("Reached EOL before being able to read map size.");
+            Expected(line, 3, "map");
 
             // Parse line entries.
             try
@@ -111,10 +94,11 @@ namespace Naovigate.Navigation
                 width = Int32.Parse(line[1]);
                 height = Int32.Parse(line[2]);
             }
-            catch (System.Exception e)
+            catch (Exception e)
             {
                 if (e is OverflowException || e is FormatException)
                     throw new InvalidDataException("Invalid map size specified.");
+                throw;
             }
         }
 
@@ -130,8 +114,7 @@ namespace Naovigate.Navigation
             truth = false;
 
             // Validate line sanity.
-            if (line.Length < 4)
-                throw new InvalidDataException("Reached EOL before being able to read marker info.");
+            Expected(line, 4, "marker or wall");
 
             // Parse line entries.
             try
@@ -160,8 +143,7 @@ namespace Naovigate.Navigation
             id = -1;
 
             // Validate line sanity.
-            if (line.Length < 4)
-                throw new InvalidDataException("Reached EOL before being able to read marker info.");
+            Expected(line, 4, "marker");
 
             // Parse line entries.
             try
@@ -190,8 +172,7 @@ namespace Naovigate.Navigation
             id = -1;
 
             // Validate line sanity.
-            if (line.Length < 5)
-                throw new InvalidDataException("Reached EOL before being able to read marker info.");
+            Expected(line, 5, "marker");
 
             // Parse line entries.
             try
@@ -206,6 +187,57 @@ namespace Naovigate.Navigation
                 if (e is OverflowException || e is FormatException)
                     throw new InvalidDataException("Invalid marker info entry specified.");
                 throw;
+            }
+        }
+
+        /// <summary>
+        /// initialize the Tiles for the created map.
+        /// </summary>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <returns></returns>
+        private static Tile[,] CreateTiles(int width, int height)
+        {
+            Tile[,] tiles = new Tile[height, width];
+            for (int i = 0; i < height; i++)
+                for (int j = 0; j < width; j++)
+                    tiles[i, j] = new Tile(j, i);
+            return tiles;
+        }
+
+        /// <summary>
+        /// Set the wall status of the tiles next to the current tile.
+        /// </summary>
+        /// <param name="direction">The direction the wall is in</param>
+        /// <param name="tiles">The tiles</param>
+        /// <param name="x">The current tile's x position</param>
+        /// <param name="y">The current tile's y position</param>
+        /// <param name="truth">A boolean indicating if there is a wall or not</param>
+        private static void SetAdjointWalls(Direction direction, Tile[,] tiles, int x, int y, bool truth)
+        {
+            int height = tiles.GetLength(0);
+            int width = tiles.GetLength(1);
+            if (direction == Direction.Left && x > 0)
+                tiles[y, x - 1].SetWallAt(Direction.Right, truth);
+            else if (direction == Direction.Right && x < width - 1)
+                tiles[y, x + 1].SetWallAt(Direction.Left, truth);
+            else if (direction == Direction.Up && y > 0)
+                tiles[y - 1, x].SetWallAt(Direction.Down, truth);
+            else if (direction == Direction.Down && y < height - 1)
+                tiles[y + 1, x].SetWallAt(Direction.Up, truth);
+        }
+
+        /// <summary>
+        /// Throw an exception with a message if the input doesnt have the required length.
+        /// </summary>
+        /// <param name="line"></param>
+        /// <param name="minLengthExpected"></param>
+        /// <param name="infoRequired"></param>
+        private static void Expected(string[] line, int minLengthExpected, string infoRequired)
+        {
+            if (line.Length < minLengthExpected)
+            {
+                throw new InvalidDataException("Reached EOL before being able to read required " + infoRequired + " info.");
             }
         }
     }
