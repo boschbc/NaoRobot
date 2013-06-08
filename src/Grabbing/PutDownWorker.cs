@@ -47,10 +47,7 @@ namespace Naovigate.Grabbing
                 Call(() => NaoState.Instance.SpeechProxy.say("Stable"));
                 Call(() => Pose.Instance.Kneel(kneelDepth));
             }
-            else
-            {
-                Call(() => NaoState.Instance.SpeechProxy.say("Unstable"));
-            }
+            else Call(() => NaoState.Instance.SpeechProxy.say("Unstable"));
             Call(Release);
             Call(Pose.Instance.StandUp);
         }

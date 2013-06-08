@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using Aldebaran.Proxies;
@@ -39,6 +38,9 @@ namespace Naovigate.Grabbing
             Call(Grab);
         }
 
+        /// <summary>
+        /// Make a grabbing move in an attempt to grab an object in front of the Nao.
+        /// </summary>
         public void Grab()
         {
             Call(Pose.Instance.StandUp);
@@ -64,12 +66,19 @@ namespace Naovigate.Grabbing
             motion.angleInterpolationWithSpeed(closeArmsAroundObjectNames, closeArmsAroundObjectAngles, grabSpeed);
         }
 
+        /// <summary>
+        /// close the Nao's hands
+        /// </summary>
         public void GrabHands()
         {
             motion.setStiffnesses(grabHandsNames, 0.4F);
             motion.angleInterpolationWithSpeed(grabHandsNames, grabHandsAngles, grabSpeed);
         }
 
+        /// <summary>
+        /// Put the object as close to the Nao's chest as possible,
+        /// to keep the Nao as ballanced as possible.
+        /// </summary>
         public void HoldForWalking()
         {
             motion.angleInterpolationWithSpeed(shoulderPitch, new ArrayList(new float[] { 0F, 0F }), grabSpeed);

@@ -38,7 +38,6 @@ namespace Naovigate.Util
         protected BatteryProxy battery;
         protected SensorsProxy sensors;
         protected MemoryProxy memory;
-        protected Map map;
 
         public static NaoState Instance
         {
@@ -295,13 +294,10 @@ namespace Naovigate.Util
         /// The overview map of the world we are exploring.
         /// </summary>
         /// <value>The map.</value>
-        public Map Map {
-            get {
-                return map;
-            }
-            set {
-                map = value;
-            }
+        public Map Map
+        {
+            get;
+            set;
         }
         
         /// <summary>
