@@ -51,7 +51,9 @@ namespace Naovigate.Communication
             if (Running)
                 return;
             Logger.Log(this, "Starting GOAL server...");
-            new Thread(() => Listen(ip, port)).Start();
+            Thread t = new Thread(() => Listen(ip, port));
+            t.Name = "GoalServer";
+            t.Start();
             Running = true;
             Logger.Log(this, "Server is running.");
         }

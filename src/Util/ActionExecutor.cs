@@ -48,7 +48,8 @@ namespace Naovigate.Util
         {
             if (Aborted)
                 return;
-            Thread t = new Thread(new ThreadStart(RunInit)); 
+            Thread t = new Thread(new ThreadStart(RunInit));
+            t.Name = "ActionExecutor";
             t.Start();
         }
 
