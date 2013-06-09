@@ -62,7 +62,7 @@ namespace Naovigate.Test.Navigation
         public void Setup()
         {
             File.AppendAllLines(mapFile, wallMap);
-            Map = Map.Parse(mapFile);
+            Map = MapParser.Parse(mapFile);
         }
 
         [TearDown]

@@ -29,7 +29,7 @@ namespace Naovigate.Event.GoalToNao
         /// </summary>
         public override void Fire()
         {
-            NaoState.Instance.SpeechProxy.say(text);
+            Proxies.GetProxy<Aldebaran.Proxies.TextToSpeechProxy>().say(text);
         }
 
         /// <summary>

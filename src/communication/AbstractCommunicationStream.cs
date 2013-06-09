@@ -18,9 +18,10 @@ namespace Naovigate.Communication
     /// </summary>
     public abstract class AbstractCommunicationStream : ICommunicationStream
     {
-        private static readonly bool timeoutEnabled = false;
-        private static readonly int ticksToMsRatio = 10000;
+        public static bool timeoutEnabled = false;
         protected static readonly int timeoutInMs = 10000;
+
+        private static readonly int ticksToMsRatio = 10000;
         protected static readonly int timeout = timeoutInMs * ticksToMsRatio;
         private Queue<byte> buffer;
         private Stream stream;
@@ -154,7 +155,7 @@ namespace Naovigate.Communication
         }
 
         /// <summary>
-        ///  read a number of bytes from the stream and return them as a long.
+        /// read a number of bytes from the stream and return them as a long.
         /// </summary>
         /// <param name="bytes">The amount of bytes to read. Max: 8.</param>
         /// <returns>A long.</returns>
@@ -166,10 +167,7 @@ namespace Naovigate.Communication
             Read(buf);
             long res = 0;
             for (int i = 0; i < bytes; i++)
-            {
-                res = (res << 8);
-                res += (buf[i] & 0xFF);
-            }
+                res = (res << 8) + (buf[i] & 0xFF);
             return res;
         }
 
@@ -200,12 +198,8 @@ namespace Naovigate.Communication
                     // starting at current location, read until the end of the buffer
                     int len = stream.Read(buf, pos, off - pos + length);
                     pos += len;
-                    if (timeoutEnabled && len == 0)
-                    {
-                        if ((DateTime.Now.Ticks - time) > timeout)
-                            throw new IOException("Read timed out.");
-
-                    }
+                    if (timeoutEnabled && len == 0 && DateTime.Now.Ticks - time > timeout)
+                        throw new IOException("Read timed out.");
                     else time = DateTime.Now.Ticks;
                 }
                 Debug.Assert(pos - off == length);
@@ -246,6 +240,9 @@ namespace Naovigate.Communication
             }
         }
 
+        /// <summary>
+        /// write a newline to the stream.
+        /// </summary>
         public void WriteNewline()
         {
             string msg = "\n";
@@ -258,17 +255,14 @@ namespace Naovigate.Communication
         /// </summary>
         protected void FlushBuffer()
         {
-            if (stream != null)
+            if (stream != null && buffer.Count > 0)
             {
-                if (buffer.Count > 0)
+                Logger.Log(this, "Write buffered data.");
+                while (buffer.Count > 0)
                 {
-                    Logger.Log(this, "Write buffered data.");
-                    while (buffer.Count > 0)
-                    {
-                        stream.WriteByte(buffer.Dequeue());
-                    }
-                    Logger.Log(this, "Written all Buffered data.");
+                    stream.WriteByte(buffer.Dequeue());
                 }
+                Logger.Log(this, "Written all Buffered data.");
             }
         }
 
@@ -322,6 +316,22 @@ namespace Naovigate.Communication
         public abstract int Read(byte[] buf, int off, int length);
 
         /// <summary>
+        /// indicates wether or not this class supports string reading.
+        /// </summary>
+        public abstract bool CanReadString
+        {
+            get;
+        }
+
+        /// <summary>
+        /// indicates wether or not this class supports string writing.
+        /// </summary>
+        public abstract bool CanWriteString
+        {
+            get;
+        }
+
+        /// <summary>
         /// Write a string to the stream.
         /// </summary>
         /// <param name="x">A string.</param>
@@ -337,18 +347,9 @@ namespace Naovigate.Communication
         /// binary string representation of a given long.
         /// </summary>
         /// <param name="x">A long.</param>
-        /// <returns>A binary readable string.</returns>
-        public static String ToBitString(long x)
-        {
-            return ToBitString(x, 64);
-        }
-
-        /// <summary>
-        /// binary string representation of a given long.
-        /// </summary>
-        /// <param name="x">A long.</param>
-        /// <returns>A binary readable string of bits length.</returns>
-        public static String ToBitString(long x, int bits)
+        /// <param name="bits">A number of bits.</param>
+        /// <returns>A binary string of bits length.</returns>
+        protected static String ToBitString(long x, int bits)
         {
             String res = "";
             for (int i = 0; i < bits; i++)

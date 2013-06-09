@@ -15,16 +15,16 @@ namespace Naovigate.Grabbing
     {
         private static Grabber instance;
         private ActionExecutor worker;
-        MotionProxy motion;
-        RobotPostureProxy posture;
+        private MotionProxy motion;
+        private RobotPostureProxy posture;
         
         /// <summary>
         /// Default constructor.
         /// </summary>
         public Grabber()
         {
-            motion = NaoState.Instance.MotionProxy;
-            posture = NaoState.Instance.PostureProxy;
+            motion = Proxies.GetProxy<MotionProxy>();
+            posture = Proxies.GetProxy<RobotPostureProxy>();
             instance = this;
         }
 
@@ -61,12 +61,12 @@ namespace Naovigate.Grabbing
         /// </summary>
         public void WaitFor()
         {
-            Logger.Log(typeof(Grabber), "Waiting for grabber...");
+            Logger.Log(this, "Waiting for grabber...");
             if (worker != null && worker.Running)
             {
                 worker.WaitFor();
             }
-            Logger.Log(typeof(Grabber), "Done waiting.");
+            Logger.Log(this, "Done waiting.");
         }
 
         /// <summary>
@@ -86,19 +86,13 @@ namespace Naovigate.Grabbing
             return w;
         }
 
-        private Worker DoWork<Worker>(Worker w)
-            where Worker : ActionExecutor
-        {
-            return CreateWorker(w, true);
-        }
-
         /// <summary>
         /// The Nao will attempt to grab the object.
         /// </summary>
         /// <returns>A GrabWorker thread.</returns>
         public GrabWorker Grab()
         {
-            return DoWork(new GrabWorker());
+            return CreateWorker(new GrabWorker(), true);
         }
         
         /// <summary>
@@ -119,7 +113,6 @@ namespace Naovigate.Grabbing
         {
             Logger.Log(this, "HOlding: " + NaoState.Instance.HoldingObject);
             return NaoState.Instance.HoldingObject;
-            //return true;
         }
 
         /// <summary>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Threading;
 
 namespace Naovigate.Util
 {
@@ -8,14 +9,17 @@ namespace Naovigate.Util
     /// </summary>
     public static class Logger
     {
-        private static readonly string Format = "{0} [{1}] :: {2} :: {3}";
-        private static readonly string DefaultInvokerName = "Token";
+        private static readonly string Format = "{0} [{1}] {2} :: {3} :: {4}";
         private static readonly string LogFilePath = "log.txt";
+        private static readonly string DefaultInvokerName = "Token";
 
         private static int id = 0;
-        private static bool enabled = true;
-        private static bool logToFile = true;
 
+        static Logger()
+        {
+            Enabled = true;
+            LogToFile = true;
+        }
 
         /// <summary>
         /// Clears the contents of the log file and resets the internal output ID.
@@ -28,7 +32,7 @@ namespace Naovigate.Util
         }
 
         /// <summary>
-        /// Logs given invoker & amp; message.
+        /// Logs given invoker & message.
         /// </summary>
         /// <param name="invoker">The name under which the message should be logged.</param>
         /// <param name="messageObject">An object to log.</param>
@@ -44,9 +48,10 @@ namespace Naovigate.Util
                 message = message.Insert(0, "\n");
                 message = message.Replace("\n", "\n\t");
             }
-            string formatted = String.Format(Format, id++, time, invoker, message);
+            string tname = Thread.CurrentThread.Name;
+            string formatted = String.Format(Format, id++, time, tname == null ? "Thread" : tname, invoker, message);
             Console.WriteLine(formatted);
-            if (logToFile)
+            if (LogToFile)
                 lock (LogFilePath)
                     System.IO.File.AppendAllText(LogFilePath, formatted + "\n");
         }
@@ -83,11 +88,9 @@ namespace Naovigate.Util
         public static void Except(Exception e)
         {
             string msg = "Exception " + e.GetType().Name;
-            Log(DefaultInvokerName, e);
+            Log(e);
             if (NaoState.Instance.Connected)
-            {
-                NaoState.Instance.SpeechProxy.say(msg);
-            }
+                Proxies.GetProxy<Aldebaran.Proxies.TextToSpeechProxy>().say(msg);
         }
 
         /// <summary>
@@ -103,8 +106,8 @@ namespace Naovigate.Util
         /// </summary>
         public static bool Enabled
         {
-            get { return enabled; }
-            set { enabled = value; }
+            get;
+            set;
         }
 
         /// <summary>
@@ -112,8 +115,8 @@ namespace Naovigate.Util
         /// </summary>
         public static bool LogToFile
         {
-            get { return logToFile; }
-            set { logToFile = value; }
+            get;
+            set;
         }
     }
 }

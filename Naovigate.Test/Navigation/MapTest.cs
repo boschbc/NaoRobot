@@ -11,21 +11,21 @@ namespace Naovigate.Test.Navigation
         [Test]
         public void SetGetTest()
         {
-            Map.Tile expected = new Map.Tile(2, 2, 654);
-            Map.SetTile(2, 2, expected);
+            Tile expected = new Tile(2, 2, 654);
+            Map.AddTile(expected);
             Assert.AreEqual(expected, Map.TileAt(2, 2));
         }
 
         [Test, ExpectedException(typeof(IndexOutOfRangeException))]
         public void OutOfRangeSetTest()
         {
-            Map.SetTile(3, 7, new Map.Tile(3, 7, 4673));
+            Map.AddTile(new Tile(3, 7, 4673));
         }
 
         [Test]
         public void ConsistencySetTest()
         {
-            Map.SetTile(1, 2, new Map.Tile(9001, 9002, 42));
+            Map.AddTile(new Tile(1, 2, 42));
             Assert.AreEqual(1, Map.TileAt(1, 2).X);
             Assert.AreEqual(2, Map.TileAt(1, 2).Y);
         }

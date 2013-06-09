@@ -24,7 +24,7 @@ namespace Naovigate
         public static readonly string nao2 = "192.168.0.108";
         public static readonly string tutor = "192.168.0.126";
         public static readonly string goalIP1 = "192.168.0.116";
-        public static readonly string NaoIP = nao2;
+        public static readonly string NaoIP = LocalHost;
         public static readonly string GoalIP = LocalHost;
 
         public static void Main(String[] args)
@@ -46,6 +46,8 @@ namespace Naovigate
 
         private static void Setup()
         {
+            Thread cur = Thread.CurrentThread;
+            if (cur.Name == null) cur.Name = "MainProgram";
             Logger.Clear();
             AppDomain.CurrentDomain.ProcessExit += Cleanup;
         }

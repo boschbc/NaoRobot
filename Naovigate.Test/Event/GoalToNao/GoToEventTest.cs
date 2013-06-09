@@ -39,11 +39,11 @@ namespace Naovigate.Test.Event.GoalToNao
             EventTestingUtilities.DisconnectWebots();
         }
 
-        [Test, HandleProcessCorruptedStateExceptions]
+        [Test]
         public void UnpackTest()
         {
             CommunicationStream stream = EventTestingUtilities.BuildStream(
-                1, 1, 1
+                1, 15, 15
             );
             goalComs.SetStream(stream);
             goToEvent = new GoToEvent();

@@ -38,7 +38,8 @@ namespace Naovigate.Communication
         }
 
         /// <summary>
-        /// Fill the buffer buf with data from the stream, starting at off blocks until the bytes are available
+        /// Fill the buffer buf with data from the stream, starting at off.
+        /// Blocks until the bytes are available.
         /// </summary>
         /// <param name="buf">The buff to be filled.</param>
         /// <param name="off">Offset.</param>
@@ -59,20 +60,29 @@ namespace Naovigate.Communication
         /// <returns></returns>
         private byte ReadByteFromBitString()
         {
+            string bitstring = GetNextBitString();
+            Logger.Log(this, "read "+bitstring);
+            int value = 0;
+            for (int i = 7; i >= 0;i-- )
+            {
+                if (bitstring[i] == '1')
+                    value += 1 << (7 - i);
+            }
+            return (byte) value;
+        }
+
+        /// <summary>
+        /// read a string of length 8 from the stream.
+        /// </summary>
+        /// <returns></returns>
+        private string GetNextBitString()
+        {
             byte[] str = new byte[8];
-            for (int i = 0; i < str.Length;i++ )
+            for (int i = 0; i < str.Length; i++)
             {
                 str[i] = ReadNextByte();
             }
-            string bitstring = Encoding.UTF8.GetString(str);
-            Logger.Log(this, "read "+bitstring);
-            int value = 0;
-            for (int i = str.Length - 1; i >= 0;i-- )
-            {
-                if (bitstring[i] == '1')
-                    value += 1 << (str.Length - i - 1);
-            }
-            return (byte) value;
+            return Encoding.UTF8.GetString(str);
         }
 
         /// <summary>
@@ -108,7 +118,7 @@ namespace Naovigate.Communication
         /// <param name="x">A string.</param>
         public override void WriteString(string msg)
         {
-            byte[] bytes = System.Text.Encoding.UTF8.GetBytes(msg);
+            byte[] bytes = Encoding.UTF8.GetBytes(msg);
             WriteRaw(bytes, 0, bytes.Length);
         }
 
@@ -127,6 +137,16 @@ namespace Naovigate.Communication
             }
 
             return Encoding.UTF8.GetString(value.ToArray());
+        }
+
+        public override bool CanReadString
+        {
+            get { return true; }
+        }
+
+        public override bool CanWriteString
+        {
+            get { return true; }
         }
     }
 }

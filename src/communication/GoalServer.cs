@@ -13,10 +13,9 @@ namespace Naovigate.Communication
     public class GoalServer
     {
         private static GoalServer instance;
-        private static string[] seperators = { ",", " ", ":", ";", "-", "+" };
+        private static string[] seperators = { ",", " " };
 
         private ICommunicationStream goalStream;
-        private bool running = false;
         private TcpListener listener;
         private TcpClient client;
 
@@ -38,8 +37,8 @@ namespace Naovigate.Communication
         /// </summary>
         public Boolean Running
         {
-            get { return running; }
-            private set { running = value; }
+            get;
+            private set;
         }
 
         /// <summary>
@@ -52,7 +51,9 @@ namespace Naovigate.Communication
             if (Running)
                 return;
             Logger.Log(this, "Starting GOAL server...");
-            new Thread(() => Listen(ip, port)).Start();
+            Thread t = new Thread(() => Listen(ip, port));
+            t.Name = "GoalServer";
+            t.Start();
             Running = true;
             Logger.Log(this, "Server is running.");
         }
@@ -91,20 +92,10 @@ namespace Naovigate.Communication
             {
                 try
                 {
-                    if (ss[i].Length > 1 && ss[i].Contains("b"))
-                    {
-                        string tmp = ss[i].Replace(@"b", "");
-                        goalStream.WriteByte(Convert.ToByte(tmp));
-                    }
-                    else if (ss[i].Length > 1 && ss[i].StartsWith("0x"))
-                    {
-                        string tmp = ss[i].Replace("0x", "");
-                        goalStream.WriteByte(Convert.ToByte(tmp, 16));
-                    }
+                    if (ss[i].Length > 1 && (ss[i].Contains("b") || ss[i].StartsWith("0x")))
+                        WriteAsByte(ss[i]);
                     else if (ss[i].Length > 0)
-                    {
                         goalStream.WriteInt(Convert.ToInt32(ss[i]));
-                    }
                 }
                 catch (FormatException)
                 {
@@ -112,6 +103,15 @@ namespace Naovigate.Communication
                 }
             }
 
+        }
+
+        private void WriteAsByte(string arg)
+        {
+            if (arg.StartsWith("0x"))
+                goalStream.WriteByte(Convert.ToByte(arg.Replace("0x", ""), 16));
+            else if(arg.Contains("b"))
+                goalStream.WriteByte(Convert.ToByte(arg.Replace(@"b", "")));
+            
         }
 
         /// <summary>
@@ -134,7 +134,7 @@ namespace Naovigate.Communication
                 return;
             for (int i = 0; i < args.Length; i++)
             {
-                Instance.SendData(args[i]);
+                SendData(args[i]);
             }
         }
 

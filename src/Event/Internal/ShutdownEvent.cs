@@ -17,7 +17,7 @@ namespace Naovigate.Event.Internal
         public override void Fire()
         {
             Pose.Instance.Crouch();
-            Util.NaoState.Instance.MotionProxy.setStiffnesses("Body", 0F);
+            Util.Proxies.GetProxy<Aldebaran.Proxies.MotionProxy>().setStiffnesses("Body", 0F);
         }
 
         /// <summary>

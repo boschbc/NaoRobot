@@ -41,7 +41,7 @@ namespace Naovigate.Event
             {
                 if (naoInstance == null)
                 {
-                    naoInstance = new EventQueue();
+                    naoInstance = new EventQueue("NaoQueue");
                 }
                 return naoInstance;
             }
@@ -56,7 +56,7 @@ namespace Naovigate.Event
             {
                 if (goalInstance == null)
                 {
-                    goalInstance = new EventQueue();
+                    goalInstance = new EventQueue("GoalQueue");
                 }
                 return goalInstance;
             }
@@ -71,6 +71,11 @@ namespace Naovigate.Event
             thread = new Thread(new ThreadStart(Run));
             thread.IsBackground = true;
             thread.Start();
+        }
+
+        public EventQueue(string name) : this()
+        {
+            thread.Name = name;
         }
 
         /// <summary>

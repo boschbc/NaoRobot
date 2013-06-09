@@ -243,6 +243,9 @@
     <Compile Include="Movement\ObjectSearchThread.cs" />
     <Compile Include="Movement\Pose.cs" />
     <Compile Include="Movement\Walk.cs" />
+    <Compile Include="Navigation\Direction.cs" />
+    <Compile Include="Navigation\MapParser.cs" />
+    <Compile Include="Navigation\Tile.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -251,6 +254,7 @@
     <Compile Include="Util\Logger.cs" />
     <Compile Include="Util\PriorityQueue.cs" />
     <Compile Include="Util\ActionExecutor.cs" />
+    <Compile Include="Util\Proxies.cs" />
     <Compile Include="Vision\Camera.cs" />
     <Compile Include="Communication\GoalCommunicator.cs" />
     <Compile Include="Vision\MarkerRecogniser.cs" />

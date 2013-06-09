@@ -8,6 +8,7 @@ namespace Naovigate.GUI
 {
     public sealed class UpdaterThread
     {
+        private static int updaterCount;
         private int interval;
         private bool enabled;
         private Action DoWork;
@@ -40,7 +41,14 @@ namespace Naovigate.GUI
 
         public void Start()
         {
-            new Thread(new ThreadStart(Main)).Start(); 
+            Thread t = new Thread(new ThreadStart(Main));
+            t.Name = NextThreadName();
+            t.Start(); 
+        }
+
+        private static string NextThreadName()
+        {
+            return "UpdaterThread" + ++updaterCount;
         }
     }
 }

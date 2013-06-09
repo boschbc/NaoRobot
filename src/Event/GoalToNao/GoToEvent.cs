@@ -70,7 +70,9 @@ namespace Naovigate.Event.GoalToNao
                 {
                     if (!Aborted)
                     {
-                        worker = Walk.Instance.WalkTowardsMarker((float)entry.Direction.ToRadian(), entry.MarkerID, entry.WantedDistance);
+                        float relativeRotation = (float)entry.Direction.ToRadian();
+                        Walk.Instance.TurnExact((float)entry.Direction.ToRadian(), 0.1f);
+                        worker = Walk.Instance.WalkTowardsMarker(0f, entry.MarkerID, entry.WantedDistance);
                         worker.WaitFor();
                     }
                 }

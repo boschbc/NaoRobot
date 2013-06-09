@@ -33,10 +33,5 @@ namespace Naovigate.Test.Util
         {
             connected = false;
         }
-
-        protected override TProxy createProxy<TProxy>()
-        {
-            return default(TProxy);
-        }
     }
 }

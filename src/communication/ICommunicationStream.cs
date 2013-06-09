@@ -11,13 +11,13 @@ namespace Naovigate.Communication
         /// <summary>
         /// Write to the stream.
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="data">The data.</param>
         void Write(byte[] data);
         
         /// <summary>
         /// Write from data to the stream, starting from given offset, writing len bytes.
         /// </summary>
-        /// <param name="data">Data to be written to the socket.</param>
+        /// <param name="data">Data to be written to the stream.</param>
         /// <param name="off">Offset.</param>
         /// <param name="len">The amount of bytes to be written.</param>
         void Write(byte[] data, int off, int len);
@@ -41,7 +41,16 @@ namespace Naovigate.Communication
         void WriteLong(long x);
 
         /// <summary>
+        /// indicates wether or not this class supports string writing.
+        /// </summary>
+        bool CanWriteString
+        {
+            get;
+        }
+
+        /// <summary>
         /// Write a string to the stream.
+        /// This is an optional method, indicated by CanWriteString
         /// </summary>
         /// <param name="x">A string.</param>
         void WriteString(string x);
@@ -86,8 +95,17 @@ namespace Naovigate.Communication
         long ReadLong();
 
         /// <summary>
+        /// indicates wether or not this class supports string reading.
+        /// </summary>
+        bool CanReadString
+        {
+            get;
+        }
+
+        /// <summary>
         /// Read a string until the next newline.
         /// Consumes the newline.
+        /// This is an optional method, indicated by CanReadString
         /// </summary>
         /// <returns>A string.</returns>
         string ReadString();

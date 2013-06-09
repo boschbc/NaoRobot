@@ -42,12 +42,22 @@ namespace Naovigate.Communication
 
         public override string ReadString()
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         public override void WriteString(string x)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
+        }
+
+        public override bool CanReadString
+        {
+            get { return false; }
+        }
+
+        public override bool CanWriteString
+        {
+            get { return false; }
         }
     }
 }

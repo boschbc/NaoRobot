@@ -28,8 +28,7 @@ namespace Naovigate.Communication
         protected ICommunicationStream communicationStream;
         protected NetworkStream stream;
         protected IPEndPoint endPoint;
-        protected volatile bool running;
-        protected int reconnectAttempCount;
+        private int reconnectAttempCount;
 
         /// <summary>
         /// The GoalCommunicator instance.
@@ -85,7 +84,7 @@ namespace Naovigate.Communication
         /// <returns>True if connected successfully.</returns>
         public bool Connect()
         {
-            if (Running)
+            if (Running && reconnectAttempCount == 0)
                 return false;
             try
             {
@@ -94,12 +93,11 @@ namespace Naovigate.Communication
                 stream = this.client.GetStream();
                 if (communicationStream == null)
                     communicationStream = new BitStringCommunicationStream(stream);
-                else
-                {
-                    communicationStream.Stream = stream;
-                }
+                else communicationStream.Stream = stream;
                 Logger.Log(this, "Connection established.");
-                EventQueue.Goal.Post(new AgentEvent());
+                //send our agent id.
+                if(NaoState.Instance.Connected)
+                    EventQueue.Goal.Post(new AgentEvent());
                 return true;
             } 
             catch (SocketException)
@@ -113,12 +111,12 @@ namespace Naovigate.Communication
         /// Attempt to reconnect a given number of times.
         /// </summary>
         /// <param name="attempts">The number of times to attempt reconnection.</param>
-        /// <returns>True if connection has been recovered.</returns>
+        /// <returns>true if the connection was restored, false otherwise.</returns>
         private bool Reconnect(int attempts)
         {
             bool success = false;
             for (int i = 0; i < attempts && !(success = Reconnect()); i++) ;
-            return attempts == 0 ? false : success;
+            return success;
         }
 
         /// <summary>
@@ -129,11 +127,12 @@ namespace Naovigate.Communication
         private bool Reconnect()
         {
             reconnectAttempCount++;
-            Logger.Log(this, "Reconnecting... attempt " + reconnectAttempCount + 
-                             ", timeout = " + (1000 * (1 << reconnectAttempCount)));
+            int timeout = 500 * (1 << reconnectAttempCount);
+            Logger.Log(this, "Reconnecting... attempt " + reconnectAttempCount +
+                             ", timeout = " + timeout);
             client = new TcpClient();
             bool success = Connect();
-            Thread.Sleep(500 * (1 << reconnectAttempCount));
+            Thread.Sleep(timeout);
             if (success)
                 reconnectAttempCount = 0; 
             return success;
@@ -155,16 +154,6 @@ namespace Naovigate.Communication
                 INaoEvent naoEvent = NaoEventFactory.NewEvent(code);
                 EventQueue.Nao.Post(naoEvent);
             }
-            catch (InvalidOperationException)
-            {
-                Logger.Log(this, "Communication stream got closed.");
-                communicationStream.Open = false;
-            }
-            catch (IOException)
-            {
-                Logger.Log(this, "Communication stream got closed.");
-                communicationStream.Open = false;
-            }
             catch (InvalidEventCodeException e)
             {
                 Logger.Except(e);
@@ -174,7 +163,12 @@ namespace Naovigate.Communication
             }
             catch (Exception e)
             {
-                Logger.Log(this, "Unexpected exception occurred while processing incoming data: " + e);
+                if (e is InvalidOperationException || e is IOException)
+                {
+                    Logger.Log(this, "Communication stream got closed.");
+                    communicationStream.Open = false;
+                }
+                else Logger.Log(this, "Unexpected exception occurred while processing incoming data: " + e);
             }
         }
 
@@ -183,7 +177,9 @@ namespace Naovigate.Communication
         /// </summary>
         public void StartAsync()
         {
-            new Thread(new ThreadStart(Start)).Start();
+            Thread t = new Thread(new ThreadStart(Start));
+            t.Name = "GoalCommunicator";
+            t.Start();
         }
 
         /// <summary>
@@ -233,26 +229,13 @@ namespace Naovigate.Communication
         }
 
         /// <summary>
-        /// The internal network stream.
-        /// </summary>
-        //public virtual NetworkStream NetworkStream 
-        //{
-        //    get 
-        //    {
-        //        lock (sLock)
-        //            return stream; 
-        //    }
-        //}
-
-        /// <summary>
         /// The internal communication stream.
         /// </summary>
         public virtual ICommunicationStream Stream
         {
             get
             {
-               
-                    return communicationStream;
+                return communicationStream;
             }
         }
 
@@ -277,11 +260,8 @@ namespace Naovigate.Communication
         /// </summary>
         public bool Running
         {
-            get { return running; }
-            private set {
-                
-                    running = value; 
-            }
+            get;
+            private set;
         }
     }
 }

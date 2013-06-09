@@ -145,6 +145,19 @@ namespace Naovigate.Test.Util
         }
 
         [Test]
+        public void EnqueuePriorityEdgeTest()
+        {
+            q.Enqueue(0, 10);
+        }
+
+        [Test]
+        [ExpectedException(typeof(ArgumentException))]
+        public void EnqueueToHighPriorityEdgeTest()
+        {
+            q.Enqueue(0, 11);
+        }
+
+        [Test]
         [ExpectedException(typeof(ArgumentException))]
         public void EnqueueToHighPriorityTest()
         {

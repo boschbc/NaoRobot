@@ -48,7 +48,8 @@ namespace Naovigate.Util
         {
             if (Aborted)
                 return;
-            Thread t = new Thread(new ThreadStart(RunInit)); 
+            Thread t = new Thread(new ThreadStart(RunInit));
+            t.Name = "ActionExecutor";
             t.Start();
         }
 
@@ -90,19 +91,14 @@ namespace Naovigate.Util
 
         /// <summary>
         /// Calls an Action.
-        /// If the executor is not currently running, sets the Error property to a new instance of ThreadInterruptedException.
+        /// If the executor is not currently running,
+        /// throws a new instance of ThreadInterruptedException.
         /// </summary>
         /// <param name="a">The action to be invoked.</param>
         public void Call(Action a)
         {
-            if (Running)
-            {
-                a.Invoke();
-            }
-            else
-                throw new ThreadInterruptedException("Thread was aborted.");
-            //else if (Error == null)
-            //    Error = new ThreadInterruptedException();
+            if (Running) a.Invoke();
+            else throw new ThreadInterruptedException("Thread was aborted.");
         }
 
         /// <summary>
@@ -113,8 +109,7 @@ namespace Naovigate.Util
         {
             while (Running && Error == null)
                 Thread.Sleep(100);
-            if (Error != null)
-                throw Error;
+            if (Error != null) throw Error;
             if (Aborted)
             {
                 Error = new ThreadInterruptedException();
