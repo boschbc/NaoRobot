@@ -15,16 +15,16 @@ namespace Naovigate.Communication
         /// a Nao's ip
         /// </summary>
         /// <param name="last"></param>
-        /// <returns></returns>
-        public static String getNextIP(int last)
+        /// <returns>An ip address of a nao, or null if no Nao was found.</returns>
+        public static String GetNextIP(int last)
         {
             for (int i = last < 0 ? 0 : last; i <= 255; i++)
             {
-                if (testIP(baseIP + 0 + "." + i))
+                if (TestIP(baseIP + 0 + "." + i))
                 {
                     return baseIP + 0 + "." + i;
                 }
-                else if (testIP(baseIP + 1 + "." + i))
+                else if (TestIP(baseIP + 1 + "." + i))
                 {
                     return baseIP + 1 + "." + i;
                 }
@@ -37,7 +37,7 @@ namespace Naovigate.Communication
         /// </summary>
         /// <param name="ip">the ip</param>
         /// <returns>true if a Nao is listening on this ip</returns>
-        private static Boolean testIP(String ip)
+        private static bool TestIP(String ip)
         {
             try
             {
@@ -47,16 +47,19 @@ namespace Naovigate.Communication
 
                 IAsyncResult res = socket.BeginConnect(endPoint, null, null);
                 if (res.AsyncWaitHandle.WaitOne(100))
-                {
-                    TextToSpeechProxy proxy = new TextToSpeechProxy(ip, 9559);
-                    proxy.say("Connected");
-                    return true;
-                }
+                    return IsNao(ip);
             }
             catch (Exception ex) {
                 Logger.Log(typeof(IPScanner), ex.Message);
             }
             return false;
+        }
+
+        private static bool IsNao(string ip)
+        {
+            TextToSpeechProxy proxy = new TextToSpeechProxy(ip, 9559);
+            proxy.say("Connected");
+            return true;
         }
     }
 }
