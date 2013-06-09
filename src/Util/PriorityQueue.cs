@@ -27,7 +27,7 @@ namespace Naovigate.Util
         public PriorityQueue(int maxPriority)
         {
             this.maxPriority = maxPriority;
-            queues = new Queue<T>[maxPriority];
+            queues = new Queue<T>[maxPriority+1];
         }
 
         /// <summary>
@@ -63,10 +63,8 @@ namespace Naovigate.Util
             // look for the highest priority queue
             for (int i = maxPriority - 1; i >= 0; i--)
             {
-                // queue exists
                 if (queues[i] != null)
                 {
-                    // check if its empty
                     Queue<T> q = queues[i];
                     if (q.Count > 0)
                     {
@@ -96,7 +94,7 @@ namespace Naovigate.Util
                 queues[priority] = new Queue<T>();
             }
 
-            // add the item to the apropriate queue, it should've been created now
+            // add the item to the apropriate queue, it should've been created now.
             queues[priority].Enqueue(t);
             size++;
         }
@@ -105,9 +103,9 @@ namespace Naovigate.Util
         /// Returns true if there are no items in the queue.
         /// </summary>
         /// <returns>A boolean.</returns>
-        public Boolean IsEmpty()
+        public bool IsEmpty()
         {
-            return size == 0;
+            return Size() == 0;
         }
 
         /// <summary>

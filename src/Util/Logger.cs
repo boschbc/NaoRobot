@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Threading;
 
 namespace Naovigate.Util
 {
@@ -9,12 +10,9 @@ namespace Naovigate.Util
     public static class Logger
     {
         private static readonly string Format = "{0} [{1}] :: {2} :: {3}";
-        private static readonly string DefaultInvokerName = "Token";
         private static readonly string LogFilePath = "log.txt";
 
         private static int id = 0;
-        private static bool enabled = true;
-        private static bool logToFile = true;
 
 
         /// <summary>
@@ -28,7 +26,7 @@ namespace Naovigate.Util
         }
 
         /// <summary>
-        /// Logs given invoker & amp; message.
+        /// Logs given invoker & message.
         /// </summary>
         /// <param name="invoker">The name under which the message should be logged.</param>
         /// <param name="messageObject">An object to log.</param>
@@ -46,7 +44,7 @@ namespace Naovigate.Util
             }
             string formatted = String.Format(Format, id++, time, invoker, message);
             Console.WriteLine(formatted);
-            if (logToFile)
+            if (LogToFile)
                 lock (LogFilePath)
                     System.IO.File.AppendAllText(LogFilePath, formatted + "\n");
         }
@@ -77,17 +75,15 @@ namespace Naovigate.Util
         /// <param name="messageObject">An object to log.</param>
         public static void Log(Object messageObject)
         {
-            Log(DefaultInvokerName, messageObject);
+            Log(Thread.CurrentThread.Name, messageObject);
         }
 
         public static void Except(Exception e)
         {
             string msg = "Exception " + e.GetType().Name;
-            Log(DefaultInvokerName, e);
+            Log(e);
             if (NaoState.Instance.Connected)
-            {
                 NaoState.Instance.SpeechProxy.say(msg);
-            }
         }
 
         /// <summary>
@@ -103,8 +99,8 @@ namespace Naovigate.Util
         /// </summary>
         public static bool Enabled
         {
-            get { return enabled; }
-            set { enabled = value; }
+            get;
+            set;
         }
 
         /// <summary>
@@ -112,8 +108,8 @@ namespace Naovigate.Util
         /// </summary>
         public static bool LogToFile
         {
-            get { return logToFile; }
-            set { logToFile = value; }
+            get;
+            set;
         }
     }
 }
