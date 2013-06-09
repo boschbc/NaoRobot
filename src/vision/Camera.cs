@@ -17,7 +17,7 @@ namespace Naovigate.Vision
     /// <summary>
     /// A class that controls and manages one video proxy to a Nao.
     /// </summary>
-    public sealed class Camera
+    public sealed class Camera : IDisposable
     {
         private string subscriberID;
         private VideoDeviceProxy videoProxy;
@@ -146,6 +146,15 @@ namespace Naovigate.Vision
         public void CalibrateCamera(int p)
         {
             videoProxy.setCameraParameter(subscriberID, 22, p);
+        }
+
+        /// <summary>
+        /// Disposes of this instance.
+        /// </summary>
+        public void Dispose()
+        {
+            if (videoProxy != null)
+                videoProxy.Dispose();
         }
     }
 }

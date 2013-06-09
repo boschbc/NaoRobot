@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using Naovigate.Communication;
 using Naovigate.Util;
 
-namespace Naovigate.GUI.Server
+namespace Naovigate.GUI.Goal
 {
     public sealed partial class LocalServerControl : UserControl
     {

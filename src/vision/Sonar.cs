@@ -8,7 +8,7 @@ using Naovigate.Event;
 
 namespace Naovigate.Vision
 {
-    public sealed class Sonar
+    public sealed class Sonar : IDisposable
     {
         private SonarProxy sonarProxy;
         private MemoryProxy memoryProxy;
@@ -93,6 +93,17 @@ namespace Naovigate.Vision
         public float getSonarDataRight()
         {
             return (float)memoryProxy.getData("Device/SubDeviceList/US/Right/Sensor/Value");
+        }
+
+        /// <summary>
+        /// Disposes of this instance.
+        /// </summary>
+        public void Dispose()
+        {
+            if (sonarProxy != null)
+                sonarProxy.Dispose();
+            if (memoryProxy != null)
+                memoryProxy.Dispose();
         }
     }
 }

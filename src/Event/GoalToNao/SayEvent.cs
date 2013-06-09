@@ -25,14 +25,6 @@ namespace Naovigate.Event.GoalToNao
         }
 
         /// <summary>
-        /// Extract the MarkerID and Distance parameters from the communication stream.
-        /// </summary>
-        private void Unpack()
-        {
-            text = Stream.ReadString();
-        }
-        
-        /// <summary>
         /// Say the received text.
         /// </summary>
         public override void Fire()

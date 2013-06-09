@@ -15,9 +15,7 @@ namespace Naovigate.GUI.Events
 {
     public partial class EventLauncher : UserControl
     {
-        public delegate void EventChosenHandler(Constructor contructor,
-                                                Dictionary<Type, Func<IParamChooser>> chooser);
-        public event EventChosenHandler OnEventChosen;
+        public event Action<Constructor, Dictionary<Type, Func<IParamChooser>>> OnEventChosen;
         
         private Dictionary<String, Constructor> eventConstructors;
         private Dictionary<Type, Func<IParamChooser>> parameterMap;

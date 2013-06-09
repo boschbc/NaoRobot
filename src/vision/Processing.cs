@@ -14,7 +14,7 @@ using Emgu.Util;
 
 namespace Naovigate.Vision
 {
-    public sealed class Processing
+    public sealed class Processing : IDisposable
     {
         public static bool closeEnough(Rectangle rect)
         {
@@ -130,6 +130,15 @@ namespace Naovigate.Vision
             Gray col = new Gray(100);
             rangedImg.Draw(rec, col, 2);
             return rangedImg;
+        }
+
+        /// <summary>
+        /// Disposes of this instance.
+        /// </summary>
+        public void Dispose()
+        {
+            if (cam != null)
+                cam.Dispose();
         }
     }
 }

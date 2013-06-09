@@ -30,7 +30,7 @@
         {
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
-            this.localServerControl1 = new Naovigate.GUI.Server.LocalServerControl();
+            this.localServerControl1 = new Naovigate.GUI.Goal.LocalServerControl();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -88,6 +88,6 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label label1;
-        private Server.LocalServerControl localServerControl1;
+        private Goal.LocalServerControl localServerControl1;
     }
 }

@@ -9,7 +9,7 @@ using Naovigate.Movement;
 
 namespace Naovigate.Movement
 {
-    public sealed class Pose
+    public sealed class Pose : IDisposable
     {
         private static readonly string UnusableProxiesMessage = "A Nao-proxy used by this class is either null or has been disposed of.";
         private static readonly bool ignoreStabalise = false;
@@ -22,7 +22,7 @@ namespace Naovigate.Movement
 
         
         private static Pose instance;
-        private static long lastStabiliseAttempt = DateTime.Now.Ticks;
+        private long lastStabiliseAttempt = DateTime.Now.Ticks;
         
         /// <summary>
         /// This singleton's instance.
@@ -33,20 +33,6 @@ namespace Naovigate.Movement
             {
                 return instance == null ? instance = new Pose() : instance;
             }
-        }
-
-        /// <summary>
-        /// Adds a the left and right instances of a body part into a list.
-        /// </summary>
-        /// <param name="list">A list to add to.</param>
-        /// <param name="part">
-        /// A string containing the name of a Nao's body part.
-        /// The name must be one of the body part names specified by the NaoQI API.
-        /// </param>
-        private static void Add(ArrayList list, String part)
-        {
-            list.Add("L" + part);
-            list.Add("R" + part);
         }
 
         /// <summary>
@@ -298,6 +284,17 @@ namespace Naovigate.Movement
                     angles.Add(avg);
                 }
             }
+        }
+
+        /// <summary>
+        /// Disposes of this instance.
+        /// </summary>
+        public void Dispose()
+        {
+            if (motion != null)
+                motion.Dispose();
+            if (posture != null)
+                posture.Dispose();
         }
     }
 }

@@ -23,12 +23,6 @@ namespace Naovigate.GUI.Events
             HookLaunchers();
         }
 
-        private Func<INaoEvent> MakeEvent
-        {
-            get;
-            set;
-        }
-
         private void HookLaunchers()
         {
             List<EventLauncher> launchers = new List<EventLauncher>()

@@ -14,7 +14,7 @@ namespace Naovigate.Movement
     /// <summary>
     /// A class which manages and controls the Nao's movements.
     /// </summary>
-    public sealed class Walk
+    public sealed class Walk : IDisposable
     {
         private static Walk instance = null;
 
@@ -263,6 +263,17 @@ namespace Naovigate.Movement
         {
             Logger.Log(this, "Stopping...");
             Motion.post.stopMove();
+        }
+
+        /// <summary>
+        /// Disposes of this instance.
+        /// </summary>
+        public void Dispose()
+        {
+            if (motion != null)
+                motion.Dispose();
+            if (posture != null)
+                posture.Dispose();
         }
     }
 }

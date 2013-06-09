@@ -14,7 +14,6 @@ namespace Naovigate.Event.GoalToNao
     public sealed class PutDownEvent : ReportBackEvent
     {
         private ActionExecutor executor;
-        private bool started;
         private bool done;
         
         /// <summary>

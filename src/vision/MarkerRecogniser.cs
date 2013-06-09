@@ -8,7 +8,7 @@ using Naovigate.Util;
 
 namespace Naovigate.Vision
 {
-    public sealed class MarkerRecogniser
+    public sealed class MarkerRecogniser : IDisposable
     {
         private LandMarkDetectionProxy detector;
         private MemoryProxy memory;
@@ -43,6 +43,17 @@ namespace Naovigate.Vision
         public ArrayList GetMarkerData()
         {
             return (ArrayList)memory.getData("LandmarkDetected");
+        }
+
+        /// <summary>
+        /// Disposes of this instance.
+        /// </summary>
+        public void Dispose()
+        {
+            if (detector != null)
+                detector.Dispose();
+            if (memory != null)
+                memory.Dispose();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Naovigate.GUI.Server
+﻿namespace Naovigate.GUI.Goal
 {
     partial class LocalServerControl
     {
