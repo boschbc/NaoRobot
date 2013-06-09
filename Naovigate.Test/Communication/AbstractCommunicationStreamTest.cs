@@ -181,76 +181,52 @@ namespace Naovigate.Test.Communication
         [Test]
         public void ReadWriteStringTest()
         {
-            try
-            {
-                string data = "hello world";
-                stream.WriteString(data);
-                stream.WriteNewline();
-                StartRead();
-                string res = stream.ReadString();
-                Assert.AreEqual(data, res);
-            }
-            catch (NotImplementedException)
-            {
-                Assert.Inconclusive();
-            }
+            if (!stream.CanReadString || !stream.CanWriteString) Assert.Pass();
+            string data = "hello world";
+            stream.WriteString(data);
+            stream.WriteNewline();
+            StartRead();
+            string res = stream.ReadString();
+            Assert.AreEqual(data, res);
         }
 
         [Test]
         public void WriteStringTest()
         {
-            try
-            {
-                string data = new string(new char[] { '0', '1', '2' });
-                stream.WriteString(data);
-                StartRead();
-                byte[] buf = new byte[internalStream.Length];
-                if(internalStream.Read(buf, 0, buf.Length) != buf.Length){
-                    Assert.Inconclusive();
-                }
-                Assert.AreEqual('0', buf[0]);
-                Assert.AreEqual('1', buf[1]);
-                Assert.AreEqual('2', buf[2]);
-                
-            }
-            catch (NotImplementedException)
-            {
+            if (!stream.CanWriteString) Assert.Pass();
+            string data = new string(new char[] { '0', '1', '2' });
+            stream.WriteString(data);
+            StartRead();
+            byte[] buf = new byte[internalStream.Length];
+            if(internalStream.Read(buf, 0, buf.Length) != buf.Length){
                 Assert.Inconclusive();
             }
-            
+            Assert.AreEqual('0', buf[0]);
+            Assert.AreEqual('1', buf[1]);
+            Assert.AreEqual('2', buf[2]);
         }
 
         [Test]
         public void ReadStringTest()
         {
-            try
-            {
-                string data = "hello world";
-                byte[] bin = System.Text.Encoding.UTF8.GetBytes(data + "\n");
-                internalStream.Write(bin, 0, bin.Length);
-                StartRead();
-                Assert.AreEqual(data, stream.ReadString());
-            }
-            catch (NotImplementedException)
-            {
-                Assert.Inconclusive();
-            }
+            if (!stream.CanReadString) Assert.Pass();
+            string data = "hello world";
+            byte[] bin = System.Text.Encoding.UTF8.GetBytes(data + "\n");
+            internalStream.Write(bin, 0, bin.Length);
+            StartRead();
+            Assert.AreEqual(data, stream.ReadString());
         }
 
         [Test]
         public void ReadWriteNewlineTest()
         {
-            try
-            {
-                stream.WriteNewline();
-                StartRead();
-                string res = stream.ReadString();
+            if (!stream.CanReadString) Assert.Pass();
+            stream.WriteNewline();
+            StartRead();
+            string res = stream.ReadString();
 
-                // ReadString consumes the newline, so we expect nothing.
-                Assert.AreEqual("", res);
-            } catch(NotImplementedException){
-                Assert.Inconclusive();
-            }
+            // ReadString consumes the newline, so we expect nothing.
+            Assert.AreEqual("", res);
         }
 
         [Test]
@@ -262,8 +238,8 @@ namespace Naovigate.Test.Communication
                 StartRead();
                 int res = internalStream.ReadByte();
                 Assert.AreEqual('\n', res);
-            } catch(NotImplementedException){
-                Assert.Inconclusive();
+            } catch(NotSupportedException){
+                Assert.Pass();
             }
         }
 
