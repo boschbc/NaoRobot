@@ -21,7 +21,6 @@ namespace Naovigate.GUI.LiveCamera
         private int fps;
         private bool active;
         private Camera camera;
-        private Func<Image> source;
         private UpdaterThread updater;
         
         public LiveCamera()
@@ -32,9 +31,39 @@ namespace Naovigate.GUI.LiveCamera
             Active = false;
         }
 
+        public LiveCamera(int fps)
+            : this()
+        {
+            this.fps = fps;
+        }
+
         private int Interval
         {
             get { return 1000 / fps; }
+        }
+
+        public Camera Camera
+        {
+            get { return camera; }
+        }
+
+        public bool Active
+        {
+            get { return active; }
+            set
+            {
+                if (value)
+                    Activate();
+                else
+                    Deactivate();
+                UpdateEnabledCheckBox();
+            }
+        }
+
+        public Func<Image> ImageSource
+        {
+            get;
+            set;
         }
 
         private void CreateCamera()
@@ -84,30 +113,6 @@ namespace Naovigate.GUI.LiveCamera
                 cameraEnabled.Invoke(new MethodInvoker(UpdateEnabledCheckBox));
             else
                 cameraEnabled.Checked = active;
-        }
-
-        public Camera Camera
-        {
-            get { return camera; }
-        }
-
-        public bool Active
-        {
-            get { return active; }
-            set 
-            {
-                if (value)
-                    Activate();
-                else
-                    Deactivate();
-                UpdateEnabledCheckBox();
-            }
-        }
-
-        public Func<Image> ImageSource
-        {
-            get { return source; }
-            set { source = value; }
         }
 
         public void ResetContent()

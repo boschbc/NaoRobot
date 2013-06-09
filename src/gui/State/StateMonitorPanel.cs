@@ -29,22 +29,6 @@ namespace Naovigate.GUI.State
             Init();
         }
 
-        private void Init()
-        {
-            updater = new UpdaterThread(Interval, UpdateContent);
-            InitializeComponent();
-            InitializeDebugWidgets();
-        }
-
-        private void InitializeDebugWidgets()
-        {
-            debugWidgets = new List<IRealtimeField>();
-            debugWidgets.Add(locationMonitor);
-            debugWidgets.Add(batteryMonitor);
-            debugWidgets.Add(temperatureMonitor);
-            debugWidgets.Add(rotationMonitor);
-        }
-
         public int Interval
         {
             get { return 1000 / fps; }
@@ -55,7 +39,23 @@ namespace Naovigate.GUI.State
             get { return updater.Enabled; }
             set { updater.Enabled = value; }
         }
-        
+
+        private void Init()
+        {
+            debugWidgets = new List<IRealtimeField>();
+            updater = new UpdaterThread(Interval, UpdateContent);
+            InitializeComponent();
+            InitializeDebugWidgets();
+        }
+
+        private void InitializeDebugWidgets()
+        {
+            debugWidgets.Add(locationMonitor);
+            debugWidgets.Add(batteryMonitor);
+            debugWidgets.Add(temperatureMonitor);
+            debugWidgets.Add(rotationMonitor);
+        }
+
         private void UpdateContent()
         {
             if (!NaoState.Instance.Connected)
@@ -77,9 +77,7 @@ namespace Naovigate.GUI.State
                 }
             }
             foreach (IRealtimeField rf in debugWidgets)
-            {
                 rf.UpdateContent();
-            }
         }
     }
 }

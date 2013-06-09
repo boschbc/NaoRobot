@@ -86,6 +86,8 @@
     <Compile Include="Grabbing\GrabWorker.cs" />
     <Compile Include="Grabbing\PutDownWorker.cs" />
     <Compile Include="Communication\GoalServer.cs" />
+    <Compile Include="GUI\Events\Constructor.cs" />
+    <Compile Include="GUI\Events\DynamicEventItem.cs" />
     <Compile Include="GUI\Events\EventLauncher.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -107,6 +109,8 @@
     <Compile Include="GUI\Events\IParamChooser.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GUI\Events\IParameterGetter.cs" />
+    <Compile Include="GUI\Events\IUserParameter.cs" />
     <Compile Include="GUI\Events\NaoEventLauncher.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -134,6 +138,7 @@
     <Compile Include="GUI\Events\Parameters\StringChooser.Designer.cs">
       <DependentUpon>StringChooser.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Events\UserParameter.cs" />
     <Compile Include="GUI\Goal\LocalServerControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
