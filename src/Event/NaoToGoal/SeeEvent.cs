@@ -8,8 +8,6 @@ namespace Naovigate.Event.NaoToGoal
     /// </summary>
     public class SeeEvent : DataSendingNaoEvent
     {
-        public new static readonly EventCode code = EventCode.See;
-        
         /// <summary>
         /// Explicit constructor.
         /// </summary>

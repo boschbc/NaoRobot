@@ -15,10 +15,8 @@ namespace Naovigate.Event.GoalToNao
     /// - Aborts any movement operations.
     /// - Remove all pending events from the EventQueue, and fires FailureEvents for them.
     /// </summary>
-    public class HaltEvent : NaoEvent
+    public class HaltEvent : ReportBackEvent
     {
-        public new static readonly EventCode code = EventCode.Halt;
-
         public HaltEvent() : base(Priority.Medium, ExecutionBehavior.Instantaneous) { }
         
         /// <summary>

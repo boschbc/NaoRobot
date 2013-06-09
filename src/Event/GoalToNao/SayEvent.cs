@@ -17,11 +17,19 @@ namespace Naovigate.Event.GoalToNao
         }
 
         /// <summary>
+        /// This event's byte-code as defined by the GOAL-Nao API.
+        /// </summary>
+        public override EventCode EventCode
+        {
+            get { return EventCode.Say; }
+        }
+
+        /// <summary>
         /// Extract the MarkerID and Distance parameters from the communication stream.
         /// </summary>
         private void Unpack()
         {
-            text = stream.ReadString();
+            text = Stream.ReadString();
         }
         
         /// <summary>
@@ -30,14 +38,6 @@ namespace Naovigate.Event.GoalToNao
         public override void Fire()
         {
             NaoState.Instance.SpeechProxy.say(text);
-        }
-
-        /// <summary>
-        /// return this event's EventCode.
-        /// </summary>
-        public override EventCode EventCode
-        {
-            get { return EventCode.Say; }
         }
 
         /// <summary>

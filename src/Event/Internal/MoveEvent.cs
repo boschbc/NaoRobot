@@ -13,7 +13,6 @@ namespace Naovigate.Event.Internal
     /// </summary>
     public class MoveEvent : NaoEvent
     {
-        public new static readonly EventCode code = EventCode.Move;
         private PointF point;
         private float rotation;
 
@@ -41,7 +40,7 @@ namespace Naovigate.Event.Internal
         /// </summary>
         private void Unpack()
         {
-            SetPoint(stream.ReadInt(), stream.ReadInt(), stream.ReadInt());
+            SetPoint(Stream.ReadInt(), Stream.ReadInt(), Stream.ReadInt());
         }
 
         /// <summary>

@@ -14,12 +14,9 @@ namespace Naovigate.Event.GoalToNao
     /// <summary>
     /// follow the given path, stopping on the last node.
     /// </summary>
-    public class GoToEvent : NaoEvent
+    public class GoToEvent : ReportBackEvent
     {
-        public new static readonly EventCode code = EventCode.GoTo;
-
         private List<Point> locations;
-
         private MarkerSearchThread worker;
         
         /// <summary>
@@ -53,11 +50,11 @@ namespace Naovigate.Event.GoalToNao
         /// </summary>
         private void Unpack()
         {
-            int nodes = stream.ReadInt();
+            int nodes = Stream.ReadInt();
             locations = new List<Point>();
             for (int i = 0; i < nodes;i++ )
             {
-                locations.Add(new Point((stream.ReadInt() - 5) / 10, (stream.ReadInt() - 5) / 10));
+                locations.Add(new Point((Stream.ReadInt() - 5) / 10, (Stream.ReadInt() - 5) / 10));
             }
         }
 

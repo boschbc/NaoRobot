@@ -35,7 +35,7 @@ namespace Naovigate.Event.NaoToGoal
         /// </summary>
         private void SendCode()
         {
-            stream.WriteByte(eventCode);
+            Stream.WriteByte(eventCode);
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Naovigate.Event.NaoToGoal
             {
                 SendCode();
                 for (int i = 0; i < data.Length; i++)
-                    stream.WriteInt(data[i]);
+                    Stream.WriteInt(data[i]);
             }
         }
 
@@ -60,7 +60,7 @@ namespace Naovigate.Event.NaoToGoal
             {
                 SendCode();
                 for (int i = 0; i < data.Length; i++)
-                    stream.WriteByte((byte)(0xFF & data[i]));
+                    Stream.WriteByte((byte)(0xFF & data[i]));
             }
         }
 
@@ -70,8 +70,8 @@ namespace Naovigate.Event.NaoToGoal
         protected virtual void Send() 
         {
             SendAsInt();
-            if (stream.GetType() == typeof(BitStringCommunicationStream))
-                stream.WriteNewline();
+            if (Stream.GetType() == typeof(BitStringCommunicationStream))
+                Stream.WriteNewline();
         }
 
         /// <summary>

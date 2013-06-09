@@ -7,8 +7,6 @@ namespace Naovigate.Event.NaoToGoal
     /// </summary>
     public class SuccessEvent : DataSendingNaoEvent
     {
-        public new static readonly EventCode code = EventCode.Success;
-
         private int successfulEventCode;
 
         /// <summary>
@@ -32,8 +30,8 @@ namespace Naovigate.Event.NaoToGoal
         protected override void Send()
         {
             SendAsByte();
-            if (stream.GetType() == typeof(BitStringCommunicationStream))
-                stream.WriteNewline();
+            if (Stream.GetType() == typeof(BitStringCommunicationStream))
+                Stream.WriteNewline();
         }
 
         /// <summary>

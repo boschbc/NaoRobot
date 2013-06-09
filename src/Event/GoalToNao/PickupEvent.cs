@@ -15,9 +15,8 @@ namespace Naovigate.Event.GoalToNao
     /// if the object is not visible, posts a failure-event.
     /// Otherwise, walks towards the object and grabs it.
     /// </summary>
-    public class PickupEvent : NaoEvent
+    public class PickupEvent : ReportBackEvent
     {
-        public new static readonly EventCode code = EventCode.Pickup;
         private ActionExecutor executor;
 
         /// <summary>
@@ -51,7 +50,7 @@ namespace Naovigate.Event.GoalToNao
         /// </summary>
         private void Unpack()
         {
-            ObjectID = stream.ReadInt();
+            ObjectID = Stream.ReadInt();
         }
 
         /// <summary>

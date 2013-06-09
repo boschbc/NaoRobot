@@ -14,8 +14,6 @@ namespace Naovigate.Event.NaoToGoal
     /// </summary>
     public class LocationEvent : DataSendingNaoEvent
     {
-        public new static readonly EventCode code = EventCode.Location;
-
         /// <summary>
         /// Explicit constructor.
         /// </summary>

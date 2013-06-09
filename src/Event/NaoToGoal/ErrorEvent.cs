@@ -7,8 +7,6 @@ namespace Naovigate.Event.NaoToGoal
     /// </summary>
     public class ErrorEvent : DataSendingNaoEvent
     {
-        public new static readonly EventCode code = EventCode.Error;
-
         /// <summary>
         /// Explicit constructor.
         /// </summary>

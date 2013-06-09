@@ -10,8 +10,6 @@ namespace Naovigate.Event.NaoToGoal
     /// </summary>
     public class DroppedObjectEvent : DataSendingNaoEvent
     {
-        public new static readonly EventCode code = EventCode.Dropped;
-
         /// <summary>
         /// Default constructor.
         /// </summary>

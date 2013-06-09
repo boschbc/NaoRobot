@@ -85,10 +85,14 @@ namespace Naovigate.Event
             get;
         }
 
+        /// <summary>
+        /// The event's byte-code as defined in the GOAL-Nao API.
+        /// </summary>
         EventCode EventCode
         {
             get;
         }
+
         /// <summary>
         /// Fires the event.
         /// </summary>

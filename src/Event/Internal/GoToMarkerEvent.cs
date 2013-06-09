@@ -17,8 +17,6 @@ namespace Naovigate.Event.Internal
     /// </summary>
     public class GoToMarkerEvent : NaoEvent
     {
-        public new static readonly EventCode code = EventCode.GoTo;
-
         private int markerID;
         private int distance;
 
@@ -48,8 +46,8 @@ namespace Naovigate.Event.Internal
         /// </summary>
         private void Unpack()
         {
-            markerID = stream.ReadInt();
-            distance = stream.ReadInt();
+            markerID = Stream.ReadInt();
+            distance = Stream.ReadInt();
         }
 
         /// <summary>
@@ -57,7 +55,6 @@ namespace Naovigate.Event.Internal
         /// </summary>
         public override void Fire()
         {
-            NaoEvent statusEvent = new SuccessEvent(code);
             try
             {
                 if (!aborted)
@@ -69,9 +66,7 @@ namespace Naovigate.Event.Internal
             catch(Exception e)
             {
                 Logger.Log(this, e.Message);
-                statusEvent = new FailureEvent(code);
             }
-            EventQueue.Goal.Post(statusEvent);
         }
 
         /// <summary>

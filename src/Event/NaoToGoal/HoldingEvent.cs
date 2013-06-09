@@ -3,16 +3,15 @@ using System.Collections.Generic;
 
 namespace Naovigate.Event.NaoToGoal
 {
-    /**
-     * Notify Goal that the Nao is holding object ID.
-     */
+    /// <summary>
+    /// Notifies Goal that the Nao is holding an object.
+    /// </summary>
     public class HoldingEvent : DataSendingNaoEvent
     {
-        public new static readonly EventCode code = EventCode.Holding;
-
-        /**
-        * create a new HoldingNaoEvent, with the specified id of the object the Nao is holding.
-        */
+        /// <summary>
+        /// Explicit constructor.
+        /// </summary>
+        /// <param name="objectID">The ID of the object the Nao is holding.</param>
         public HoldingEvent(int objectID) : base((byte) EventCode.Holding, objectID) { }
 
     }
