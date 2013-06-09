@@ -11,7 +11,7 @@ using Naovigate.Util;
 
 namespace Naovigate.GUI.State
 {
-    public partial class LocationMonitor : UserControl, IRealtimeField
+    public sealed partial class LocationMonitor : UserControl, IRealtimeField
     {
         public LocationMonitor()
         {

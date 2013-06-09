@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace Naovigate.GUI.Util
 {
-    public partial class RGBChooser : UserControl
+    public sealed partial class RGBChooser : UserControl
     {
         public RGBChooser()
         {

@@ -7,10 +7,10 @@ using Naovigate.Event.NaoToGoal;
 
 namespace Naovigate.Event
 {
-    /*
-     * Creates new Nao-events on-demand.
-     */
-    public class NaoEventFactory
+    /// <summary>
+    /// Creates new NaoEvents using their byte-code as defined in the Goal-Nao API.
+    /// </summary>
+    public sealed class NaoEventFactory
     {
         private static string InvalidActionCodeMsg = "Attempting to construct a NaoEvent with a corrupt action-code.";
         private static Dictionary<byte, Func<NaoEvent>> CodeConverter = 
@@ -23,17 +23,17 @@ namespace Naovigate.Event
                 {(byte) EventCode.PutDown, () => new PutDownEvent() },
             };
 
-        /*
-         * Creates and returns a new Nao-event.
-         * @param acb: A byte representing the action-code.
-         * @param stream: A communication stream representing additional parameters specific to the given action-code event type.
-         * @throws InvalidActionCodeException if the given action code byte is not recognised.
-         */
-        public static INaoEvent NewEvent(byte acb)
+        /// <summary>
+        /// Creates a new Nao event best on the given byte-code.
+        /// </summary>
+        /// <param name="code">A byte-code of an event as defined in the Goal-Nao API.</param>
+        /// <returns>A NaoEvent instance.</returns>
+        /// <exception cref="InvalidEventCodeException">The byte-code supplied does not match any event-definition in the API.</exception>
+        public static INaoEvent NewEvent(byte code)
         {
-           if (!CodeConverter.ContainsKey(acb))
+           if (!CodeConverter.ContainsKey(code))
                 throw new InvalidEventCodeException(InvalidActionCodeMsg);
-           return CodeConverter[acb]();
+           return CodeConverter[code]();
         }
     }
 }

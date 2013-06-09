@@ -12,7 +12,7 @@ using Naovigate.Communication;
 
 namespace Naovigate.GUI.Goal
 {
-    public partial class RemoteServerControl : UserControl
+    public sealed partial class RemoteServerControl : UserControl
     {
         private GoalCommunicator communicator;
 

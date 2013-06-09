@@ -8,7 +8,7 @@ using Naovigate.Util;
 
 namespace Naovigate.GUI.State
 {
-    public partial class TemperatureMonitor : UserControl, IRealtimeField
+    public sealed partial class TemperatureMonitor : UserControl, IRealtimeField
     {
         private static string Format = "{0}°C";
 

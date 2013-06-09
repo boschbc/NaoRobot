@@ -7,10 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-using Naovigate.GUI.Panels;
+using Naovigate.GUI.Events;
 namespace Naovigate.GUI
 {
-    public partial class NaoDebugger : Form
+    public sealed partial class NaoDebugger : Form
     {
         public NaoDebugger()
         {

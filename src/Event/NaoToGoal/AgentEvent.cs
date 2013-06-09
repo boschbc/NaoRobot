@@ -8,7 +8,7 @@ namespace Naovigate.Event.NaoToGoal
     /// <summary>
     /// Send the Nao ID.
     /// </summary>
-    public class AgentEvent : DataSendingNaoEvent
+    public sealed class AgentEvent : DataSendingNaoEvent
     {
         /// <summary>
         /// Implicit constructor.

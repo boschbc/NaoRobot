@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace Naovigate.GUI.Events
 {
-    public partial class ParameterPanel : UserControl
+    public sealed partial class ParameterPanel : UserControl
     {
         private int rowIndex = 0;
         private Dictionary<String, IParamChooser> parameterMap = 

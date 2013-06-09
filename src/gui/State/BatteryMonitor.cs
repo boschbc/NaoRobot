@@ -9,7 +9,7 @@ using Naovigate.Communication;
 
 namespace Naovigate.GUI.State
 {
-    public partial class BatteryMonitor : UserControl, IRealtimeField
+    public sealed partial class BatteryMonitor : UserControl, IRealtimeField
     {
         public BatteryMonitor()
         {

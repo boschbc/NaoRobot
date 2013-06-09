@@ -12,7 +12,7 @@ using Naovigate.Util;
 
 namespace Naovigate.GUI.Server
 {
-    public partial class LocalServerControl : UserControl
+    public sealed partial class LocalServerControl : UserControl
     {
         public LocalServerControl()
         {

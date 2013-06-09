@@ -14,7 +14,7 @@ namespace Naovigate.Movement
      * When the Nao sees the marker, it heads towards the marker.
      * When the Nao is within dist pieces of wall of the marker, the Nao stops moving and found is set to true
      */
-    public class MarkerSearchThread : ActionExecutor
+    public sealed class MarkerSearchThread : ActionExecutor
     {
         private int markerID;
         private double dist;

@@ -8,7 +8,7 @@ using Naovigate.Util;
 
 namespace Naovigate.Vision
 {
-    public class MarkerRecogniser
+    public sealed class MarkerRecogniser
     {
         private LandMarkDetectionProxy detector;
         private MemoryProxy memory;

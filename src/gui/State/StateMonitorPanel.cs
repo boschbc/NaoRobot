@@ -9,7 +9,7 @@ using Naovigate.Util;
 
 namespace Naovigate.GUI.State
 {
-    public partial class StateMonitorPanel : UserControl
+    public sealed partial class StateMonitorPanel : UserControl
     {
         private static int DefaultFps = 2;
 

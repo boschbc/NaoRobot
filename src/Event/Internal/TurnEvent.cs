@@ -10,7 +10,7 @@ namespace Naovigate.Event.Internal
     /// <summary>
     /// An event which makes the Nao turn.
     /// </summary>
-    public class TurnEvent : NaoEvent
+    public sealed class TurnEvent : NaoEvent
     {
         private float rotation;
         private float accuracy;

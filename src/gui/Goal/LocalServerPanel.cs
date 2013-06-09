@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace Naovigate.GUI.Goal
 {
-    public partial class LocalServerPanel : UserControl
+    public sealed partial class LocalServerPanel : UserControl
     {
         public LocalServerPanel()
         {

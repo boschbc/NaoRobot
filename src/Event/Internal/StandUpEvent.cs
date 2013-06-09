@@ -7,7 +7,7 @@ namespace Naovigate.Event.Internal
     /// <summary>
     /// An event which makes the Nao stand up.
     /// </summary>
-    public class StandUpEvent : NaoEvent
+    public sealed class StandUpEvent : NaoEvent
     {
         public StandUpEvent() { }
 

@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace Naovigate.GUI.Util
 {
-    public partial class IPChooser : UserControl
+    public sealed partial class IPChooser : UserControl
     {
         public IPChooser()
         {

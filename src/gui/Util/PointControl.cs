@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace Naovigate.GUI.Util
 {
-    public partial class PointControl : UserControl
+    public sealed partial class PointControl : UserControl
     {
         public PointControl()
         {

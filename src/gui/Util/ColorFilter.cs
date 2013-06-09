@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace Naovigate.GUI.Util
 {
-    public partial class ColorFilter : UserControl
+    public sealed partial class ColorFilter : UserControl
     {
         public ColorFilter()
         {

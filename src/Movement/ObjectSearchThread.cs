@@ -9,7 +9,7 @@ using System.Drawing;
 
 namespace Naovigate.Movement
 {
-    public class ObjectSearchThread : ActionExecutor
+    public sealed class ObjectSearchThread : ActionExecutor
     {
         private int objectId;
         private Camera camera;

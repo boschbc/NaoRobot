@@ -14,7 +14,7 @@ namespace Naovigate.Event.GoalToNao
     /// <summary>
     /// follow the given path, stopping on the last node.
     /// </summary>
-    public class GoToEvent : ReportBackEvent
+    public sealed class GoToEvent : ReportBackEvent
     {
         private List<Point> locations;
         private MarkerSearchThread worker;

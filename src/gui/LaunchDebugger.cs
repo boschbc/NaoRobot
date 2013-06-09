@@ -10,7 +10,7 @@ using Naovigate.Util;
 
 namespace Naovigate.Testing.GUI
 {
-    class LaunchDebugger
+    public sealed class LaunchDebugger
     {
         public static void DebugMain()
         {

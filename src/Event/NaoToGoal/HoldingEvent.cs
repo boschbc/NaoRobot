@@ -6,7 +6,7 @@ namespace Naovigate.Event.NaoToGoal
     /// <summary>
     /// Notifies Goal that the Nao is holding an object.
     /// </summary>
-    public class HoldingEvent : DataSendingNaoEvent
+    public sealed class HoldingEvent : DataSendingNaoEvent
     {
         /// <summary>
         /// Explicit constructor.

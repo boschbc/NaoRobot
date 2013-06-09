@@ -3,7 +3,7 @@ using Naovigate.Util;
 
 namespace Naovigate.Event.GoalToNao
 {
-    public class SayEvent : NaoEvent
+    public sealed class SayEvent : NaoEvent
     {
         private string text;
 

@@ -12,7 +12,7 @@ namespace Naovigate.Event.NaoToGoal
     /// <summary>
     /// Sends the position the Nao is at to Goal.
     /// </summary>
-    public class LocationEvent : DataSendingNaoEvent
+    public sealed class LocationEvent : DataSendingNaoEvent
     {
         /// <summary>
         /// Explicit constructor.

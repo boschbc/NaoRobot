@@ -15,7 +15,7 @@ using System.Drawing;
 
 namespace Naovigate.Vision
 {
-    public class ObjectRecogniser
+    public sealed class ObjectRecogniser
     {
         private CvBlobDetector detector = new CvBlobDetector();
 

@@ -6,7 +6,7 @@ using Naovigate.Movement;
 
 namespace Naovigate.Event
 {
-    public class NaoCollidingEvent : NaoEvent 
+    public sealed class NaoCollidingEvent : NaoEvent 
     {
         private bool left, right;
 

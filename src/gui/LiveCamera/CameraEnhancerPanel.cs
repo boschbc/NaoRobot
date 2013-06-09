@@ -12,7 +12,7 @@ using Naovigate.Vision;
 
 namespace Naovigate.GUI.LiveCamera
 {
-    public partial class CameraEnhancerPanel : UserControl
+    public sealed partial class CameraEnhancerPanel : UserControl
     {
         private Camera target;
 

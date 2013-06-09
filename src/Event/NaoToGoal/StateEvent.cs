@@ -7,7 +7,7 @@ namespace Naovigate.Event.NaoToGoal
     /// Notifies the state of the Nao.
     /// Either 1 - walking or 2 - halted.
     /// </summary>
-    public class StateEvent : DataSendingNaoEvent
+    public sealed class StateEvent : DataSendingNaoEvent
     {
         /// <summary>
         /// Explicit constructor.

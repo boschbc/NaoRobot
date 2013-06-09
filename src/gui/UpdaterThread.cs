@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace Naovigate.GUI
 {
-    class UpdaterThread
+    public sealed class UpdaterThread
     {
         private int interval;
         private bool enabled;

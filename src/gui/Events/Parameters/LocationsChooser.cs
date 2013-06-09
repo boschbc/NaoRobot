@@ -11,7 +11,7 @@ using Naovigate.GUI.Util;
 
 namespace Naovigate.GUI.Events.Parameters
 {
-    public partial class LocationsChooser : UserControl, IParamChooser
+    public sealed partial class LocationsChooser : UserControl, IParamChooser
     {
         private List<PointControl> points;
 

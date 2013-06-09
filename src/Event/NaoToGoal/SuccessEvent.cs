@@ -5,7 +5,7 @@ namespace Naovigate.Event.NaoToGoal
     /// <summary>
     /// Send information regarding the successful completion of an action-event.
     /// </summary>
-    public class SuccessEvent : DataSendingNaoEvent
+    public sealed class SuccessEvent : DataSendingNaoEvent
     {
         private int successfulEventCode;
 

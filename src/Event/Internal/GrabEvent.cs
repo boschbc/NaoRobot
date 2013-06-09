@@ -4,7 +4,7 @@ using Naovigate.Grabbing;
 using Naovigate.Util;
 namespace Naovigate.Event.Internal
 {
-    public class GrabEvent : NaoEvent
+    public sealed class GrabEvent : NaoEvent
     {
         public GrabEvent() { }
 

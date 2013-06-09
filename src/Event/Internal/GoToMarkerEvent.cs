@@ -15,7 +15,7 @@ namespace Naovigate.Event.Internal
     /// Move to the marker MarkerID, if it is in range of the Nao.
     /// The Nao will stop Distance rooms away from the marker.
     /// </summary>
-    public class GoToMarkerEvent : NaoEvent
+    public sealed class GoToMarkerEvent : NaoEvent
     {
         private int markerID;
         private int distance;

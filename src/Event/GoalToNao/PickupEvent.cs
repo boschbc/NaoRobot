@@ -15,7 +15,7 @@ namespace Naovigate.Event.GoalToNao
     /// if the object is not visible, posts a failure-event.
     /// Otherwise, walks towards the object and grabs it.
     /// </summary>
-    public class PickupEvent : ReportBackEvent
+    public sealed class PickupEvent : ReportBackEvent
     {
         private ActionExecutor executor;
 

@@ -31,7 +31,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.eventsTab = new System.Windows.Forms.TabPage();
-            this.eventLauncherPanel1 = new Naovigate.GUI.Panels.EventLauncherPanel();
+            this.eventLauncherPanel1 = new Naovigate.GUI.Events.EventLauncherPanel();
             this.goalTab = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.localServerPanel1 = new Naovigate.GUI.Goal.LocalServerPanel();
@@ -238,7 +238,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private Goal.LocalServerPanel localServerPanel1;
         private Goal.RemoteServerControl remoteServerControl1;
-        private Panels.EventLauncherPanel eventLauncherPanel1;
+        private Events.EventLauncherPanel eventLauncherPanel1;
 
     }
 }

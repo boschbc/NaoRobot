@@ -14,7 +14,7 @@ using Emgu.Util;
 
 namespace Naovigate.Vision
 {
-    public class Processing
+    public sealed class Processing
     {
         private Camera cam;
         private Image<Rgb, Byte> currentImage;

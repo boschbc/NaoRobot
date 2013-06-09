@@ -12,7 +12,7 @@ using Naovigate.Util;
 
 namespace Naovigate.GUI.State
 {
-    public partial class NaoConnection : UserControl
+    public sealed partial class NaoConnection : UserControl
     {
         public NaoConnection()
         {

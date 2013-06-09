@@ -11,7 +11,7 @@ using Naovigate.Util;
 
 namespace Naovigate.GUI.State
 {
-    public partial class RotationMonitor : UserControl, IRealtimeField
+    public sealed partial class RotationMonitor : UserControl, IRealtimeField
     {
         public RotationMonitor()
         {

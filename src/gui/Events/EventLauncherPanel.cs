@@ -11,9 +11,9 @@ using Naovigate.Event;
 using Naovigate.GUI.Events;
 using Naovigate.Util;
 
-namespace Naovigate.GUI.Panels
+namespace Naovigate.GUI.Events
 {
-    public partial class EventLauncherPanel : UserControl
+    public sealed partial class EventLauncherPanel : UserControl
     {
         private Constructor chosenEventConstructor;
 

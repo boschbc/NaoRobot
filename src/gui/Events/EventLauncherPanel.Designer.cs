@@ -1,4 +1,4 @@
-﻿namespace Naovigate.GUI.Panels
+﻿namespace Naovigate.GUI.Events
 {
     partial class EventLauncherPanel
     {

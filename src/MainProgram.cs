@@ -16,7 +16,7 @@ using Naovigate.Vision;
 using Naovigate.Event;
 namespace Naovigate
 {
-    class MainProgram
+    public sealed class MainProgram
     {
         public static readonly int NaoPort = 9559;
         public static readonly int GoalPort = 6747;

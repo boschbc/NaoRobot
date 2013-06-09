@@ -11,7 +11,7 @@ namespace Naovigate.Event.Internal
     /// <summary>
     /// An event that makes the Nao move towards a given destination.
     /// </summary>
-    public class MoveEvent : NaoEvent
+    public sealed class MoveEvent : NaoEvent
     {
         private PointF point;
         private float rotation;

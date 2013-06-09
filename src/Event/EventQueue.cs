@@ -17,7 +17,7 @@ namespace Naovigate.Event
     ///      create multiple events for standing up and walking, preferably splitting
     ///     the walk in multiple events aswell.
     /// </summary>
-    public class EventQueue
+    public sealed class EventQueue
     {
         public delegate void EventFiredHandler(INaoEvent e);
         public event EventFiredHandler EventFiring;

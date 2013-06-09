@@ -11,7 +11,7 @@ namespace Naovigate.Event.GoalToNao
     /// <summary>
     /// Drop the object the Nao is holding. If the Nao is not holding an object, nothing happens.
     /// </summary>
-    public class PutDownEvent : ReportBackEvent
+    public sealed class PutDownEvent : ReportBackEvent
     {
         private ActionExecutor executor;
         private bool started;

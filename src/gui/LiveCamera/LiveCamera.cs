@@ -13,7 +13,7 @@ using Naovigate.Vision;
 
 namespace Naovigate.GUI.LiveCamera
 {
-    public partial class LiveCamera : UserControl, IRealtimeField
+    public sealed partial class LiveCamera : UserControl, IRealtimeField
     {
         private static readonly int DEFAULT_FPS = 5;
         private static readonly string SUBSCRIBER_ID = "LiveCamera";

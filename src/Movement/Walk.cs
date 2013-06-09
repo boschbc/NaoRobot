@@ -14,7 +14,7 @@ namespace Naovigate.Movement
     /// <summary>
     /// A class which manages and controls the Nao's movements.
     /// </summary>
-    public class Walk
+    public sealed class Walk
     {
         private static Walk instance = null;
 

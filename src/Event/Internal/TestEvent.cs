@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Naovigate.Event.Internal
 {
-    class TestEvent : NaoEvent
+    public sealed class TestEvent : NaoEvent
     {
         public TestEvent() { }
 

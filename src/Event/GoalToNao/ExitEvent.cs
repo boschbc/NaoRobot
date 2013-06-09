@@ -8,7 +8,7 @@ namespace Naovigate.Event.GoalToNao
     /// <summary>
     /// The exit events signals that the program should be terminated.
     /// </summary>
-    public class ExitEvent : NaoEvent
+    public sealed class ExitEvent : NaoEvent
     {
         private static readonly String ExitMessage = "Never gonna give you up. Shutting down.";
         
