@@ -15,7 +15,7 @@ namespace Naovigate.Event
         /// Create a no-arguments-required event.
         /// The event's priority is medium.
         /// </summary>
-        public NaoEvent()
+        protected NaoEvent()
         {
             Stream = GoalCommunicator.Instance.Stream;
             Priority = Priority.Low;
@@ -26,7 +26,7 @@ namespace Naovigate.Event
         /// Creates an empty NaoEvent instance with the specified priority.
         /// </summary>
         /// <param name="p">A priority. Either Low, Medium or High.</param>
-        public NaoEvent(Priority p) : this()
+        protected NaoEvent(Priority p) : this()
         {
             Priority = p;
         }
@@ -35,7 +35,7 @@ namespace Naovigate.Event
         /// Creates an empty NaoEvent instance with the specified execution behavior.
         /// </summary>
         /// <param name="e">A behavior. Either Durative or Instantaneous.</param>
-        public NaoEvent(ExecutionBehavior e)
+        protected NaoEvent(ExecutionBehavior e)
             : this()
         {
             ExecutionBehavior = e;
@@ -46,7 +46,7 @@ namespace Naovigate.Event
         /// </summary>
         /// <param name="p">A priority. Either Low, Medium or High.</param>
         /// <param name="e">A behavior. Either Durative or Instantaneous.</param>
-        public NaoEvent(Priority p, ExecutionBehavior e)
+        protected NaoEvent(Priority p, ExecutionBehavior e)
             : this()
         {
             Priority = p;

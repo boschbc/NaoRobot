@@ -44,7 +44,7 @@ namespace Naovigate.Event.NaoToGoal
         /// <returns>A human readable string.</returns>
         public override string ToString()
         {
-            return "FailureEvent<eventCode = " + failedEventCode + ">";
+            return base.ToString() + "<eventCode = " + failedEventCode + ">";
         }
     }
 }

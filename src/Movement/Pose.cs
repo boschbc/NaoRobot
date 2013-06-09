@@ -9,7 +9,7 @@ using Naovigate.Movement;
 
 namespace Naovigate.Movement
 {
-    public sealed class Pose : IDisposable
+    internal sealed class Pose : IDisposable
     {
         private static readonly string UnusableProxiesMessage = "A Nao-proxy used by this class is either null or has been disposed of.";
         private static readonly bool ignoreStabalise = false;

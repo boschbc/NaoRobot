@@ -17,7 +17,7 @@ namespace Naovigate.Vision
     /// <summary>
     /// A class that controls and manages one video proxy to a Nao.
     /// </summary>
-    public sealed class Camera : IDisposable
+    internal sealed class Camera : IDisposable
     {
         private string subscriberID;
         private VideoDeviceProxy videoProxy;

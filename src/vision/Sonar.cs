@@ -8,7 +8,7 @@ using Naovigate.Event;
 
 namespace Naovigate.Vision
 {
-    public sealed class Sonar : IDisposable
+    internal sealed class Sonar : IDisposable
     {
         private SonarProxy sonarProxy;
         private MemoryProxy memoryProxy;

@@ -14,7 +14,7 @@ using Emgu.Util;
 
 namespace Naovigate.Vision
 {
-    public sealed class Processing : IDisposable
+    internal sealed class Processing : IDisposable
     {
         public static bool closeEnough(Rectangle rect)
         {
