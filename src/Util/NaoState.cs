@@ -22,32 +22,18 @@ namespace Naovigate.Util
         
         protected static NaoState instance = null;
 
-        protected IPAddress ip;
-        protected int port;
-        protected PointF location;
-        protected float rotation;
-        protected int batteryLeft;
-        protected float temperature;
-
-        protected ISet<IDisposable> proxies = new HashSet<IDisposable>();
         protected bool connected = false;
         protected Stopwatch Stopwatch = new Stopwatch();
 
-        protected TextToSpeechProxy speech;
         protected MotionProxy motion;
         protected BatteryProxy battery;
-        protected SensorsProxy sensors;
         protected MemoryProxy memory;
 
         public static NaoState Instance
         {
             get
             {
-                if (instance == null)
-                {
-                    instance = new NaoState();
-                }
-                return instance;
+                return instance == null ? instance = new NaoState() : instance;
             }
             set { instance = value; }
         }
@@ -73,13 +59,12 @@ namespace Naovigate.Util
                 Logger.Log(this, "Already Connected");
                 return;
             }
-            
             Logger.Log(this, "Connecting to Nao...");
             if (OnConnect != null)
                 OnConnect(IP.ToString(), Port);
             connected = true;
-            ip = endPoint.Address;
-            port = endPoint.Port;
+            IP = endPoint.Address;
+            Port = endPoint.Port;
             CreateMyProxies();
             Update();
             Logger.Log(this, "Connection established.");
@@ -96,18 +81,12 @@ namespace Naovigate.Util
             Logger.Log(this, "Disconnecting from Nao...");
             if (OnDisconnect != null)
                 OnDisconnect(IP.ToString(), Port);
-            try
-            {
-                UnsubscribeAll();
-            }
-            catch (UnavailableConnectionException)
-            {
+            if (!Proxies.UnsubscribeAll())
                 Logger.Log(this, "Can't unsubscribe. But that's OK if you're using WeBots.");
-            }
-            ip = null;
-            port = -1;
+            IP = null;
+            Port = -1;
             connected = false;
-            TeardownProxies();
+            Proxies.DisposeAllProxies();
             Logger.Log(this, "Disconnected.");
         }
 
@@ -121,16 +100,23 @@ namespace Naovigate.Util
             {
                 if (IP == null)
                     return false;
+                /*
                 try
                 {
-                    MotionProxy motion = new MotionProxy(IP.ToString(), Port);
+                    // temp removed. see if this is really required.
+                    // creates about 5 socket connections to the nao per second.
+                    Logger.Log(this, "Create Useless Proxy");
+                    MotionProxy motion = MotionProxy;
                     motion.Dispose();
+                 */
                     return connected;
+                /*
                 }
                 catch
                 {
                     return false;
                 }
+                 * */
             }
         }
 
@@ -139,102 +125,10 @@ namespace Naovigate.Util
         /// </summary>
         private void CreateMyProxies()
         {
-            motion = MotionProxy;
-            battery = BatteryProxy;
-            sensors = SensorsProxy;
-            memory = MemoryProxy;
-            speech = SpeechProxy;
-        }
-
-        /// <summary>
-        /// Disconnect all the proxies used currently.
-        /// </summary>
-        private void TeardownProxies()
-        {
-            if (Connected)
-                return;
-            try
-            {
-                foreach (IDisposable d in proxies)
-                {
-                    Logger.Log(this, "Disposing of: " + d);
-                    d.Dispose();
-                }
-            }
-            catch
-            {
-                proxies.Clear();
-                throw new UnavailableConnectionException("Error while disconnecting proxies.", IP.ToString(), Port);
-            }
-            proxies.Clear();
-        }
-
-        /// <summary>
-        /// Unsubscribes from any landmark-detection proxies.
-        /// </summary>
-        private void UnsubscribeLandMarkProxies()
-        {
-            LandMarkDetectionProxy landmark = LandMarkDetectionProxy;
-            foreach (ArrayList sub in (ArrayList)landmark.getSubscribersInfo())
-            {
-                landmark.unsubscribe(sub[0].ToString());
-            }
-        }
-
-        /// <summary>
-        /// Unsubscribes from any sensor proxies.
-        /// </summary>
-        private void UnsubscribeSensorProxies()
-        {
-            if (!Connected)
-                return;
-            if (sensors == null)
-                return;
-            foreach (ArrayList sub in (ArrayList)sensors.getSubscribersInfo())
-            {
-                sensors.unsubscribe(sub[0].ToString());
-            }
-        }
-
-        /// <summary>
-        /// Unsubscribes from any sonar proxies.
-        /// </summary>
-        private void UnsubscribeSonarProxies()
-        {
-            SonarProxy sonar = SonarProxy;
-            foreach (ArrayList sub in (ArrayList)sonar.getSubscribersInfo())
-            {
-                sonar.unsubscribe(sub[0].ToString());
-            }
-        }
-
-        /// <summary>
-        /// Unsubscribes all instances of LandMarkDetectionProxy, SensorsProxy and SonarProxy.
-        /// </summary>
-        /// <returns>Whether an error occurred and some proxies could not be unsubbed.</returns>
-        private bool UnsubscribeAll()
-        {
-            bool noError = true;
-            Action[] unsubscribers = new Action[3] 
-            { 
-                UnsubscribeLandMarkProxies, 
-                UnsubscribeSensorProxies, 
-                UnsubscribeSonarProxies 
-            };
-
-            foreach (Action unsub in unsubscribers)
-            {
-                try
-                {
-                    unsub();
-                }
-                catch (UnavailableConnectionException)
-                {
-                    noError = false;
-                }
-            }
-            return noError;
-        }
+            motion = Proxies.GetProxy<MotionProxy>();
+            battery = Proxies.GetProxy<BatteryProxy>();
+            memory = Proxies.GetProxy<MemoryProxy>();
+        }        
 
         /// <summary>
         /// The IP of the currently connected-to Nao.
@@ -242,7 +136,8 @@ namespace Naovigate.Util
         /// <value>The IP.</value>
         public IPAddress IP
         {
-            get { return ip; }
+            get;
+            private set;
         }
 
         /// <summary>
@@ -251,7 +146,8 @@ namespace Naovigate.Util
         /// <value>The port.</value>
         public int Port
         {
-            get { return port; }
+            get;
+            private set;
         }
 
         /// <summary>
@@ -260,7 +156,8 @@ namespace Naovigate.Util
         /// <value>The location.</value>
         public PointF Location
         {
-            get { return location; }
+            get;
+            private set;
         }
 
         /// <summary>
@@ -269,7 +166,8 @@ namespace Naovigate.Util
         /// <value>The rotation.</value>
         public float Rotation
         {
-            get { return rotation; }
+            get;
+            private set;
         }
 
         /// <summary>
@@ -278,7 +176,8 @@ namespace Naovigate.Util
         /// <value>The temperature level.</value>
         public float Temperature
         {
-            get { return temperature; }
+            get;
+            private set;
         }
 
         /// <summary>
@@ -287,7 +186,8 @@ namespace Naovigate.Util
         /// <value>The battery percentage left.</value>
         public int BatteryPercentageLeft
         {
-            get { return batteryLeft; }
+            get;
+            private set;
         }
 
         /// <summary>
@@ -298,147 +198,6 @@ namespace Naovigate.Util
         {
             get;
             set;
-        }
-        
-        /// <summary>
-        /// Attempts to create a proxy of given type.
-        /// </summary>
-        /// <typeparam name="TProxy">The type of proxy to be created.</typeparam>
-        /// <returns>A new proxy of the requested type.</returns>
-        /// <exception cref="UnavailableConnectionException">Proxy creation failed.</exception>
-        protected virtual TProxy createProxy<TProxy>() where TProxy : IDisposable
-        {
-            try
-            {
-                TProxy ret = (TProxy)Activator.CreateInstance(typeof(TProxy), IP.ToString(), Port);
-                proxies.Add(ret);
-                return ret;
-            }
-            catch
-            {
-                throw new UnavailableConnectionException("Could not create proxy: " + typeof(TProxy).Name);
-            }
-        }
-        
-        /// <summary>
-        /// Gets the battery proxy.
-        /// </summary>
-        /// <value>The battery proxy.</value>
-        public BatteryProxy BatteryProxy
-        {
-            get
-            {
-                return createProxy<BatteryProxy>();
-            }
-        }
-
-        /// <summary>
-        /// Gets a landmark-detection proxy.
-        /// </summary>
-        /// <value>A landmark-detection proxy.</value>
-        public LandMarkDetectionProxy LandMarkDetectionProxy
-        {
-            get
-            {
-                return createProxy<LandMarkDetectionProxy>();
-            }
-        }
-        
-        /// <summary>
-        /// Gets a object-detection proxy.
-        /// </summary>
-        /// <value>A object-detection proxy.</value>
-        public VisionRecognitionProxy ObjectDetectionProxy
-        {
-            get
-            {
-                return createProxy<VisionRecognitionProxy>();
-            }
-        }
-
-
-        /// <summary>
-        /// Gets a memory proxy.
-        /// </summary>
-        /// <value>A memory proxy.</value>
-        public MemoryProxy MemoryProxy
-        {
-            get
-            {
-                return createProxy<MemoryProxy>();
-            }
-        }
-
-        /// <summary>
-        /// Gets the motion proxy.
-        /// </summary>
-        /// <value>The motion proxy.</value>
-        public virtual MotionProxy MotionProxy
-        {
-            get
-            {
-                return createProxy<MotionProxy>();
-            }
-        }
-
-        /// <summary>
-        /// Gets the posture proxy.
-        /// </summary>
-        /// <value>The posture proxy.</value>
-        public virtual RobotPostureProxy PostureProxy
-        {
-            get
-            {
-                return createProxy<RobotPostureProxy>();
-            }
-        }
-
-        /// <summary>
-        /// Gets the sensors proxy.
-        /// </summary>
-        /// <value>The sensors proxy.</value>
-        public SensorsProxy SensorsProxy
-        {
-            get
-            {
-                return createProxy<SensorsProxy>();
-            }
-        }
-
-        /// <summary>
-        /// Gets the sonar proxy.
-        /// </summary>
-        /// <value>The sonar proxy.</value>
-        public SonarProxy SonarProxy
-        {
-            get
-            {
-                return createProxy<SonarProxy>();
-            }
-        }
-
-        /// <summary>
-        /// Gets the speech proxy.
-        /// </summary>
-        /// <value>The speech proxy.</value>
-        public TextToSpeechProxy SpeechProxy
-        {
-            get
-            {
-                return createProxy<TextToSpeechProxy>();
-            }
-        }
-
-        /// <summary>
-        /// Gets the video proxy.
-        /// </summary>
-        /// <value>The video proxy.</value>
-        public VideoDeviceProxy VideoProxy
-        {
-            get
-            {
-                return createProxy<VideoDeviceProxy>();
-            }
         }
 
         public bool HoldingObject
@@ -473,16 +232,13 @@ namespace Naovigate.Util
         /// <exception cref="UnavailableConnectionException">NaoState is not connected to a Nao.</exception>
         public void Update()
         {
-            if (!Connected)
-                throw new UnavailableConnectionException("Attempted to update state while not connected.", ip.ToString(), port);
-
             try
             {
                 List<float> vector = motion.getRobotPosition(true);
-                location = new PointF(vector[0], vector[1]);
-                rotation = vector[2];  
-                batteryLeft = battery.getBatteryCharge();
-                temperature = (float) memory.getData("Device/SubDeviceList/Battery/Temperature/Sensor/Value");
+                Location = new PointF(vector[0], vector[1]);
+                Rotation = vector[2];
+                BatteryPercentageLeft = battery.getBatteryCharge();
+                Temperature = (float) memory.getData("Device/SubDeviceList/Battery/Temperature/Sensor/Value");
             }
             catch(Exception e)
             {

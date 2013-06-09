@@ -49,7 +49,7 @@ namespace Naovigate.Movement
                 if (NaoState.Instance.Connected)
                 {
                     if (motion == null)
-                        motion = NaoState.Instance.MotionProxy;
+                        motion = Proxies.GetProxy<MotionProxy>();
                 }
                 else
                     motion = null;
@@ -68,7 +68,7 @@ namespace Naovigate.Movement
                 if (NaoState.Instance.Connected)
                 {
                     if (posture == null)
-                        posture = NaoState.Instance.PostureProxy;
+                        posture = Proxies.GetProxy<RobotPostureProxy>();
                 }
                 else
                     posture = null;

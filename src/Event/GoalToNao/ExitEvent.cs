@@ -20,7 +20,8 @@ namespace Naovigate.Event.GoalToNao
         /// </summary>
         public override void Fire()
         {
-            NaoState.Instance.SpeechProxy.say(ExitMessage);
+            if(NaoState.Instance.Connected)
+                Proxies.GetProxy<Aldebaran.Proxies.TextToSpeechProxy>().say(ExitMessage);
             Environment.Exit(0);
         }
 

@@ -96,7 +96,8 @@ namespace Naovigate.Communication
                 else communicationStream.Stream = stream;
                 Logger.Log(this, "Connection established.");
                 //send our agent id.
-                EventQueue.Goal.Post(new AgentEvent());
+                if(NaoState.Instance.Connected)
+                    EventQueue.Goal.Post(new AgentEvent());
                 return true;
             } 
             catch (SocketException)
@@ -176,7 +177,9 @@ namespace Naovigate.Communication
         /// </summary>
         public void StartAsync()
         {
-            new Thread(new ThreadStart(Start)).Start();
+            Thread t = new Thread(new ThreadStart(Start));
+            t.Name = "GoalCommunicator";
+            t.Start();
         }
 
         /// <summary>

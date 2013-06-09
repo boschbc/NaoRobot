@@ -23,8 +23,8 @@ namespace Naovigate.Grabbing
         /// </summary>
         public Grabber()
         {
-            motion = NaoState.Instance.MotionProxy;
-            posture = NaoState.Instance.PostureProxy;
+            motion = Proxies.GetProxy<MotionProxy>();
+            posture = Proxies.GetProxy<RobotPostureProxy>();
             instance = this;
         }
 

@@ -261,6 +261,7 @@
     <Compile Include="Util\Logger.cs" />
     <Compile Include="Util\PriorityQueue.cs" />
     <Compile Include="Util\ActionExecutor.cs" />
+    <Compile Include="Util\Proxies.cs" />
     <Compile Include="Vision\Camera.cs" />
     <Compile Include="Communication\GoalCommunicator.cs" />
     <Compile Include="Vision\MarkerRecogniser.cs" />

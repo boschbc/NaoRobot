@@ -30,7 +30,7 @@ namespace Naovigate.Vision
         public Camera(string subID)
         {
             subscriberID = subID;
-            videoProxy = NaoState.Instance.VideoProxy;
+            videoProxy = Proxies.GetProxy<VideoDeviceProxy>();
             Unsubscribe();  //Make sure that there is no other subscriber with this ID
         }
 
