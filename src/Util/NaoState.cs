@@ -76,13 +76,13 @@ namespace Naovigate.Util
             }
             
             Logger.Log(this, "Connecting to Nao...");
-            if (OnConnect != null)
-                OnConnect(IP.ToString(), Port);
             connected = true;
             ip = endPoint.Address;
             port = endPoint.Port;
             CreateMyProxies();
             Update();
+            if (OnConnect != null)
+                OnConnect(IP.ToString(), Port);
             Logger.Log(this, "Connection established.");
         }
 
@@ -95,8 +95,6 @@ namespace Naovigate.Util
                 return;
             }
             Logger.Log(this, "Disconnecting from Nao...");
-            if (OnDisconnect != null)
-                OnDisconnect(IP.ToString(), Port);
             try
             {
                 UnsubscribeAll();
@@ -109,6 +107,8 @@ namespace Naovigate.Util
             port = -1;
             connected = false;
             TeardownProxies();
+            if (OnDisconnect != null)
+                OnDisconnect(IP.ToString(), Port);
             Logger.Log(this, "Disconnected.");
         }
 

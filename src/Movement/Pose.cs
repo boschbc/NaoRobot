@@ -11,18 +11,19 @@ namespace Naovigate.Movement
 {
     public class Pose
     {
-        private static long lastStabiliseAttempt = DateTime.Now.Ticks;
+        private static readonly string UnusableProxiesMessage = "A Nao-proxy used by this class is either null or has been disposed of.";
         private static readonly bool ignoreStabalise = false;
         private static readonly float maxAllowedDifference = 0.3f;
         private static readonly float attemptStabaliseLimit = 0.3f;
 
-        private static readonly ArrayList rLegNames = new ArrayList(new string[]{"RHipYawPitch", "RHipRoll", "RHipPitch", "RKneePitch", "RAnklePitch", "RAnkleRoll"});
+        private static readonly ArrayList rLegNames = new ArrayList(new string[] {"RHipYawPitch", "RHipRoll", "RHipPitch", "RKneePitch", "RAnklePitch", "RAnkleRoll"});
         private static readonly ArrayList lLegNames = new ArrayList(new string[] { "LHipYawPitch", "LHipRoll", "LHipPitch", "LKneePitch", "LAnklePitch", "LAnkleRoll" });
         private static readonly ArrayList kneelNames = new ArrayList(new String[] { "LHipPitch", "RHipPitch", "LKneePitch", "RKneePitch", "LAnklePitch", "RAnklePitch" });
 
         
         private static Pose instance;
-
+        private static long lastStabiliseAttempt = DateTime.Now.Ticks;
+        
         /// <summary>
         /// This singleton's instance.
         /// </summary>
@@ -34,67 +35,14 @@ namespace Naovigate.Movement
             }
         }
 
-        private float lastDepth;
-
-        private MotionProxy motion;
-        private RobotPostureProxy posture;
-
         /// <summary>
-        /// A motion proxy.
+        /// Adds a the left and right instances of a body part into a list.
         /// </summary>
-        private MotionProxy Motion
-        {
-            get
-            {
-                if (NaoState.Instance.Connected)
-                {
-                    if (motion == null)
-                        motion = NaoState.Instance.MotionProxy;
-                }
-                else
-                    motion = null;
-                return motion;
-            }
-            set { motion = value; }
-        }
-
-        /// <summary>
-        /// A robot posture proxy.
-        /// </summary>
-        private RobotPostureProxy Posture
-        {
-            get
-            {
-                if (NaoState.Instance.Connected)
-                {
-                    if (posture == null)
-                        posture = NaoState.Instance.PostureProxy;
-                }
-                else
-                    posture = null;
-                return posture;
-            }
-            set { posture = value; }
-        }
-        
-        /// <summary>
-        /// Constructor.
-        /// </summary>
-        public Pose()
-        {
-            NaoState.Instance.OnDisconnect += ResetProxies;
-            //instance = this;
-        }
-
-        /// <summary>
-        /// Forces this classes' proxy properties to refresh.
-        /// </summary>
-        private void ResetProxies(string ip, int port)
-        {
-            Motion = null;
-            Posture = null;
-        }
-
+        /// <param name="list">A list to add to.</param>
+        /// <param name="part">
+        /// A string containing the name of a Nao's body part.
+        /// The name must be one of the body part names specified by the NaoQI API.
+        /// </param>
         private static void Add(ArrayList list, String part)
         {
             list.Add("L" + part);
@@ -102,11 +50,78 @@ namespace Naovigate.Movement
         }
 
         /// <summary>
+        /// Returns (at max) the first 5 charachters of a floating point number as a string.
+        /// </summary>
+        /// <param name="f">A floating point number.</param>
+        /// <returns>A string of length 5 (at max).</returns>
+        private static string FirstFive(float f)
+        {
+            string res = f.ToString();
+            if (res.Length < 5) return res;
+            else return res.Substring(0, 5);
+        }
+
+        private float lastDepth;
+        private MotionProxy motion;
+        private RobotPostureProxy posture;
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        public Pose()
+        {
+            NaoState.Instance.OnConnect += BuildProxies;
+            NaoState.Instance.OnDisconnect += ResetProxies;
+        }
+
+        /// <summary>
+        /// Fetches new proxies to be used by this class.
+        /// </summary>
+        /// <param name="ip">The IP of the Nao connected to.</param>
+        /// <param name="port">The port number the Nao connected to.</param>
+        private void BuildProxies(string ip, int port)
+        {
+            motion = NaoState.Instance.MotionProxy;
+            posture = NaoState.Instance.PostureProxy;
+        }
+
+        /// <summary>
+        /// Discards the proxies used by this class (intended to be called when they have been disposed).
+        /// </summary>
+        /// <param name="ip">The IP of the Nao disconnected from.</param>
+        /// <param name="port">The port number of the Nao disconnected from.</param>
+        private void ResetProxies(string ip, int port)
+        {
+            motion = null;
+            posture = null;
+        }
+
+        /// <summary>
+        /// Checks if the proxies used by this class are non-null and un-disposed.
+        /// </summary>
+        /// <returns>A boolean indicating whether the proxies used by this class are usable.</returns>
+        private bool ProxiesAreUsable()
+        {
+            return motion != null && posture != null;
+        }
+
+        /// <summary>
+        /// Checks whether the proxes used by this class are not in a corrupted state.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">One or more proxies are either null or were disposed of.</exception>
+        private void ValidateProxies()
+        {
+            if (!ProxiesAreUsable())
+                throw new InvalidOperationException(UnusableProxiesMessage);
+        }
+
+        /// <summary>
         /// Have the Nao stand up.
         /// </summary>
         public void StandUp()
         {
-            Posture.goToPosture("Stand", 1f);
+            ValidateProxies();
+            posture.goToPosture("Stand", 1f);
         }
 
         /// <summary>
@@ -114,7 +129,8 @@ namespace Naovigate.Movement
         /// </summary>
         public void SitDown()
         {
-            Posture.goToPosture("Sit", 0.5f);
+            ValidateProxies();
+            posture.goToPosture("Sit", 0.5f);
         }
 
         /// <summary>
@@ -122,7 +138,8 @@ namespace Naovigate.Movement
         /// </summary>
         public void Crouch()
         {
-            Posture.goToPosture("Crouch", 0.5f);
+            ValidateProxies();
+            posture.goToPosture("Crouch", 0.5f);
         }
 
         /// <summary>
@@ -131,6 +148,7 @@ namespace Naovigate.Movement
         /// <param name="depth">0 means standing. 1 means sitting.</param>
         public void Kneel(float depth)
         {
+            ValidateProxies();
             if (depth > 1f) depth = 1f;
             if (depth < 0f) depth = 0;
             ArrayList angles = new ArrayList();
@@ -144,7 +162,7 @@ namespace Naovigate.Movement
             angles.Add(-depth);//low
             angles.Add(-depth);
 
-            Motion.angleInterpolationWithSpeed(kneelNames, angles, 0.3F);
+            motion.angleInterpolationWithSpeed(kneelNames, angles, 0.3F);
         }
 
         /// <summary>
@@ -156,6 +174,7 @@ namespace Naovigate.Movement
         /// <param name="depth"></param>
         public void Look(float depth)
         {
+            ValidateProxies();
             if (depth < -0.5f) depth = -0.5f;
             if (depth > 0.5f) depth = 0.5f;
             Logger.Log(this, "Look: "+depth);
@@ -163,11 +182,15 @@ namespace Naovigate.Movement
             if (depth != lastDepth)
             {
                 lastDepth = depth;
-                Motion.angleInterpolationWithSpeed(
+                motion.angleInterpolationWithSpeed(
                     new ArrayList(new string[] { "HeadPitch" }), new ArrayList(new float[] { depth }), 0.1f);
             }
         }
 
+        /// <summary>
+        /// True if the Nao's posture is currently balanced.
+        /// May attempt to stabilize the Nao in the process.
+        /// </summary>
         public bool Balanced
         {
             get
@@ -178,16 +201,15 @@ namespace Naovigate.Movement
             }
         }
 
-        private static string format(float f)
+        /// <summary>
+        /// Takes a list of joints and reverses the value of any "Roll" joints and returns the resulting list of values as floats.
+        /// </summary>
+        /// <param name="names">A list of body-part names as defined by the NaoQI API.</param>
+        /// <returns>A list of floating point numbers representing the reversed rolls.</returns>
+        private List<float> Angles(ArrayList names)
         {
-            string res = f + "";
-            if (res.Length < 5) return res;
-            else return res.Substring(0, 5);
-        }
-
-        private List<float> Angles(ArrayList names, bool reverseRolls)
-        {
-            List<float> angles = Motion.getAngles(names, false);
+            ValidateProxies();
+            List<float> angles = motion.getAngles(names, false);
             for (int i = 0; i < names.Count; i++)
             {
                 if (names[i].ToString().Contains("Roll"))
@@ -198,68 +220,76 @@ namespace Naovigate.Movement
             return angles;
         }
 
-        private List<float> LeftAngles(ArrayList names)
-        {
-            return Angles(names, true);
-        }
-
-        private List<float> RightAngles(ArrayList names)
-        {
-            return Angles(names, false);
-        }
-
+        /// <summary>
+        /// Checks whether the Nao's posture is stable.
+        /// </summary>
+        /// <returns>True if the Nao is stable, false otherwise.</returns>
         public bool IsStable()
         {
-            if (ignoreStabalise) return false;
-            List<float> rAngles = RightAngles(rLegNames);
-            List<float> lAngles = LeftAngles(lLegNames);
+            if (ignoreStabalise) 
+                return false;
+
+            List<float> rAngles = Angles(rLegNames);
+            List<float> lAngles = Angles(lLegNames);
             Logger.Log(this, rAngles.Count + " - " + lAngles.Count);
             bool stable = true;
             for (int i = 0; i < 6; i++)
             {
                 float reverse = lLegNames[i].ToString().Contains("Roll") ? -1f : 1f;
-                Logger.Log(this, lLegNames[i] + ": " + format(lAngles[i]) + " - " + format(rAngles[i]) + " Diff = " + format(lAngles[i] - rAngles[i]));
+                Logger.Log(this, lLegNames[i] + ": " + FirstFive(lAngles[i]) + " - " + FirstFive(rAngles[i]) + " Diff = " + FirstFive(lAngles[i] - rAngles[i]));
                 stable = stable && Math.Abs(lAngles[i] - rAngles[i]) < maxAllowedDifference;
             }
             Logger.Log(this, "Stable: " + stable);
             return stable;
         }
 
-        /*
-         * Attempt to stabalise the robot if the angles dont differ to much.
-         */
+        /// <summary>
+        /// Attempts to stabalise the Nao if the joint-angles do not differ too much.
+        /// </summary>
+        /// <returns>True if stabilization attempt succeded, false otherwise.</returns>
         private bool AttemptStabilize()
         {
-            if (ignoreStabalise) return false;
-            Logger.Log(this, "AttemptStabilize");
+            if (ignoreStabalise)
+                return false;
 
-            // don't stabilize to much
+            Logger.Log(this, "Attemping to stabilize...");
+            List<float> left;
+            List<float> right;
+            ArrayList angles;
+            ArrayList names;
+
             if (lastStabiliseAttempt + 50000000 /*nanoseconds*/ < DateTime.Now.Ticks)
             {
-                Logger.Log(this, (DateTime.Now.Ticks - lastStabiliseAttempt) + "");
+                Logger.Log(this, "Last stabilization attempt was at: " + (DateTime.Now.Ticks - lastStabiliseAttempt));
                 lastStabiliseAttempt = DateTime.Now.Ticks;
-                List<float> left = Angles(lLegNames, false);
-                List<float> right = Angles(rLegNames, false);
-                ArrayList angles = new ArrayList();
+                left = Angles(lLegNames);
+                right = Angles(rLegNames);
+                angles = new ArrayList();
                 FillDataArray(angles, left, right);
                 if (angles.Count == 6)
                 {
-                    Logger.Log(this, "Stabilising");
-                    ArrayList names = new ArrayList(lLegNames);
+                    Logger.Log(this, "Stabilizing now...");
+                    names = new ArrayList(lLegNames);
                     names.AddRange(rLegNames);
                     angles.AddRange(angles);
-                    Motion.setAngles(names, angles, 0.1f);
+                    motion.setAngles(names, angles, 0.1f);
+                    return true;
                 }
-                return angles.Count == 6;
             }
             return false;
         }
 
+        /// <summary>
+        /// No idea what this does.
+        /// </summary>
+        /// <param name="angles">?</param>
+        /// <param name="left">?</param>
+        /// <param name="right">?</param>
         private void FillDataArray(ArrayList angles, List<float> left, List<float> right)
         {
             for (int i = 0; i < 6; i++)
             {
-                Logger.Log(this, lLegNames[i] + ": " + format(left[i]) + " - " + format(right[i]) + " Diff = " + format(left[i] - right[i]));
+                Logger.Log(this, lLegNames[i] + ": " + FirstFive(left[i]) + " - " + FirstFive(right[i]) + " Diff = " + FirstFive(left[i] - right[i]));
                 if (Math.Abs(left[i] - right[i]) < attemptStabaliseLimit)
                 {
                     float avg = (left[i] + right[i]) / 2;
