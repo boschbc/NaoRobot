@@ -10,7 +10,7 @@ namespace Naovigate.Event
     /// <summary>
     /// Creates new NaoEvents using their byte-code as defined in the Goal-Nao API.
     /// </summary>
-    public sealed class NaoEventFactory
+    public static class NaoEventFactory
     {
         private static string InvalidActionCodeMsg = "Attempting to construct a NaoEvent with a corrupt action-code.";
         private static Dictionary<byte, Func<NaoEvent>> CodeConverter = 

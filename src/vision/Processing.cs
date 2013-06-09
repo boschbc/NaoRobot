@@ -16,6 +16,34 @@ namespace Naovigate.Vision
 {
     public sealed class Processing
     {
+        public static bool closeEnough(Rectangle rect)
+        {
+            return rect.Width >= 135;
+        }
+
+        //constructs a arraylist of data from the objectRectangle
+        public static ArrayList ObjectData(Rectangle objectRectangle)
+        {
+            ArrayList ret = new ArrayList();
+            ret.Add(objectRectangle.Left);
+            ret.Add(objectRectangle.Right);
+            return ret;
+        }
+
+        //returns the biggest rectangle object
+        public static Rectangle biggestRectangle(List<Rectangle> rectangles)
+        {
+            Rectangle max = new Rectangle(0, 0, 0, 0);
+            foreach (Rectangle rect in rectangles)
+            {
+                if (max.Width < rect.Width)
+                {
+                    max = rect;
+                }
+            }
+            return max;
+        }
+
         private Camera cam;
         private Image<Rgb, Byte> currentImage;
         private List<Hsv> colors;
@@ -55,10 +83,7 @@ namespace Naovigate.Vision
             return SearchForObjects(hsvImg);
         }
 
-        public bool closeEnough(Rectangle rect)
-        {
-            return rect.Width >= 135;
-        }
+        
 
         public float calculateTheta(Rectangle rect)
         {
@@ -89,28 +114,9 @@ namespace Naovigate.Vision
                 return biggestRectangle(rectangles);
         }
 
-        //constructs a arraylist of data from the objectRectangle
-        public ArrayList ObjectData(Rectangle objectRectangle)
-        {
-            ArrayList ret = new ArrayList();
-            ret.Add(objectRectangle.Left);
-            ret.Add(objectRectangle.Right);
-            return ret;
-        }
+        
 
-        //returns the biggest rectangle object
-        public Rectangle biggestRectangle(List<Rectangle> rectangles)
-        {
-            Rectangle max = new Rectangle(0, 0, 0, 0);
-            foreach (Rectangle rect in rectangles)
-            {
-                if (max.Width < rect.Width)
-                {
-                    max = rect;
-                }
-            }
-            return max;
-        }
+        
 
         public Image<Gray, Byte> EnchancedImage(double[] rgb1, double[] rgb2)
         {

@@ -17,6 +17,22 @@ namespace Naovigate.Event.GoalToNao
     /// </summary>
     public sealed class PickupEvent : ReportBackEvent
     {
+        /// <summary>
+        /// Checks whether the Nao is not already holding an object.
+        /// </summary>
+        /// <returns>True if the Nao is not holding anything and may pick up a new object.</returns>
+        private static bool ValidationCheck()
+        {
+            return true;
+            //if (!Grabber.Instance.HoldingObject())
+            //    return true;
+            //else
+            //{
+            //    ReportFailure();
+            //    return false;
+            //}
+        }
+
         private ActionExecutor executor;
 
         /// <summary>
@@ -61,22 +77,6 @@ namespace Naovigate.Event.GoalToNao
             if (ValidationCheck())
                 if (Pickup())
                     VerifyObjectHeld();
-        }
-
-        /// <summary>
-        /// Checks whether the Nao is not already holding an object.
-        /// </summary>
-        /// <returns>True if the Nao is not holding anything and may pick up a new object.</returns>
-        private bool ValidationCheck()
-        {
-            return true;
-            //if (!Grabber.Instance.HoldingObject())
-            //    return true;
-            //else
-            //{
-            //    ReportFailure();
-            //    return false;
-            //}
         }
 
         /// <summary>

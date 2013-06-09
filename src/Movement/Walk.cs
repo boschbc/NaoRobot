@@ -34,6 +34,24 @@ namespace Naovigate.Movement
             set { instance = value; }
         }
 
+        /// <summary>
+        /// Converts a given radians into a radian in [-pi, pi]
+        /// </summary>
+        /// <param name="rad">An angel in radians.</param>
+        /// <returns>A new angle in [-pi, pi], in radians.</returns>
+        private static float ToNaoRadians(float rad)
+        {
+            if (Math.Abs(rad) > Math.PI)
+            {
+                rad %= (float)Math.PI;
+                if (rad > 0)
+                    rad -= (float)(Math.PI);
+                else if (rad < 0)
+                    rad += (float)(Math.PI);
+            }
+            return rad;
+        }
+
         private MotionProxy motion;
         private RobotPostureProxy posture;
 
@@ -148,18 +166,7 @@ namespace Naovigate.Movement
             WaitForMoveToEnd();
         }
 
-        private float ToNaoRadians(float rad)
-        {
-            if (Math.Abs(rad) > Math.PI)
-            {
-                rad %= (float)Math.PI;
-                if (rad > 0)
-                    rad -= (float)(Math.PI);
-                else if (rad < 0)
-                    rad += (float)(Math.PI);
-            }
-            return rad;
-        }
+        
         /// <summary>
         /// Turns the Nao accurately using the specified accuracy-degree.
         /// </summary>

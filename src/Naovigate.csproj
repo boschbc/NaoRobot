@@ -58,7 +58,6 @@
     <Compile Include="Event\Internal\ShutdownEvent.cs" />
     <Compile Include="Event\Internal\CrouchEvent.cs" />
     <Compile Include="Event\Internal\GrabEvent.cs" />
-    <Compile Include="Event\Internal\NaoCollidingEvent.cs" />
     <Compile Include="Event\EventQueue.cs" />
     <Compile Include="Communication\CommunicationStream.cs" />
     <Compile Include="Event\GoalToNao\PutDownEvent.cs" />
@@ -221,12 +220,6 @@
     <Compile Include="GUI\UpdaterThread.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GUI\Util\ColorFilter.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="GUI\Util\ColorFilter.Designer.cs">
-      <DependentUpon>ColorFilter.cs</DependentUpon>
-    </Compile>
     <Compile Include="GUI\Util\IPChooser.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -368,9 +361,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\State\TemperatureMonitor.resx">
       <DependentUpon>TemperatureMonitor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUI\Util\ColorFilter.resx">
-      <DependentUpon>ColorFilter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Util\IPChooser.resx">
       <DependentUpon>IPChooser.cs</DependentUpon>

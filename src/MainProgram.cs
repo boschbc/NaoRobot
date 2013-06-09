@@ -11,12 +11,12 @@ using Naovigate.Movement;
 using Naovigate.Communication;
 using Naovigate.Event.NaoToGoal;
 using Naovigate.Util;
-using Naovigate.Testing.GUI;
+using Naovigate.GUI;
 using Naovigate.Vision;
 using Naovigate.Event;
 namespace Naovigate
 {
-    public sealed class MainProgram
+    public static class MainProgram
     {
         public static readonly int NaoPort = 9559;
         public static readonly int GoalPort = 6747;

@@ -47,9 +47,9 @@ namespace Naovigate.GUI.Events
                 });
         }
 
-        protected override void PopulateParameterMap()
+        protected override void PopulateWithCustoms()
         {
-            base.PopulateParameterMap();
+            base.PopulateWithCustoms();
             AddParameterMapping(typeof(List<Point>), 
                 () => new LocationsChooser() as IParamChooser);
         }

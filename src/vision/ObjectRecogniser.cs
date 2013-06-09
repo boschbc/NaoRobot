@@ -17,8 +17,6 @@ namespace Naovigate.Vision
 {
     public sealed class ObjectRecogniser
     {
-        private CvBlobDetector detector = new CvBlobDetector();
-
         public static ObjectRecogniser instance = null;
 
         public static ObjectRecogniser Instance
@@ -27,7 +25,25 @@ namespace Naovigate.Vision
                 return instance == null ? instance = new ObjectRecogniser() : instance;
             }
         }
-        
+
+        private static CvBlob GetLargest(CvBlobs blobs)
+        {
+            CvBlob mb = null;
+            int max = 0;
+            foreach (CvBlob blob in blobs.Values)
+            {
+                int size = blob.Area;
+                if (size > max)
+                {
+                    max = size;
+                    mb = blob;
+                }
+            }
+            return mb;
+        }
+
+        private CvBlobDetector detector = new CvBlobDetector();
+
         //returns 0,0,0,0 when there is no object in the image returns the bounding box of the object otherwise
         public Rectangle getBoundingBox(Image<Gray, Byte> img)
         {
@@ -51,22 +67,6 @@ namespace Naovigate.Vision
             CvBlobs blobs = new CvBlobs();
             detector.Detect(im, blobs);
             return blobs;
-        }
-
-        private CvBlob GetLargest(CvBlobs blobs)
-        {
-            CvBlob mb = null;
-            int max = 0;
-            foreach (CvBlob blob in blobs.Values)
-            {
-                int size = blob.Area;
-                if (size > max)
-                {
-                    max = size;
-                    mb = blob;
-                }
-            }
-            return mb;
         }
     }
 }

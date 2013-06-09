@@ -48,12 +48,20 @@ namespace Naovigate.GUI.Events
             return (T)Convert.ChangeType(GetParameterObject(name), typeof(T));
         }
 
-        protected virtual void PopulateParameterMap()
+        protected void PopulateParameterMap()
+        {
+            PopulateWithDefaults();
+            PopulateWithCustoms();
+        }
+
+        protected void PopulateWithDefaults()
         {
             AddParameterMapping(typeof(int), () => new IntegerChooser() as IParamChooser);
             AddParameterMapping(typeof(float), () => new IntegerChooser() as IParamChooser);
             AddParameterMapping(typeof(string), () => new StringChooser() as IParamChooser);
         }
+
+        protected virtual void PopulateWithCustoms() { }
 
         protected void AddParameterMapping(Type key, Func<IParamChooser> value)
         {

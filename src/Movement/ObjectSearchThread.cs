@@ -79,7 +79,7 @@ namespace Naovigate.Movement
                 Rectangle ob = processor.DetectObject();
                 if (ob.Width != 0)
                 {
-                    if (processor.closeEnough(ob))
+                    if (Processing.closeEnough(ob))
                     {
                         PositionedCorrectly = true;
                         Running = false;

@@ -8,9 +8,9 @@ using Naovigate.GUI;
 using Naovigate.Movement;
 using Naovigate.Util;
 
-namespace Naovigate.Testing.GUI
+namespace Naovigate.GUI
 {
-    public sealed class LaunchDebugger
+    public static class LaunchDebugger
     {
         public static void DebugMain()
         {

@@ -17,6 +17,40 @@ namespace Naovigate.Event.GoalToNao
     /// </summary>
     public sealed class HaltEvent : ReportBackEvent
     {
+        /// <summary>
+        /// Halts any moving/grabbing operation the Nao is currently doing.
+        /// </summary>
+        private static void HaltNao()
+        {
+            Walk.Instance.StopMoving();
+            Grabber.Instance.Abort();
+        }
+
+        /// <summary>
+        /// Aborts the event that is currently being fired (if any).
+        /// </summary>
+        private static void AbortCurrentEvent()
+        {
+            if (EventQueue.Nao.Current != null)
+                EventQueue.Nao.Current.Abort();
+        }
+
+        /// <summary>
+        /// Clears the Nao event-queue and emits a failure event for each event that was cleared.
+        /// </summary>
+        private static void ClearEventQueue()
+        {
+            List<INaoEvent> events = EventQueue.Nao.ClearAndGet();
+            foreach (INaoEvent e in events)
+            {
+                if (e != null)
+                {
+                    e.Abort();
+                    EventQueue.Goal.Post(new FailureEvent(e.EventCode));
+                }
+            }
+        }
+
         public HaltEvent() : base(Priority.Medium, ExecutionBehavior.Instantaneous) { }
         
         /// <summary>
@@ -37,40 +71,6 @@ namespace Naovigate.Event.GoalToNao
             {
                 //If the Nao can't halt then there is something serious going on:
                 ReportError();
-            }
-        }
-
-        /// <summary>
-        /// Halts any moving/grabbing operation the Nao is currently doing.
-        /// </summary>
-        private void HaltNao()
-        {
-            Walk.Instance.StopMoving();
-            Grabber.Instance.Abort();
-        }
-
-        /// <summary>
-        /// Aborts the event that is currently being fired (if any).
-        /// </summary>
-        private void AbortCurrentEvent()
-        {
-            if (EventQueue.Nao.Current != null)
-                EventQueue.Nao.Current.Abort();
-        }
-
-        /// <summary>
-        /// Clears the Nao event-queue and emits a failure event for each event that was cleared.
-        /// </summary>
-        private void ClearEventQueue()
-        {
-            List<INaoEvent> events = EventQueue.Nao.ClearAndGet();
-            foreach (INaoEvent e in events)
-            {
-                if (e != null)
-                {
-                    e.Abort();
-                    EventQueue.Goal.Post(new FailureEvent(e.EventCode));
-                }
             }
         }
 
