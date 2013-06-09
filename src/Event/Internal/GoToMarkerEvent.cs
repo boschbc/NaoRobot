@@ -21,8 +21,7 @@ namespace Naovigate.Event.Internal
         private int distance;
 
         private MarkerSearchThread worker;
-        private bool aborted;
-
+        
         /// <summary>
         /// Creates a new GoToMarkerEvent.
         /// </summary>
@@ -57,7 +56,7 @@ namespace Naovigate.Event.Internal
         {
             try
             {
-                if (!aborted)
+                if (!Aborted)
                 {
                     worker = Walk.Instance.WalkTowardsMarker(0, markerID, distance);
                     worker.WaitFor();
@@ -74,7 +73,7 @@ namespace Naovigate.Event.Internal
         /// </summary>
         public override void Abort()
         {
-            aborted = true;
+            base.Abort();
             try
             {
                 if (worker != null)
@@ -100,7 +99,7 @@ namespace Naovigate.Event.Internal
         /// <returns>A human-readable string.</returns>
         public override string ToString()
         {
-            return "GoToMarkerEvent("+markerID+", "+distance+")";
+            return base.ToString() + String.Format("<MarkerID: {0}, Distance: {1}>", markerID, distance);
         }
 
     }

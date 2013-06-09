@@ -56,6 +56,7 @@ namespace Naovigate.GUI.Events
 
         protected override void PostEvent(INaoEvent naoEvent)
         {
+            base.PostEvent(naoEvent);
             if (NaoState.Instance.Connected)
                 EventQueue.Nao.Post(naoEvent);
             else

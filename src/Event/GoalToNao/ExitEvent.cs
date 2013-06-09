@@ -30,11 +30,5 @@ namespace Naovigate.Event.GoalToNao
         {
             get { return EventCode.Exit; }
         }
-
-        /// <summary>
-        /// Abort's this event's execution.
-        /// The exit-event is not durative and therefore cannot be aborted (has no effect).
-        /// </summary>
-        public override void Abort() { }
     }
 }

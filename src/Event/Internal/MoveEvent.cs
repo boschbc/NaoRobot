@@ -68,6 +68,7 @@ namespace Naovigate.Event.Internal
         /// </summary>
         public override void Abort()
         {
+            base.Abort();
             Walk.Instance.StopMoving();
         }
 
@@ -84,7 +85,7 @@ namespace Naovigate.Event.Internal
         /// <returns>A human readable string.</returns>
         public override string ToString()
         {
-            return String.Format("MoveEvent(point={0}, rotation={1})", point, rotation);
+            return base.ToString() + String.Format("<point={0}, rotation={1}>", point, rotation);
         }
     }
 }

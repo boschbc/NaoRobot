@@ -20,26 +20,11 @@ namespace Naovigate.Event.Internal
         }
 
         /// <summary>
-        /// Does nothing.
-        /// </summary>
-        public override void Abort(){}
-
-
-        /// <summary>
         /// return this event's EventCode.
         /// </summary>
         public override EventCode EventCode
         {
             get { return EventCode.SitDown; }
-        }
-
-        /// <summary>
-        /// Returns a string representation of this event.
-        /// </summary>
-        /// <returns>A string.</returns>
-        public override string ToString()
-        {
-            return "SitDownEvent";
         }
     }
 }

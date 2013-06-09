@@ -63,6 +63,7 @@ namespace Naovigate.GUI.Events
         
         protected override void PostEvent(INaoEvent goalEvent)
         {
+            base.PostEvent(goalEvent);
             if (GoalCommunicator.Instance.Running)
                 EventQueue.Goal.Post(goalEvent);
             else

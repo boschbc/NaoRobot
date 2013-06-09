@@ -12,8 +12,7 @@ namespace Naovigate.Event.NaoToGoal
     {
         private byte eventCode = 0x00;
         private int[] data;
-        private bool aborted;
-
+        
         /// <summary>
         /// Constructor.
         /// </summary>
@@ -43,7 +42,7 @@ namespace Naovigate.Event.NaoToGoal
         /// </summary>
         public void SendAsInt()
         {
-            if (!aborted)
+            if (!Aborted)
             {
                 SendCode();
                 for (int i = 0; i < data.Length; i++)
@@ -56,7 +55,7 @@ namespace Naovigate.Event.NaoToGoal
         /// </summary>
         public void SendAsByte()
         {
-            if (!aborted)
+            if (!Aborted)
             {
                 SendCode();
                 for (int i = 0; i < data.Length; i++)
@@ -87,14 +86,6 @@ namespace Naovigate.Event.NaoToGoal
             {
                 Logger.Log(this, "Failed to fire: " + e);
             }
-        }
-
-        /// <summary>
-        /// Aborts this event's operation.
-        /// </summary>
-        public override void Abort()
-        {
-            aborted = true;
         }
 
         /// <summary>

@@ -75,12 +75,6 @@ namespace Naovigate.Event.GoalToNao
         }
 
         /// <summary>
-        /// Aborts this event's execution.
-        /// The Halt Event cannot be aborted (has no effect).
-        /// </summary>
-        public override void Abort() { }
-
-        /// <summary>
         /// return this event's EventCode.
         /// </summary>
         public override EventCode EventCode

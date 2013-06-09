@@ -23,6 +23,7 @@ namespace Naovigate.Event.Internal
         /// </summary>
         public override void Abort()
         {
+            base.Abort();
             Naovigate.Util.Logger.Log(this, "Aborted");
             Grabber.Instance.Abort();
         }
@@ -33,15 +34,6 @@ namespace Naovigate.Event.Internal
         public override EventCode EventCode
         {
             get { return EventCode.Grab; }
-        }
-
-        /// <summary>
-        /// Returns a string representation of this event.
-        /// </summary>
-        /// <returns>A string.</returns>
-        public override string ToString()
-        {
-            return "GrabEvent";
         }
     }
 }

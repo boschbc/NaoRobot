@@ -30,10 +30,5 @@ namespace Naovigate.Event
         {
             get { return EventCode.Colliding; }
         }
-
-        /// <summary>
-        /// Does nothing.
-        /// </summary>
-        public override void Abort() {}
     }
 }
