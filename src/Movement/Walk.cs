@@ -174,6 +174,7 @@ namespace Naovigate.Movement
             float rotation = ToNaoRadians(rad - NaoState.Instance.Rotation);
             TurnExact(rotation, 0.1f);
         }
+
         /// <summary>
         /// Start walking with normalized speed x, y and theta
         /// </summary>
@@ -193,12 +194,12 @@ namespace Naovigate.Movement
         /// <param name="markerID"></param>
         /// <param name="dist"></param>
         /// <returns></returns>
-        public MarkerSearchThread WalkTowardsMarker(float dir, int markerID, int dist)
+        public MarkerSearchWorker WalkTowardsMarker(float dir, int markerID, int dist)
         {
             StopLooking();
             WalkTo(0, 0, dir);
             StartWalking(0.7F, 0, 0);
-            MarkerSearchThread t = new MarkerSearchThread(markerID,dist);
+            MarkerSearchWorker t = new MarkerSearchWorker(markerID,dist);
             t.Start();
             return t;
         }

@@ -238,8 +238,6 @@
       <DependentUpon>RGBChooser.cs</DependentUpon>
     </Compile>
     <Compile Include="MainProgram.cs" />
-    <Compile Include="Movement\MarkerSearchThread.cs" />
-    <Compile Include="Movement\ObjectSearchThread.cs" />
     <Compile Include="Movement\Pose.cs" />
     <Compile Include="Movement\Walk.cs" />
     <Compile Include="Navigation\Direction.cs" />
@@ -266,6 +264,8 @@
     <Compile Include="Navigation\Map.cs" />
     <Compile Include="Navigation\Planner.cs" />
     <Compile Include="Navigation\RouteEntry.cs" />
+    <Compile Include="Movement\MarkerSearchWorker.cs" />
+    <Compile Include="Movement\ObjectSearchWorker.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Emgu.CV, Version=2.4.2.1777, Culture=neutral, PublicKeyToken=7281126722ab4438, processorArchitecture=MSIL">

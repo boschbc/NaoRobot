@@ -5,12 +5,12 @@ using Naovigate.Vision;
 
 namespace Naovigate.Movement
 {
-    internal sealed class ObjectSearchThread : ActionExecutor
+    internal sealed class ObjectSearchWorker : ActionExecutor
     {
         private int objectId;
         private Camera camera;
 
-        public ObjectSearchThread(int objectID)
+        public ObjectSearchWorker(int objectID)
         {
             this.objectId = objectID;
             camera = new Camera("ObjectSearch");
