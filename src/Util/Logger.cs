@@ -84,6 +84,10 @@ namespace Naovigate.Util
             Log(DefaultInvokerName, messageObject);
         }
 
+        /// <summary>
+        /// Logs an exception.
+        /// </summary>
+        /// <param name="e">An exception to log.</param>
         public static void Except(Exception e)
         {
             string msg = "Exception " + e.GetType().Name;

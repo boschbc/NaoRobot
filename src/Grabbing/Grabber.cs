@@ -2,7 +2,9 @@
 
 using Aldebaran.Proxies;
 
+using Naovigate.Movement;
 using Naovigate.Util;
+using Naovigate.Vision;
 
 namespace Naovigate.Grabbing
 {
@@ -109,8 +111,20 @@ namespace Naovigate.Grabbing
         /// <returns>A boolean.</returns>
         public virtual Boolean HoldingObject()
         {
-            Logger.Log(this, "HOlding: " + NaoState.Instance.HoldingObject);
-            return NaoState.Instance.HoldingObject;
+            Processing processor = new Processing(new Camera("Grabber"));
+            bool holdingObject;
+            float rad = (float)(0.25 * Math.PI);
+            float accuracy = 0.1f;
+
+            Walk.Instance.TurnExact(rad, accuracy);
+            Pose.Instance.Look(0.5f);
+
+            holdingObject = processor.ObjectInSight();
+
+            Pose.Instance.Look(0f);
+            Walk.Instance.TurnExact(-rad, accuracy);
+
+            return holdingObject;
         }
 
         /// <summary>

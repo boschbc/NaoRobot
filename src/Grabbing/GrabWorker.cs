@@ -44,7 +44,7 @@ namespace Naovigate.Grabbing
             Call(StiffenArms);
             Call(SpreadArms);
             Call(CloseArmsAroundObject);
-            Call(GrabHands);
+            //Call(GrabHands);
             Call(HoldForWalking);
         }
 

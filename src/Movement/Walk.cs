@@ -74,7 +74,42 @@ namespace Naovigate.Movement
         public Walk()
         {
             NaoState.Instance.OnDisconnect += ResetProxies;
-            //instance = this;
+            NaoState.Instance.OnConnect += (ip, port) => North = NaoState.Instance.Rotation;
+            if (NaoState.Instance.Connected)
+                North = NaoState.Instance.Rotation;
+        }
+
+        /// <summary>
+        /// The direction defined as North, in radians.
+        /// </summary>
+        public float North
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        /// The direction defined as South in radians.
+        /// </summary>
+        public float South
+        {
+            get { return (float)(North + Math.PI); }
+        }
+
+        /// <summary>
+        /// The direction defined as East in radians.
+        /// </summary>
+        public float East
+        {
+            get { return (float)(North + 0.5 * Math.PI); }
+        }
+
+        /// <summary>
+        /// The direction defined as West in radians.
+        /// </summary>
+        public float West
+        {
+            get { return (float)(North - 0.5 * Math.PI); }
         }
 
         /// <summary>
@@ -131,7 +166,7 @@ namespace Naovigate.Movement
         }
 
         /// <summary>
-        /// Turn the Nao.
+        /// Turn the Nao relatively.
         /// This method may be inaccurate at times.
         /// </summary>
         public void Turn(float rad)
@@ -151,7 +186,6 @@ namespace Naovigate.Movement
             if (accuracy < 0.01)
                 accuracy = 0.01f;
 
-            
             NaoState.Instance.Update();
             
             float goal = ToNaoRadians(NaoState.Instance.Rotation + rad);
@@ -159,19 +193,38 @@ namespace Naovigate.Movement
             float mistake = Math.Abs(rotation);
             while (mistake > accuracy)
             {
-                Logger.Log(this, NaoState.Instance.Rotation + " " + goal + " " + rotation + " " + mistake);
                 Turn(rotation);
                 NaoState.Instance.Update();
                 rotation = ToNaoRadians(goal - NaoState.Instance.Rotation);
                 mistake = Math.Abs(rotation);
             }
-            Logger.Log(this, NaoState.Instance.Rotation + " " + goal + " " + rotation + " " + mistake); 
         }
 
-        public void TurnExactTo(float rad)
+        /// <summary>
+        /// Turns the Nao absolutely.
+        /// </summary>
+        /// <param name="rad">The angle to turn to, in radians.</param>
+        /// <param name="accuracy">
+        /// If greater than 0, will turn exactly 
+        /// using given accuracy as a threshold.
+        /// </param>
+        public void TurnAbsolute(float rad, float accuracy)
         {
-            float rotation = ToNaoRadians(rad - NaoState.Instance.Rotation);
-            TurnExact(rotation, 0.1f);
+            NaoState.Instance.Update();
+            float delta = rad - NaoState.Instance.Rotation;
+            if (accuracy > 0)
+                TurnExact(delta, accuracy);
+            else
+                Turn(delta);
+        }
+
+        /// <summary>
+        /// Turns the Nao absolutely.
+        /// </summary>
+        /// <param name="rad">The angle to turn to, in radians.</param>
+        public void TurnAbsolute(float rad)
+        {
+            TurnAbsolute(rad, 0);
         }
 
         /// <summary>

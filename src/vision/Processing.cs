@@ -68,7 +68,10 @@ namespace Naovigate.Vision
             return SearchForObjects(hsvImg);
         }
 
-        
+        public Boolean ObjectInSight()
+        {
+            return DetectObject().Width > 0;
+        }
 
         public float calculateTheta(Rectangle rect)
         {

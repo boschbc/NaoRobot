@@ -96,8 +96,11 @@ namespace Naovigate.Communication
                 else communicationStream.Stream = stream;
                 Logger.Log(this, "Connection established.");
                 //send our agent id.
-                if(NaoState.Instance.Connected)
+                if (NaoState.Instance.Connected)
+                {
                     EventQueue.Goal.Post(new AgentEvent());
+                    EventQueue.Goal.Post(new LocationEvent(15));
+                }
                 return true;
             } 
             catch (SocketException)

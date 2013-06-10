@@ -65,7 +65,7 @@ namespace Naovigate.Event.GoalToNao
         /// </summary>
         private void Unpack()
         {
-            ObjectID = Stream.ReadInt();
+            //ObjectID = Stream.ReadInt();
         }
 
         /// <summary>
