@@ -12,7 +12,8 @@ namespace Naovigate.Movement
     internal sealed class Pose : IDisposable
     {
         private static readonly string UnusableProxiesMessage = "A Nao-proxy used by this class is either null or has been disposed of.";
-        private static readonly bool ignoreStabalise = false;
+        private static readonly bool ignoreStabilise = true;
+        private static readonly bool ignoreIsStable = false;
         private static readonly float maxAllowedDifference = 0.3f;
         private static readonly float attemptStabaliseLimit = 0.3f;
 
@@ -212,7 +213,7 @@ namespace Naovigate.Movement
         /// <returns>True if the Nao is stable, false otherwise.</returns>
         public bool IsStable()
         {
-            if (ignoreStabalise) 
+            if (ignoreIsStable) 
                 return false;
 
             List<float> rAngles = Angles(rLegNames);
@@ -235,7 +236,7 @@ namespace Naovigate.Movement
         /// <returns>True if stabilization attempt succeded, false otherwise.</returns>
         private bool AttemptStabilize()
         {
-            if (ignoreStabalise)
+            if (ignoreStabilise)
                 return false;
 
             Logger.Log(this, "Attemping to stabilize...");
