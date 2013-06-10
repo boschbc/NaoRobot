@@ -28,7 +28,7 @@ namespace Naovigate.Event.Internal
         /// </summary>
         public override void Fire()
         {
-            Walk.Instance.TurnExact(rotation, accuracy);
+            Walk.Instance.TurnExact(rotation);
         }
 
         /// <summary>

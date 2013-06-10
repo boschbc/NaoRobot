@@ -12,7 +12,6 @@ namespace Naovigate.Grabbing
     public class Grabber
     {
         private static Grabber instance;
-        private ActionExecutor worker;
         private MotionProxy motion;
         private RobotPostureProxy posture;
         
@@ -60,11 +59,24 @@ namespace Naovigate.Grabbing
         public void WaitFor()
         {
             Logger.Log(this, "Waiting for grabber...");
-            if (worker != null && worker.Running)
+            if (Worker != null && Worker.Running)
             {
-                worker.WaitFor();
+                try
+                {
+                    Worker.WaitFor();
+                }
+                catch(Exception e)
+                {
+                    Logger.Log(this, "WaitFor failed: "+e);
+                }
             }
             Logger.Log(this, "Done waiting.");
+        }
+
+        public ActionExecutor Worker
+        {
+            get;
+            private set;
         }
 
         /// <summary>
@@ -74,11 +86,11 @@ namespace Naovigate.Grabbing
         /// <param name="w">An ActionExecutor.</param>
         /// <param name="autostart">Controls whether to already invoke Start() on the given worker.</param>
         /// <returns>The worker thread.</returns>
-        private Worker CreateWorker<Worker>(Worker w, bool autostart) 
-            where Worker : ActionExecutor
+        private TWorker CreateWorker<TWorker>(TWorker w, bool autostart) 
+            where TWorker : ActionExecutor
         {
             WaitFor();
-            worker = w;
+            Worker = w;
             if (autostart)
                 w.Start();
             return w;
@@ -118,10 +130,10 @@ namespace Naovigate.Grabbing
         /// </summary>
         public virtual void Abort()
         {
-            if (worker != null)
+            if (Worker != null)
             {
-                worker.Abort();
-                worker = null;
+                Worker.Abort();
+                Worker = null;
             }
         }
     }

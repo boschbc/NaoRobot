@@ -216,6 +216,7 @@ namespace Naovigate.Event
             Current = NextEvent;
             if (Current != null)
                 FireEvent(Current);
+            Current = null;
         }
 
         /// <summary>

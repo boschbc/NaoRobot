@@ -62,13 +62,14 @@ namespace Naovigate.Event.GoalToNao
         {
             try
             {
+                Logger.Log(this, "Planning Route");
                 List<RouteEntry> route = Planner.PlanRoute(NaoState.Instance.Map, locations);
+                Logger.Log(this, "Path found, walking..");
                 foreach (RouteEntry entry in route)
                 {
                     if (!Aborted)
                     {
-                        float relativeRotation = (float)entry.Direction.ToRadian();
-                        Walk.Instance.TurnExact((float)entry.Direction.ToRadian(), 0.1f);
+                        Walk.Instance.TurnExact((float)entry.Direction.ToRadian());
                         worker = Walk.Instance.WalkTowardsMarker(0f, entry.MarkerID, entry.WantedDistance);
                         worker.WaitFor();
                     }
