@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace Naovigate.Event.NaoToGoal
 {
     /// <summary>

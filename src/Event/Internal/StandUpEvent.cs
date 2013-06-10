@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 using Naovigate.Movement;
 
 namespace Naovigate.Event.Internal

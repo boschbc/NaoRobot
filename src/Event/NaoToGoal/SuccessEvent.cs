@@ -1,5 +1,4 @@
-﻿using System;
-using Naovigate.Communication;
+﻿using Naovigate.Communication;
 namespace Naovigate.Event.NaoToGoal
 {
     /// <summary>

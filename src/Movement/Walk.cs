@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections;
-using System.Threading;
 
 using Aldebaran.Proxies;
 
 using Naovigate.Util;
-using Naovigate.Vision;
-using System.Drawing;
 
 namespace Naovigate.Movement
 {

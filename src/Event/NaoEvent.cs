@@ -1,7 +1,5 @@
-﻿using System;
-
+﻿
 using Naovigate.Communication;
-using Naovigate.Event.NaoToGoal;
 using Naovigate.Util;
 
 namespace Naovigate.Event

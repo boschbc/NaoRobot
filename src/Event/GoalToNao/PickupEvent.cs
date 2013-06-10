@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 
-using Naovigate.Communication;
 using Naovigate.Event.NaoToGoal;
 using Naovigate.Grabbing;
 using Naovigate.Movement;

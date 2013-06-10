@@ -3,7 +3,6 @@ using System.Collections;
 
 using Aldebaran.Proxies;
 
-using Naovigate.Communication;
 using Naovigate.Movement;
 using Naovigate.Util;
 

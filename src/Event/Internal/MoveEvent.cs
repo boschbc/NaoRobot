@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Windows;
 using System.Drawing;
-using Naovigate.Communication;
 
 using Naovigate.Movement;
-using Naovigate.Util;
 
 namespace Naovigate.Event.Internal
 {

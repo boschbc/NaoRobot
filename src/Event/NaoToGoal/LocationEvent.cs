@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-
+﻿
 using Naovigate.Util;
 
 namespace Naovigate.Event.NaoToGoal

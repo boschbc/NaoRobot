@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 using Naovigate.Grabbing;
 using Naovigate.Util;
 namespace Naovigate.Event.Internal

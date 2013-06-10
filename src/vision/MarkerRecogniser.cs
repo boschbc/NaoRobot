@@ -1,9 +1,6 @@
 using System;
-using System.Collections.Generic;
-
-using Aldebaran.Proxies;
-
 using System.Collections;
+using Aldebaran.Proxies;
 using Naovigate.Util;
 
 namespace Naovigate.Vision

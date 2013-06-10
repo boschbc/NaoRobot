@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using Aldebaran.Proxies;
 using Naovigate.Util;
-using Naovigate.Movement;
 
 namespace Naovigate.Movement
 {

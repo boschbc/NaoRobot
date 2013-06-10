@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Naovigate.Communication;
+﻿using System.Collections.Generic;
 using Naovigate.Event.NaoToGoal;
 using Naovigate.Grabbing;
 using Naovigate.Movement;
-using Naovigate.Vision;
-using Naovigate.Util;
 
 namespace Naovigate.Event.GoalToNao
 {

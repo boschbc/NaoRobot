@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿
 namespace Naovigate.Event.NaoToGoal
 {
     /// <summary>

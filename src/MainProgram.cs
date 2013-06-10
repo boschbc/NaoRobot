@@ -1,19 +1,10 @@
 ﻿using System;
-using System.Net;
-using System.Collections;
-using System.Collections.Generic;
-using System.Windows.Forms;
 using System.Threading;
-
-using Aldebaran.Proxies;
-
-using Naovigate.Movement;
+using System.Windows.Forms;
 using Naovigate.Communication;
-using Naovigate.Event.NaoToGoal;
-using Naovigate.Util;
 using Naovigate.GUI;
-using Naovigate.Vision;
-using Naovigate.Event;
+using Naovigate.Movement;
+using Naovigate.Util;
 namespace Naovigate
 {
     public static class MainProgram

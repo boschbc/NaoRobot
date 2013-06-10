@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Threading;
 using System.Collections;
+using System.Threading;
 using Naovigate.Util;
-using Naovigate.Movement;
 using Naovigate.Vision;
-using Naovigate.Event;
-using Naovigate.Event.NaoToGoal;
 
 namespace Naovigate.Movement
 {

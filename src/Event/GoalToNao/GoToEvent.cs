@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using System.Threading;
 
-using Naovigate.Communication;
 using Naovigate.Event.NaoToGoal;
 using Naovigate.Movement;
 using Naovigate.Navigation;

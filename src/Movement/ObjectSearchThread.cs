@@ -1,11 +1,7 @@
-﻿using System;
+﻿using System.Drawing;
 using System.Threading;
-using System.Collections;
 using Naovigate.Util;
-using Naovigate.Movement;
 using Naovigate.Vision;
-using Naovigate.Grabbing;
-using System.Drawing;
 
 namespace Naovigate.Movement
 {

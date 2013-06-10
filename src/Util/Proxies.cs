@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Naovigate.Communication;
 using Aldebaran.Proxies;
+using Naovigate.Communication;
 
 namespace Naovigate.Util
 {

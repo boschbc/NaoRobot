@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Naovigate.Communication;
 using Naovigate.Event.GoalToNao;
-using Naovigate.Event.NaoToGoal;
 
 namespace Naovigate.Event
 {

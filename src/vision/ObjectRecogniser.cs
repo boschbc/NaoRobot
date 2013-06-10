@@ -1,17 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using Aldebaran.Proxies;
-using System.Collections;
-using Naovigate.Util;
-using Emgu.CV.Cvb;
-using Emgu.CV;
-using Emgu.CV.Structure;
-using Emgu.CV.CvEnum;
-using Emgu.Util;
 using System.Drawing;
+using Emgu.CV;
+using Emgu.CV.Cvb;
+using Emgu.CV.Structure;
 
 namespace Naovigate.Vision
 {

@@ -1,6 +1,4 @@
-﻿using System;
-using Naovigate.Communication;
-
+﻿
 namespace Naovigate.Event
 {
     /// <summary>

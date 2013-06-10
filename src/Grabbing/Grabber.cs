@@ -2,8 +2,6 @@
 
 using Aldebaran.Proxies;
 
-using Naovigate.Communication;
-using Naovigate.Movement;
 using Naovigate.Util;
 
 namespace Naovigate.Grabbing

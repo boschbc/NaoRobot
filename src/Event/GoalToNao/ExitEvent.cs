@@ -1,6 +1,5 @@
 ﻿using System;
 
-using Naovigate.Communication;
 using Naovigate.Util;
 
 namespace Naovigate.Event.GoalToNao

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using Aldebaran.Proxies;
-using Naovigate.Communication;
-using Naovigate.Util;
 using Naovigate.Movement;
+using Naovigate.Util;
 
 
 namespace Naovigate.Grabbing

@@ -1,14 +1,10 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
 
 using Aldebaran.Proxies;
 using Emgu.CV;
 using Emgu.CV.Structure;
-using Emgu.Util;
 
 using Naovigate.Util;
 
