@@ -60,6 +60,8 @@ namespace Naovigate.Event
         GoToMarker = 0x46,
         Grab = 0x47,
         Turn = 0x48,
+        Test = 0xFF,
+        Report = 0xFE,
     }
 
     /// <summary>

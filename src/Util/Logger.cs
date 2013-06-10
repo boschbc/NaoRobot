@@ -118,4 +118,21 @@ namespace Naovigate.Util
             set;
         }
     }
+
+    public static class Extensions
+    {
+        /// <summary>
+        /// Returns (at max) the first 5 charachters of a floating point number as a string.
+        /// return "small" if the number contains an E.
+        /// </summary>
+        /// <param name="f">A floating point number.</param>
+        /// <returns>A string of length 5 (at max).</returns>
+        public static string Readable(this float f)
+        {
+            string res = f.ToString();
+            if (res.Contains("E")) return "small";
+            if (res.Length < 5) return res;
+            else return res.Substring(0, 5);
+        }
+    }
 }
