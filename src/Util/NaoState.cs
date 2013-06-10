@@ -8,6 +8,7 @@ using Aldebaran.Proxies;
 using Naovigate.Communication;
 using Naovigate.Grabbing;
 using Naovigate.Navigation;
+using Naovigate.Event;
 
 namespace Naovigate.Util
 {
@@ -20,7 +21,7 @@ namespace Naovigate.Util
 
         protected bool connected = false;
         protected Stopwatch Stopwatch = new Stopwatch();
-
+        protected bool idle = true;
         protected MotionProxy motion;
         protected BatteryProxy battery;
         protected MemoryProxy memory;
@@ -56,10 +57,10 @@ namespace Naovigate.Util
                 return;
             }
             Logger.Log(this, "Connecting to Nao...");
-            connected = true;
             IP = endPoint.Address;
             Port = endPoint.Port;
             CreateMyProxies();
+            connected = true;
             Update();
             if (OnConnect != null)
                 OnConnect(IP.ToString(), Port);
@@ -169,6 +170,24 @@ namespace Naovigate.Util
         }
 
         /// <summary>
+        /// value indicating if the Nao is idle.
+        /// </summary>
+        /// <value>The location.</value>
+        public bool Idle
+        {
+            get { return idle; }
+            private set {
+                if (idle != value)
+                {
+                    Logger.Log(this, "State: "+(value ? 0 : 1));
+                    // value changed, update goal.
+                    EventQueue.Goal.Post(new Event.NaoToGoal.StateEvent(value ? 0 : 1));
+                }
+                idle = value;
+            }
+        }
+
+        /// <summary>
         /// The overview map of the world we are exploring.
         /// </summary>
         /// <value>The map.</value>
@@ -208,6 +227,10 @@ namespace Naovigate.Util
                 Rotation = vector[2];
                 BatteryPercentageLeft = battery.getBatteryCharge();
                 Temperature = (float) memory.getData("Device/SubDeviceList/Battery/Temperature/Sensor/Value");
+
+                // update idle
+                ActionExecutor grabExecutor = Grabbing.Grabber.Instance.Worker;
+                Idle = !Walk.Instance.IsMoving() && (grabExecutor == null || !grabExecutor.Running) && EventQueue.Nao.Current == null;
             }
             catch(Exception e)
             {

@@ -86,15 +86,20 @@ namespace Naovigate.Event.GoalToNao
         {
             try
             {
+                Logger.Log(this, "GoInfrontOfObject");
                 GoInfrontOfObject();
                 ObjectSearchWorker results = executor as ObjectSearchWorker;
-                if (!results.PositionedCorrectly)
+                results.PositionedCorrectly.Log(this);
+                if (results.PositionedCorrectly)
+                {
+                    Logger.Log(this, "Grabbing Object");
+                    GrabObject();
+                }
+                else
                 {
                     ReportFailure();
                     return false;
                 }
-                else
-                    GrabObject();
 
                 return true;
             }

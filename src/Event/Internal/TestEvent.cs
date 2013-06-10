@@ -26,7 +26,7 @@ namespace Naovigate.Event.Internal
         /// </summary>
         public override EventCode EventCode
         {
-            get { return EventCode.Grab; }
+            get { return EventCode.Test; }
         }
     }
 }

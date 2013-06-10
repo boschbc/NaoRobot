@@ -10,14 +10,23 @@ namespace Naovigate.Vision
 {
     internal sealed class Processing : IDisposable
     {
-        public static bool closeEnough(Rectangle rect)
+        /// <summary>
+        /// Indicate if the given rectangle is an indication of being
+        /// close enough to this object.
+        /// </summary>
+        /// <param name="rect"></param>
+        /// <returns></returns>
+        public static bool CloseEnough(Rectangle rect)
         {
             return rect.Width >= 135;
         }
 
-
-        //returns the biggest rectangle object
-        public static Rectangle biggestRectangle(List<Rectangle> rectangles)
+        /// <summary>
+        /// returns the biggest rectangle object
+        /// </summary>
+        /// <param name="rectangles"></param>
+        /// <returns></returns>
+        public static Rectangle BiggestRectangle(List<Rectangle> rectangles)
         {
             Rectangle max = new Rectangle(0, 0, 0, 0);
             foreach (Rectangle rect in rectangles)
@@ -47,19 +56,20 @@ namespace Naovigate.Vision
         public void Init()
         {
             colors = new List<Hsv>();
-            Hsv redObjectMIn = new Hsv(255, 255, 255);
+            Hsv redObjectMin = new Hsv(255, 255, 255);
             Hsv redObjectMax = new Hsv ( 255.0, 255.0, 255.0);
             Hsv greenObjectMin = new Hsv ( 80, 150, 43 );
             Hsv greenObjectMax = new Hsv ( 116, 199, 180 );
             Hsv blueObjectMin = new Hsv (255, 255, 255);
             Hsv blueObjectMax = new Hsv (255, 255, 255);
-            colors.Add(redObjectMIn);
+            colors.Add(redObjectMin);
             colors.Add(redObjectMax);
             colors.Add(greenObjectMin);
             colors.Add(greenObjectMax);
             colors.Add(blueObjectMin);
             colors.Add(blueObjectMax);
         }
+
         //checks of there is a object in sight and then returns a array with distance and angle
         public Rectangle DetectObject()
         {
@@ -99,12 +109,8 @@ namespace Naovigate.Vision
             if (rectangles.Count == 0)
                 return new Rectangle(0, 0, 0, 0);
             else
-                return biggestRectangle(rectangles);
-        }
-
-        
-
-        
+                return BiggestRectangle(rectangles);
+        }        
 
         public Image<Gray, Byte> EnchancedImage(double[] rgb1, double[] rgb2)
         {

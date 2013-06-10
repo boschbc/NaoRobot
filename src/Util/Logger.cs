@@ -90,10 +90,18 @@ namespace Naovigate.Util
         /// <param name="e">An exception to log.</param>
         public static void Except(Exception e)
         {
-            string msg = "Exception " + e.GetType().Name;
-            Log(e);
+            Say("Exception " + e.GetType().Name);
+        }
+
+        /// <summary>
+        /// speak out a message. the message is also logged.
+        /// </summary>
+        /// <param name="message"></param>
+        public static void Say(string message)
+        {
+            Log(message);
             if (NaoState.Instance.Connected)
-                Proxies.GetProxy<Aldebaran.Proxies.TextToSpeechProxy>().say(msg);
+                Proxies.GetProxy<Aldebaran.Proxies.TextToSpeechProxy>().say(message);
         }
 
         /// <summary>
@@ -120,6 +128,34 @@ namespace Naovigate.Util
         {
             get;
             set;
+        }
+    }
+
+    public static class LogExtensions
+    {
+        /// <summary>
+        /// Returns (at max) the first 5 charachters of a floating point number as a string.
+        /// return "small" if the number contains an E.
+        /// </summary>
+        /// <param name="f">A floating point number.</param>
+        /// <returns>A string of length 5 (at max).</returns>
+        public static string Readable(this float f)
+        {
+            string res = f.ToString();
+            if (res.Contains("E")) return "small";
+            if (res.Length < 5) return res;
+            else return res.Substring(0, 5);
+        }
+
+        public static object Log(this object o, object type)
+        {
+            Logger.Log(type, o);
+            return o;
+        }
+
+        public static void Say(this object msg)
+        {
+            Logger.Say(msg.ToString());
         }
     }
 }

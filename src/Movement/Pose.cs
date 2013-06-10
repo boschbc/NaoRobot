@@ -31,19 +31,7 @@ namespace Naovigate.Movement
             {
                 return instance == null ? instance = new Pose() : instance;
             }
-        }
-
-        /// <summary>
-        /// Returns (at max) the first 5 charachters of a floating point number as a string.
-        /// </summary>
-        /// <param name="f">A floating point number.</param>
-        /// <returns>A string of length 5 (at max).</returns>
-        private static string FirstFive(float f)
-        {
-            string res = f.ToString();
-            if (res.Length < 5) return res;
-            else return res.Substring(0, 5);
-        }
+        }        
 
         private float lastDepth;
         private MotionProxy motion;
@@ -224,9 +212,10 @@ namespace Naovigate.Movement
             bool stable = true;
             for (int i = 0; i < 6; i++)
             {
-                float reverse = lLegNames[i].ToString().Contains("Roll") ? -1f : 1f;
-                Logger.Log(this, lLegNames[i] + ": " + FirstFive(lAngles[i]) + " - " + FirstFive(rAngles[i]) + " Diff = " + FirstFive(lAngles[i] - rAngles[i]));
-                stable = stable && Math.Abs(lAngles[i] - rAngles[i]) < maxAllowedDifference;
+                //float reverse = lLegNames[i].ToString().Contains("Roll") ? -1f : 1f;
+                float dif = lAngles[i] - rAngles[i];
+                Logger.Log(this, lLegNames[i] + ": " + lAngles[i].Readable() + " - " + rAngles[i].Readable() + " Diff = " + dif.Readable());
+                stable = stable && Math.Abs(dif) < maxAllowedDifference;
             }
             Logger.Log(this, "Stable: " + stable);
             return stable;
@@ -278,7 +267,7 @@ namespace Naovigate.Movement
         {
             for (int i = 0; i < 6; i++)
             {
-                Logger.Log(this, lLegNames[i] + ": " + FirstFive(left[i]) + " - " + FirstFive(right[i]) + " Diff = " + FirstFive(left[i] - right[i]));
+                Logger.Log(this, lLegNames[i] + ": " + left[i].Readable() + " - " + right[i].Readable() + " Diff = " + (left[i] - right[i]).Readable());
                 if (Math.Abs(left[i] - right[i]) < attemptStabaliseLimit)
                 {
                     float avg = (left[i] + right[i]) / 2;
@@ -300,4 +289,6 @@ namespace Naovigate.Movement
                 posture.Dispose();
         }
     }
+
+    
 }

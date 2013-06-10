@@ -175,12 +175,19 @@ namespace Naovigate.Movement
             WaitForMoveToEnd();
         }
 
-        
+        /// <summary>
+        /// Turns the Nao accurately using a default accuracy
+        /// </summary>
+        /// <param name="rad">The angle to turn in radians. A positive value means clockwise rotation.</param>
+        public void TurnExact(float rad)
+        {
+            TurnExact(rad, 0.01f);
+        }
         /// <summary>
         /// Turns the Nao accurately using the specified accuracy-degree.
         /// </summary>
         /// <param name="rad">The angle to turn in radians. A positive value means clockwise rotation.</param>
-        /// <param name="accuracy">How accurately to turn.</param>i
+        /// <param name="accuracy">How accurately to turn.</param>
         public void TurnExact(float rad, float accuracy)
         {
             if (accuracy < 0.01)
