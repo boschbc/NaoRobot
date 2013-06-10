@@ -52,7 +52,7 @@ namespace Naovigate.Movement
                 if (!Walk.Instance.IsMoving()) Running = false;
                 ArrayList data = rec.GetMarkerData();
                 markers = data.Count == 0 ? data : (ArrayList)data[1];
-                checkMarkers(markers);
+                CheckMarkers(markers);
                 if (markers.Count == 0 && sonar.IsTooClose())
                 {
                     Logger.Log(this, "I probably reached the marker");
@@ -65,7 +65,7 @@ namespace Naovigate.Movement
             Logger.Log("Exit LookForMarker : " + Running);
         }
 
-        private void checkMarkers(ArrayList markers)
+        private void CheckMarkers(ArrayList markers)
         {
             Logger.Log(this, "checkMarkers: " + markers.Count);
             for (int i = 0; i < markers.Count; i++)
@@ -75,7 +75,7 @@ namespace Naovigate.Movement
                 if ((int)((ArrayList)marker[1])[0] == markerID)
                 {
                     Logger.Log(this, "Correct marker: " + Running);
-                    bool reached = calculate(marker);
+                    bool reached = Calculate(marker);
                     Running = reached ? false : Running;
                     // wrong, See = object, were looking at markers here, need LocationEvent
                     //if (reached) EventQueue.Goal.Post(new SeeEvent(markerID, (int)(dist-0.5)));
@@ -85,7 +85,7 @@ namespace Naovigate.Movement
         }
 
         //Change direction towards the marker and return true iff we reached our destination
-        private bool calculate(ArrayList marker)
+        private bool Calculate(ArrayList marker)
         {
             Logger.Log(this, "Calculate: " + Running);
             bool reached = false;

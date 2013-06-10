@@ -119,10 +119,11 @@ namespace Naovigate.Grabbing
         /// Returns true if the Nao is currently holding an object.
         /// </summary>
         /// <returns>A boolean.</returns>
-        public virtual Boolean HoldingObject()
+        public virtual bool HoldingObject()
         {
-            Logger.Log(this, "HOlding: " + NaoState.Instance.HoldingObject);
-            return NaoState.Instance.HoldingObject;
+            bool res = NaoState.Instance.HoldingObject;
+            Logger.Log(this, "Holding: " + res);
+            return res;
         }
 
         /// <summary>

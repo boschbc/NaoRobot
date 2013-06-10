@@ -44,6 +44,7 @@ namespace Naovigate.Event.Internal
             }
             catch
             {
+                Logger.Say("I can not move my hands.");
                 msg += false;
             }
             report += msg + "\n";
