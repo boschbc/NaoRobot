@@ -99,6 +99,7 @@ namespace Naovigate.Movement
 
             if (MarkerRecogniser.estimateDistance(sizeY) <= (double)dist)
             {
+                Logger.Log("At Correct Distance: "+dist);
                 reached = true;
             }
             return reached;

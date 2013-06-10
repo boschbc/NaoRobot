@@ -131,8 +131,6 @@ namespace Naovigate.Event
         /// <exception cref="InvalidOperationException">The queue was terminated prior to this method-invocation.</exception>
         public void Post(INaoEvent e)
         {
-            if (!Running)
-                throw new InvalidOperationException("Cannot post events to a terminated queue.");
             if (e.ExecutionBehavior == ExecutionBehavior.Instantaneous)
             {
                 FireEvent(e);

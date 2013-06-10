@@ -56,6 +56,11 @@ namespace Naovigate.Movement
         {
             NaoState.Instance.OnConnect += BuildProxies;
             NaoState.Instance.OnDisconnect += ResetProxies;
+            NaoState state = NaoState.Instance;
+            if (state.Connected)
+            {
+                BuildProxies(state.IP.ToString(), state.Port);
+            }
         }
 
         /// <summary>
