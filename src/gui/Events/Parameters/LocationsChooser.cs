@@ -11,6 +11,9 @@ using Naovigate.GUI.Util;
 
 namespace Naovigate.GUI.Events.Parameters
 {
+    /// <summary>
+    /// A simple class that allows the user to choose an array of points (x, y). A maximum of 3 points may be chosen.
+    /// </summary>
     public sealed partial class LocationsChooser : UserControl, IParamChooser
     {
         private List<PointControl> points;
@@ -21,6 +24,9 @@ namespace Naovigate.GUI.Events.Parameters
             points = new List<PointControl>();
         }
 
+        /// <summary>
+        /// Adds a new Point-field to the control, if there are less than 3 present.
+        /// </summary>
         public void AddPoint()
         {
             if (points.Count >= 3)
@@ -30,6 +36,9 @@ namespace Naovigate.GUI.Events.Parameters
             points.Add(p);
         }
 
+        /// <summary>
+        /// A list of points representing the user's choice.
+        /// </summary>
         public List<Point> Locations
         {
             get 
@@ -41,6 +50,9 @@ namespace Naovigate.GUI.Events.Parameters
             }
         }
 
+        /// <summary>
+        /// This chooser's value.
+        /// </summary>
         public Object Value
         {
             get { return Locations; }

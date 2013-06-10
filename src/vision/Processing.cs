@@ -21,14 +21,6 @@ namespace Naovigate.Vision
             return rect.Width >= 135;
         }
 
-        //constructs a arraylist of data from the objectRectangle
-        public static ArrayList ObjectData(Rectangle objectRectangle)
-        {
-            ArrayList ret = new ArrayList();
-            ret.Add(objectRectangle.Left);
-            ret.Add(objectRectangle.Right);
-            return ret;
-        }
 
         //returns the biggest rectangle object
         public static Rectangle biggestRectangle(List<Rectangle> rectangles)

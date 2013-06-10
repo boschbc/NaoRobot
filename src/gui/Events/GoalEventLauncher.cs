@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Naovigate.Communication;
 using Naovigate.Event;
@@ -10,7 +8,10 @@ using Naovigate.Util;
 
 namespace Naovigate.GUI.Events
 {
-    class GoalEventLauncher : EventLauncher
+    /// <summary>0
+    /// A control that allows the user to select and launch Goal related events.
+    /// </summary>
+    sealed class GoalEventLauncher : EventLauncher
     {
         public GoalEventLauncher() : base() 
         {
@@ -60,7 +61,10 @@ namespace Naovigate.GUI.Events
                 });
         }
             
-        
+        /// <summary>
+        /// Posts the selected event to the Goal event-queue.
+        /// </summary>
+        /// <param name="goalEvent">The event to post.</param>
         protected override void PostEvent(INaoEvent goalEvent)
         {
             base.PostEvent(goalEvent);

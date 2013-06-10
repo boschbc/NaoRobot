@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 using Naovigate.Event;
 using Naovigate.Event.Internal;
 using Naovigate.Util;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Naovigate.GUI.Events
 {
-    public class InternalEventLauncher : EventLauncher
+    /// <summary>
+    /// A control that allows the user to choose and launch internal events.
+    /// </summary>
+    public sealed class InternalEventLauncher : EventLauncher
     {
         private readonly string VelocityX = "VelocityX";
         private readonly string VelocityY = "VelocityY";
@@ -30,6 +29,9 @@ namespace Naovigate.GUI.Events
             Customize("Post to Internal", constructorByName);
         }
 
+        /// <summary>
+        /// Adds the different constructor categories to the internal list.
+        /// </summary>
         private void AddConstructors()
         {
             AddUtilConstructors();
@@ -38,6 +40,9 @@ namespace Naovigate.GUI.Events
             AddMovementConstructors();
         }
 
+        /// <summary>
+        /// Adds pose-related event-constructors to the internal list.
+        /// </summary>
         private void AddPoseConstructors()
         {
             constructorByName.Add("SitDownEvent",
@@ -48,6 +53,9 @@ namespace Naovigate.GUI.Events
                 new Constructor(() => new CrouchEvent()));
         }
 
+        /// <summary>
+        /// Adds movement-related event-constructors to te internal list.
+        /// </summary>
         private void AddMovementConstructors()
         {
             constructorByName.Add("MoveEvent",
@@ -72,12 +80,18 @@ namespace Naovigate.GUI.Events
                     new UserParameter<float>(Accuracy)));
         }
 
+        /// <summary>
+        /// Adds grabbing-related constructor's to the internal event list.
+        /// </summary>
         private void AddGrabbingConstructors()
         {
             constructorByName.Add("GrabEvent",
                 new Constructor(() => new GrabEvent()));
         }
 
+        /// <summary>
+        /// Adds utility-related constructor's to the internal event list.
+        /// </summary>
         private void AddUtilConstructors()
         {
             constructorByName.Add("Test",
@@ -86,6 +100,10 @@ namespace Naovigate.GUI.Events
                 new Constructor(() => new ShutdownEvent()));
         }
 
+        /// <summary>
+        /// Posts an event to the Nao event-queue.
+        /// </summary>
+        /// <param name="naoEvent">A Nao event.</param>
         protected override void PostEvent(INaoEvent naoEvent)
         {
             base.PostEvent(naoEvent);

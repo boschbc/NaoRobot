@@ -9,13 +9,19 @@ using System.Windows.Forms;
 
 namespace Naovigate.GUI.Events.Parameters
 {
-    public partial class StringChooser : UserControl, IParamChooser
+    /// <summary>
+    /// A simple class allowing the user to input some text into a control.
+    /// </summary>
+    public sealed partial class StringChooser : UserControl, IParamChooser
     {
         public StringChooser()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// This chooser's value.
+        /// </summary>
         public Object Value
         {
             get { return value.Text; }

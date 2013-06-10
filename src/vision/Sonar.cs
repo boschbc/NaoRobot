@@ -55,15 +55,6 @@ namespace Naovigate.Vision
         }
         
         /// <summary>
-        /// deactivates sonar
-        /// </summary>
-        public void Deactivate()
-        {
-            sonarProxy.unsubscribe("Nao");
-            Logger.Log(this, "Deactivating sonar");
-        }
-
-        /// <summary>
         /// Check if the Nao is too close (within 0.3 metres) to a wall (or other object)
         /// </summary>
         /// <returns></returns>

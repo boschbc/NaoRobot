@@ -16,9 +16,8 @@ namespace Naovigate.Util
 {
     public class NaoState
     {
-        public delegate void ConnectionChangeHandler(string ip, int port);
-        public event ConnectionChangeHandler OnConnect;
-        public event ConnectionChangeHandler OnDisconnect;
+        public event Action<String, Int32> OnConnect;
+        public event Action<String, Int32> OnDisconnect;
         
         protected static NaoState instance = null;
 

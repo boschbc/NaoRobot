@@ -73,25 +73,6 @@ namespace Naovigate.Movement
             }
             set { motion = value; }
         }
-
-        /// <summary>
-        /// A robot posture proxy.
-        /// </summary>
-        private RobotPostureProxy Posture
-        {
-            get
-            {
-                if (NaoState.Instance.Connected)
-                {
-                    if (posture == null)
-                        posture = Proxies.GetProxy<RobotPostureProxy>();
-                }
-                else
-                    posture = null;
-                return posture;
-            }
-            set { posture = value; }
-        }
         
         /// <summary>
         /// Default constructor.
@@ -108,7 +89,6 @@ namespace Naovigate.Movement
         private void ResetProxies(string ip, int port)
         {
             Motion = null;
-            Posture = null;
         }
 
         /// <summary>

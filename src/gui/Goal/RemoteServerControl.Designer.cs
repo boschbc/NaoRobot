@@ -51,6 +51,7 @@
             this.ipChooser.AutoSize = true;
             this.ipChooser.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ipChooser.Dock = System.Windows.Forms.DockStyle.Top;
+            this.ipChooser.IP = "127.0.0.1";
             this.ipChooser.Location = new System.Drawing.Point(3, 16);
             this.ipChooser.Name = "ipChooser";
             this.ipChooser.Size = new System.Drawing.Size(229, 29);
@@ -67,7 +68,7 @@
             this.boundingBox.Size = new System.Drawing.Size(235, 71);
             this.boundingBox.TabIndex = 5;
             this.boundingBox.TabStop = false;
-            this.boundingBox.Text = "Conect to Goal Server";
+            this.boundingBox.Text = "Connect to Goal Server";
             // 
             // RemoteServerControl
             // 

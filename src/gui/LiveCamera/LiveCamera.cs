@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 using Naovigate.Communication;
@@ -13,6 +8,9 @@ using Naovigate.Vision;
 
 namespace Naovigate.GUI.LiveCamera
 {
+    /// <summary>
+    /// A control that displays live images from a camera.
+    /// </summary>
     internal sealed partial class LiveCamera : UserControl, IRealtimeField
     {
         private static readonly int DEFAULT_FPS = 5;
@@ -23,6 +21,9 @@ namespace Naovigate.GUI.LiveCamera
         private Camera camera;
         private UpdaterThread updater;
         
+        /// <summary>
+        /// Creates a new instance of this control with default FPS of 5.
+        /// </summary>
         public LiveCamera()
         {
             InitializeComponent();
@@ -31,22 +32,35 @@ namespace Naovigate.GUI.LiveCamera
             Active = false;
         }
 
+        /// <summary>
+        /// Creates a new instance of this control with the given FPS.
+        /// </summary>
+        /// <param name="fps">The desired refresh rate of the video feed.</param>
         public LiveCamera(int fps)
             : this()
         {
             this.fps = fps;
         }
 
+        /// <summary>
+        /// This control's refresh rate in ms.
+        /// </summary>
         private int Interval
         {
             get { return 1000 / fps; }
         }
 
+        /// <summary>
+        /// The camera from which this control retrieves images.
+        /// </summary>
         public Camera Camera
         {
             get { return camera; }
         }
 
+        /// <summary>
+        /// True if the control is active (displaying the video-feed).
+        /// </summary>
         public bool Active
         {
             get { return active; }
@@ -60,12 +74,18 @@ namespace Naovigate.GUI.LiveCamera
             }
         }
 
+        /// <summary>
+        /// A customizable source for the images.
+        /// </summary>
         public Func<Image> ImageSource
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Attempts to create an instance of a Camera class.
+        /// </summary>
         private void CreateCamera()
         {
             try
@@ -80,6 +100,10 @@ namespace Naovigate.GUI.LiveCamera
             }
         }
 
+        /// <summary>
+        /// If not linked to any camera, attempts to create one.
+        /// Proceeds to subscribe to the camera's video-feed
+        /// </summary>
         private void Activate()
         {
             active = false;
@@ -94,6 +118,9 @@ namespace Naovigate.GUI.LiveCamera
             }
         }
 
+        /// <summary>
+        /// Clears the video display, unsubscribes the camera and stops refreshing the control.
+        /// </summary>
         private void Deactivate()
         {
             active = false;
@@ -106,6 +133,9 @@ namespace Naovigate.GUI.LiveCamera
             updater.Enabled = false;
         }
 
+        /// <summary>
+        /// Sets the enabled checkbox checked property in accordance to the active state of this control.
+        /// </summary>
         private void UpdateEnabledCheckBox()
         {
             //Avoid cross-thread exception:
@@ -115,6 +145,9 @@ namespace Naovigate.GUI.LiveCamera
                 cameraEnabled.Checked = active;
         }
 
+        /// <summary>
+        /// Clears the video display.
+        /// </summary>
         public void ResetContent()
         {
             if (imageContainer.InvokeRequired)
@@ -123,6 +156,9 @@ namespace Naovigate.GUI.LiveCamera
                 imageContainer.Image = new Bitmap(1, 1);
         }
 
+        /// <summary>
+        /// Updates the video display.
+        /// </summary>
         public void UpdateContent()
         {
             if (camera == null || !NaoState.Instance.Connected)

@@ -109,7 +109,6 @@
     <Compile Include="GUI\Events\IParamChooser.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GUI\Events\IParameterGetter.cs" />
     <Compile Include="GUI\Events\IUserParameter.cs" />
     <Compile Include="GUI\Events\NaoEventLauncher.cs">
       <SubType>UserControl</SubType>

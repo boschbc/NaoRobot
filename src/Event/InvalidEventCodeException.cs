@@ -3,12 +3,12 @@ using System.Runtime.Serialization;
 
 namespace Naovigate.Event
 {
-    /*
-     * An exception designed to be thrown when trying to initialise
-     * a NaoEvent with an invalid byte action-code.
-     */
+    /// <summary>
+    /// An exception designed to be thrown when trying to initialise
+    /// a NaoEvent with an invalid byte action-code.
+    /// </summary>
     [Serializable]
-    public class InvalidEventCodeException : Exception
+    public sealed class InvalidEventCodeException : Exception
     {
         public InvalidEventCodeException() : base() { }
         public InvalidEventCodeException(string message) : base(message) { }

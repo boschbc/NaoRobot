@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Drawing;
 
 using Naovigate.Event;
 using Naovigate.Event.GoalToNao;
 using Naovigate.GUI.Events.Parameters;
 using Naovigate.Util;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace Naovigate.GUI.Events
 {
-    class NaoEventLauncher : EventLauncher
+    /// <summary>
+    /// A control that allows the user to launch nao-related events.
+    /// </summary>
+    public sealed class NaoEventLauncher : EventLauncher
     {
         public NaoEventLauncher() : base()
         {
@@ -47,6 +47,9 @@ namespace Naovigate.GUI.Events
                 });
         }
 
+        /// <summary>
+        /// Adds custom mappings to the parameter-chooser map.
+        /// </summary>
         protected override void PopulateWithCustoms()
         {
             base.PopulateWithCustoms();
@@ -54,6 +57,10 @@ namespace Naovigate.GUI.Events
                 () => new LocationsChooser() as IParamChooser);
         }
 
+        /// <summary>
+        /// Posts the selected event to the Nao event-queue.
+        /// </summary>
+        /// <param name="naoEvent">The selected event.</param>
         protected override void PostEvent(INaoEvent naoEvent)
         {
             base.PostEvent(naoEvent);

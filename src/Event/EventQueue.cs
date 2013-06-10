@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using System.ComponentModel;
 
-using Naovigate.Communication;
-using Naovigate.Event.NaoToGoal;
 using Naovigate.Util;
 
 namespace Naovigate.Event
@@ -19,8 +16,7 @@ namespace Naovigate.Event
     /// </summary>
     public sealed class EventQueue
     {
-        public delegate void EventFiredHandler(INaoEvent e);
-        public event EventFiredHandler EventFiring;
+        public event Action<INaoEvent> EventFiring;
 
         private static EventQueue naoInstance;
         private static EventQueue goalInstance;
@@ -73,6 +69,10 @@ namespace Naovigate.Event
             thread.Start();
         }
 
+        /// <summary>
+        /// Creates a new EventQueue instance and starts the main thread.
+        /// </summary>
+        /// <param name="name">The name to give to the main thread.</param>
         public EventQueue(string name) : this()
         {
             thread.Name = name;

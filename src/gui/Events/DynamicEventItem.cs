@@ -5,11 +5,19 @@ using System.Text;
 
 namespace Naovigate.GUI.Events
 {
-    public class DynamicEventItem
+    /// <summary>
+    /// A class intended as a drop-down item. It links an event constructor to a label.
+    /// </summary>
+    public sealed class DynamicEventItem
     {
         public string Text { get; set; }
         public Constructor Constructor { get; set; }
 
+        /// <summary>
+        /// Creates a new dynamic event item.
+        /// </summary>
+        /// <param name="text">The label associated with this event-item.</param>
+        /// <param name="constructor">The event's constructor.</param>
         public DynamicEventItem(string text, Constructor constructor)
         {
             Text = text;
