@@ -94,7 +94,7 @@ namespace Naovigate.Util
         public bool Connected
         {
             get{
-                if (IP == null) connected = true;
+                if (IP == null) connected = false;
                 return connected; 
             }
         }

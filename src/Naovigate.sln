@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual C# Express 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Naovigate", "Naovigate.csproj", "{E716A50D-7773-4AE2-B73F-9FC95F72C798}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Naovigate.Test", "..\Naovigate.Test\Naovigate.Test.csproj", "{79667B7F-88D4-4C97-B378-A3CBFAA08692}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "..\Naovigate.Test\Test.csproj", "{79667B7F-88D4-4C97-B378-A3CBFAA08692}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
