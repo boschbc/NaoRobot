@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.Windows.Forms;
-using System.Threading;
 
 using Naovigate.Communication;
 using Naovigate.Util;
 
 namespace Naovigate.GUI.State
 {
+    /// <summary>
+    /// A control that display several properties of the Nao in real time.
+    /// </summary>
     public sealed partial class StateMonitorPanel : UserControl
     {
         private static int DefaultFps = 2;
@@ -17,29 +17,45 @@ namespace Naovigate.GUI.State
         private int fps;
         private UpdaterThread updater;
         
+        /// <summary>
+        /// Creates a new instance of this control with the deafult FPS (2).
+        /// </summary>
         public StateMonitorPanel()
         {
             fps = DefaultFps;
             Init();
         }
 
+        /// <summary>
+        /// Creates a new instance of this control with the given FPS.
+        /// </summary>
+        /// <param name="fps"></param>
         public StateMonitorPanel(int fps)
         {
             this.fps = fps;
             Init();
         }
 
+        /// <summary>
+        /// The refresh interval of this control in ms.
+        /// </summary>
         public int Interval
         {
             get { return 1000 / fps; }
         }
 
+        /// <summary>
+        /// True when the control is updating in real time.
+        /// </summary>
         public bool Active
         {
             get { return updater.Enabled; }
             set { updater.Enabled = value; }
         }
 
+        /// <summary>
+        /// Initializes the component.
+        /// </summary>
         private void Init()
         {
             debugWidgets = new List<IRealtimeField>();
@@ -48,6 +64,9 @@ namespace Naovigate.GUI.State
             InitializeDebugWidgets();
         }
 
+        /// <summary>
+        /// Adds all stat-monitors to this control.
+        /// </summary>
         private void InitializeDebugWidgets()
         {
             debugWidgets.Add(locationMonitor);
@@ -56,6 +75,9 @@ namespace Naovigate.GUI.State
             debugWidgets.Add(rotationMonitor);
         }
 
+        /// <summary>
+        /// Updates all displayed fields.
+        /// </summary>
         private void UpdateContent()
         {
             if (!NaoState.Instance.Connected)

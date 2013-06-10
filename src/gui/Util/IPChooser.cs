@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Naovigate.GUI.Util
 {
+    /// <summary>
+    /// A control that allows the user to specify an IP address.
+    /// </summary>
     public sealed partial class IPChooser : UserControl
     {
         public IPChooser()
@@ -27,7 +24,10 @@ namespace Naovigate.GUI.Util
             else
                 field.Value = value;
         }
-
+        
+        /// <summary>
+        /// The currently selected IP.
+        /// </summary>
         public string IP
         {
             get
@@ -44,6 +44,11 @@ namespace Naovigate.GUI.Util
             }
         }
 
+        /// <summary>
+        /// Selects the content of a widget once it receives focus.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void field_GotFocus(object sender, EventArgs e)
         {
             ((NumericUpDown)sender).Select(0, 3);

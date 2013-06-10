@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.Threading;
 using Naovigate.Util;
 
 namespace Naovigate.GUI.State
 {
+    /// <summary>
+    /// A control that displays the Nao's location in real time.
+    /// </summary>
     public sealed partial class LocationMonitor : UserControl, IRealtimeField
     {
         public LocationMonitor()
@@ -18,6 +14,9 @@ namespace Naovigate.GUI.State
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Updates the location display.
+        /// </summary>
         private void UpdateLocation()
         {
             locationLabel.Text = String.Format("({0},{1})",
@@ -25,6 +24,9 @@ namespace Naovigate.GUI.State
                 Math.Round(NaoState.Instance.Location.Y, 2));
         }
 
+        /// <summary>
+        /// Clears the location display.
+        /// </summary>
         public void ResetContent()
         {
             //Avoid cross-thread exception:
@@ -34,6 +36,9 @@ namespace Naovigate.GUI.State
                 locationLabel.Text = "Unknown";
         }
 
+        /// <summary>
+        /// Updates the location display.
+        /// </summary>
         public void UpdateContent()
         {
             //Avoid cross-thread exception:

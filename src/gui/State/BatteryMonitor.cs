@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 using Naovigate.Util;
-using Naovigate.Communication;
 
 namespace Naovigate.GUI.State
 {
+    /// <summary>
+    /// A control that displays the nao's battery charge in real time.
+    /// </summary>
     public sealed partial class BatteryMonitor : UserControl, IRealtimeField
     {
         public BatteryMonitor()
@@ -16,6 +14,9 @@ namespace Naovigate.GUI.State
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Sets the battery charage display to unknown (=0)
+        /// </summary>
         public void ResetContent()
         {
             //Avoid cross-thread exception:
@@ -25,6 +26,9 @@ namespace Naovigate.GUI.State
                 batteryGauge.Value = 0;
         }
 
+        /// <summary>
+        /// Updates the battery-charge display.
+        /// </summary>
         public void UpdateContent()
         {
             //Avoid cross-thread exception:

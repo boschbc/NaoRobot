@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
-using Naovigate.GUI.Events;
 namespace Naovigate.GUI
 {
+    /// <summary>
+    /// A debugger aimed at helping developers ineteracting with Nao robots and Goal servers using Naovigate and
+    /// a graphical user interface.
+    /// </summary>
     public sealed partial class NaoDebugger : Form
     {
         public NaoDebugger()
@@ -20,11 +17,21 @@ namespace Naovigate.GUI
             FormClosing += new FormClosingEventHandler(NaoDebugger_FormClosing);
         }
 
+        /// <summary>
+        /// Activates the state-monitor on load.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void NaoDebugger_Load(object sender, EventArgs e)
         {
            stateMonitorPanel.Active = true;
         }
 
+        /// <summary>
+        /// Deactivates the state-monitor and the live-camera controls when closing.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void NaoDebugger_FormClosing(object sender, FormClosingEventArgs e)
         {
             stateMonitorPanel.Active = false;

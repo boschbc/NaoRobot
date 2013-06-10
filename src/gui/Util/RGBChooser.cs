@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Naovigate.GUI.Util
 {
+    /// <summary>
+    /// A control that allows the user to specify an color in RGB color-space.
+    /// </summary>
     public sealed partial class RGBChooser : UserControl
     {
         public RGBChooser()
@@ -24,11 +21,19 @@ namespace Naovigate.GUI.Util
             blue.GotFocus += new EventHandler(Channel_GotFocus);
         }
 
+        /// <summary>
+        /// Select the numeric-text-box control once it gets focus.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Channel_GotFocus(object sender, EventArgs e)
         {
             ((NumericUpDown)sender).Select(0, 3);
         }
 
+        /// <summary>
+        /// The currently selected RGB value.
+        /// </summary>
         public double[] RGB
         {
             get 

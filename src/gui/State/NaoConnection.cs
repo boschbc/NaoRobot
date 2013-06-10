@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 using Naovigate.Communication;
@@ -12,6 +6,9 @@ using Naovigate.Util;
 
 namespace Naovigate.GUI.State
 {
+    /// <summary>
+    /// A control that allows the user to connect to a Nao.
+    /// </summary>
     public sealed partial class NaoConnection : UserControl
     {
         public NaoConnection()
@@ -20,6 +17,11 @@ namespace Naovigate.GUI.State
             ipChooser.IP = MainProgram.NaoIP;
         }
 
+        /// <summary>
+        /// Connects the to the selected Nao IP.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button_Click(object sender, EventArgs e)
         {
             NaoState.Instance.Disconnect();

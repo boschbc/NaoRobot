@@ -10,13 +10,22 @@ using Naovigate.Util;
 
 namespace Naovigate.GUI
 {
+    /// <summary>
+    /// A wrapper class that launches the NaoDebugger.
+    /// </summary>
     public static class LaunchDebugger
     {
+        /// <summary>
+        /// Starts the debugger.
+        /// </summary>
         public static void DebugMain()
         {
             StartDebugger();
         }
 
+        /// <summary>
+        /// Runs the debugger.
+        /// </summary>
         private static void StartDebugger()
         {
             Application.EnableVisualStyles();
