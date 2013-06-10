@@ -15,7 +15,7 @@ namespace Naovigate.Event.Internal
         private int markerID;
         private int distance;
 
-        private MarkerSearchThread worker;
+        private MarkerSearchWorker worker;
         
         /// <summary>
         /// Creates a new GoToMarkerEvent.

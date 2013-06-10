@@ -11,15 +11,11 @@ namespace Naovigate.Event.GoalToNao
     public sealed class PutDownEvent : ReportBackEvent
     {
         private ActionExecutor executor;
-        private bool done;
         
         /// <summary>
         /// Default constructor.
         /// </summary>
-        public PutDownEvent() 
-        {
-            done = false;
-        }
+        public PutDownEvent() {}
 
         /// <summary>
         /// Fires the event.

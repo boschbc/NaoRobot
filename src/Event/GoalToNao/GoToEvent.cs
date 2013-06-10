@@ -14,7 +14,7 @@ namespace Naovigate.Event.GoalToNao
     public sealed class GoToEvent : ReportBackEvent
     {
         private List<Point> locations;
-        private MarkerSearchThread worker;
+        private MarkerSearchWorker worker;
         
         /// <summary>
         /// Creates a new GoToEvent.

@@ -35,7 +35,6 @@ namespace Naovigate.Vision
         private List<Hsv> colors;
         ObjectRecogniser rec;
         List<Rectangle> rectangles;
-        double naoFactor = 2;
 
         public Processing(Camera camera)
         {

@@ -87,7 +87,7 @@ namespace Naovigate.Event.GoalToNao
             try
             {
                 GoInfrontOfObject();
-                ObjectSearchThread results = executor as ObjectSearchThread;
+                ObjectSearchWorker results = executor as ObjectSearchWorker;
                 if (!results.PositionedCorrectly)
                 {
                     ReportFailure();
@@ -118,7 +118,7 @@ namespace Naovigate.Event.GoalToNao
         /// </summary>
         private void GoInfrontOfObject()
         {
-            executor = new ObjectSearchThread(ObjectID);
+            executor = new ObjectSearchWorker(ObjectID);
             executor.Start();
             executor.WaitFor();
         }

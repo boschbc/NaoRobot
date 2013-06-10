@@ -14,6 +14,6 @@ namespace Naovigate.Event
         public InvalidEventCodeException(string message) : base(message) { }
 
         //Allows serialization of this exception.
-        protected InvalidEventCodeException(SerializationInfo info, StreamingContext ctxt) : base(info, ctxt) { }
+        private InvalidEventCodeException(SerializationInfo info, StreamingContext ctxt) : base(info, ctxt) { }
     }
 }

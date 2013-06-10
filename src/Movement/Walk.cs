@@ -48,7 +48,6 @@ namespace Naovigate.Movement
         }
 
         private MotionProxy motion;
-        private RobotPostureProxy posture;
 
         /// <summary>
         /// A motion proxy.
@@ -248,8 +247,6 @@ namespace Naovigate.Movement
         {
             if (motion != null)
                 motion.Dispose();
-            if (posture != null)
-                posture.Dispose();
         }
     }
 }

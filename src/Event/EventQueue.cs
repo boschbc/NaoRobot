@@ -181,7 +181,7 @@ namespace Naovigate.Event
         /// Returns the next event in the queue while removing it from the queue.
         /// </summary>
         /// <returns>The next event in queue, or null if the queue is empty.</returns>
-        protected INaoEvent NextEvent
+        private INaoEvent NextEvent
         {
             get
             {

@@ -93,27 +93,9 @@ namespace Naovigate.Util
         /// <value><c>true</c> if connected; otherwise, <c>false</c>.</value>
         public bool Connected
         {
-            get
-            {
-                if (IP == null)
-                    return false;
-                /*
-                try
-                {
-                    // temp removed. see if this is really required.
-                    // creates about 5 socket connections to the nao per second.
-                    Logger.Log(this, "Create Useless Proxy");
-                    MotionProxy motion = MotionProxy;
-                    motion.Dispose();
-                 */
-                    return connected;
-                /*
-                }
-                catch
-                {
-                    return false;
-                }
-                 * */
+            get{
+                if (IP == null) connected = true;
+                return connected; 
             }
         }
 
