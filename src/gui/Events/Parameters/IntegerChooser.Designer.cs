@@ -41,8 +41,13 @@
             0,
             65536});
             this.value.Location = new System.Drawing.Point(0, 0);
+            this.value.Maximum = new decimal(new int[] {
+            999,
+            0,
+            0,
+            0});
             this.value.Minimum = new decimal(new int[] {
-            100,
+            999,
             0,
             0,
             -2147483648});
