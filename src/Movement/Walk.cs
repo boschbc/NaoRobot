@@ -279,7 +279,7 @@ namespace Naovigate.Movement
         {
             try
             {
-                return Motion.moveIsActive();
+                return Proxies.GetProxy<MotionProxy>().moveIsActive();
             }
             catch(Exception e)
             {

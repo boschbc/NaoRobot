@@ -52,10 +52,24 @@ namespace Naovigate.Communication
                 return;
             Logger.Log(this, "Starting GOAL server...");
             Thread t = new Thread(() => Listen(ip, port));
+            Thread consumer = new Thread(() => Consumer());
             t.Name = "GoalServer";
             t.Start();
+            consumer.Start();
             Running = true;
             Logger.Log(this, "Server is running.");
+        }
+
+        private void Consumer()
+        {
+            byte[] buf = new byte[1 << 18];
+            while(goalStream == null);
+            while (goalStream.InternalStream == null) ;
+            System.IO.Stream s = goalStream.InternalStream;
+            while (Running)
+            {
+                s.Read(buf, 0, buf.Length);
+            }
         }
 
         public void Listen(string ip, int port)

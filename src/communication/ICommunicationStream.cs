@@ -112,7 +112,7 @@ namespace Naovigate.Communication
         /// <summary>
         /// Underlying stream.
         /// </summary>
-        Stream Stream
+        Stream InternalStream
         {
             get;
             set;

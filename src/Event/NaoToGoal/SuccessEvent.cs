@@ -6,13 +6,13 @@ namespace Naovigate.Event.NaoToGoal
     /// </summary>
     public sealed class SuccessEvent : DataSendingNaoEvent
     {
-        private int successfulEventCode;
+        private byte successfulEventCode;
 
         /// <summary>
         /// Explicit constructor.
         /// </summary>
         /// <param name="eventCode">Event code of the event which was successfully executed.</param>
-        public SuccessEvent(EventCode eventCode) : base((byte)EventCode.Success, (int)eventCode) { }
+        public SuccessEvent(EventCode eventCode) : this((byte)eventCode) {}
 
         /// <summary>
         /// Overload.

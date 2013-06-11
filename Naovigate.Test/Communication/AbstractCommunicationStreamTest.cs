@@ -151,7 +151,7 @@ namespace Naovigate.Test.Communication
             stream.Write(data);
             stream.Open = false;
             stream.Write(data2);
-            stream.Stream = internalStream;
+            stream.InternalStream = internalStream;
             stream.Write(data3);
             StartRead();
             for (int i = 1; i <= 9;i++ )
@@ -169,7 +169,7 @@ namespace Naovigate.Test.Communication
             stream.Write(data);
             stream.Open = false;
             stream.Write(data2);
-            stream.Stream = internalStream;
+            stream.InternalStream = internalStream;
             stream.Write(data3);
             StartRead();
             byte[] all = new byte[9];
@@ -246,7 +246,7 @@ namespace Naovigate.Test.Communication
         [Test]
         public void GetStreamTest()
         {
-            Assert.AreEqual(internalStream, stream.Stream);
+            Assert.AreEqual(internalStream, stream.InternalStream);
         }
 
         [TearDown]

@@ -93,7 +93,7 @@ namespace Naovigate.Communication
                 stream = this.client.GetStream();
                 if (communicationStream == null)
                     communicationStream = new BitStringCommunicationStream(stream);
-                else communicationStream.Stream = stream;
+                else communicationStream.InternalStream = stream;
                 Logger.Log(this, "Connection established.");
                 //send our agent id.
                 if (NaoState.Instance.Connected)

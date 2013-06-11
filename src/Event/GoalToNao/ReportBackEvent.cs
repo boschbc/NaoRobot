@@ -1,5 +1,5 @@
-﻿
-using Naovigate.Event.NaoToGoal;
+﻿using Naovigate.Event.NaoToGoal;
+using Naovigate.Util;
 
 namespace Naovigate.Event.GoalToNao
 {
@@ -35,6 +35,7 @@ namespace Naovigate.Event.GoalToNao
         /// </summary>
         protected virtual void ReportFailure()
         {
+            EventCode.Log(this);
             EventQueue.Goal.Post(new FailureEvent(EventCode));
         }
 
@@ -43,6 +44,7 @@ namespace Naovigate.Event.GoalToNao
         /// </summary>
         protected virtual void ReportSuccess()
         {
+            Logger.Log(this, "@@@@@@@@@@@@@ = "+(int)EventCode);
             EventQueue.Goal.Post(new SuccessEvent(EventCode));
         }
 

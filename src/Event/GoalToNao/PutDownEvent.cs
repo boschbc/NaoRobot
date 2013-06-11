@@ -24,6 +24,8 @@ namespace Naovigate.Event.GoalToNao
         {
             try
             {
+                if (!Grabber.Instance.HoldingObject())
+                    ReportFailure();
                 executor = Grabber.Instance.PutDown();
                 executor.Start();
                 executor.WaitFor();
