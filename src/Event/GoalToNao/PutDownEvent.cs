@@ -25,16 +25,19 @@ namespace Naovigate.Event.GoalToNao
             try
             {
                 if (!Grabber.Instance.HoldingObject())
+                {
                     ReportFailure();
-                executor = Grabber.Instance.PutDown();
-                executor.Start();
-                executor.WaitFor();
+                    return;
+                }
+                else
+                {
+                    executor = Grabber.Instance.PutDown();
+                    executor.Start();
+                    executor.WaitFor();
+                }
             }
             catch { }
-            finally
-            {
-                VerifyObjectNotHeld();
-            }
+            VerifyObjectNotHeld();
         }
 
         /// <summary>

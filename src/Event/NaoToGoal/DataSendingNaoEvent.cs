@@ -68,6 +68,7 @@ namespace Naovigate.Event.NaoToGoal
         /// </summary>
         protected virtual void Send() 
         {
+
             SendAsInt();
             if (Stream.GetType() == typeof(BitStringCommunicationStream))
                 Stream.WriteNewline();
@@ -84,7 +85,7 @@ namespace Naovigate.Event.NaoToGoal
             }
             catch (Exception e)
             {
-                Logger.Log(this, "Failed to fire: " + e);
+                Logger.Log(this, "Failed to fire.");
             }
         }
 

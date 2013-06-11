@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 
+using Naovigate.Event.Internal;
 using Naovigate.Event.NaoToGoal;
 using Naovigate.Movement;
 using Naovigate.Navigation;
@@ -62,22 +63,36 @@ namespace Naovigate.Event.GoalToNao
         {
             try
             {
-                Logger.Log(this, "Planning Route");
+                Logger.Log(this, "Planning route...");
                 List<RouteEntry> route = Planner.PlanRoute(NaoState.Instance.Map, locations);
-                Logger.Log(this, "Path found, walking..");
+                if (route != null)
+                    Logger.Log(this, "Path found, walking..");
+                else 
+                    Logger.Log(this, "No path found.");
+                Logger.Log(this, "RouteEntries: "+route.Count);
+                foreach (RouteEntry entry in route)
+                {
+                    Logger.Log(entry);
+                }
+                
                 foreach (RouteEntry entry in route)
                 {
                     if (!Aborted)
                     {
-                        Walk.Instance.TurnAbsolute(entry.Direction);
-                        worker = Walk.Instance.WalkTowardsMarker(0f, entry.MarkerID, entry.WantedDistance);
-                        worker.WaitFor();
+                        Logger.Log(this, "Turning to " + entry.Direction + "...");
+                        new TurnAbsoluteEvent(entry.Direction).Fire();
+                        Logger.Log(this, "Walking towards marker...");
+                        new GoToMarkerEvent(entry.MarkerID, entry.WantedDistance).Fire();
                     }
                 }
-                ReportSuccess();
+                if (Aborted)
+                    ReportFailure();
+                else
+                    ReportSuccess();
             }
-            catch
+            catch(System.Exception e)
             {
+                Logger.Log(this, e);
                 ReportFailure();
             }
         }
@@ -86,23 +101,6 @@ namespace Naovigate.Event.GoalToNao
         {
             base.ReportSuccess();
             EventQueue.Goal.Post(new LocationEvent(locations[locations.Count-1].X, locations[locations.Count-1].Y));
-        }
-
-        /// <summary>
-        /// Abort this event's execution.
-        /// </summary>
-        public override void Abort()
-        {
-            base.Abort();
-            try
-            {
-                if (worker != null)
-                    worker.Abort();
-            }
-            catch
-            {
-                ReportError();
-            }
         }
 
         /// <summary>

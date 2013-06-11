@@ -20,16 +20,23 @@ namespace Naovigate
 
         public static void Main(String[] args)
         {
-            Setup();
-            DialogResult useDebugGui = MessageBox.Show("Do you wish to use the NaoDebugger?", "Use Debugger?", MessageBoxButtons.YesNo);
-            if (useDebugGui == DialogResult.Yes)
-                LaunchDebugger.DebugMain();
-            Console.Read();
+            try
+            {
+                Setup();
+                DialogResult useDebugGui = MessageBox.Show("Do you wish to use the NaoDebugger?", "Use Debugger?", MessageBoxButtons.YesNo);
+                if (useDebugGui == DialogResult.Yes)
+                    LaunchDebugger.DebugMain();
+                Console.Read();
+            }
+            catch(Exception e)
+            {
+                Logger.Say(e.GetType().Name+" "+e.Message);
+            }
         }
 
         public static void Test()
         {
-            new Thread(() => Tst()).Start();
+            Logger.Log(typeof(MainProgram), Naovigate.Grabbing.Grabber.Instance.HoldingObject());
         }
 
         private static void Tst()

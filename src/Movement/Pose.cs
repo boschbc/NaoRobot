@@ -172,9 +172,10 @@ namespace Naovigate.Movement
         {
             get
             {
-                if (!IsStable()) 
-                    AttemptStabilize();
                 return IsStable();
+                //if (!IsStable()) 
+                //    AttemptStabilize();
+                //return IsStable();
             }
         }
 

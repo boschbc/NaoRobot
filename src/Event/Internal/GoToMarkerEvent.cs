@@ -55,7 +55,8 @@ namespace Naovigate.Event.Internal
                 {
                     Logger.Log("GoToMarker: start");
                     worker = Walk.Instance.WalkTowardsMarker(0, markerID, distance);
-                    Logger.Log("Waitfor");
+
+                    Logger.Log("Waitfor:"+worker.Running);
                     worker.WaitFor();
                 }
             }

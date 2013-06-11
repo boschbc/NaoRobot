@@ -142,6 +142,10 @@ namespace Naovigate.Event
                 q.Enqueue(e, (int)e.Priority);  
             }
             locker.Set();
+            if (this == Nao)
+            {
+                Logger.Log(this, ToString());
+            }
         }
 
         /// <summary>
@@ -306,7 +310,10 @@ namespace Naovigate.Event
         /// <returns>A human-readable string.</returns>
         public override string ToString()
         {
-            return q.ToString();
+            lock (q)
+            {
+                return q.ToString();
+            }
         }
     }
 }

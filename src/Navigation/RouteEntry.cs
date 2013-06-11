@@ -67,5 +67,10 @@ namespace Naovigate.Navigation
             get;
             set;
         }
+
+        public override string ToString()
+        {
+            return base.ToString() + " " + Direction + ", " + MarkerID + ", " + Distance + " " + WantedDistance;
+        }
     }
 }

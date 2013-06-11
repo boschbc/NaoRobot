@@ -140,6 +140,8 @@ namespace Naovigate.Grabbing
         /// <returns>A boolean.</returns>
         public virtual bool HoldingObject()
         {
+            //motion.getwa
+            //motion.setWalkArmsEnabled(false, false);
             bool holdingObject;
             float rad = (float)(0.25 * Math.PI);
             float accuracy = 0.1f;

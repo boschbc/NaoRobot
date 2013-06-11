@@ -10,7 +10,6 @@ namespace Naovigate.Event.Internal
     public sealed class TurnAbsoluteEvent : NaoEvent
     {
         private Direction direction;
-        private float accuracy;
 
         public TurnAbsoluteEvent(Direction dir)
         {
@@ -40,6 +39,11 @@ namespace Naovigate.Event.Internal
         public override EventCode EventCode
         {
             get { return EventCode.Turn; }
+        }
+
+        public override string ToString()
+        {
+            return base.ToString() + "<direction: " + direction + ">";
         }
     }
 }

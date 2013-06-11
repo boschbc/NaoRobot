@@ -75,7 +75,11 @@ namespace Naovigate.Movement
             NaoState.Instance.OnDisconnect += ResetProxies;
             NaoState.Instance.OnConnect += (ip, port) => North = NaoState.Instance.Rotation;
             if (NaoState.Instance.Connected)
+            {
                 North = NaoState.Instance.Rotation;
+                WalkWithObject = true;
+                Logger.Log(this, North);
+            }
         }
 
         /// <summary>
@@ -100,7 +104,7 @@ namespace Naovigate.Movement
         /// </summary>
         public float East
         {
-            get { return (float)(North + 0.5 * Math.PI); }
+            get { return (float)(North - 0.5 * Math.PI); }
         }
 
         /// <summary>
@@ -108,7 +112,7 @@ namespace Naovigate.Movement
         /// </summary>
         public float West
         {
-            get { return (float)(North - 0.5 * Math.PI); }
+            get { return (float)(North + 0.5 * Math.PI); }
         }
 
         /// <summary>
@@ -135,7 +139,9 @@ namespace Naovigate.Movement
         /// </summary>
         public void WaitForMoveToEnd()
         {
+            Logger.Log(this, "WaitForMove");
             Motion.waitUntilMoveIsFinished();
+            Logger.Log(this, "MoveFinished");
         }
 
         /// <summary>
@@ -250,6 +256,7 @@ namespace Naovigate.Movement
                 rad = East;
             else
                 rad = 0;
+            Logger.Log(this, "Radians: " + rad + ", North: " + North);
             TurnAbsolute(rad);
         }
 
@@ -274,8 +281,8 @@ namespace Naovigate.Movement
         /// <returns></returns>
         public MarkerSearchWorker WalkTowardsMarker(float dir, int markerID, int dist)
         {
-            StopLooking();
-            WalkTo(0, 0, dir);
+            Logger.Log(this, "WalkToMarker: "+markerID+":"+dist);
+            //StopLooking();
             StartWalking(0.7F, 0, 0);
             MarkerSearchWorker t = new MarkerSearchWorker(markerID,dist);
             t.Start();

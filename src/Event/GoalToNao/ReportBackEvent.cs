@@ -35,8 +35,8 @@ namespace Naovigate.Event.GoalToNao
         /// </summary>
         protected virtual void ReportFailure()
         {
-            EventCode.Log(this);
-            EventQueue.Goal.Post(new FailureEvent(EventCode));
+            if (Stream != null && Stream.Open)
+                EventQueue.Goal.Post(new FailureEvent(EventCode));
         }
 
         /// <summary>
@@ -44,8 +44,8 @@ namespace Naovigate.Event.GoalToNao
         /// </summary>
         protected virtual void ReportSuccess()
         {
-            Logger.Log(this, "@@@@@@@@@@@@@ = "+(int)EventCode);
-            EventQueue.Goal.Post(new SuccessEvent(EventCode));
+            if(Stream != null && Stream.Open)
+                EventQueue.Goal.Post(new SuccessEvent(EventCode));
         }
 
         /// <summary>
@@ -53,7 +53,8 @@ namespace Naovigate.Event.GoalToNao
         /// </summary>
         protected virtual void ReportError()
         {
-            EventQueue.Goal.Post(new ErrorEvent());
+            if (Stream != null && Stream.Open)
+                EventQueue.Goal.Post(new ErrorEvent());
         }
     }
 }

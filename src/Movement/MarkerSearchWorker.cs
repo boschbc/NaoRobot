@@ -15,7 +15,6 @@ namespace Naovigate.Movement
     {
         private int markerID;
         private double dist;
-        private float headPos = 0f;
 
         public MarkerSearchWorker(int markerID, int dist)
         {
@@ -40,7 +39,7 @@ namespace Naovigate.Movement
 
         public void LookForMarker()
         {
-            Pose.Instance.Look(headPos);
+            Pose.Instance.Look(0f);
             MarkerRecogniser rec = MarkerRecogniser.GetInstance();
             Sonar sonar = Sonar.Instance;
             ArrayList markers;
@@ -49,7 +48,7 @@ namespace Naovigate.Movement
             while (Running)
             {
                 Thread.Sleep(1000);
-                if (!Walk.Instance.IsMoving()) Running = false;
+                //if (!Walk.Instance.IsMoving()) Running = false;
                 ArrayList data = rec.GetMarkerData();
                 markers = data.Count == 0 ? data : (ArrayList)data[1];
                 CheckMarkers(markers);

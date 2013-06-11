@@ -12,9 +12,8 @@ namespace Naovigate.Event.Internal
         /// </summary>
         public override void Fire()
         {
-            Grabber.Instance.Grab();
-            Grabber.Instance.WaitFor();
-            Logger.Log(this, NaoState.Instance.HoldingObject);
+            Grabber.Instance.Grab().WaitFor();
+            //Grabber.Instance.WaitFor();
         }
 
         /// <summary>
