@@ -27,6 +27,19 @@ namespace Naovigate.Util
         protected BatteryProxy battery;
         protected MemoryProxy memory;
 
+        public NaoState()
+        {
+            try
+            {
+                Map = MapParser.Parse("../resources/maps/testmaze.map");
+            }
+            catch
+            {
+                Logger.Log(this, "Map parsing failed: Exit");
+                Environment.Exit(-1);
+            }
+        }
+
         public static NaoState Instance
         {
             get
