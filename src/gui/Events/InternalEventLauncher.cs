@@ -100,6 +100,8 @@ namespace Naovigate.GUI.Events
                 new Constructor(() => new ReportEvent()));
             constructorByName.Add("ShutdownEvent",
                 new Constructor(() => new ShutdownEvent()));
+            constructorByName.Add("Performance",
+                            new Constructor(() => new PerformanceEvent()));
         }
 
         /// <summary>

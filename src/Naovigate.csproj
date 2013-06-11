@@ -67,6 +67,7 @@
     <Compile Include="Event\GoalToNao\HaltEvent.cs" />
     <Compile Include="Event\INaoEvent.cs" />
     <Compile Include="Event\Internal\SitDownEvent.cs" />
+    <Compile Include="Event\Internal\PerformanceEvent.cs" />
     <Compile Include="Event\Internal\StandUpEvent.cs" />
     <Compile Include="Event\Internal\TestEvent.cs" />
     <Compile Include="Event\Internal\TurnEvent.cs" />

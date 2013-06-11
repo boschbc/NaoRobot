@@ -121,7 +121,7 @@ namespace Naovigate.Event
         /// <returns>A human-readable string.</returns>
         public override string ToString()
         {
-            return this.GetType().Name;
+            return this.GetType().Name+"<"+(int)EventCode+">";
         }
     }
 }

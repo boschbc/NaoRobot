@@ -33,7 +33,7 @@ namespace Naovigate.Communication
         /// <param name="stream">The stream to wrap.</param>
         public AbstractCommunicationStream(Stream stream)
         {
-            Stream = stream;
+            InternalStream = stream;
             buffer = new Queue<byte>();
         }
 
@@ -268,7 +268,7 @@ namespace Naovigate.Communication
         /// <summary>
         /// Underlying stream.
         /// </summary>
-        public Stream Stream {
+        public Stream InternalStream {
             get { return stream; }
             set { 
                 stream = value; 
