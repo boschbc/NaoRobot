@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-
 using Naovigate.Event;
 using Naovigate.GUI.Events.Parameters;
+using Naovigate.Navigation;
 using Naovigate.Util;
 
 namespace Naovigate.GUI.Events
@@ -95,6 +95,8 @@ namespace Naovigate.GUI.Events
             AddParameterMapping(typeof(int), () => new IntegerChooser() as IParamChooser);
             AddParameterMapping(typeof(float), () => new IntegerChooser() as IParamChooser);
             AddParameterMapping(typeof(string), () => new StringChooser() as IParamChooser);
+            AddParameterMapping(typeof(bool), () => new BooleanChooser() as IParamChooser);
+            AddParameterMapping(typeof(Direction), () => new DirectionChooser() as IParamChooser);
         }
 
         /// <summary>

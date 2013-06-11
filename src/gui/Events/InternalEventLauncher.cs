@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Naovigate.Event;
 using Naovigate.Event.Internal;
+using Naovigate.Navigation;
 using Naovigate.Util;
 
 namespace Naovigate.GUI.Events
@@ -72,12 +72,16 @@ namespace Naovigate.GUI.Events
                                               GetParameter<int>(Distance)),
                     new UserParameter<int>(ID),
                     new UserParameter<int>(Distance)));
-            constructorByName.Add("TurnEvent",
+            constructorByName.Add("TurnRelativeEvent",
                 new Constructor(
-                    () => new TurnEvent(GetParameter<float>(Rotation),
+                    () => new TurnRelativeEvent(GetParameter<float>(Rotation),
                                         GetParameter<float>(Accuracy)),
                     new UserParameter<float>(Rotation),
                     new UserParameter<float>(Accuracy)));
+            constructorByName.Add("TurnAbsoluteEvent",
+                new Constructor(
+                    () => new TurnAbsoluteEvent(GetParameter<Direction>("Direction")),
+                    new UserParameter<Direction>("Direction")));
         }
 
         /// <summary>

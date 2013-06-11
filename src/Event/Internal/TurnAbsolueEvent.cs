@@ -1,26 +1,20 @@
 ﻿
 using Naovigate.Movement;
+using Naovigate.Navigation;
 
 namespace Naovigate.Event.Internal
 {
     /// <summary>
     /// An event which makes the Nao turn.
     /// </summary>
-    public sealed class TurnEvent : NaoEvent
+    public sealed class TurnAbsoluteEvent : NaoEvent
     {
-        private float rotation;
+        private Direction direction;
         private float accuracy;
 
-        public TurnEvent(float rotation, float accuracy)
+        public TurnAbsoluteEvent(Direction dir)
         {
-            this.rotation = rotation;
-            this.accuracy = accuracy;
-        }
-
-        public TurnEvent(float rotation)
-        {
-            this.rotation = rotation;
-            this.accuracy = 0.01f;
+            this.direction = dir;
         }
 
         /// <summary>
@@ -28,13 +22,13 @@ namespace Naovigate.Event.Internal
         /// </summary>
         public override void Fire()
         {
-            Walk.Instance.TurnExact(rotation);
+            Walk.Instance.TurnAbsolute(direction);
         }
 
         /// <summary>
         /// Aborts execution of the event.
         /// </summary>
-        public override void Abort() 
+        public override void Abort()
         {
             base.Abort();
             Walk.Instance.StopMoving();

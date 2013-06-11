@@ -70,7 +70,8 @@
     <Compile Include="Event\Internal\PerformanceEvent.cs" />
     <Compile Include="Event\Internal\StandUpEvent.cs" />
     <Compile Include="Event\Internal\TestEvent.cs" />
-    <Compile Include="Event\Internal\TurnEvent.cs" />
+    <Compile Include="Event\Internal\TurnAbsolueEvent.cs" />
+    <Compile Include="Event\Internal\TurnRelativeEvent.cs" />
     <Compile Include="Event\InvalidEventCodeException.cs" />
     <Compile Include="Event\Internal\MoveEvent.cs" />
     <Compile Include="Event\NaoEvent.cs" />
@@ -120,6 +121,18 @@
     </Compile>
     <Compile Include="GUI\Events\ParameterPanel.Designer.cs">
       <DependentUpon>ParameterPanel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Events\Parameters\BooleanChooser.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Events\Parameters\BooleanChooser.Designer.cs">
+      <DependentUpon>BooleanChooser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\Events\Parameters\DirectionChooser.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Events\Parameters\DirectionChooser.Designer.cs">
+      <DependentUpon>DirectionChooser.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\Events\Parameters\IntegerChooser.cs">
       <SubType>UserControl</SubType>
@@ -321,6 +334,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Events\ParameterPanel.resx">
       <DependentUpon>ParameterPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Events\Parameters\BooleanChooser.resx">
+      <DependentUpon>BooleanChooser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Events\Parameters\DirectionChooser.resx">
+      <DependentUpon>DirectionChooser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Events\Parameters\IntegerChooser.resx">
       <DependentUpon>IntegerChooser.cs</DependentUpon>
