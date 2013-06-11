@@ -69,7 +69,7 @@ namespace Naovigate.Event.GoalToNao
                 {
                     if (!Aborted)
                     {
-                        Walk.Instance.TurnExact((float)entry.Direction.ToRadian());
+                        Walk.Instance.TurnAbsolute(entry.Direction);
                         worker = Walk.Instance.WalkTowardsMarker(0f, entry.MarkerID, entry.WantedDistance);
                         worker.WaitFor();
                     }

@@ -1,7 +1,6 @@
 ﻿using System;
-
 using Aldebaran.Proxies;
-
+using Naovigate.Navigation;
 using Naovigate.Util;
 
 namespace Naovigate.Movement
@@ -232,6 +231,26 @@ namespace Naovigate.Movement
         public void TurnAbsolute(float rad)
         {
             TurnAbsolute(rad, 0);
+        }
+
+        /// <summary>
+        /// Turns the Nao absolutely in the given direction.
+        /// </summary>
+        /// <param name="dir">An absolute directio to turn to.</param>
+        public void TurnAbsolute(Direction dir)
+        {
+            float rad;
+            if (dir == Direction.Up)
+                rad = North;
+            else if (dir == Direction.Down)
+                rad = South;
+            else if (dir == Direction.Left)
+                rad = West;
+            else if (dir == Direction.Right)
+                rad = East;
+            else
+                rad = 0;
+            TurnAbsolute(rad);
         }
 
         /// <summary>
