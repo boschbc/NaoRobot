@@ -83,7 +83,7 @@ namespace Naovigate.Vision
             return DetectObject().Width > 0;
         }
 
-        public float calculateTheta(Rectangle rect)
+        public float CalculateTheta(Rectangle rect)
         {
             int middle = rect.Left + rect.Right - currentImage.Width;
             float ret = 0;

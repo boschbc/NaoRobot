@@ -9,6 +9,7 @@ using Naovigate.Communication;
 using Naovigate.Grabbing;
 using Naovigate.Navigation;
 using Naovigate.Event;
+using Naovigate.Movement;
 
 namespace Naovigate.Util
 {
