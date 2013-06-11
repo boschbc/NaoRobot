@@ -7,6 +7,7 @@ using Emgu.CV;
 using Emgu.CV.Structure;
 
 using Naovigate.Util;
+using Naovigate.Communication;
 
 namespace Naovigate.Vision
 {
@@ -15,6 +16,25 @@ namespace Naovigate.Vision
     /// </summary>
     internal sealed class Camera : IDisposable
     {
+        /// <summary>
+        /// Attempts to create an instance of a Camera class.
+        /// </summary>
+        public static Camera CreateCamera(string subID)
+        {
+            Camera camera = null;
+            try
+            {
+                Logger.Log(typeof(Camera), "Creating camera...");
+                camera = new Camera(subID);
+                Logger.Log(typeof(Camera), "Camera created.");
+            }
+            catch (UnavailableConnectionException)
+            {
+                Logger.Log(typeof(Camera), "Could not instantiate Camera, connection unavailable.");
+            }
+            return camera;
+        }
+
         private string subscriberID;
         private VideoDeviceProxy videoProxy;
         

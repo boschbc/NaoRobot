@@ -16,15 +16,32 @@ namespace Naovigate.Grabbing
         private static Grabber instance;
         private MotionProxy motion;
         private RobotPostureProxy posture;
-        
+        private Camera camera;
+        private Processing processor;
+
         /// <summary>
         /// Default constructor.
         /// </summary>
         public Grabber()
         {
+            NaoState.Instance.OnConnect += BuildCameraAndProcessor;
+            NaoState.Instance.OnDisconnect += ClearCameraAndProcessor;
+            if (NaoState.Instance.Connected)
+                BuildCameraAndProcessor(NaoState.Instance.IP.ToString(), NaoState.Instance.Port);
             motion = Proxies.GetProxy<MotionProxy>();
             posture = Proxies.GetProxy<RobotPostureProxy>();
-            instance = this;
+        }
+
+        public void BuildCameraAndProcessor(string ip, int port)
+        {
+            camera = new Camera("Grabber");
+            processor = new Processing(camera);
+        }
+
+        public void ClearCameraAndProcessor(string ip, int port)
+        {
+            camera = null;
+            processor = null;
         }
 
         /// <summary>
@@ -123,7 +140,6 @@ namespace Naovigate.Grabbing
         /// <returns>A boolean.</returns>
         public virtual bool HoldingObject()
         {
-            Processing processor = new Processing(new Camera("Grabber"));
             bool holdingObject;
             float rad = (float)(0.25 * Math.PI);
             float accuracy = 0.1f;

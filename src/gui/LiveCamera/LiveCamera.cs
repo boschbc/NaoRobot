@@ -84,23 +84,6 @@ namespace Naovigate.GUI.LiveCamera
         }
 
         /// <summary>
-        /// Attempts to create an instance of a Camera class.
-        /// </summary>
-        private void CreateCamera()
-        {
-            try
-            {
-                Logger.Log(this, "Creating camera...");
-                camera = new Camera(SUBSCRIBER_ID);
-                Logger.Log(this, "Camera created.");
-            }
-            catch (UnavailableConnectionException) 
-            {
-                Logger.Log(this, "Could not instantiate Camera, connection unavailable.");
-            }
-        }
-
-        /// <summary>
         /// If not linked to any camera, attempts to create one.
         /// Proceeds to subscribe to the camera's video-feed
         /// </summary>
@@ -108,7 +91,7 @@ namespace Naovigate.GUI.LiveCamera
         {
             active = false;
             if (camera == null)
-                CreateCamera();
+                camera = Camera.CreateCamera(SUBSCRIBER_ID);
             if (camera != null)
             {
                 camera.Subscribe();
