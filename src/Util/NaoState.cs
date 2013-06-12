@@ -194,7 +194,7 @@ namespace Naovigate.Util
                 if (idle != value)
                 {
                     // value changed, update goal.
-                    //EventQueue.Goal.Post(new Event.NaoToGoal.StateEvent(value ? 0 : 1));
+                    EventQueue.Goal.Post(new Event.NaoToGoal.StateEvent(value ? 0 : 1));
                 }
                 idle = value;
             }
@@ -242,7 +242,7 @@ namespace Naovigate.Util
                 Temperature = (float) memory.getData("Device/SubDeviceList/Battery/Temperature/Sensor/Value");
 
                 // update idle
-                Idle = !Walk.Instance.IsMoving() && EventQueue.Nao.Current == null;                
+                Idle = EventQueue.Nao.Current == null;                
             }
             catch(Exception e)
             {
