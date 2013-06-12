@@ -15,6 +15,7 @@ namespace Naovigate.Movement
     {
         private int markerID;
         private double dist;
+        private bool looking = true;
 
         public MarkerSearchWorker(int markerID, int dist)
         {
@@ -45,7 +46,7 @@ namespace Naovigate.Movement
             ArrayList markers;
             Logger.Log(this, "Look for marker");
             Call(() => Walk.Instance.StartWalking(0.5F, 0, 0));
-            while (Running)
+            while (Running && looking)
             {
                 Thread.Sleep(1000);
                 //if (!Walk.Instance.IsMoving()) Running = false;
@@ -55,9 +56,7 @@ namespace Naovigate.Movement
                 if (markers.Count == 0 && sonar.IsTooClose())
                 {
                     Logger.Log(this, "I probably reached the marker");
-                    // wrong, See = object, were looking at markers here, need LocationEvent
-                    //if (dist <= 1) EventQueue.Goal.Post(new SeeEvent(markerID, (int)(dist - 0.5)));
-                    Running = false;
+                    looking = false;
                 }
                 if (!Walk.Instance.MotorOn())
                 {
@@ -67,6 +66,7 @@ namespace Naovigate.Movement
             }
             Walk.Instance.StopMoving();
             Logger.Log("Exit LookForMarker : " + Running);
+            Running = false;
         }
 
         private void CheckMarkers(ArrayList markers)
@@ -78,11 +78,9 @@ namespace Naovigate.Movement
                 ArrayList marker = (ArrayList)markers[i];
                 if ((int)((ArrayList)marker[1])[0] == markerID)
                 {
-                    Logger.Log(this, "Correct marker: " + Running);
+                    Logger.Log(this, "Correct marker: " + (Running && looking));
                     bool reached = Calculate(marker);
-                    Running = reached ? false : Running;
-                    // wrong, See = object, were looking at markers here, need LocationEvent
-                    //if (reached) EventQueue.Goal.Post(new SeeEvent(markerID, (int)(dist-0.5)));
+                    looking = reached ? false : looking;
                     break;
                 }
             }

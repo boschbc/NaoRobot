@@ -25,6 +25,7 @@ namespace Naovigate.Event.Internal
                 byte[] buf = new byte[1 << 16];
                 s.Write(buf, 0, buf.Length);
                 sent += buf.Length;
+                Stream.WriteNewline();
                 long cur = DateTime.Now.Millisecond - time;
                 Console.WriteLine("Speed: "+(1000*(sent/1024/1024)/cur)+" MB/S");
                 Console.WriteLine(sent);

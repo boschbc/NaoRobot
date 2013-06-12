@@ -44,12 +44,37 @@ namespace Naovigate.Movement
                 Call(GoInfrontOfObject);
         }
 
+
+        /// <summary>
+        /// Looks towards the left and forwards again and returns true iff it sees an object
+        /// </summary>
+        /// <returns>True iff an object has been seen while turning the head</returns>
+        public bool IsObjectLeft()
+        {
+            Processing processor = new Processing(camera);
+            bool seenObject = false;
+            Pose pose = Pose.Instance;
+            pose.StartTurningHead(2.0857F);
+            while (Running && !seenObject && pose.GetHeadAngle() < 2.0857F)
+            {
+                Rectangle ob = processor.DetectObject();
+                seenObject = (ob.Width != 0);
+            }
+            pose.StartTurningHead(0);
+            while (pose.GetHeadAngle() > 0F)
+            {
+                Thread.Sleep(150);
+            }
+            return seenObject;
+        }
+
         /// <summary>
         /// Looks for the object and registers its findings.
         /// </summary>
         private void LookForObject()
         {
             Pose.Instance.LookDown();
+            float theta = IsObjectLeft() ? 0.1F : -0.1F;
             Call(() => Walk.Instance.StartWalking(0F, 0F, -0.1F));
             while (Running && !ObjectFound)
             {
