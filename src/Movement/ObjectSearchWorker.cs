@@ -38,12 +38,10 @@ namespace Naovigate.Movement
 
         public override void Run()
         {
-            Running = true;
             Call(LookForObject);
             Logger.Log(this, "Found object: " + ObjectFound);
             if (ObjectFound)
                 Call(GoInfrontOfObject);
-            Running = false;
         }
 
         /// <summary>
@@ -92,6 +90,7 @@ namespace Naovigate.Movement
 
         private void GoInfrontOfObject()
         {
+            bool onceVisible = false;
             Pose.Instance.LookDown();
             Walk walk = Walk.Instance;
             while (!PositionedCorrectly)

@@ -71,7 +71,10 @@ namespace Naovigate.Event.NaoToGoal
 
             SendAsInt();
             if (Stream.GetType() == typeof(BitStringCommunicationStream))
+            {
                 Stream.WriteNewline();
+            }
+            
         }
 
         /// <summary>
