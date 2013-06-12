@@ -59,6 +59,11 @@ namespace Naovigate.Movement
                     //if (dist <= 1) EventQueue.Goal.Post(new SeeEvent(markerID, (int)(dist - 0.5)));
                     Running = false;
                 }
+                if (!Walk.Instance.MotorOn())
+                {
+                    Logger.Say("Help");
+                    Abort();
+                }
             }
             Walk.Instance.StopMoving();
             Logger.Log("Exit LookForMarker : " + Running);

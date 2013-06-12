@@ -123,12 +123,17 @@ namespace Naovigate.Movement
             Motion = null;
         }
 
+        public bool MotorOn()
+        {
+            return Motion.robotIsWakeUp();
+        }
+
         /// <summary>
         /// Sets the stiffness of the Nao's motors on if it is not already so.
         /// </summary>
         public void InitMove()
         {
-            if (!Motion.robotIsWakeUp())
+            if (!MotorOn())
                 Motion.wakeUp();
             if (!Motion.moveIsActive())
                 Motion.moveInit();
