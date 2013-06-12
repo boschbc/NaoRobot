@@ -33,7 +33,7 @@ namespace Naovigate.Movement
             }
             finally
             {
-                Pose.Instance.LookStraight();
+                Eyes.Instance.LookStraight();
             }
         }
 

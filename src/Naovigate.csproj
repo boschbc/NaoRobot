@@ -55,6 +55,7 @@
     <Compile Include="Event\GoalToNao\ReportBackEvent.cs" />
     <Compile Include="Event\GoalToNao\SayEvent.cs" />
     <Compile Include="Event\Internal\GoToMarkerEvent.cs" />
+    <Compile Include="Event\Internal\LookForObjectEvent.cs" />
     <Compile Include="Event\Internal\ReportEvent.cs" />
     <Compile Include="Event\Internal\ShutdownEvent.cs" />
     <Compile Include="Event\Internal\CrouchEvent.cs" />
@@ -257,19 +258,20 @@
     <Compile Include="Movement\Walk.cs" />
     <Compile Include="Navigation\Direction.cs" />
     <Compile Include="Navigation\MapParser.cs" />
-    <Compile Include="Navigation\ObjectNavigator.cs" />
     <Compile Include="Navigation\Tile.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Util\Calibration.cs" />
     <Compile Include="Util\Logger.cs" />
     <Compile Include="Util\PriorityQueue.cs" />
     <Compile Include="Util\ActionExecutor.cs" />
     <Compile Include="Util\Proxies.cs" />
     <Compile Include="Vision\Camera.cs" />
     <Compile Include="Communication\GoalCommunicator.cs" />
+    <Compile Include="Vision\Eyes.cs" />
     <Compile Include="Vision\MarkerRecogniser.cs" />
     <Compile Include="Vision\ObjectRecogniser.cs" />
     <Compile Include="Vision\Processing.cs" />

@@ -162,24 +162,6 @@ namespace Naovigate.Movement
         }
 
         /// <summary>
-        /// The Nao will look down.
-        /// </summary>
-        public void LookDown()
-        {
-            Logger.Log(this, "Looking down.");
-            Look(0.5f);
-        }
-
-        /// <summary>
-        /// The Nao will look straight in front.
-        /// </summary>
-        public void LookStraight()
-        {
-            Logger.Log(this, "Looking straight.");
-            Look(0f);
-        }
-
-        /// <summary>
         /// Orders the nao to start turning its head towards angle radians (in a non-blocking way)
         /// Throws an ArgumentException when the angle is out of bounds
         /// </summary>

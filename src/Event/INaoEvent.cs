@@ -59,7 +59,9 @@ namespace Naovigate.Event
         Crouch = 0x45,
         GoToMarker = 0x46,
         Grab = 0x47,
-        Turn = 0x48,
+        TurnRelative = 0x48,
+        TurnAbsolute = 0x49,
+        LookForObject = 0x50,
         Test = 0xFF,
         Report = 0xFE,
     }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
-
 using Naovigate.Util;
 
 namespace Naovigate.Event
@@ -25,6 +25,8 @@ namespace Naovigate.Event
         private Thread thread;
         private bool suspended;
         private bool inAction;
+        private Stopwatch eventTimer = new Stopwatch();
+     
 
         private EventWaitHandle locker = new AutoResetEvent(false);
 
@@ -231,6 +233,7 @@ namespace Naovigate.Event
             if (EventFiring != null)
                 EventFiring(e);
             e.Fire();
+            eventTimer.Restart();
             Logger.Log(this, "Event " + e + " finished firing.");
         }
 

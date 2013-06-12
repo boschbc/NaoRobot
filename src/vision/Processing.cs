@@ -39,6 +39,14 @@ namespace Naovigate.Vision
             return max;
         }
 
+        private static Processing instance;
+
+        public static Processing Instance
+        {
+            get { return instance == null ? new Processing(new Camera("Processing singleton")) : instance; }
+            set { instance = value; }
+        }
+
         private Camera cam;
         private Image<Rgb, Byte> currentImage;
         private List<Hsv> colors;

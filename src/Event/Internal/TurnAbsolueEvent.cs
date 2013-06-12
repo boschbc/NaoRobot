@@ -38,7 +38,7 @@ namespace Naovigate.Event.Internal
         /// </summary>
         public override EventCode EventCode
         {
-            get { return EventCode.Turn; }
+            get { return EventCode.TurnAbsolute; }
         }
 
         public override string ToString()

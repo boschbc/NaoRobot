@@ -72,7 +72,7 @@ namespace Naovigate.Movement
         /// </summary>
         private void LookForObject()
         {
-            Pose.Instance.LookDown();
+            Eyes.Instance.LookDown();
             float theta = IsObjectLeft() ? 0.2F : -0.2F;
             Call(() => Walk.Instance.StartWalking(0F, 0F, theta));
             while (Running && !ObjectFound)
@@ -91,7 +91,7 @@ namespace Naovigate.Movement
         private void GoInfrontOfObject()
         {
             bool onceVisible = false;
-            Pose.Instance.LookDown();
+            Eyes.Instance.LookDown();
             Walk walk = Walk.Instance;
             while (!PositionedCorrectly)
             {

@@ -58,13 +58,14 @@ namespace Naovigate.Communication
         private byte ReadByteFromBitString()
         {
             string bitstring = GetNextBitString();
-            Logger.Log(this, "read "+bitstring);
+           
             int value = 0;
             for (int i = 7; i >= 0;i-- )
             {
                 if (bitstring[i] == '1')
                     value += 1 << (7 - i);
             }
+            Logger.Log(this, "read " + value + "(" + bitstring + ")");
             return (byte) value;
         }
 
