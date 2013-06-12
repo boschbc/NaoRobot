@@ -144,9 +144,9 @@ namespace Naovigate.Movement
         /// </summary>
         public void WaitForMoveToEnd()
         {
-            Logger.Log(this, "WaitForMove");
+            //Logger.Log(this, "WaitForMove");
             Motion.waitUntilMoveIsFinished();
-            Logger.Log(this, "MoveFinished");
+            //Logger.Log(this, "MoveFinished");
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace Naovigate.Movement
         public void WalkTo(float x, float y, float theta)
         {
             InitMove();
-            Motion.post.moveTo(x, y, theta);
+            Motion.moveTo(x, y, theta);
         }
 
         /// <summary>
@@ -181,8 +181,10 @@ namespace Naovigate.Movement
         /// </summary>
         public void Turn(float rad)
         {
+            Logger.Log(this, "Turning " + rad + " radians...");
             WalkTo(0, 0, rad);
-            WaitForMoveToEnd();
+            //WaitForMoveToEnd();
+            Logger.Log(this, "Done turning.");
         }
 
         /// <summary>

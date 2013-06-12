@@ -154,7 +154,6 @@ namespace Naovigate.Movement
             ValidateProxies();
             if (depth < -0.5f) depth = -0.5f;
             if (depth > 0.5f) depth = 0.5f;
-            Logger.Log(this, "Look: "+depth);
             // avoid motors grinding, there has to be a difference
             if (depth != lastDepth)
             {
@@ -162,6 +161,24 @@ namespace Naovigate.Movement
                 motion.angleInterpolationWithSpeed(
                     new ArrayList(new string[] { "HeadPitch" }), new ArrayList(new float[] { depth }), 0.1f);
             }
+        }
+
+        /// <summary>
+        /// The Nao will look down.
+        /// </summary>
+        public void LookDown()
+        {
+            Logger.Log(this, "Looking down.");
+            Look(0.5f);
+        }
+
+        /// <summary>
+        /// The Nao will look straight in front.
+        /// </summary>
+        public void LookStraight()
+        {
+            Logger.Log(this, "Looking straight.");
+            Look(0f);
         }
 
         /// <summary>

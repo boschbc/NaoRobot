@@ -146,13 +146,13 @@ namespace Naovigate.Grabbing
             float rad = (float)(0.25 * Math.PI);
             float accuracy = 0.1f;
 
-            Walk.Instance.TurnExact(rad, accuracy);
-            Pose.Instance.Look(0.5f);
+            Walk.Instance.Turn(rad);
+            Pose.Instance.LookDown();
 
             holdingObject = processor.ObjectInSight();
-
-            Pose.Instance.Look(0f);
-            Walk.Instance.TurnExact(-rad, accuracy);
+            Logger.Log(this, "The Nao is holding an object: " + holdingObject);
+            Pose.Instance.LookStraight();
+            Walk.Instance.Turn(-rad);
 
             return holdingObject;
         }

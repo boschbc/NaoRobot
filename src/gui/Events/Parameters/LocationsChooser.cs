@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 using Naovigate.GUI.Util;
@@ -12,7 +8,7 @@ using Naovigate.GUI.Util;
 namespace Naovigate.GUI.Events.Parameters
 {
     /// <summary>
-    /// A simple class that allows the user to choose an array of points (x, y). A maximum of 3 points may be chosen.
+    /// A simple class that allows the user to choose an array of points (x, y). A maximum of 5 points may be chosen.
     /// </summary>
     public sealed partial class LocationsChooser : UserControl, IParamChooser
     {
@@ -27,7 +23,7 @@ namespace Naovigate.GUI.Events.Parameters
         }
 
         /// <summary>
-        /// Adds a new Point-field to the control, if there are less than 3 present.
+        /// Adds a new Point-field to the control, if there are less than 5 present.
         /// </summary>
         public void AddPoint()
         {
