@@ -122,7 +122,7 @@ namespace Naovigate.Util
             if (Error != null) throw Error;
             if (Aborted)
             {
-                Error = new ThreadInterruptedException();
+                Error = new ThreadInterruptedException("Thread was aborted");
                 throw Error;
             }
         }
