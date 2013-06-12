@@ -193,9 +193,8 @@ namespace Naovigate.Util
             private set {
                 if (idle != value)
                 {
-                    Logger.Log(this, "State: "+(value ? 0 : 1));
                     // value changed, update goal.
-                    EventQueue.Goal.Post(new Event.NaoToGoal.StateEvent(value ? 0 : 1));
+                    //EventQueue.Goal.Post(new Event.NaoToGoal.StateEvent(value ? 0 : 1));
                 }
                 idle = value;
             }

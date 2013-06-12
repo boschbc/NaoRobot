@@ -20,16 +20,15 @@ namespace Naovigate.Event.GoalToNao
         /// Checks whether the Nao is not already holding an object.
         /// </summary>
         /// <returns>True if the Nao is not holding anything and may pick up a new object.</returns>
-        private static bool ValidationCheck()
+        private bool ValidationCheck()
         {
-            return true;
-            //if (!Grabber.Instance.HoldingObject())
-            //    return true;
-            //else
-            //{
-            //    ReportFailure();
-            //    return false;
-            //}
+            if (!Grabber.Instance.HoldingObject())
+                return true;
+            else
+            {
+                ReportFailure();
+                return false;
+            }
         }
 
         private ActionExecutor executor;
@@ -86,13 +85,11 @@ namespace Naovigate.Event.GoalToNao
         {
             try
             {
-                Logger.Log(this, "GoInfrontOfObject");
                 GoInfrontOfObject();
                 ObjectSearchWorker results = executor as ObjectSearchWorker;
                 results.PositionedCorrectly.Log(this);
                 if (results.PositionedCorrectly)
                 {
-                    Logger.Log(this, "Grabbing Object");
                     GrabObject();
                 }
                 else
@@ -123,9 +120,11 @@ namespace Naovigate.Event.GoalToNao
         /// </summary>
         private void GoInfrontOfObject()
         {
-            executor = new ObjectSearchWorker(ObjectID);
+            Logger.Log(this, "Walking towards object...");
+            executor = new ObjectSearchWorker();
             executor.Start();
             executor.WaitFor();
+            Logger.Log(this, "Finished walking towards object.");
         }
 
         /// <summary>
@@ -133,9 +132,11 @@ namespace Naovigate.Event.GoalToNao
         /// </summary>
         private void GrabObject()
         {
+            Logger.Log(this, "Grabbing object...");
             executor = Grabber.Instance.Grab();
             executor.Start();
             executor.WaitFor();
+            Logger.Log(this, "Finished grabbing.");
         }
 
         /// <summary>
@@ -143,12 +144,10 @@ namespace Naovigate.Event.GoalToNao
         /// </summary>
         private void VerifyObjectHeld()
         {
-            ReportSuccess();
-            //ObjectSearchThread results = executor as ObjectSearchThread;
-            //if (results.ObjectFound && results.PositionedCorrectly && Grabber.Instance.HoldingObject())
-            //    ReportSuccess();
-            //else
-            //    ReportFailure();
+            if (Grabber.Instance.HoldingObject())
+                ReportSuccess();
+            else
+                ReportFailure();
         }
 
         /// <summary>

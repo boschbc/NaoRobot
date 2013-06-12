@@ -7,17 +7,16 @@ namespace Naovigate.Movement
 {
     internal sealed class ObjectSearchWorker : ActionExecutor
     {
-        private int objectId;
         private Camera camera;
+        private Processing processor;
 
-        public ObjectSearchWorker(int objectID)
+        public ObjectSearchWorker()
         {
-            this.objectId = objectID;
             camera = new Camera("ObjectSearch");
             camera.Subscribe();
             camera.CalibrateCamera(3);
+            processor = new Processing(camera);
         }
-
 
         /// <summary>
         /// True if the Nao managed to position itself in front of the object.
@@ -40,6 +39,7 @@ namespace Naovigate.Movement
         public override void Run()
         {
             Call(LookForObject);
+            Logger.Log(this, "Found object: " + ObjectFound);
             if (ObjectFound)
                 Call(GoInfrontOfObject);
         }
@@ -49,8 +49,7 @@ namespace Naovigate.Movement
         /// </summary>
         private void LookForObject()
         {
-            Pose.Instance.Look(0.5F);
-            Processing processor = new Processing(camera);
+            Pose.Instance.LookDown();
             Call(() => Walk.Instance.StartWalking(0F, 0F, -0.1F));
             while (Running && !ObjectFound)
             {
@@ -68,8 +67,7 @@ namespace Naovigate.Movement
         {
             bool onceVisible = false;
             bool said = false;
-            Pose.Instance.Look(0.5F);
-            Processing processor = new Processing(camera);
+            Pose.Instance.LookDown();
             Walk walk = Walk.Instance;
             while (Running)
             {
@@ -91,6 +89,7 @@ namespace Naovigate.Movement
                 else if(onceVisible)
                 {
                     Logger.Log(this, "Im probably at the object, but i cant see it");
+                    PositionedCorrectly = true;
                     // assume connected
                     if (!said)
                     {
