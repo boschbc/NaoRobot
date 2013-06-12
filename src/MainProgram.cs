@@ -36,7 +36,7 @@ namespace Naovigate
 
         public static void Test()
         {
-            Logger.Log(typeof(MainProgram), Naovigate.Grabbing.Grabber.Instance.HoldingObject());
+            Logger.Log("TEST", Vision.Sonar.Instance.IsTooClose());
         }
 
         private static void Tst()
