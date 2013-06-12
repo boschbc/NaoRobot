@@ -33,10 +33,12 @@ namespace Naovigate.Util
             {
                 Map = MapParser.Parse("../resources/maps/testmaze.map");
             }
-            catch
+            catch(Exception e)
             {
+                Logger.Log(e.GetType().Name+" "+ e.Message+" at line "+MapParser.CurrentLineNr);
                 Logger.Log(this, "Map parsing failed: Exit");
-                Environment.Exit(-1);
+                Console.Read();
+                //Environment.Exit(-1);
             }
         }
 

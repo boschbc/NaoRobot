@@ -13,8 +13,16 @@ namespace Naovigate.Navigation
             Size = 'S',
             WallInfo = 'W',
             MarkerInfo = 'M',
-            TileInfo = 'I'
+            TileInfo = 'I',
+            Comment = '#',
         }
+
+
+        public static int CurrentLineNr
+        {
+            get{ return lineNr; }
+        }
+        private static int lineNr;
 
         /// <summary>
         /// Parse the map contained in file file.
@@ -27,6 +35,7 @@ namespace Naovigate.Navigation
             int width = 0, height = 0, x, y, id;
             Direction direction;
             bool truth;
+            lineNr = 0;
 
             // The parsed tiles.
             Tile[,] tiles = null;
@@ -38,7 +47,7 @@ namespace Naovigate.Navigation
                 {
                     // Read command line.
                     string[] line = r.ReadLine().Split(' ', '\t', '\n');
-
+                    lineNr++;
                     // Determine command type.
                     switch (line[0][0])
                     {
@@ -65,6 +74,10 @@ namespace Naovigate.Navigation
                         case (char)EntryType.TileInfo:
                             ParsePositionValue(line, out x, out y, out id);
                             tiles[y, x].ID = id;
+                            break;
+
+                        // Comment
+                        case (char)EntryType.Comment:
                             break;
 
                         // What this?
@@ -97,7 +110,7 @@ namespace Naovigate.Navigation
             catch (Exception e)
             {
                 if (e is OverflowException || e is FormatException)
-                    throw new InvalidDataException("Invalid map size specified.");
+                    throw new InvalidDataException("Invalid map size specified: line " + lineNr);
                 throw;
             }
         }
@@ -127,7 +140,7 @@ namespace Naovigate.Navigation
             catch (Exception e)
             {
                 if (e is OverflowException || e is FormatException)
-                    throw new InvalidDataException("Invalid marker info entry specified.");
+                    throw new InvalidDataException("Invalid marker info entry specified: line " + lineNr);
                 throw;
             }
         }
@@ -155,7 +168,7 @@ namespace Naovigate.Navigation
             catch (Exception e)
             {
                 if (e is OverflowException || e is FormatException)
-                    throw new InvalidDataException("Invalid marker info entry specified.");
+                    throw new InvalidDataException("Invalid marker info entry specified: line " + lineNr);
                 throw;
             }
         }
@@ -185,7 +198,7 @@ namespace Naovigate.Navigation
             catch (Exception e)
             {
                 if (e is OverflowException || e is FormatException)
-                    throw new InvalidDataException("Invalid marker info entry specified.");
+                    throw new InvalidDataException("Invalid marker info entry specified: line " + lineNr);
                 throw;
             }
         }

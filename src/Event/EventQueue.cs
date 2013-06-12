@@ -12,7 +12,7 @@ namespace Naovigate.Event
     /// be handled quickly
     ///      e.g. an action that makes the robot stand up and walk a meter, should
     ///      create multiple events for standing up and walking, preferably splitting
-    ///     the walk in multiple events aswell.
+    ///      the walk in multiple events aswell.
     /// </summary>
     public sealed class EventQueue
     {
@@ -142,6 +142,7 @@ namespace Naovigate.Event
                 q.Enqueue(e, (int)e.Priority);  
             }
             locker.Set();
+            // log nao events pending
             if (this == Nao)
             {
                 Logger.Log(this, ToString());
@@ -154,11 +155,8 @@ namespace Naovigate.Event
         /// <param name="events">One or more events.</param>
         public void Post(params INaoEvent[] events)
         {
-            lock (q)
-            {
-                foreach (INaoEvent e in events)
-                    Post(e);
-            }
+            foreach (INaoEvent e in events)
+                Post(e);
         }
 
         /// <summary>
@@ -300,7 +298,6 @@ namespace Naovigate.Event
         {
             Clear();
             Running = false;
-            locker.Set();
             Logger.Log(this, "Shutting down...");
         }
 
