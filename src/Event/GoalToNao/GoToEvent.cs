@@ -66,9 +66,14 @@ namespace Naovigate.Event.GoalToNao
                 Logger.Log(this, "Planning route...");
                 List<RouteEntry> route = Planner.PlanRoute(NaoState.Instance.Map, locations);
                 if (route != null)
-                    Logger.Log(this, "Path found, walking..");
+                    Logger.Log(this, "Path found, walking...");
                 else 
+                {
                     Logger.Log(this, "No path found.");
+                    ReportFailure();
+                    return;
+                }
+                
                 Logger.Log(this, "RouteEntries: "+route.Count);
                 foreach (RouteEntry entry in route)
                 {
@@ -89,14 +94,19 @@ namespace Naovigate.Event.GoalToNao
                     ReportFailure();
                 else
                     ReportSuccess();
+                   
             }
             catch(System.Exception e)
             {
-                Logger.Log(this, e);
+                Logger.Log(this, "Unexpected exception caught: " + e.Message);
                 ReportFailure();
             }
         }
 
+        /// <summary>
+        /// Reports the successful execution of this event to Goal and posts a location event 
+        /// to the event-queue with the Nao's new location.
+        /// </summary>
         protected override void ReportSuccess()
         {
             base.ReportSuccess();
