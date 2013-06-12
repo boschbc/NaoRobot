@@ -38,10 +38,12 @@ namespace Naovigate.Movement
 
         public override void Run()
         {
+            Running = true;
             Call(LookForObject);
             Logger.Log(this, "Found object: " + ObjectFound);
             if (ObjectFound)
                 Call(GoInfrontOfObject);
+            Running = false;
         }
 
 
@@ -55,13 +57,13 @@ namespace Naovigate.Movement
             bool seenObject = false;
             Pose pose = Pose.Instance;
             pose.StartTurningHead(2.0857F);
-            while (Running && !seenObject && pose.GetHeadAngle() < 2.0857F)
+            while (Running && !seenObject && 2.0857F - pose.GetHeadAngle() > 0.05)
             {
                 Rectangle ob = processor.DetectObject();
                 seenObject = (ob.Width != 0);
             }
             pose.StartTurningHead(0);
-            while (pose.GetHeadAngle() > 0F)
+            while (pose.GetHeadAngle() > 0.05F)
             {
                 Thread.Sleep(150);
             }
@@ -74,8 +76,8 @@ namespace Naovigate.Movement
         private void LookForObject()
         {
             Pose.Instance.LookDown();
-            float theta = IsObjectLeft() ? 0.1F : -0.1F;
-            Call(() => Walk.Instance.StartWalking(0F, 0F, -0.1F));
+            float theta = IsObjectLeft() ? 0.2F : -0.2F;
+            Call(() => Walk.Instance.StartWalking(0F, 0F, theta));
             while (Running && !ObjectFound)
             {
                 Rectangle ob = processor.DetectObject();
@@ -90,36 +92,21 @@ namespace Naovigate.Movement
 
         private void GoInfrontOfObject()
         {
-            bool onceVisible = false;
-            bool said = false;
             Pose.Instance.LookDown();
             Walk walk = Walk.Instance;
-            while (Running)
+            while (!PositionedCorrectly)
             {
                 Thread.Sleep(150);
                 Rectangle ob = processor.DetectObject();
                 if (ob.Width != 0)
                 {
-                    onceVisible = true;
                     if (Processing.CloseEnough(ob))
                     {
                         PositionedCorrectly = true;
-                        Running = false;
                     }
                     else
                     {
                         Call(() => walk.StartWalking(0.4F, 0F, processor.CalculateTheta(ob)));
-                    }
-                }// no object, but we seen it before
-                else if(onceVisible)
-                {
-                    Logger.Log(this, "Im probably at the object, but i cant see it");
-                    PositionedCorrectly = true;
-                    // assume connected
-                    if (!said)
-                    {
-                        Logger.Say("I can not see the object.");
-                        said = true;
                     }
                 }
             }

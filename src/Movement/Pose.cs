@@ -196,7 +196,7 @@ namespace Naovigate.Movement
             }
             ValidateProxies();
             motion.setAngles(
-            new ArrayList(new String[]{"HeadYaw"}), new ArrayList(new float[]{angle}), 0.6f);
+            new ArrayList(new String[]{"HeadYaw"}), new ArrayList(new float[]{angle}), 0.1f);
         }
         /// <summary>
         /// Returns the angle of the head (yaw)
