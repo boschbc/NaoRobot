@@ -66,6 +66,7 @@ namespace Naovigate.Util
             }
             catch (Exception e)
             {
+                Logger.Log(this, "Got "+e.GetType().Name);
                 Error = e;
             }
             Running = false;

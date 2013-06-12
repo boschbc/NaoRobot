@@ -243,7 +243,7 @@ namespace Naovigate.Util
                 Temperature = (float) memory.getData("Device/SubDeviceList/Battery/Temperature/Sensor/Value");
 
                 // update idle
-                Idle = !Walk.Instance.IsMoving() && EventQueue.Nao.Current == null;
+                Idle = !Walk.Instance.IsMoving() && EventQueue.Nao.Current == null;                
             }
             catch(Exception e)
             {
