@@ -16,6 +16,8 @@ namespace Naovigate.GUI.Events.Parameters
     /// </summary>
     public sealed partial class LocationsChooser : UserControl, IParamChooser
     {
+        private static readonly int MAX_POINTS = 5;
+
         private List<PointControl> points;
 
         public LocationsChooser()
@@ -29,7 +31,7 @@ namespace Naovigate.GUI.Events.Parameters
         /// </summary>
         public void AddPoint()
         {
-            if (points.Count >= 3)
+            if (points.Count >= MAX_POINTS)
                 return;
             PointControl p = new PointControl();
             flowLayoutPanel.Controls.Add(p);

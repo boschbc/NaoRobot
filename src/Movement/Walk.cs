@@ -241,7 +241,7 @@ namespace Naovigate.Movement
         /// <param name="rad">The angle to turn to, in radians.</param>
         public void TurnAbsolute(float rad)
         {
-            TurnAbsolute(rad, 0.01f);
+            TurnAbsolute(rad, 0f);
         }
 
         /// <summary>

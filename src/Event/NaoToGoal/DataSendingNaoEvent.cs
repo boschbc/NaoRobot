@@ -83,7 +83,7 @@ namespace Naovigate.Event.NaoToGoal
             {
                 Send();
             }
-            catch (Exception e)
+            catch
             {
                 Logger.Log(this, "Failed to fire.");
             }
