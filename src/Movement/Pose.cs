@@ -173,7 +173,7 @@ namespace Naovigate.Movement
         /// min angle = -2.0857</param>
         public void StartTurningHead(float angle)
         {
-            if (angle > 2.0857 || angle < -2.0857)
+            if (angle > 2.0857F || angle < -2.0857F)
             {
                 throw new ArgumentException("angle is out of bounds");
             }
