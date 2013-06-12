@@ -22,6 +22,7 @@ namespace Naovigate.Event.GoalToNao
         /// <returns>True if the Nao is not holding anything and may pick up a new object.</returns>
         private bool ValidationCheck()
         {
+            return true;
             if (!Grabber.Instance.HoldingObject())
                 return true;
             else
@@ -122,6 +123,7 @@ namespace Naovigate.Event.GoalToNao
         {
             Logger.Log(this, "Walking towards object...");
             executor = new ObjectSearchWorker();
+            Logger.Log(this, "Start");
             executor.Start();
             executor.WaitFor();
             Logger.Log(this, "Finished walking towards object.");
@@ -144,6 +146,7 @@ namespace Naovigate.Event.GoalToNao
         /// </summary>
         private void VerifyObjectHeld()
         {
+            return;
             if (Grabber.Instance.HoldingObject())
                 ReportSuccess();
             else

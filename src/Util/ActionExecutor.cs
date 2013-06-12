@@ -10,14 +10,19 @@ namespace Naovigate.Util
     public abstract class ActionExecutor
     {
         private event Action Done;
-
         /// <summary>
         /// True if execution is ongoing.
         /// </summary>
         public bool Running
         {
             get;
-            protected set;
+            private set;
+        }
+
+        public bool Started
+        {
+            get;
+            private set;
         }
 
         /// <summary>
@@ -26,7 +31,7 @@ namespace Naovigate.Util
         public bool Aborted
         {
             get;
-            protected set;
+            private set;
         }
 
         /// <summary>
@@ -50,6 +55,7 @@ namespace Naovigate.Util
             Thread t = new Thread(new ThreadStart(RunInit));
             t.Name = "ActionExecutor";
             t.Start();
+            while (!Started) Thread.Sleep(100);
         }
 
         /// <summary>
@@ -58,8 +64,9 @@ namespace Naovigate.Util
         /// </summary>
         private void RunInit()
         {
-            Running = true;
             Aborted = false;
+            Running = true;
+            Started = true;
             try
             {
                 Run();
@@ -107,6 +114,9 @@ namespace Naovigate.Util
         /// <exception cref="Exception">An exception was thrown while waiting.</exception>
         public void WaitFor()
         {
+            while (!Started)
+                Thread.Sleep(100);
+            Logger.Log(this, "WaitFor");
             while (Running && Error == null)
                 Thread.Sleep(100);
             if (Error != null) throw Error;

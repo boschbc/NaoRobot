@@ -27,14 +27,13 @@ namespace Naovigate.Movement
 
         public override void Run()
         {
-            Running = true;
             try
             {
                 Call(() => LookForMarker());
             }
             finally
             {
-                Pose.Instance.Look(0f);
+                Pose.Instance.LookStraight();
             }
         }
 
@@ -66,7 +65,6 @@ namespace Naovigate.Movement
             }
             Walk.Instance.StopMoving();
             Logger.Log("Exit LookForMarker : " + Running);
-            Running = false;
         }
 
         private void CheckMarkers(ArrayList markers)

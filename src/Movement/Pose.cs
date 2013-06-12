@@ -154,13 +154,11 @@ namespace Naovigate.Movement
             ValidateProxies();
             if (depth < -0.5f) depth = -0.5f;
             if (depth > 0.5f) depth = 0.5f;
-            // avoid motors grinding, there has to be a difference
-            if (depth != lastDepth)
-            {
-                lastDepth = depth;
-                motion.angleInterpolationWithSpeed(
-                    new ArrayList(new string[] { "HeadPitch" }), new ArrayList(new float[] { depth }), 0.1f);
-            }
+            lastDepth = depth;
+            motion.angleInterpolationWithSpeed(
+                new ArrayList(new string[] { "HeadPitch" }),
+                new ArrayList(new float[] { depth }), 0.1f);
+            
         }
 
         /// <summary>
@@ -198,13 +196,19 @@ namespace Naovigate.Movement
             motion.setAngles(
             new ArrayList(new String[]{"HeadYaw"}), new ArrayList(new float[]{angle}), 0.6f);
         }
+
+        public void StopTurningHead()
+        {
+            StartTurningHead(GetHeadAngle());
+        }
+
         /// <summary>
         /// Returns the angle of the head (yaw)
         /// </summary>
         /// <returns>angle</returns>
         public float GetHeadAngle()
         {
-            return motion.getAngles(new ArrayList(new String[]{"HeadYaw"}), false)[0];
+                return motion.getAngles(new ArrayList(new String[] { "HeadYaw" }), false)[0];
         }
 
         /// <summary>

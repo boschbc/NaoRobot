@@ -44,7 +44,6 @@ namespace Naovigate.Movement
                 Call(GoInfrontOfObject);
         }
 
-
         /// <summary>
         /// Looks towards the left and forwards again and returns true iff it sees an object
         /// </summary>
@@ -74,7 +73,7 @@ namespace Naovigate.Movement
         private void LookForObject()
         {
             Pose.Instance.LookDown();
-            float theta = IsObjectLeft() ? 0.1F : -0.1F;
+            //float theta = IsObjectLeft() ? 0.1F : -0.1F;
             Call(() => Walk.Instance.StartWalking(0F, 0F, -0.1F));
             while (Running && !ObjectFound)
             {
@@ -86,14 +85,15 @@ namespace Naovigate.Movement
                 }
                 Thread.Sleep(150);
             }
+            Logger.Log(this, Running + " " + ObjectFound);
         }
 
         private void GoInfrontOfObject()
         {
             bool onceVisible = false;
-            bool said = false;
             Pose.Instance.LookDown();
             Walk walk = Walk.Instance;
+            Logger.Log(this, "OSW Running = "+Running);
             while (Running)
             {
                 Thread.Sleep(150);
@@ -104,7 +104,7 @@ namespace Naovigate.Movement
                     if (Processing.CloseEnough(ob))
                     {
                         PositionedCorrectly = true;
-                        Running = false;
+                        break;
                     }
                     else
                     {
@@ -114,13 +114,6 @@ namespace Naovigate.Movement
                 else if(onceVisible)
                 {
                     Logger.Log(this, "Im probably at the object, but i cant see it");
-                    PositionedCorrectly = true;
-                    // assume connected
-                    if (!said)
-                    {
-                        Logger.Say("I can not see the object.");
-                        said = true;
-                    }
                 }
             }
             walk.StopMoving();
