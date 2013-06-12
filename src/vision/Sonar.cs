@@ -51,18 +51,16 @@ namespace Naovigate.Vision
         }
         
         /// <summary>
-        /// Check if the Nao is too close (within 0.3 metres) to a wall (or other object)
-        /// </summary>*
+        /// Check if the Nao is too close (within 0.25 metres) to a wall (or other object)
+        /// </summary>
         /// <returns></returns>
         public bool IsTooClose() {
             float left = getSonarDataLeft();
             float right = getSonarDataRight();
 
-            bool collidingLeft = left <= 0.3f;
-            bool collidingRight = right <= 0.3f;
-            if (Math.Abs(left) < 0.001 || Math.Abs(right) < 0.001)
-                Logger.Say("This looks like a wall.");
-            bool res = (collidingLeft || collidingRight);
+            bool collidingLeft = left <= 0.25f && left != 0;
+            bool collidingRight = right <= 0.25f && right != 0;
+            bool res = (collidingLeft && collidingRight);
             if(res)
                 Logger.Log(this, "IsTooClose: "+res);
             return res;
