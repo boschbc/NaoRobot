@@ -165,6 +165,32 @@ namespace Naovigate.Movement
         }
 
         /// <summary>
+        /// Orders the nao to start turning its head towards angle radians (in a non-blocking way)
+        /// Throws an ArgumentException when the angle is out of bounds
+        /// </summary>
+        /// <param name="angle">The angle at which the head should be positioned
+        /// max angle = 2.0857
+        /// min angle = -2.0857</param>
+        public void StartTurningHead(float angle)
+        {
+            if (angle > 2.0857 || angle < -2.0857)
+            {
+                throw new ArgumentException("angle is out of bounds");
+            }
+            ValidateProxies();
+            motion.setAngles(
+            new ArrayList(new String[]{"HeadYaw"}), new ArrayList(new float[]{angle}), 0.6f);
+        }
+        /// <summary>
+        /// Returns the angle of the head (yaw)
+        /// </summary>
+        /// <returns>angle</returns>
+        public float GetHeadAngle()
+        {
+            return motion.getAngles(new ArrayList(new String[]{"HeadYaw"}), false)[0];
+        }
+
+        /// <summary>
         /// True if the Nao's posture is currently balanced.
         /// May attempt to stabilize the Nao in the process.
         /// </summary>
