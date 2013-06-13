@@ -11,7 +11,7 @@ namespace Naovigate.Util
         private static readonly string DefaultPath = "../resources/calibs/default.naocalib";
         private static Calibration instance;
 
-        public Calibration Instance
+        public static Calibration Instance
         {
             get { return instance == null ? instance = new Calibration(DefaultPath) : instance; }
             set { instance = value; }
@@ -47,6 +47,7 @@ namespace Naovigate.Util
                 if (words.Length > 1)
                     records.Add(words[0], words[1]);
             }
+            Logger.Log(this, "Calibration file was loaded succesfully.");
         }
 
         public T GetRecord<T>(string key)

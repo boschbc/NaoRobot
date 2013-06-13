@@ -241,6 +241,12 @@
     <Compile Include="GUI\Util\IPChooser.Designer.cs">
       <DependentUpon>IPChooser.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Util\LoadCalibrationButton.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Util\LoadCalibrationButton.Designer.cs">
+      <DependentUpon>LoadCalibrationButton.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\Util\PointControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -392,6 +398,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Util\IPChooser.resx">
       <DependentUpon>IPChooser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Util\LoadCalibrationButton.resx">
+      <DependentUpon>LoadCalibrationButton.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Util\PointControl.resx">
       <DependentUpon>PointControl.cs</DependentUpon>

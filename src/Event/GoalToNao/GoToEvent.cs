@@ -6,6 +6,7 @@ using Naovigate.Event.NaoToGoal;
 using Naovigate.Movement;
 using Naovigate.Navigation;
 using Naovigate.Util;
+using Naovigate.Vision;
 
 namespace Naovigate.Event.GoalToNao
 {
@@ -74,7 +75,7 @@ namespace Naovigate.Event.GoalToNao
                     return;
                 }
                 
-                Logger.Log(this, "RouteEntries: "+route.Count);
+                Logger.Log(this, "RouteEntries: " + route.Count);
                 foreach (RouteEntry entry in route)
                 {
                     Logger.Log(entry);
@@ -86,6 +87,7 @@ namespace Naovigate.Event.GoalToNao
                     {
                         Logger.Log(this, "Turning to " + entry.Direction + "...");
                         new TurnAbsoluteEvent(entry.Direction).Fire();
+                        AdjustTurn(entry.MarkerID);
                         Logger.Log(this, "Walking towards marker...");
                         new GoToMarkerEvent(entry.MarkerID, entry.WantedDistance).Fire();
                     }
@@ -101,6 +103,14 @@ namespace Naovigate.Event.GoalToNao
                 Logger.Log(this, "Unexpected exception caught: " + e.Message);
                 ReportFailure();
             }
+        }
+
+        private void AdjustTurn(int markerID)
+        {
+            Logger.Log(this, "Adjusting turn to marker...");
+            if (!Eyes.Instance.MarkerInSight(markerID))
+                Eyes.Instance.LookForMarker(markerID);
+            new TurnRelativeEvent(Eyes.Instance.AngleToMarker).Fire();
         }
 
         /// <summary>

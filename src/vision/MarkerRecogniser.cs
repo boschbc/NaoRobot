@@ -62,7 +62,7 @@ namespace Naovigate.Vision
 
             foreach (ArrayList markerInfo in markerInfos)
             {
-                markerIDs.Add(markerInfo[1]);  //markerInfo = [ShapeInfo, MarkerID]
+                markerIDs.Add(((ArrayList)markerInfo[1])[0]);  //markerInfo = [ShapeInfo, MarkerID]
             }
 
             return markerIDs;

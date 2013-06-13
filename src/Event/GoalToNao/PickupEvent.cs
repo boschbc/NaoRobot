@@ -123,7 +123,6 @@ namespace Naovigate.Event.GoalToNao
         {
             Logger.Log(this, "Walking towards object...");
             executor = new ObjectSearchWorker();
-            Logger.Log(this, "Start");
             executor.Start();
             executor.WaitFor();
             Logger.Log(this, "Finished walking towards object.");
@@ -146,6 +145,7 @@ namespace Naovigate.Event.GoalToNao
         /// </summary>
         private void VerifyObjectHeld()
         {
+            ReportSuccess();
             return;
             if (Grabber.Instance.HoldingObject())
                 ReportSuccess();

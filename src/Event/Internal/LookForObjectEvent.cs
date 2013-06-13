@@ -18,7 +18,7 @@ namespace Naovigate.Event.Internal
             Eyes.Instance.LookForObjects();
             if (Eyes.Instance.ObjectDetected)
                 EventQueue.Goal.Post(new SeeEvent(0, 0));
-            Logger.Log(this, "Detected: " + Eyes.Instance.ObjectDetected + ", Angle: " + Eyes.Instance.AngleToObject);
+            //Logger.Log(this, "Detected: " + Eyes.Instance.MarkerDetected + ", Angle: " + Eyes.Instance.AngleToMarker);
         }
 
         /// <summary>

@@ -103,6 +103,7 @@ namespace Naovigate.Vision
             Pose.Instance.StartTurningHead(0f);
             Walk.Instance.WaitForMoveToEnd();
             Pose.Instance.Look(0f);
+            Thread.Sleep(2000);
         }
 
         /// <summary>
@@ -161,6 +162,7 @@ namespace Naovigate.Vision
             AngleToMarker = 0f;
             foreach (Action<float> lookMethod in new List<Action<float>>() { LookLeft, LookRight })
             {
+                Logger.Log(this, "Looking at one direction.");
                 TurnAndLookForMarker(markerID, lookMethod);
                 LookStraight();
                 if (MarkerDetected)
