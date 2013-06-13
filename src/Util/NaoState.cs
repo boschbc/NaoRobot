@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Net;
 using Aldebaran.Proxies;
-
+using Naovigate.Vision;
 using Naovigate.Communication;
 using Naovigate.Grabbing;
 using Naovigate.Navigation;
@@ -29,6 +29,7 @@ namespace Naovigate.Util
 
         public NaoState()
         {
+            ObjectDetector = new ObjectDetectionWorker();
             try
             {
                 Map = MapParser.Parse("../resources/maps/testmaze.map");
@@ -37,8 +38,7 @@ namespace Naovigate.Util
             {
                 Logger.Log(e.GetType().Name+" "+ e.Message+" at line "+MapParser.CurrentLineNr);
                 Logger.Log(this, "Map parsing failed: Exit");
-                Console.Read();
-                //Environment.Exit(-1);
+                Environment.Exit(-1);
             }
         }
 
@@ -76,7 +76,9 @@ namespace Naovigate.Util
             IP = endPoint.Address;
             Port = endPoint.Port;
             CreateMyProxies();
+            ObjectDetector.Start();
             connected = true;
+
             Update();
             if (OnConnect != null)
                 OnConnect(IP.ToString(), Port);
@@ -91,12 +93,14 @@ namespace Naovigate.Util
             if (!Connected) {
                 return;
             }
+
             Logger.Log(this, "Disconnecting from Nao...");
             if (!Proxies.UnsubscribeAll())
                 Logger.Log(this, "Can't unsubscribe. But that's OK if you're using WeBots.");
             IP = null;
             Port = -1;
             connected = false;
+            ObjectDetector.Abort();
             Proxies.DisposeAllProxies();
             if (OnDisconnect != null)
                 OnDisconnect(IP.ToString(), Port);
@@ -210,6 +214,12 @@ namespace Naovigate.Util
         {
             get;
             set;
+        }
+
+        public ObjectDetectionWorker ObjectDetector
+        {
+            get;
+            private set;
         }
 
         public bool HoldingObject

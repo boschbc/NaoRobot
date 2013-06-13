@@ -271,8 +271,9 @@
     <Compile Include="Util\Proxies.cs" />
     <Compile Include="Vision\Camera.cs" />
     <Compile Include="Communication\GoalCommunicator.cs" />
-    <Compile Include="Vision\Eyes.cs" />
+    <Compile Include="Movement\Eyes.cs" />
     <Compile Include="Vision\MarkerRecogniser.cs" />
+    <Compile Include="Vision\ObjectDetectionWorker.cs" />
     <Compile Include="Vision\ObjectRecogniser.cs" />
     <Compile Include="Vision\Processing.cs" />
     <Compile Include="Grabbing\Grabber.cs" />

@@ -144,6 +144,7 @@ namespace Naovigate.Vision
             {
                 TurnAndLookForObject(lookMethod);
                 LookStraight();
+                LookStraight();
                 if (ObjectDetected)
                     return;
             }

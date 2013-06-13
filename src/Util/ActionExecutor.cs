@@ -118,6 +118,7 @@ namespace Naovigate.Util
         /// <exception cref="Exception">An exception was thrown while waiting.</exception>
         public void WaitFor()
         {
+            return;
             while (!Started)
                 Thread.Sleep(100);
             Logger.Log(this, "WaitFor");
