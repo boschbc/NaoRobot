@@ -75,7 +75,7 @@
     <Compile Include="Event\Internal\TurnRelativeEvent.cs" />
     <Compile Include="Event\InvalidEventCodeException.cs" />
     <Compile Include="Event\Internal\MoveEvent.cs" />
-    <Compile Include="Event\NaoEvent.cs" />
+    <Compile Include="GUI\NaoEvent.cs" />
     <Compile Include="Event\NaoEventFactory.cs" />
     <Compile Include="Event\NaoToGoal\DroppedObjectEvent.cs" />
     <Compile Include="Event\NaoToGoal\ErrorEvent.cs" />
@@ -271,8 +271,9 @@
     <Compile Include="Util\Proxies.cs" />
     <Compile Include="Vision\Camera.cs" />
     <Compile Include="Communication\GoalCommunicator.cs" />
-    <Compile Include="Vision\Eyes.cs" />
+    <Compile Include="Movement\Eyes.cs" />
     <Compile Include="Vision\MarkerRecogniser.cs" />
+    <Compile Include="Vision\ObjectDetectionWorker.cs" />
     <Compile Include="Vision\ObjectRecogniser.cs" />
     <Compile Include="Vision\Processing.cs" />
     <Compile Include="Grabbing\Grabber.cs" />

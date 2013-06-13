@@ -19,7 +19,7 @@ namespace Naovigate.Vision
         /// </summary>
         public static Eyes Instance
         {
-            get { return instance == null ? new Eyes() : instance; }
+            get { return instance == null ? instance = new Eyes() : instance; }
             set { instance = value; }
         }
 
@@ -101,10 +101,11 @@ namespace Naovigate.Vision
             foreach (Action<float> lookMethod in new List<Action<float>>() { LookLeft, LookRight })
             {
                 TurnAndLook(lookMethod);
+                LookStraight();
                 if (ObjectDetected)
                     return;
             }
-
+            LookStraight();
         }
 
         /// <summary>
