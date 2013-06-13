@@ -18,7 +18,7 @@ namespace Naovigate.Vision
         /// <returns></returns>
         public static bool CloseEnough(Rectangle rect)
         {
-            return rect.Width >= 135;
+            return rect.Width >= 150;
         }
 
         /// <summary>
@@ -72,10 +72,11 @@ namespace Naovigate.Vision
             Hsv blueObjectMax = new Hsv (125, 255, 125);
             colors.Add(redObjectMin);
             colors.Add(redObjectMax);
-            colors.Add(greenObjectMin);
-            colors.Add(greenObjectMax);
             colors.Add(blueObjectMin);
             colors.Add(blueObjectMax);
+            colors.Add(greenObjectMin);
+            colors.Add(greenObjectMax);
+           
         }
 
         //checks of there is a object in sight and then returns a array with distance and angle
