@@ -68,8 +68,8 @@ namespace Naovigate.Vision
             Hsv redObjectMax = new Hsv ( 255.0, 255.0, 255.0);
             Hsv greenObjectMin = new Hsv ( 80, 150, 43 );
             Hsv greenObjectMax = new Hsv ( 116, 199, 180 );
-            Hsv blueObjectMin = new Hsv (255, 255, 255);
-            Hsv blueObjectMax = new Hsv (255, 255, 255);
+            Hsv blueObjectMin = new Hsv (75, 180, 0);
+            Hsv blueObjectMax = new Hsv (125, 255, 125);
             colors.Add(redObjectMin);
             colors.Add(redObjectMax);
             colors.Add(greenObjectMin);
