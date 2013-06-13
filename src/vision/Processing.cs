@@ -82,6 +82,8 @@ namespace Naovigate.Vision
         public Rectangle DetectObject()
         {
             currentImage = cam.GetImage();
+            // image null, interrupted during transmission
+            if (currentImage == null) return new Rectangle(0, 0, 0, 0);
             Image<Hsv, Byte> hsvImg = currentImage.Convert<Hsv, Byte>();
             return SearchForObjects(hsvImg);
         }
@@ -128,7 +130,8 @@ namespace Naovigate.Vision
             Hsv p2 = new Hsv(rgb2[0], rgb2[1], rgb2[2]);
             Rectangle rec = SearchForObjects(hsv);
 
-            Image<Gray, Byte> rangedImg = hsv.InRange(colors[2], colors[3]);
+            //Image<Gray, Byte> rangedImg = hsv.InRange(colors[2], colors[3]);
+            Image<Gray, Byte> rangedImg = hsv.InRange(p1, p2);
             Gray col = new Gray(100);
             rangedImg.Draw(rec, col, 2);
             return rangedImg;
