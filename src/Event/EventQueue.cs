@@ -117,6 +117,13 @@ namespace Naovigate.Event
             private set;
         }
 
+        /// <summary>
+        /// The elapsed time since the last fired event.
+        /// </summary>
+        public long TimeSinceLastEvent
+        {
+            get { return eventTimer.ElapsedMilliseconds; }
+        }
 
         /// <summary>
         /// Clears all subscribers of the 'EventFiring' event.
