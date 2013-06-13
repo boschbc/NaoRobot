@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Naovigate.Util;
-using Naovigate.Movement;
+using Naovigate.Vision;
 using System.Threading;
 
-namespace Naovigate.Vision
+namespace Naovigate.Movement
 {
     /// <summary>
     /// A class that helps coordinate all head-movement and object / marker detection.

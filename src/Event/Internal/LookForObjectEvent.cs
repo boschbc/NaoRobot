@@ -1,5 +1,6 @@
 ﻿using Naovigate.Event.NaoToGoal;
 using Naovigate.Vision;
+using Naovigate.Movement;
 using Naovigate.Util;
 using System;
 
@@ -17,8 +18,8 @@ namespace Naovigate.Event.Internal
         {
             Eyes.Instance.LookForObjects();
             if (Eyes.Instance.ObjectDetected)
-                EventQueue.Goal.Post(new SeeEvent(0, 0));
-            //Logger.Log(this, "Detected: " + Eyes.Instance.MarkerDetected + ", Angle: " + Eyes.Instance.AngleToMarker);
+                EventQueue.Goal.Post(new SeeEvent(0));
+            Logger.Log(this, "Detected: " + Eyes.Instance.ObjectDetected + ", Angle: " + Eyes.Instance.AngleToObject);
         }
 
         /// <summary>

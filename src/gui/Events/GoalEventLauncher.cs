@@ -46,8 +46,7 @@ namespace Naovigate.GUI.Events
                             new UserParameter<int>(RoomID)) },
                     { "SeeEvent", 
                         new Constructor(
-                            () => new SeeEvent(GetParameter<int>(ObjectID),
-                                               GetParameter<int>(Location)),
+                            () => new SeeEvent(GetParameter<int>(ObjectID)),
                             new UserParameter<int>(ObjectID),
                             new UserParameter<int>(Location)) },
                     { "StateEvent", 

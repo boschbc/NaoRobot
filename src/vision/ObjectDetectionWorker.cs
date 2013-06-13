@@ -2,6 +2,7 @@
 using System.Threading;
 using Naovigate.Event;
 using Naovigate.Util;
+using Naovigate.Movement;
 
 namespace Naovigate.Vision
 {

@@ -76,7 +76,6 @@ namespace Naovigate.Util
             IP = endPoint.Address;
             Port = endPoint.Port;
             CreateMyProxies();
-            ObjectDetector.Start();
             connected = true;
 
             Update();
@@ -100,7 +99,6 @@ namespace Naovigate.Util
             IP = null;
             Port = -1;
             connected = false;
-            ObjectDetector.Abort();
             Proxies.DisposeAllProxies();
             if (OnDisconnect != null)
                 OnDisconnect(IP.ToString(), Port);

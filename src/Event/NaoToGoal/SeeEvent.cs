@@ -10,7 +10,7 @@ namespace Naovigate.Event.NaoToGoal
         /// Explicit constructor.
         /// </summary>
         /// <param name="objectID">The ID of the spotted object.</param>
-        public SeeEvent(int objectID, int location) : base((byte) EventCode.See, objectID, location) { }
+        public SeeEvent(int objectID) : base((byte) EventCode.See, objectID) { }
 
     }
 }

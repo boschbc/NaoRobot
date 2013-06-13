@@ -92,6 +92,7 @@ namespace Naovigate.Event.GoalToNao
                         new GoToMarkerEvent(entry.MarkerID, entry.WantedDistance).Fire();
                     }
                 }
+                CheckSeeObject();
                 if (Aborted)
                     ReportFailure();
                 else
@@ -111,6 +112,11 @@ namespace Naovigate.Event.GoalToNao
             if (!Eyes.Instance.MarkerInSight(markerID))
                 Eyes.Instance.LookForMarker(markerID);
             new TurnRelativeEvent(Eyes.Instance.AngleToMarker).Fire();
+        }
+
+        private void CheckSeeObject()
+        {
+            new LookForObjectEvent().Fire();
         }
 
         /// <summary>
