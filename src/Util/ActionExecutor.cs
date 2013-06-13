@@ -52,10 +52,14 @@ namespace Naovigate.Util
         {
             if (Aborted)
                 return;
-            Thread t = new Thread(new ThreadStart(RunInit));
-            t.Name = "ActionExecutor";
-            t.Start();
-            while (!Started) Thread.Sleep(100);
+            //Thread t = new Thread(new ThreadStart(RunInit));
+            //t.Name = "ActionExecutor";
+            //t.Start();
+            Aborted = false;
+            Running = true;
+            Started = true;
+            Run();
+            //while (!Started) Thread.Sleep(100);
         }
 
         /// <summary>
