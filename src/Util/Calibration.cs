@@ -13,12 +13,12 @@ namespace Naovigate.Util
 
         public Calibration Instance
         {
-            get { return instance == null ? new Calibration(DefaultPath) : instance; }
+            get { return instance == null ? instance = new Calibration(DefaultPath) : instance; }
             set { instance = value; }
         }
 
         private string path;
-        private Dictionary<string, Object> records;
+        private Dictionary<string, object> records;
 
         public Calibration(string path)
         {
