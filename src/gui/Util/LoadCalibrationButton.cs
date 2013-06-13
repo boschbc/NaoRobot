@@ -11,6 +11,12 @@ namespace Naovigate.GUI.Util
             InitializeComponent();
         }
 
+        private string[] List()
+        {
+            //TODO add to dropdown
+            return System.IO.Directory.GetFiles("../resources/calibs/", "*.naocalib");
+        }
+
         private void dropdown_SelectedIndexChanged(object sender, EventArgs e)
         {
             string filename = (string) dropdown.SelectedItem;
