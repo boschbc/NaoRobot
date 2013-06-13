@@ -280,20 +280,16 @@ namespace Naovigate.Movement
         }
 
         /// <summary>
-        /// Turn (normalized) dir and walk till the Nao is within dist pieces of wall of the marker with MarkID = markerID
+        /// Walk till the Nao is within dist pieces of wall of the marker with MarkID = markerID
         /// </summary>
         /// <param name="dir"></param>
         /// <param name="markerID"></param>
         /// <param name="dist"></param>
         /// <returns></returns>
-        public MarkerSearchWorker WalkTowardsMarker(float dir, int markerID, int dist)
+        public MarkerSearchWorker WalkTowardsMarker(int markerID, int dist)
         {
             Logger.Log(this, "WalkToMarker: "+markerID+":"+dist);
-            //StopLooking();
-            StartWalking(0.7F, 0, 0);
-            MarkerSearchWorker t = new MarkerSearchWorker(markerID,dist);
-            t.Start();
-            return t;
+            return new MarkerSearchWorker(markerID, dist);
         }
 
         /// <summary>

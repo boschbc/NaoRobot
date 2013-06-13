@@ -9,7 +9,6 @@ namespace Naovigate.Util
     /// </summary>
     public abstract class ActionExecutor
     {
-        private event Action Done;
         /// <summary>
         /// True if execution is ongoing.
         /// </summary>
@@ -35,39 +34,13 @@ namespace Naovigate.Util
         }
 
         /// <summary>
-        /// Any exception that has occurred during execution.
-        /// If none occurred, returns null.
-        /// </summary>
-        public Exception Error
-        {
-            get;
-            protected set;
-        }
-
-        /// <summary>
-        /// Starts execution in a new thread.
+        /// Starts execution.
         /// Has no effect if this executor has been previously aborted.
         /// </summary>
         public void Start()
         {
             if (Aborted)
                 return;
-            //Thread t = new Thread(new ThreadStart(RunInit));
-            //t.Name = "ActionExecutor";
-            //t.Start();
-            Aborted = false;
-            Running = true;
-            Started = true;
-            Run();
-            //while (!Started) Thread.Sleep(100);
-        }
-
-        /// <summary>
-        /// Initializer that invokes the Run() method.
-        /// When Run() terminates, all handlers who subscribed via NotifyWhenDone() will be notified.
-        /// </summary>
-        private void RunInit()
-        {
             Aborted = false;
             Running = true;
             Started = true;
@@ -75,14 +48,10 @@ namespace Naovigate.Util
             {
                 Run();
             }
-            catch (Exception e)
+            finally
             {
-                Logger.Log(this, "Got " + e.GetType().Name + " " + e.Message);
-                Error = e;
+                Running = false;
             }
-            Running = false;
-            if (Done != null)
-                Done();
         }
 
         /// <summary>
@@ -91,8 +60,8 @@ namespace Naovigate.Util
         public abstract void Run();
 
         /// <summary>
-        /// Will terminate the executor thread at the first possible opportunity.
-        /// Has no effect if the thread is already terminated.
+        /// Will terminate the executor at the first possible opportunity.
+        /// Has no effect if already done or aborted.
         /// </summary>
         public void Abort()
         {
@@ -115,30 +84,14 @@ namespace Naovigate.Util
         /// <summary>
         /// Block the current thread until this executor finished running.
         /// </summary>
-        /// <exception cref="Exception">An exception was thrown while waiting.</exception>
         public void WaitFor()
         {
-            return;
+            Logger.Log(this, "WaitForStart");
             while (!Started)
                 Thread.Sleep(100);
-            Logger.Log(this, "WaitFor");
-            while (Running && Error == null)
+            Logger.Log(this, "WaitForStop");
+            while (Running)
                 Thread.Sleep(100);
-            if (Error != null) throw Error;
-            if (Aborted)
-            {
-                Error = new ThreadInterruptedException("Thread was aborted");
-                throw Error;
-            }
-        }
-
-        /// <summary>
-        /// Call the given handler when this ActionExecutor finishes.
-        /// </summary>
-        /// <param name="handler"></param>
-        public void NotifyWhenDone(Action handler)
-        {
-            Done += handler;
         }
     }
 }

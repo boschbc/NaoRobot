@@ -144,7 +144,6 @@ namespace Naovigate.Grabbing
             //motion.setWalkArmsEnabled(false, false);
             bool holdingObject;
             float rad = (float)(0.25 * Math.PI);
-            float accuracy = 0.1f;
 
             Walk.Instance.Turn(rad);
             Eyes.Instance.LookDown();

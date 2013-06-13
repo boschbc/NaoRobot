@@ -29,7 +29,6 @@ namespace Naovigate.Util
 
         public NaoState()
         {
-            ObjectDetector = new ObjectDetectionWorker();
             try
             {
                 Map = MapParser.Parse("../resources/maps/testmaze.map");
@@ -212,12 +211,6 @@ namespace Naovigate.Util
         {
             get;
             set;
-        }
-
-        public ObjectDetectionWorker ObjectDetector
-        {
-            get;
-            private set;
         }
 
         public bool HoldingObject

@@ -224,10 +224,13 @@ namespace Naovigate.Event
         /// </summary>
         private void FireNextEvent()
         {
-            Current = NextEvent;
-            if (Current != null)
-                FireEvent(Current);
-            Current = null;
+            if (!Suspended)
+            {
+                Current = NextEvent;
+                if (Current != null)
+                    FireEvent(Current);
+                Current = null;
+            }
         }
 
         /// <summary>
@@ -280,7 +283,11 @@ namespace Naovigate.Event
         {
             Logger.Log(this, "waitfor");
             while (!suspended && !IsEmpty())
+            {
+                Logger.Log(this, string.Format("suspended = {0}, empty = {1}, count = {2}, inaction = {3}", suspended, IsEmpty(), Size(), inAction));
                 Thread.Sleep(100);
+                locker.Set();
+            }
             Logger.Log(this, "wait end");
         }
 
