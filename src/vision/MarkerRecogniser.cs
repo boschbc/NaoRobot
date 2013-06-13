@@ -14,9 +14,9 @@ namespace Naovigate.Vision
 
         public static double FRANKENAO2C = 5.577;
 
-        public static MarkerRecogniser GetInstance()
+        public static MarkerRecogniser Instance
         {
-            return instance == null ? instance = new MarkerRecogniser() : instance;
+            get { return instance == null ? instance = new MarkerRecogniser() : instance; }
         }
 
         public MarkerRecogniser()
@@ -36,10 +36,36 @@ namespace Naovigate.Vision
             return (1 / sizeY)/FRANKENAO2C;
         }
 
-        //returns [[TimeStampField][Mark_info_0, Mark_info_1, . . . , Mark_info_N-1]] when N landmarks are detected 
+        /// <summary>
+        /// Retrieves the marker data from the Nao's memory.
+        /// </summary>
+        /// <returns>
+        /// A list of the form: 
+        /// [TimeStamp, MarkerInformation[N], CameraPoseInNaoSpace, CameraPoseInWorldSpace, CurrentCameraName].
+        /// </returns>
         public ArrayList GetMarkerData()
         {
             return (ArrayList)memory.getData("LandmarkDetected");
+        }
+
+        /// <summary>
+        /// Returns a list with all detected marker IDs.
+        /// Returns an empty list if no markers were detected.
+        /// </summary>
+        /// <returns>A list with marker IDs.</returns>
+        public ArrayList GetDetectedMarkers()
+        {
+            //markerData = [TimeStamp, MarkerInformation[N], CameraPoseInNaoSpace, CameraPoseInWorldSpace, CurrentCameraName].
+            ArrayList markerData = GetMarkerData();   
+            ArrayList markerInfos = markerData.Count == 0 ? new ArrayList() : (ArrayList)markerData[1];
+            ArrayList markerIDs = new ArrayList();
+
+            foreach (ArrayList markerInfo in markerInfos)
+            {
+                markerIDs.Add(markerInfo[1]);  //markerInfo = [ShapeInfo, MarkerID]
+            }
+
+            return markerIDs;
         }
 
         /// <summary>
