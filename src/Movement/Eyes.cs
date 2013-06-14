@@ -139,8 +139,9 @@ namespace Naovigate.Movement
         /// </summary>
         public void LookForObjects()
         {
+            LookDown();
             ObjectDetected = Processing.Instance.ObjectInSight();
-            
+            LookStraight();
             /*AngleToObject = 0f;
             
             foreach (Action<float> lookMethod in new List<Action<float>>() { LookLeft, LookRight })

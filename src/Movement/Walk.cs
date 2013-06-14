@@ -231,6 +231,8 @@ namespace Naovigate.Movement
         {
             NaoState.Instance.Update();
             float delta = rad - NaoState.Instance.Rotation;
+            if (Math.Round(delta, 2) == 0)
+                return;
             if (accuracy > 0)
                 TurnExact(delta, accuracy);
             else
