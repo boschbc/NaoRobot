@@ -100,7 +100,6 @@ namespace Naovigate.Movement
                 Rectangle ob = processor.DetectObject();
                 if (ob.Width != 0)
                 {
-                    Logger.Log(this, "Dist = "+ob.Width);
                     if (Processing.CloseEnough(ob))
                     {
                         PositionedCorrectly = true;

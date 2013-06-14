@@ -83,17 +83,6 @@ namespace Naovigate.Movement
             return MarkerRecogniser.Instance.GetDetectedMarkers().Contains(markerID);
         }
 
-        public bool MarkerInSight(int markerID, int leniency)
-        {
-            for (int i = 0; i < leniency; i++)
-            {
-                if (MarkerInSight(markerID))
-                    return true;
-                Thread.Sleep(1000);
-            }
-            return false;
-        }
-
         /// <summary>
         /// The Nao will look down.
         /// </summary>
@@ -150,9 +139,7 @@ namespace Naovigate.Movement
         /// </summary>
         public void LookForObjects()
         {
-            LookDown();
             ObjectDetected = Processing.Instance.ObjectInSight();
-            LookStraight();
             
             /*AngleToObject = 0f;
             

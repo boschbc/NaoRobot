@@ -58,8 +58,8 @@ namespace Naovigate.Vision
             float left = getSonarDataLeft();
             float right = getSonarDataRight();
             Logger.Log(this, "Left = "+left.Readable()+", Right = "+right.Readable());
-            bool collidingLeft = left <= 0.25f && left != 0;
-            bool collidingRight = right <= 0.25f && right != 0;
+            bool collidingLeft = left <= 0.3f && left != 0;
+            bool collidingRight = right <= 0.3f && right != 0;
             bool res = (collidingLeft && collidingRight);
             if(res)
                 Logger.Log(this, "IsTooClose: "+res);
