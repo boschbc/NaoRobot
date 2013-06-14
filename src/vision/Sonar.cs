@@ -37,7 +37,7 @@ namespace Naovigate.Vision
         /// <summary>
         /// activates sonar
         /// </summary>
-        public void ActivateSonar()
+        private void ActivateSonar()
         {
             try
             {
