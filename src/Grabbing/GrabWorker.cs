@@ -8,7 +8,7 @@ namespace Naovigate.Grabbing
 {
     public class GrabWorker : ActionExecutor
     {
-        public static readonly float grabSpeed = 0.4f;
+        public static readonly float grabSpeed = 0.3f;
 
         private static readonly ArrayList spreadArmsNames = new ArrayList(new string[] { "LShoulderRoll", "RShoulderRoll", "LElbowYaw", "RElbowYaw", "LShoulderPitch", "RShoulderPitch", "LHand", "RHand" });
         private static readonly ArrayList spreadArmsAngles = new ArrayList(new float[] { 1.3265F, -1.3265F, -1.2F, 1.2F, 0.5F, 0.5F, 1F, 1F });

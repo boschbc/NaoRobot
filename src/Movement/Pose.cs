@@ -98,7 +98,7 @@ namespace Naovigate.Movement
         public void StandUp()
         {
             ValidateProxies();
-            posture.goToPosture("Stand", 1f);
+            posture.goToPosture("Stand", 0.5f);
         }
 
         /// <summary>
