@@ -130,7 +130,7 @@ namespace Naovigate.Vision
         public Rectangle SearchForObjects(Image<Hsv, Byte> hsv)
         {
             rectangles = new List<Rectangle>();
-            for (int i = 0; i < colors.Count / 2; i++)
+            for (int i = 0; i <= colors.Count / 2; i++)
             {
                 Image<Gray, Byte> rangedImg = hsv.InRange(colors[i], colors[i + 1]);
                 Rectangle rectangle = rec.getBoundingBox(rangedImg);
