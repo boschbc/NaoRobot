@@ -86,7 +86,13 @@ namespace Naovigate.Event.GoalToNao
                     {
                         Logger.Log(this, "Turning to " + entry.Direction + "...");
                         new TurnAbsoluteEvent(entry.Direction).Fire();
+                    }
+                    if (!Aborted)
+                    {
                         AdjustTurn(entry.MarkerID);
+                    }
+                    if (!Aborted)
+                    {
                         Logger.Log(this, "Walking towards marker...");
                         new GoToMarkerEvent(entry.MarkerID, entry.WantedDistance).Fire();
                     }
