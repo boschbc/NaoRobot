@@ -80,7 +80,30 @@ namespace Naovigate.Vision
                     Logger.Log(this, "CloseToObjectDistance = " + close);
                 }
             }
-            //TODO hsv values from calibration
+            colors = new List<Hsv>();
+            Calibration c = Calibration.Instance;
+            Hsv redObjectMin = new Hsv(c.GetRecord<int>("HRedMin"),
+                                       c.GetRecord<int>("SRedMin"),
+                                       c.GetRecord<int>("VRedMin"));
+            Hsv redObjectMax = new Hsv(c.GetRecord<int>("HRedMax"),
+                                       c.GetRecord<int>("SRedMax"),
+                                       c.GetRecord<int>("VRedMax"));
+            Hsv greenObjectMin = new Hsv(c.GetRecord<int>("HGreenMin"),
+                                         c.GetRecord<int>("SGreenMin"),
+                                         c.GetRecord<int>("VGreenMin"));
+            Hsv greenObjectMax = new Hsv(c.GetRecord<int>("HGreenMax"),
+                                         c.GetRecord<int>("SGreenMax"),
+                                         c.GetRecord<int>("VGreenMax"));
+            Hsv blueObjectMin = new Hsv(c.GetRecord<int>("HBlueMin"),
+                                        c.GetRecord<int>("SBlueMin"),
+                                        c.GetRecord<int>("VBlueMin"));
+            Hsv blueObjectMax = new Hsv(c.GetRecord<int>("HBlueMax"),
+                                        c.GetRecord<int>("SBlueMax"),
+                                        c.GetRecord<int>("VBlueMax"));
+            colors.Add(redObjectMin);
+            colors.Add(redObjectMax);
+            colors.Add(blueObjectMin);
+            colors.Add(blueObjectMax);
         }
 
         private void InitDefaultColors()

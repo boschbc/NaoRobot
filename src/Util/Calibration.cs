@@ -11,6 +11,9 @@ namespace Naovigate.Util
         private static readonly string DefaultPath = "../resources/calibs/default.naocalib";
         private static Calibration instance;
 
+        /// <summary>
+        /// This singleton's instance.
+        /// </summary>
         public static Calibration Instance
         {
             get { return instance == null ? instance = new Calibration(DefaultPath) : instance; }
@@ -20,6 +23,10 @@ namespace Naovigate.Util
         private string path;
         private Dictionary<string, object> records;
 
+        /// <summary>
+        /// Creates a new calibration instance using given file.
+        /// </summary>
+        /// <param name="path">The path to the calibration file.</param>
         public Calibration(string path)
         {
             this.path = path;
@@ -27,11 +34,17 @@ namespace Naovigate.Util
             Load();
         }
 
+        /// <summary>
+        /// The path to the loaded calibration file.
+        /// </summary>
         public string Path
         {
             get { return path; }
         }
 
+        /// <summary>
+        /// Loads the records contained in the calibration file into this instance.
+        /// </summary>
         protected void Load()
         {
             string[] lines;
@@ -55,6 +68,12 @@ namespace Naovigate.Util
             Logger.Log(this, "Calibration file was loaded succesfully.");
         }
 
+        /// <summary>
+        /// Retrieves a record.
+        /// </summary>
+        /// <typeparam name="T">The desired result type.</typeparam>
+        /// <param name="key">The record's key.</param>
+        /// <returns>The record's value.</returns>
         public T GetRecord<T>(string key)
         {
             if (records.ContainsKey(key))

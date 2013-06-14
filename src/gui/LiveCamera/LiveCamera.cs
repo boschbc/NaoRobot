@@ -13,7 +13,7 @@ namespace Naovigate.GUI.LiveCamera
     /// </summary>
     internal sealed partial class LiveCamera : UserControl, IRealtimeField
     {
-        private static readonly int DEFAULT_FPS = 5;
+        private static readonly int DEFAULT_FPS = 1;
         private static readonly string SUBSCRIBER_ID = "LiveCamera";
 
         private int fps;
