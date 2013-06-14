@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-
+using Naovigate.Util;
 
 using Emgu.CV;
 using Emgu.CV.Structure;
@@ -10,6 +10,8 @@ namespace Naovigate.Vision
 {
     internal sealed class Processing : IDisposable
     {
+
+        private static int closeEnough = 150;
         /// <summary>
         /// Indicate if the given rectangle is an indication of being
         /// close enough to this object.
@@ -18,7 +20,7 @@ namespace Naovigate.Vision
         /// <returns></returns>
         public static bool CloseEnough(Rectangle rect)
         {
-            return rect.Width >= 135;
+            return rect.Width >= closeEnough;
         }
 
         /// <summary>
@@ -58,10 +60,30 @@ namespace Naovigate.Vision
             cam = camera;
             cam.Subscribe();
             rec = ObjectRecogniser.Instance;
-            Init();
+            InitColors();
         }
 
-        public void Init()
+        private void InitColors()
+        {
+            InitDefaultColors();
+        }
+
+        private void InitCalibColors()
+        {
+            // no default calibration, insert its values
+            if (!Calibration.Instance.Path.Contains("efault"))
+            {
+                int close = Calibration.Instance.GetRecord<int>("CloseToObjectDistance");
+                if (close != default(int))
+                {
+                    closeEnough = close;
+                    Logger.Log(this, "CloseToObjectDistance = " + close);
+                }
+            }
+            //TODO hsv values from calibration
+        }
+
+        private void InitDefaultColors()
         {
             colors = new List<Hsv>();
             Hsv redObjectMin = new Hsv(255, 255, 255);
@@ -72,10 +94,11 @@ namespace Naovigate.Vision
             Hsv blueObjectMax = new Hsv (125, 255, 125);
             colors.Add(redObjectMin);
             colors.Add(redObjectMax);
-            colors.Add(greenObjectMin);
-            colors.Add(greenObjectMax);
             colors.Add(blueObjectMin);
             colors.Add(blueObjectMax);
+            colors.Add(greenObjectMin);
+            colors.Add(greenObjectMax);
+           
         }
 
         //checks of there is a object in sight and then returns a array with distance and angle

@@ -39,15 +39,6 @@ namespace Naovigate
             Logger.Log("TEST", Vision.Sonar.Instance.IsTooClose());
         }
 
-        private static void Tst()
-        {
-            while (true)
-            {
-                Logger.Log(typeof(MainProgram), Pose.Instance.Balanced);
-                Thread.Sleep(500);
-            }
-        }
-
         private static void Setup()
         {
             Thread cur = Thread.CurrentThread;

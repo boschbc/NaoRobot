@@ -40,6 +40,7 @@ namespace Naovigate.Movement
         public void LookForMarker()
         {
             Pose.Instance.Look(0f);
+            Walk.Instance.StartWalking(0.7F, 0, 0);
             MarkerRecogniser rec = MarkerRecogniser.Instance;
             Sonar sonar = Sonar.Instance;
             ArrayList markers;

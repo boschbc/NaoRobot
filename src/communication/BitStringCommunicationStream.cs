@@ -58,7 +58,6 @@ namespace Naovigate.Communication
         private byte ReadByteFromBitString()
         {
             string bitstring = GetNextBitString();
-           
             int value = 0;
             for (int i = 7; i >= 0;i-- )
             {

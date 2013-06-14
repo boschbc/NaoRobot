@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-
+using Naovigate.Util;
 using NUnit.Framework;
 
 using Naovigate.Event;
@@ -26,16 +26,10 @@ namespace Naovigate.Test.Event
             //    Thread.Sleep(50);
         }
 
-        [TestFixtureSetUp]
-        public void SetupOnce()
-        {
-            // we need only one EventQueue for all tests
-            Console.WriteLine("New EventQueue");
-            q = new EventQueue();
-        }
-
         [SetUp]
         public void Setup(){
+            Console.WriteLine("New EventQueue");
+            q = new EventQueue();
             Console.WriteLine("New Tracker");
             t = new Tracker();
         }
@@ -99,21 +93,29 @@ namespace Naovigate.Test.Event
             WaitFor();
             Assert.AreEqual(15, t.events.Count());
         }
-
-        [Test]
+        
+        [Test, Timeout(7500)]
         public void SuspendAndResumeTest()
         {
-            q.Suspended = true;;
+            Logger.Log(this, "SuspendAndResumeTest");
+            q.Suspended = true;
+            Logger.Log(this, "Suspended");
             Add(new TEvent(t, Priority.Low),
                     new TEvent(t, Priority.High),
                     new TEvent(t, Priority.Medium),
                     new TEvent(t, Priority.Low),
                     new TEvent(t, Priority.Low));
+            Logger.Log(this, "Posted");
             Thread.Sleep(250);
+            Logger.Log(this, "Slept");
             // none fired, queue is suspended
             Assert.AreEqual(0, t.events.Count());
-            q.Suspended = false;;
+            Logger.Log(this, "Asserted count == 0");
+            q.Suspended = false;
+            Logger.Log(this, "Resume");
+            Logger.Log(this, "Waitfor");
             WaitFor();
+            Logger.Log(this, "waited");
 
             // should all be fired as normal
             Assert.AreEqual(5, t.events.Count());
@@ -122,6 +124,16 @@ namespace Naovigate.Test.Event
             Assert.AreEqual(Priority.Low, t.events[2].Priority);
             Assert.AreEqual(Priority.Low, t.events[3].Priority);
             Assert.AreEqual(Priority.Low, t.events[4].Priority);
+        }
+
+        [Test, Timeout(750000)]
+        public void SuspendAndResumeALOTTest()
+        {
+            for (int i = 0; i < 100;i++ )
+            {
+                Setup();
+                SuspendAndResumeTest();
+            }
         }
 	}
 

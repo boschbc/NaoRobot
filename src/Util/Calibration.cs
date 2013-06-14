@@ -27,6 +27,11 @@ namespace Naovigate.Util
             Load();
         }
 
+        public string Path
+        {
+            get { return path; }
+        }
+
         protected void Load()
         {
             string[] lines;
