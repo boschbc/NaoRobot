@@ -124,7 +124,7 @@ namespace Naovigate.Event.GoalToNao
             Logger.Log(this, "Walking towards object...");
             executor = new ObjectSearchWorker();
             executor.Start();
-            executor.WaitFor();
+            //executor.WaitFor();
             Logger.Log(this, "Finished walking towards object.");
         }
 
@@ -135,8 +135,8 @@ namespace Naovigate.Event.GoalToNao
         {
             Logger.Log(this, "Grabbing object...");
             executor = Grabber.Instance.Grab();
-            executor.Start();
-            executor.WaitFor();
+            //executor.Start();
+            //executor.WaitFor();
             Logger.Log(this, "Finished grabbing.");
         }
 
