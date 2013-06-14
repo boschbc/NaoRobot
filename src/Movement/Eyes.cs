@@ -103,7 +103,8 @@ namespace Naovigate.Movement
             Pose.Instance.StartTurningHead(0f);
             Walk.Instance.WaitForMoveToEnd();
             Pose.Instance.Look(0f);
-            Thread.Sleep(2000);
+            while (Math.Abs(Pose.Instance.GetHeadAngle()) > 0)
+                Thread.Sleep(200);
         }
 
         /// <summary>
@@ -139,8 +140,9 @@ namespace Naovigate.Movement
         /// </summary>
         public void LookForObjects()
         {
+            LookDown();
             ObjectDetected = Processing.Instance.ObjectInSight();
-            
+            LookStraight();
             /*AngleToObject = 0f;
             
             foreach (Action<float> lookMethod in new List<Action<float>>() { LookLeft, LookRight })
