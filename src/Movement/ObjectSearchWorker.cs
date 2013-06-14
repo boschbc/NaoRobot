@@ -50,7 +50,6 @@ namespace Naovigate.Movement
         /// <returns>True iff an object has been seen while turning the head</returns>
         public bool IsObjectLeft()
         {
-            Processing processor = new Processing(camera);
             bool seenObject = false;
             Pose pose = Pose.Instance;
             pose.StartTurningHead(2.0857F);
@@ -104,7 +103,6 @@ namespace Naovigate.Movement
                     if (Processing.CloseEnough(ob))
                     {
                         PositionedCorrectly = true;
-                        break;
                     }
                     else
                     {
