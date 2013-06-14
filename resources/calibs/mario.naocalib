@@ -1,6 +1,19 @@
-MinRed 100
-MinGreen 180
-MinBlue 0
-MaxRed 125
-MaxGreen 255
-MaxBlue 125
+CloseToObjectDistance 160
+HRedMin 0
+HRedMax 255
+SRedMin 125
+SRedMax 255
+VRedMin 125
+VRedMax 125
+HBlueMin 75
+HBlueMax 125
+SBlueMin 180
+SBlueMax 225
+VBlueMin 0
+VBlueMax 125
+HGreenMin 
+HGreenMax 
+SGreenMin 
+SGreenMax 
+VGreenMin 
+VGreenMax 
