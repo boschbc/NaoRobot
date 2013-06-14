@@ -14,7 +14,7 @@ namespace Naovigate
         public static readonly string LocalHost = "127.0.0.1";
         public static readonly string nao2 = "192.168.0.104";
         public static readonly string soccer = "192.168.0.101";
-        public static readonly string goalIP1 = "192.168.0.105";
+        public static readonly string goalIP1 = "192.168.0.106";
         public static readonly string NaoIP = nao2;
         public static readonly string GoalIP = goalIP1;
 

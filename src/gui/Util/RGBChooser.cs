@@ -32,7 +32,7 @@ namespace Naovigate.GUI.Util
         }
 
         /// <summary>
-        /// The currently selected RGB value.
+        /// Gets or sets the currently selected RGB value.
         /// </summary>
         public double[] RGB
         {
@@ -49,6 +49,22 @@ namespace Naovigate.GUI.Util
                     (double) red.Value, 
                     (double) green.Value, 
                     (double) blue.Value 
+                }; 
+            }
+
+            set
+            {
+                if (red.InvokeRequired)
+                    red.Invoke(new Action(() => RGB = value));
+                else if (green.InvokeRequired)
+                    green.Invoke(new Action(() => RGB = value));
+                else if (blue.InvokeRequired)
+                    blue.Invoke(new Action(() => RGB = value));
+                else 
+                {
+                    red.Value = (decimal)value[0];
+                    green.Value = (decimal)value[1];
+                    blue.Value = (decimal)value[2];
                 }; 
             }
         }

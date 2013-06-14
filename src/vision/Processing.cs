@@ -11,7 +11,7 @@ namespace Naovigate.Vision
     internal sealed class Processing : IDisposable
     {
 
-        private static int closeEnough = 160;
+        private static int closeEnough = 145;
         /// <summary>
         /// Indicate if the given rectangle is an indication of being
         /// close enough to this object.
@@ -113,7 +113,7 @@ namespace Naovigate.Vision
             Hsv redObjectMax = new Hsv ( 255.0, 255.0, 255.0);
             Hsv greenObjectMin = new Hsv ( 80, 150, 43 );
             Hsv greenObjectMax = new Hsv ( 116, 199, 180 );
-            Hsv blueObjectMin = new Hsv (75, 180, 0);
+            Hsv blueObjectMin = new Hsv (100, 180, 0);
             Hsv blueObjectMax = new Hsv (125, 255, 125);
             colors.Add(redObjectMin);
             colors.Add(redObjectMax);

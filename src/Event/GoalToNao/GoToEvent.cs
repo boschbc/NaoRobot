@@ -67,7 +67,7 @@ namespace Naovigate.Event.GoalToNao
                 List<RouteEntry> route = Planner.PlanRoute(NaoState.Instance.Map, locations);
                 if (route != null)
                     Logger.Log(this, "Path found, walking...");
-                else 
+                else if(route == null || route.Count == 0)
                 {
                     Logger.Log(this, "No path found.");
                     ReportFailure();
@@ -110,11 +110,13 @@ namespace Naovigate.Event.GoalToNao
             Logger.Log(this, "Adjusting turn to marker...");
             if (!Eyes.Instance.MarkerInSight(markerID))
                 Eyes.Instance.LookForMarker(markerID);
-            new TurnRelativeEvent(Eyes.Instance.AngleToMarker).Fire();
+            if (Eyes.Instance.MarkerDetected)
+                new TurnRelativeEvent(Eyes.Instance.AngleToMarker).Fire();
         }
 
         private void CheckSeeObject()
         {
+            Logger.Log(this, "CheckSeeObject");
             new LookForObjectEvent().Fire();
         }
 

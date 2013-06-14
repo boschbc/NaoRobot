@@ -98,14 +98,14 @@ namespace Naovigate.Communication
 
                 if (keepAlive == null) {
                     keepAlive = new KeepAlive(communicationStream);
-                    keepAlive.StartAync();
+                    //keepAlive.StartAync();
                 }
                 Logger.Log(this, "Connection established.");
                 //send our agent id.
                 if (NaoState.Instance.Connected)
                 {
                     EventQueue.Goal.Post(new AgentEvent());
-                    EventQueue.Goal.Post(new LocationEvent(6));
+                    EventQueue.Goal.Post(new LocationEvent(15));
                 }
                 return true;
             } 
