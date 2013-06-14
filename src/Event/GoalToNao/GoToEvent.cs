@@ -85,10 +85,9 @@ namespace Naovigate.Event.GoalToNao
                     if (!Aborted)
                     {
                         Logger.Log(this, "Turning to " + entry.Direction + "...");
-                        new TurnAbsoluteEvent(entry.Direction).Fire();
-                        AdjustTurn(entry.MarkerID);
-                        Logger.Log(this, "Walking towards marker...");
-                        new GoToMarkerEvent(entry.MarkerID, entry.WantedDistance).Fire();
+                        Walk.Instance.TurnTo(entry.Direction);
+                        MarkerSearchWorker worker = Walk.Instance.WalkTowardsMarker(entry.MarkerID, 0);
+                        worker.Start();
                     }
                 }
                 CheckSeeObject();
@@ -103,14 +102,6 @@ namespace Naovigate.Event.GoalToNao
                 Logger.Log(this, "Unexpected exception caught: " + e.Message);
                 ReportFailure();
             }
-        }
-
-        private void AdjustTurn(int markerID)
-        {
-            Logger.Log(this, "Adjusting turn to marker...");
-            if (!Eyes.Instance.MarkerInSight(markerID))
-                Eyes.Instance.LookForMarker(markerID);
-            new TurnRelativeEvent(Eyes.Instance.AngleToMarker).Fire();
         }
 
         private void CheckSeeObject()

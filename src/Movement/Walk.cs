@@ -11,6 +11,7 @@ namespace Naovigate.Movement
     public sealed class Walk : IDisposable
     {
         private static Walk instance = null;
+        private Direction currentDirection = Direction.Up;
 
         /// <summary>
         /// Returns this singleton's instance.
@@ -73,47 +74,12 @@ namespace Naovigate.Movement
         public Walk()
         {
             NaoState.Instance.OnDisconnect += ResetProxies;
-            NaoState.Instance.OnConnect += (ip, port) => North = NaoState.Instance.Rotation;
             if (NaoState.Instance.Connected)
             {
-                North = NaoState.Instance.Rotation;
                 WalkWithObject = true;
-                Logger.Log(this, North);
             }
         }
 
-        /// <summary>
-        /// The direction defined as North, in radians.
-        /// </summary>
-        public float North
-        {
-            get;
-            private set;
-        }
-
-        /// <summary>
-        /// The direction defined as South in radians.
-        /// </summary>
-        public float South
-        {
-            get { return (float)(North + Math.PI); }
-        }
-
-        /// <summary>
-        /// The direction defined as East in radians.
-        /// </summary>
-        public float East
-        {
-            get { return (float)(North - 0.5 * Math.PI); }
-        }
-
-        /// <summary>
-        /// The direction defined as West in radians.
-        /// </summary>
-        public float West
-        {
-            get { return (float)(North + 0.5 * Math.PI); }
-        }
 
         /// <summary>
         /// Forces this classes' proxy properties to refresh.
@@ -176,95 +142,61 @@ namespace Naovigate.Movement
         }
 
         /// <summary>
-        /// Turn the Nao relatively.
-        /// This method may be inaccurate at times.
+        /// Turn towards the given direction
         /// </summary>
-        public void Turn(float rad)
+        /// <param name="dir"></param>
+        public void TurnTo(Direction dir)
         {
-            Logger.Log(this, "Turning " + rad + " radians...");
-            WalkTo(0, 0, rad);
-            //WaitForMoveToEnd();
-            Logger.Log(this, "Done turning.");
-        }
-
-        /// <summary>
-        /// Turns the Nao accurately using a default accuracy
-        /// </summary>
-        /// <param name="rad">The angle to turn in radians. A positive value means clockwise rotation.</param>
-        public void TurnExact(float rad)
-        {
-            TurnExact(rad, 0.01f);
-        }
-        /// <summary>
-        /// Turns the Nao accurately using the specified accuracy-degree.
-        /// </summary>
-        /// <param name="rad">The angle to turn in radians. A positive value means clockwise rotation.</param>
-        /// <param name="accuracy">How accurately to turn.</param>
-        public void TurnExact(float rad, float accuracy)
-        {
-            if (accuracy < 0.01)
-                accuracy = 0.01f;
-
-            NaoState.Instance.Update();
-            
-            float goal = ToNaoRadians(NaoState.Instance.Rotation + rad);
-            float rotation = ToNaoRadians(goal - NaoState.Instance.Rotation);
-            float mistake = Math.Abs(rotation);
-            while (mistake > accuracy)
+            //calculate how to get to up
+            int turn = 4 - (int)currentDirection;
+            //and adjust turn to turn to dir
+            turn += (int)dir;
+            turn = turn % 4;
+            switch ((Direction)turn)
             {
-                Turn(rotation);
-                NaoState.Instance.Update();
-                rotation = ToNaoRadians(goal - NaoState.Instance.Rotation);
-                mistake = Math.Abs(rotation);
+                case Direction.Left :
+                    TurnLeft();
+                    break;
+                case Direction.Right :
+                    TurnRight();
+                    break;
+                case Direction.Down :
+                    TurnAround();
+                    break;
             }
         }
 
         /// <summary>
-        /// Turns the Nao absolutely.
+        /// Turns 90 degrees to the left
         /// </summary>
-        /// <param name="rad">The angle to turn to, in radians.</param>
-        /// <param name="accuracy">
-        /// If greater than 0, will turn exactly 
-        /// using given accuracy as a threshold.
-        /// </param>
-        public void TurnAbsolute(float rad, float accuracy)
+        public void TurnLeft()
         {
-            NaoState.Instance.Update();
-            float delta = rad - NaoState.Instance.Rotation;
-            if (accuracy > 0)
-                TurnExact(delta, accuracy);
-            else
-                Turn(delta);
+            InitMove();
+            motion.moveTo(0, 0, (float)(0.5 * Math.PI));
+            int newDir = (int)currentDirection;
+            newDir = (newDir + 3) % 4;
+            currentDirection = (Direction)newDir;
         }
 
         /// <summary>
-        /// Turns the Nao absolutely.
+        /// Turns 90 degrees to the right
         /// </summary>
-        /// <param name="rad">The angle to turn to, in radians.</param>
-        public void TurnAbsolute(float rad)
+        public void TurnRight()
         {
-            TurnAbsolute(rad, 0f);
+            InitMove();
+            motion.moveTo(0,0,-(float)(0.5*Math.PI));
+            int newDir = (int)currentDirection;
+            newDir = (newDir + 1) % 4;
+            currentDirection = (Direction)newDir;
         }
 
         /// <summary>
-        /// Turns the Nao absolutely in the given direction.
+        /// Turn 180 degrees
         /// </summary>
-        /// <param name="dir">An absolute directio to turn to.</param>
-        public void TurnAbsolute(Direction dir)
+        public void TurnAround()
         {
-            float rad;
-            if (dir == Direction.Up)
-                rad = North;
-            else if (dir == Direction.Down)
-                rad = South;
-            else if (dir == Direction.Left)
-                rad = West;
-            else if (dir == Direction.Right)
-                rad = East;
-            else
-                rad = 0;
-            Logger.Log(this, "Radians: " + rad + ", North: " + North);
-            TurnAbsolute(rad);
+            TurnLeft();
+            TurnLeft();
         }
 
         /// <summary>

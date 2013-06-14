@@ -145,13 +145,13 @@ namespace Naovigate.Grabbing
             bool holdingObject;
             float rad = (float)(0.25 * Math.PI);
 
-            Walk.Instance.Turn(rad);
+            motion.moveTo(0, 0, rad);
             Eyes.Instance.LookDown();
 
             holdingObject = processor.ObjectInSight();
             Logger.Log(this, "The Nao is holding an object: " + holdingObject);
             Eyes.Instance.LookStraight();
-            Walk.Instance.Turn(-rad);
+            motion.moveTo(0, 0, -rad);
 
             return holdingObject;
         }

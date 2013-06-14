@@ -72,16 +72,6 @@ namespace Naovigate.GUI.Events
                                               GetParameter<int>(Distance)),
                     new UserParameter<int>(ID),
                     new UserParameter<int>(Distance)));
-            constructorByName.Add("TurnRelativeEvent",
-                new Constructor(
-                    () => new TurnRelativeEvent(GetParameter<float>(Rotation),
-                                        GetParameter<float>(Accuracy)),
-                    new UserParameter<float>(Rotation),
-                    new UserParameter<float>(Accuracy)));
-            constructorByName.Add("TurnAbsoluteEvent",
-                new Constructor(
-                    () => new TurnAbsoluteEvent(GetParameter<Direction>("Direction")),
-                    new UserParameter<Direction>("Direction")));
         }
 
         /// <summary>

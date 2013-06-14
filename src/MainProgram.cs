@@ -36,7 +36,9 @@ namespace Naovigate
 
         public static void Test()
         {
-            Logger.Log("TEST", Vision.Sonar.Instance.IsTooClose());
+            Walk.Instance.TurnTo(Naovigate.Navigation.Direction.Up);
+            Walk.Instance.TurnTo(Naovigate.Navigation.Direction.Right);
+            Walk.Instance.TurnTo(Naovigate.Navigation.Direction.Left);
         }
 
         private static void Setup()
