@@ -34,10 +34,18 @@ namespace Naovigate.Util
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        public void StartAync()
+        {
+            new Thread(Start).Start();
+        }
+
+        /// <summary>
         /// Starts execution.
         /// Has no effect if this executor has been previously aborted.
         /// </summary>
-        public void Start()
+        public virtual void Start()
         {
             if (Aborted)
                 return;

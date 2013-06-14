@@ -73,7 +73,9 @@ namespace Naovigate.Movement
         private void LookForObject()
         {
             Eyes.Instance.LookDown();
-            float theta = IsObjectLeft() ? 0.2F : -0.2F;
+            float theta = 0f;
+            if (!processor.ObjectInSight())
+                theta = IsObjectLeft() ? 0.2F : -0.2F;
             Call(() => Walk.Instance.StartWalking(0F, 0F, theta));
             while (Running && !ObjectFound)
             {

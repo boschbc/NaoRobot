@@ -11,7 +11,7 @@ namespace Naovigate.Vision
     internal sealed class Processing : IDisposable
     {
 
-        private static int closeEnough = 150;
+        private static int closeEnough = 160;
         /// <summary>
         /// Indicate if the given rectangle is an indication of being
         /// close enough to this object.
@@ -130,7 +130,7 @@ namespace Naovigate.Vision
         public Rectangle SearchForObjects(Image<Hsv, Byte> hsv)
         {
             rectangles = new List<Rectangle>();
-            for (int i = 0; i < colors.Count / 2; i++)
+            for (int i = 0; i <= colors.Count / 2; i++)
             {
                 Image<Gray, Byte> rangedImg = hsv.InRange(colors[i], colors[i + 1]);
                 Rectangle rectangle = rec.getBoundingBox(rangedImg);

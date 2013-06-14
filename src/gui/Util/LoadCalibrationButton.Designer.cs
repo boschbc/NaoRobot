@@ -43,8 +43,6 @@
             "default"});
             this.dropdown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.dropdown.FormattingEnabled = true;
-            this.dropdown.Items.AddRange(new object[] {
-            "default"});
             this.dropdown.Location = new System.Drawing.Point(3, 0);
             this.dropdown.Name = "dropdown";
             this.dropdown.Size = new System.Drawing.Size(93, 21);

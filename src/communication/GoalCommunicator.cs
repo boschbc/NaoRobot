@@ -28,6 +28,7 @@ namespace Naovigate.Communication
         protected ICommunicationStream communicationStream;
         protected NetworkStream stream;
         protected IPEndPoint endPoint;
+        private KeepAlive keepAlive;
         private int reconnectAttempCount;
 
         /// <summary>
@@ -94,12 +95,17 @@ namespace Naovigate.Communication
                 if (communicationStream == null)
                     communicationStream = new BitStringCommunicationStream(stream);
                 else communicationStream.InternalStream = stream;
+
+                if (keepAlive == null) {
+                    keepAlive = new KeepAlive(communicationStream);
+                    keepAlive.StartAync();
+                }
                 Logger.Log(this, "Connection established.");
                 //send our agent id.
                 if (NaoState.Instance.Connected)
                 {
                     EventQueue.Goal.Post(new AgentEvent());
-                    EventQueue.Goal.Post(new LocationEvent(15));
+                    EventQueue.Goal.Post(new LocationEvent(6));
                 }
                 return true;
             } 

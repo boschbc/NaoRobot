@@ -9,12 +9,14 @@ namespace Naovigate.GUI.Util
         public LoadCalibrationButton()
         {
             InitializeComponent();
+            FillDropdown();
         }
 
-        private string[] List()
-        {
-            //TODO add to dropdown
-            return System.IO.Directory.GetFiles("../resources/calibs/", "*.naocalib");
+        private void FillDropdown()
+        { 
+            string[] files = System.IO.Directory.GetFiles("../resources/calibs/", "*.naocalib");
+            foreach (string name in files)
+                dropdown.Items.Add(System.IO.Path.GetFileNameWithoutExtension(name));
         }
 
         private void dropdown_SelectedIndexChanged(object sender, EventArgs e)
