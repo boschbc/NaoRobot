@@ -135,24 +135,13 @@ namespace Naovigate.Movement
 
         /// <summary>
         /// Looks for objects both left and right of the Nao by turning its head.
-        /// Stores the results (if any) at the ObjectDetected property and the angle to 
-        /// that object at AngleToObject.
+        /// 
         /// </summary>
         public void LookForObjects()
         {
             LookDown();
             ObjectDetected = Processing.Instance.ObjectInSight();
             LookStraight();
-            /*AngleToObject = 0f;
-            
-            foreach (Action<float> lookMethod in new List<Action<float>>() { LookLeft, LookRight })
-            {
-                TurnAndLookForObject(lookMethod);
-                LookStraight();
-                LookStraight();
-                if (ObjectDetected)
-                    return;
-            }*/
         }
 
         /// <summary>

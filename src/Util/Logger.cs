@@ -18,6 +18,7 @@ namespace Naovigate.Util
         {
             Enabled = true;
             LogToFile = true;
+            CanSay = true;
         }
 
         /// <summary>
@@ -90,7 +91,7 @@ namespace Naovigate.Util
         /// <param name="e">An exception to log.</param>
         public static void Except(Exception e)
         {
-            Say("Exception " + e.GetType().Name);
+            Say("Exception " + e.GetType().Name+" "+e.Message);
         }
 
         /// <summary>
@@ -100,7 +101,7 @@ namespace Naovigate.Util
         public static void Say(string message)
         {
             Log(message);
-            if (NaoState.Instance.Connected)
+            if (CanSay && NaoState.Instance.Connected)
                 Proxies.GetProxy<Aldebaran.Proxies.TextToSpeechProxy>().say(message);
         }
 
@@ -125,6 +126,15 @@ namespace Naovigate.Util
         /// The logger will output logs into a file when enabled.
         /// </summary>
         public static bool LogToFile
+        {
+            get;
+            set;
+        }
+
+        /// <summary>
+        /// The Nao is allowed to speak commands from Logger.Say()
+        /// </summary>
+        public static bool CanSay
         {
             get;
             set;

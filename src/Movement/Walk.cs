@@ -147,6 +147,7 @@ namespace Naovigate.Movement
         /// <param name="dir"></param>
         public void TurnTo(Direction dir)
         {
+            Logger.Say("Turn To "+dir.ToString());
             //calculate how to get to up
             int turn = 4 - (int)currentDirection;
             //and adjust turn to turn to dir
@@ -221,6 +222,7 @@ namespace Naovigate.Movement
         public MarkerSearchWorker WalkTowardsMarker(int markerID, int dist)
         {
             Logger.Log(this, "WalkToMarker: "+markerID+":"+dist);
+            Logger.Say("To Marker "+markerID+" at "+dist);
             return new MarkerSearchWorker(markerID, dist);
         }
 

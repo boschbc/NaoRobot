@@ -17,6 +17,11 @@ namespace Naovigate.Util
             set { instance = value; }
         }
 
+        public static bool Initialized
+        {
+            get { return instance != null; }
+        }
+
         private string path;
         private Dictionary<string, object> records;
 
@@ -48,7 +53,7 @@ namespace Naovigate.Util
 
             foreach (string line in lines)
             {
-                words = line.Split(' ');
+                words = line.Split(new string[]{" "}, StringSplitOptions.RemoveEmptyEntries);
                 if (words.Length > 1)
                     records.Add(words[0], words[1]);
             }
@@ -60,7 +65,10 @@ namespace Naovigate.Util
             if (records.ContainsKey(key))
                 return (T)records[key];
             else
+            {
+                Logger.Log(this, "No such entry: " + key);
                 return default(T);
+            }
         }
     }
 }

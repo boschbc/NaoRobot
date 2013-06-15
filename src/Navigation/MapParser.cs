@@ -86,6 +86,7 @@ namespace Naovigate.Navigation
                     }
                 }
             }
+            lineNr = -1;
             return new Map(tiles);
         }
 

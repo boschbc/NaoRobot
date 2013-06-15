@@ -15,7 +15,6 @@ namespace Naovigate.GUI.Events
         private readonly string VelocityX = "VelocityX";
         private readonly string VelocityY = "VelocityY";
         private readonly string Rotation = "Rotation";
-        private readonly string Accuracy = "Accuracy";
         private readonly string ID = "ID";
         private readonly string Distance = "Distance";
 

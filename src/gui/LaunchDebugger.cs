@@ -18,18 +18,20 @@ namespace Naovigate.GUI
         /// <summary>
         /// Starts the debugger.
         /// </summary>
-        public static void DebugMain()
+        public static Form DebugMain()
         {
-            StartDebugger();
+            return StartDebugger();
         }
 
         /// <summary>
         /// Runs the debugger.
         /// </summary>
-        private static void StartDebugger()
+        private static Form StartDebugger()
         {
+            NaoDebugger db = new NaoDebugger();
             Application.EnableVisualStyles();
-            Application.Run(new NaoDebugger());
+            Application.Run(db);
+            return db;
         }
     }
 }

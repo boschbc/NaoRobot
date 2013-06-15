@@ -1,3 +1,0 @@
-groen object:
-rgbmin:  63, 66, 43
-rgbmax: 116 199 123

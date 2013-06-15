@@ -29,16 +29,7 @@ namespace Naovigate.Util
 
         public NaoState()
         {
-            try
-            {
-                Map = MapParser.Parse("../resources/maps/testmaze.map");
-            }
-            catch(Exception e)
-            {
-                Logger.Log(e.GetType().Name+" "+ e.Message+" at line "+MapParser.CurrentLineNr);
-                Logger.Log(this, "Map parsing failed: Exit");
-                Environment.Exit(-1);
-            }
+            
         }
 
         public static NaoState Instance
@@ -48,6 +39,24 @@ namespace Naovigate.Util
                 return instance == null ? instance = new NaoState() : instance;
             }
             set { instance = value; }
+        }
+
+        private void InitMap()
+        {
+            try
+            {
+                if (Calibration.Initialized)
+                    Map = MapParser.Parse(Calibration.Instance.GetRecord<string>("MapFile"));
+                else
+                    Map = MapParser.Parse("../resources/maps/testmaze.map");
+            }
+            catch (Exception e)
+            {
+                Logger.Log(e.GetType().Name + " " + e.Message + " at line " + MapParser.CurrentLineNr);
+                Logger.Log(this, "Map parsing failed: Exit in 5 seconds.");
+                System.Threading.Thread.Sleep(5000);
+                Environment.Exit(-1);
+            }
         }
 
         /// <summary>
@@ -67,6 +76,8 @@ namespace Naovigate.Util
         /// <param name="endPoint">IP end point to connect to.</param>
         public virtual void Connect(IPEndPoint endPoint)
         {
+            if(Map == null)
+                InitMap();
             if (Connected) {
                 Logger.Log(this, "Already Connected");
                 return;

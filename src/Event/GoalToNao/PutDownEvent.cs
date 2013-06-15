@@ -6,7 +6,7 @@ using Naovigate.Util;
 namespace Naovigate.Event.GoalToNao
 {
     /// <summary>
-    /// Drop the object the Nao is holding. If the Nao is not holding an object, nothing happens.
+    /// Drop the object the Nao is holding.
     /// </summary>
     public sealed class PutDownEvent : ReportBackEvent
     {
@@ -24,20 +24,13 @@ namespace Naovigate.Event.GoalToNao
         {
             try
             {
-                if (!Grabber.Instance.HoldingObject())
-                {
-                    ReportFailure();
-                    return;
-                }
-                else
-                {
-                    executor = Grabber.Instance.PutDown();
-                    executor.Start();
-                    executor.WaitFor();
-                }
+                executor = Grabber.Instance.PutDown();
+                executor.Start();
+                ReportSuccess();
             }
-            catch { }
-            VerifyObjectNotHeld();
+            catch {
+                ReportFailure();
+            }
         }
 
         /// <summary>
@@ -46,10 +39,6 @@ namespace Naovigate.Event.GoalToNao
         private void VerifyObjectNotHeld()
         {
             ReportSuccess();
-            //if (!Grabber.Instance.HoldingObject())
-            //    ReportSuccess();
-            //else
-            //    ReportFailure();
         }
 
         protected override void ReportSuccess()

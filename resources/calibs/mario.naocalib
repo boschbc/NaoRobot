@@ -1,19 +1,20 @@
 CloseToObjectDistance 160
 HRedMin 0
-HRedMax 255
 SRedMin 125
-SRedMax 255
 VRedMin 125
+HRedMax 255
+SRedMax 255
 VRedMax 125
-HBlueMin 75
-HBlueMax 125
-SBlueMin 180
-SBlueMax 225
+HBlueMin 100
+SBlueMin 150
 VBlueMin 0
-VBlueMax 125
-HGreenMin 
-HGreenMax 
-SGreenMin 
-SGreenMax 
-VGreenMin 
-VGreenMax 
+HBlueMax 140
+SBlueMax 255
+VBlueMax 200
+HGreenMin 0
+SGreenMin 0
+VGreenMin 0
+HGreenMax 0
+SGreenMax 0
+VGreenMax 0
+MapFile ../resources/maps/testmaze.map

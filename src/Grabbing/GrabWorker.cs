@@ -40,6 +40,7 @@ namespace Naovigate.Grabbing
         /// </summary>
         public void Grab()
         {
+            Logger.Say("Grabbing");
             Call(Pose.Instance.StandUp);
             Call(StiffenArms);
             Call(SpreadArms);

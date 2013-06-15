@@ -65,55 +65,63 @@ namespace Naovigate.Vision
 
         private void InitColors()
         {
-            InitDefaultColors();
+            if (Calibration.Initialized)
+                InitCalibColors();
+            else
+                InitDefaultColors();
         }
 
         private void InitCalibColors()
         {
-            // no default calibration, insert its values
-            if (!Calibration.Instance.Path.Contains("efault"))
+            try
             {
-                int close = Calibration.Instance.GetRecord<int>("CloseToObjectDistance");
+                Calibration c = Calibration.Instance;
+                int close = c.GetRecord<int>("CloseToObjectDistance");
                 if (close != default(int))
                 {
                     closeEnough = close;
                     Logger.Log(this, "CloseToObjectDistance = " + close);
                 }
+                colors = new List<Hsv>();
+                
+                Hsv redObjectMin = new Hsv(c.GetRecord<int>("HRedMin"),
+                                           c.GetRecord<int>("SRedMin"),
+                                           c.GetRecord<int>("VRedMin"));
+                Hsv redObjectMax = new Hsv(c.GetRecord<int>("HRedMax"),
+                                           c.GetRecord<int>("SRedMax"),
+                                           c.GetRecord<int>("VRedMax"));
+                Hsv greenObjectMin = new Hsv(c.GetRecord<int>("HGreenMin"),
+                                             c.GetRecord<int>("SGreenMin"),
+                                             c.GetRecord<int>("VGreenMin"));
+                Hsv greenObjectMax = new Hsv(c.GetRecord<int>("HGreenMax"),
+                                             c.GetRecord<int>("SGreenMax"),
+                                             c.GetRecord<int>("VGreenMax"));
+                Hsv blueObjectMin = new Hsv(c.GetRecord<int>("HBlueMin"),
+                                            c.GetRecord<int>("SBlueMin"),
+                                            c.GetRecord<int>("VBlueMin"));
+                Hsv blueObjectMax = new Hsv(c.GetRecord<int>("HBlueMax"),
+                                            c.GetRecord<int>("SBlueMax"),
+                                            c.GetRecord<int>("VBlueMax"));
+                colors.Add(redObjectMin);
+                colors.Add(redObjectMax);
+                colors.Add(blueObjectMin);
+                colors.Add(blueObjectMax);
+                colors.Add(greenObjectMin);
+                colors.Add(greenObjectMax);
             }
-            colors = new List<Hsv>();
-            Calibration c = Calibration.Instance;
-            Hsv redObjectMin = new Hsv(c.GetRecord<int>("HRedMin"),
-                                       c.GetRecord<int>("SRedMin"),
-                                       c.GetRecord<int>("VRedMin"));
-            Hsv redObjectMax = new Hsv(c.GetRecord<int>("HRedMax"),
-                                       c.GetRecord<int>("SRedMax"),
-                                       c.GetRecord<int>("VRedMax"));
-            Hsv greenObjectMin = new Hsv(c.GetRecord<int>("HGreenMin"),
-                                         c.GetRecord<int>("SGreenMin"),
-                                         c.GetRecord<int>("VGreenMin"));
-            Hsv greenObjectMax = new Hsv(c.GetRecord<int>("HGreenMax"),
-                                         c.GetRecord<int>("SGreenMax"),
-                                         c.GetRecord<int>("VGreenMax"));
-            Hsv blueObjectMin = new Hsv(c.GetRecord<int>("HBlueMin"),
-                                        c.GetRecord<int>("SBlueMin"),
-                                        c.GetRecord<int>("VBlueMin"));
-            Hsv blueObjectMax = new Hsv(c.GetRecord<int>("HBlueMax"),
-                                        c.GetRecord<int>("SBlueMax"),
-                                        c.GetRecord<int>("VBlueMax"));
-            colors.Add(redObjectMin);
-            colors.Add(redObjectMax);
-            colors.Add(blueObjectMin);
-            colors.Add(blueObjectMax);
-
+            catch
+            {
+                InitDefaultColors();
+            }
         }
 
         private void InitDefaultColors()
         {
             colors = new List<Hsv>();
             Hsv redObjectMin = new Hsv(255, 255, 255);
-            Hsv redObjectMax = new Hsv ( 255.0, 255.0, 255.0);
-            Hsv greenObjectMin = new Hsv ( 80, 150, 43 );
-            Hsv greenObjectMax = new Hsv ( 116, 199, 180 );
+            Hsv redObjectMax = new Hsv (255, 255, 255);
+            Hsv greenObjectMin = new Hsv (80, 150, 43 );
+            Hsv greenObjectMax = new Hsv (116, 199, 180 );
             Hsv blueObjectMin = new Hsv (100, 150, 0);
             Hsv blueObjectMax = new Hsv (140, 255, 200);
             colors.Add(redObjectMin);

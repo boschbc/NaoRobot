@@ -101,8 +101,9 @@ namespace Naovigate.Vision
                 ArrayList imageObject = (ArrayList)videoProxy.getImageRemote(subscriberID);
                 return imageObject;
             }
-            catch (Exception)
+            catch
             {
+                Logger.Log(this, "GetRawImage failed.");
                 return null;
             }
         }
