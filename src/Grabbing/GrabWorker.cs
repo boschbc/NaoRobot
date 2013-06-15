@@ -44,7 +44,7 @@ namespace Naovigate.Grabbing
             Call(StiffenArms);
             Call(SpreadArms);
             Call(CloseArmsAroundObject);
-            //Call(GrabHands);
+            Call(GrabHands);
             Call(HoldForWalking);
         }
 
@@ -68,8 +68,11 @@ namespace Naovigate.Grabbing
         /// </summary>
         public void GrabHands()
         {
-            motion.setStiffnesses(grabHandsNames, 0.4F);
-            motion.angleInterpolationWithSpeed(grabHandsNames, grabHandsAngles, grabSpeed);
+            if (Pose.Instance.CanUseHands)
+            {
+                motion.setStiffnesses(grabHandsNames, 0.4F);
+                motion.angleInterpolationWithSpeed(grabHandsNames, grabHandsAngles, grabSpeed);
+            }
         }
 
         /// <summary>

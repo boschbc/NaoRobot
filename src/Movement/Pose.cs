@@ -36,6 +36,7 @@ namespace Naovigate.Movement
         private float lastDepth;
         private MotionProxy motion;
         private RobotPostureProxy posture;
+        private int hasHands = -1;
 
         /// <summary>
         /// Constructor.
@@ -117,6 +118,34 @@ namespace Naovigate.Movement
         {
             ValidateProxies();
             posture.goToPosture("Crouch", 0.5f);
+        }
+
+        /// <summary>
+        /// boolean indicating if this Nao can move the hands.
+        /// </summary>
+        public bool CanUseHands
+        {
+            get
+            {
+                if (hasHands == -1)
+                {
+                    hasHands = UsableHands() ? 1 : 0;
+                }
+                return hasHands == 1;
+            }
+        }
+
+        private bool UsableHands()
+        {
+            try
+            {
+                motion.getAngles("LHand", false);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>

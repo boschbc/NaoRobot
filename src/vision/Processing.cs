@@ -45,7 +45,7 @@ namespace Naovigate.Vision
 
         public static Processing Instance
         {
-            get { return instance == null ? new Processing(new Camera("Processing singleton")) : instance; }
+            get { return instance == null ? instance = new Processing(new Camera("Processing singleton")) : instance; }
             set { instance = value; }
         }
 
