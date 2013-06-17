@@ -262,6 +262,7 @@
     <Compile Include="Movement\Pose.cs" />
     <Compile Include="Movement\Walk.cs" />
     <Compile Include="Navigation\Direction.cs" />
+    <Compile Include="Navigation\MapParser.cs" />
     <Compile Include="Navigation\Tile.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
