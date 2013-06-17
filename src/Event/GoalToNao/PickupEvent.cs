@@ -159,6 +159,7 @@ namespace Naovigate.Event.GoalToNao
         protected override void ReportSuccess()
         {
             base.ReportSuccess();
+            NaoState.Instance.HoldingObject = true;
             EventQueue.Goal.Post(new HoldingEvent(ObjectID));
         }
 

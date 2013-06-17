@@ -107,7 +107,8 @@ namespace Naovigate.Event.GoalToNao
 
         private void CheckSeeObject()
         {
-            new LookForObjectEvent().Fire();
+            if(!NaoState.Instance.HoldingObject)
+                new LookForObjectEvent().Fire();
         }
 
         /// <summary>

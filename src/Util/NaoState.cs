@@ -228,10 +228,8 @@ namespace Naovigate.Util
 
         public bool HoldingObject
         {
-            get
-            {
-                return Grabber.Instance.HoldingObject();
-            }
+            get;
+            set;
         }
         /// <summary>
         /// Gets a value indicating whether this <see cref="Naovigate.Util.NaoState"/>'s data is out of date.

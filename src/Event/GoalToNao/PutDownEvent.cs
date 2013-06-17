@@ -45,6 +45,7 @@ namespace Naovigate.Event.GoalToNao
         protected override void ReportSuccess()
         {
             base.ReportSuccess();
+            NaoState.Instance.HoldingObject = false;
             EventQueue.Goal.Post(new DroppedObjectEvent());
         }
         /// <summary>
