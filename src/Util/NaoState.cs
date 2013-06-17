@@ -41,6 +41,13 @@ namespace Naovigate.Util
             set { instance = value; }
         }
 
+        private void Init()
+        {
+            Pose.Instance.TakeStableArmPosition();
+            if(Map == null)
+                InitMap();
+        }
+
         private void InitMap()
         {
             try
@@ -57,7 +64,6 @@ namespace Naovigate.Util
                 System.Threading.Thread.Sleep(5000);
                 Environment.Exit(-1);
             }
-            EventQueue.Nao.Post(new Event.Internal.GrabEvent());
         }
 
         /// <summary>
@@ -86,8 +92,7 @@ namespace Naovigate.Util
             IP = endPoint.Address;
             Port = endPoint.Port;
             CreateMyProxies();
-            if (Map == null)
-                InitMap();
+            Init();
             connected = true;
 
             Update();

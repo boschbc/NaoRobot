@@ -338,6 +338,14 @@ namespace Naovigate.Movement
         }
 
         /// <summary>
+        /// Take a stable position, mainly used for walking.
+        /// </summary>
+        public void TakeStableArmPosition()
+        {
+            motion.angleInterpolationWithSpeed(new ArrayList(new string[] { "LElbowRoll", "RElbowRoll", "LShoulderPitch", "RShoulderPitch" }), new ArrayList(new float[] { 1.4F, 1.4F, 1.4F, 1.4F }), 0.2f);
+        }
+
+        /// <summary>
         /// Disposes of this instance.
         /// </summary>
         public void Dispose()

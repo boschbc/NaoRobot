@@ -2,6 +2,7 @@
 using Naovigate.Event.NaoToGoal;
 using Naovigate.Grabbing;
 using Naovigate.Util;
+using Naovigate.Movement;
 
 namespace Naovigate.Event.GoalToNao
 {
@@ -26,7 +27,7 @@ namespace Naovigate.Event.GoalToNao
             {
                 executor = Grabber.Instance.PutDown();
                 executor.Start();
-                EventQueue.Nao.Post(new Event.Internal.GrabEvent());
+                Pose.Instance.TakeStableArmPosition();
                 ReportSuccess();
             }
             catch {

@@ -12,8 +12,7 @@ namespace Naovigate.Event.Internal
         /// </summary>
         public override void Fire()
         {
-            Grabber.Instance.Grab().WaitFor();
-            //Grabber.Instance.WaitFor();
+            Grabber.Instance.Grab();
         }
 
         /// <summary>

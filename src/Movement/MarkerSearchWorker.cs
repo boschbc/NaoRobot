@@ -45,6 +45,7 @@ namespace Naovigate.Movement
             Sonar sonar = Sonar.Instance;
             ArrayList markers;
             Logger.Log(this, "Look for marker");
+            Call(() => Pose.Instance.TakeStableArmPosition());
             Call(() => Walk.Instance.StartWalking(speed, 0, 0));
             while (Running && looking)
             {
