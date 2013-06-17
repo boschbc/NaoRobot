@@ -191,6 +191,15 @@ namespace Naovigate.Event.GoalToNao
         }
 
         /// <summary>
+        /// get hashcode
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        /// <summary>
         /// return this event's EventCode.
         /// </summary>
         public override EventCode EventCode
