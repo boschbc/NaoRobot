@@ -86,7 +86,7 @@ namespace Naovigate.Event.GoalToNao
                     {
                         Logger.Log(this, "Turning to " + entry.Direction + "...");
                         Walk.Instance.TurnTo(entry.Direction);
-                        MarkerSearchWorker worker = Walk.Instance.WalkTowardsMarker(entry.MarkerID, 0);
+                        MarkerSearchWorker worker = Walk.Instance.WalkTowardsMarker(entry.MarkerID, entry.WantedDistance);
                         worker.Start();
                     }
                 }

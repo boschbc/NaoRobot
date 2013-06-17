@@ -57,6 +57,7 @@ namespace Naovigate.Util
                 System.Threading.Thread.Sleep(5000);
                 Environment.Exit(-1);
             }
+            EventQueue.Nao.Post(new Event.Internal.GrabEvent());
         }
 
         /// <summary>
