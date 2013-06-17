@@ -105,7 +105,7 @@ namespace Naovigate.Communication
                 if (NaoState.Instance.Connected)
                 {
                     EventQueue.Goal.Post(new AgentEvent());
-                    EventQueue.Goal.Post(new LocationEvent(6));
+                    EventQueue.Goal.Post(new LocationEvent(15));
                 }
                 return true;
             } 

@@ -65,7 +65,7 @@ namespace Naovigate.Event.GoalToNao
             {
                 Logger.Log(this, "Planning route...");
                 List<RouteEntry> route = Planner.PlanRoute(NaoState.Instance.Map, locations);
-                if (route != null)
+                if (route != null && route.Count != 0)
                     Logger.Log(this, "Path found, walking...");
                 else 
                 {
@@ -86,7 +86,7 @@ namespace Naovigate.Event.GoalToNao
                     {
                         Logger.Log(this, "Turning to " + entry.Direction + "...");
                         Walk.Instance.TurnTo(entry.Direction);
-                        MarkerSearchWorker worker = Walk.Instance.WalkTowardsMarker(entry.MarkerID, 0);
+                        MarkerSearchWorker worker = Walk.Instance.WalkTowardsMarker(entry.MarkerID, entry.WantedDistance);
                         worker.Start();
                     }
                 }

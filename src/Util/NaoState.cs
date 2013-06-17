@@ -57,6 +57,7 @@ namespace Naovigate.Util
                 System.Threading.Thread.Sleep(5000);
                 Environment.Exit(-1);
             }
+            EventQueue.Nao.Post(new Event.Internal.GrabEvent());
         }
 
         /// <summary>
@@ -76,8 +77,7 @@ namespace Naovigate.Util
         /// <param name="endPoint">IP end point to connect to.</param>
         public virtual void Connect(IPEndPoint endPoint)
         {
-            if(Map == null)
-                InitMap();
+            
             if (Connected) {
                 Logger.Log(this, "Already Connected");
                 return;
@@ -86,6 +86,8 @@ namespace Naovigate.Util
             IP = endPoint.Address;
             Port = endPoint.Port;
             CreateMyProxies();
+            if (Map == null)
+                InitMap();
             connected = true;
 
             Update();

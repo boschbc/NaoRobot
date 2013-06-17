@@ -13,6 +13,9 @@ namespace Naovigate.Movement
         private static Walk instance = null;
         private Direction currentDirection = Direction.Up;
 
+        //A calibration for turning because some Nao's don't know what 90 degrees means
+        private double turn = 0.5;
+
         /// <summary>
         /// Returns this singleton's instance.
         /// </summary>
@@ -77,6 +80,11 @@ namespace Naovigate.Movement
             if (NaoState.Instance.Connected)
             {
                 WalkWithObject = true;
+            }
+            double cal = Double.Parse(Calibration.Instance.GetRecord<string>("Turn"));
+            if (cal != 0)
+            {
+                turn = cal;
             }
         }
 
@@ -173,7 +181,7 @@ namespace Naovigate.Movement
         public void TurnLeft()
         {
             InitMove();
-            motion.moveTo(0, 0, (float)(0.5 * Math.PI));
+            motion.moveTo(0, 0, (float)(turn * Math.PI));
             int newDir = (int)currentDirection;
             newDir = (newDir + 3) % 4;
             currentDirection = (Direction)newDir;
@@ -185,7 +193,7 @@ namespace Naovigate.Movement
         public void TurnRight()
         {
             InitMove();
-            motion.moveTo(0,0,-(float)(0.5*Math.PI));
+            motion.moveTo(0,0,-(float)(turn*Math.PI));
             int newDir = (int)currentDirection;
             newDir = (newDir + 1) % 4;
             currentDirection = (Direction)newDir;
