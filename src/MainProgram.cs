@@ -37,10 +37,8 @@ namespace Naovigate
 
         public static void Test()
         {
-            Vision.Camera c = new Vision.Camera("Test");
-            c.Subscribe();
-            c.CalibrateCamera(3);
-            c.Unsubscribe();
+            Walk walk = Walk.Instance;
+            walk.TurnRight();
         }
 
         private static void Setup()

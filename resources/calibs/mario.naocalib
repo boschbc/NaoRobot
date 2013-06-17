@@ -1,3 +1,4 @@
+Turn 0,5
 CloseToObjectDistance 160
 HRedMin 0
 SRedMin 100
@@ -11,10 +12,10 @@ VBlueMin 0
 HBlueMax 140
 SBlueMax 255
 VBlueMax 200
-HGreenMin 60
-SGreenMin 150
+HGreenMin 40
+SGreenMin 120
 VGreenMin 40
 HGreenMax 100
 SGreenMax 255
-VGreenMax 100
+VGreenMax 200
 MapFile ../resources/maps/testmaze.map

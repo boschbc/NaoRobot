@@ -26,6 +26,7 @@ namespace Naovigate.Event.GoalToNao
             {
                 executor = Grabber.Instance.PutDown();
                 executor.Start();
+                EventQueue.Nao.Post(new Event.Internal.GrabEvent());
                 ReportSuccess();
             }
             catch {

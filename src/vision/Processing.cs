@@ -179,17 +179,25 @@ namespace Naovigate.Vision
 
         public Image<Gray, Byte> EnchancedImage(double[] rgb1, double[] rgb2)
         {
-            DetectObject();
-            Image<Hsv, byte> hsv = currentImage.Convert<Hsv, byte>();
-            Hsv p1 = new Hsv(rgb1[0], rgb1[1], rgb1[2]);
-            Hsv p2 = new Hsv(rgb2[0], rgb2[1], rgb2[2]);
-            Rectangle rec = SearchForObjects(hsv);
+            currentImage = cam.GetImage();
+            if (currentImage != null)
+            {
+            
+                Image<Hsv, byte> hsv = currentImage.Convert<Hsv, byte>();
+                Hsv p1 = new Hsv(rgb1[0], rgb1[1], rgb1[2]);
+                Hsv p2 = new Hsv(rgb2[0], rgb2[1], rgb2[2]);
+                Rectangle rec = SearchForObjects(hsv);
 
-            //Image<Gray, Byte> rangedImg = hsv.InRange(colors[2], colors[3]);
-            Image<Gray, Byte> rangedImg = hsv.InRange(p1, p2);
-            Gray col = new Gray(100);
-            rangedImg.Draw(rec, col, 2);
-            return rangedImg;
+                //Image<Gray, Byte> rangedImg = hsv.InRange(colors[2], colors[3]);
+                Image<Gray, Byte> rangedImg = hsv.InRange(p1, p2);
+                Gray col = new Gray(100);
+                rangedImg.Draw(rec, col, 2);
+                return rangedImg;
+            }
+            else
+            {
+               return new Image<Gray, byte>(160, 120);
+            }
         }
 
         /// <summary>
