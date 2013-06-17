@@ -37,8 +37,7 @@ namespace Naovigate
 
         public static void Test()
         {
-            Walk walk = Walk.Instance;
-            walk.TurnRight();
+           Logger.Log(Calibration.Instance.GetRecord<int>("HRedMax"));
         }
 
         private static void Setup()

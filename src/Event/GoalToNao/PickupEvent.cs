@@ -181,6 +181,16 @@ namespace Naovigate.Event.GoalToNao
         }
 
         /// <summary>
+        /// put down has no specifics, so all PutDownEvents are equal
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public override bool Equals(object obj)
+        {
+            return GetType() == obj.GetType();
+        }
+
+        /// <summary>
         /// return this event's EventCode.
         /// </summary>
         public override EventCode EventCode

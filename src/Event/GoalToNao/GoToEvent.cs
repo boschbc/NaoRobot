@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 using Naovigate.Event.Internal;
 using Naovigate.Event.NaoToGoal;
@@ -15,7 +16,7 @@ namespace Naovigate.Event.GoalToNao
     /// </summary>
     public sealed class GoToEvent : ReportBackEvent
     {
-        private List<Point> locations;
+        protected List<Point> locations;
         
         /// <summary>
         /// Creates a new GoToEvent.
@@ -139,6 +140,18 @@ namespace Naovigate.Event.GoalToNao
                 s += p.ToString() + ",\n\t";
             return s.Substring(0, s.Length - 1) + ">";
         }
-        
+
+        /// <summary>
+        /// Returns true if the given object is a GoToEvent and contains the same list of locations as this one.
+        /// </summary>
+        /// <param name="obj">An object.</param>
+        /// <returns>True if the objects are equal.</returns>
+        public override bool Equals(object obj)
+        {
+            if (!(obj is GoToEvent))
+                return false;
+            GoToEvent other = (GoToEvent)obj;
+            return this.locations.SequenceEqual(other.locations);
+        }
     }
 }
