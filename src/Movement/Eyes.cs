@@ -103,7 +103,7 @@ namespace Naovigate.Movement
             Pose.Instance.StartTurningHead(0f);
             Walk.Instance.WaitForMoveToEnd();
             Pose.Instance.Look(0f);
-            while (Math.Abs(Pose.Instance.GetHeadAngle()) > 0)
+            while (Math.Abs(Pose.Instance.GetHeadAngle()) > 0.001f)
                 Thread.Sleep(200);
         }
 

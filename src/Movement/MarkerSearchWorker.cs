@@ -49,31 +49,40 @@ namespace Naovigate.Movement
             Call(() => Walk.Instance.StartWalking(speed, 0, 0));
             while (Running && looking)
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(1000);// update time of nao LandMarkDetection
                 ArrayList data = rec.GetMarkerData();
                 markers = data.Count == 0 ? data : (ArrayList)data[1];
                 CheckMarkers(markers);
-                // dont check sensor when holding object, it will probably block it.
+                // dont check sensor when holding object, it will probably block the sonar.
                 if (!NaoState.Instance.HoldingObject && markers.Count == 0)
                 {
-                    bool leftCollide, rightCollide, toClose;
-                    toClose = sonar.IsTooClose(out leftCollide, out rightCollide);
-                    if (toClose)
-                    {
-                        Logger.Log(this, "I probably reached the marker");
-                        looking = false;
-                    }
-                    else if (leftCollide || rightCollide)
-                    {
-                        // turn a bit.
-                        float dir = (float)(leftCollide ? -0.2f * Math.PI : 0.2f * Math.PI);
-                        Walk.Instance.StopMoving();
-                        Walk.Instance.Turn(dir);
-                    }
+                    CheckSonar(sonar);
                 }
             }
             Walk.Instance.StopMoving();
             Logger.Log("Exit LookForMarker : " + Running);
+        }
+
+        /// <summary>
+        /// check if sonar gives any nearby obstackles, and handle any results.
+        /// </summary>
+        /// <param name="sonar"></param>
+        private void CheckSonar(Sonar sonar)
+        {
+            bool leftCollide, rightCollide, toClose;
+            toClose = sonar.IsTooClose(out leftCollide, out rightCollide);
+            if (toClose)
+            {
+                Logger.Log(this, "I probably reached the marker");
+                looking = false;
+            }
+            else if (leftCollide || rightCollide)
+            {
+                // turn a bit.
+                float dir = (float)(leftCollide ? -0.2f * Math.PI : 0.2f * Math.PI);
+                Walk.Instance.StopMoving();
+                Walk.Instance.Turn(dir);
+            }
         }
 
         /// <summary>

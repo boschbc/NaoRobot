@@ -124,7 +124,6 @@ namespace Naovigate.Event.GoalToNao
             Logger.Log(this, "Walking towards object...");
             executor = new ObjectSearchWorker();
             executor.Start();
-            //executor.WaitFor();
             Logger.Log(this, "Finished walking towards object.");
         }
 
