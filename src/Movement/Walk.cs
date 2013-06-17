@@ -173,7 +173,7 @@ namespace Naovigate.Movement
         public void TurnLeft()
         {
             InitMove();
-            motion.moveTo(0, 0, (float)(0.5 * Math.PI));
+            Turn((float)(0.5 * Math.PI));
             int newDir = (int)currentDirection;
             newDir = (newDir + 3) % 4;
             currentDirection = (Direction)newDir;
@@ -186,7 +186,7 @@ namespace Naovigate.Movement
         {
             InitMove();
             //Because the Naos are broken, it's 0.4 instead of 0.5
-            motion.moveTo(0,0,-(float)(0.4*Math.PI));
+            Turn(-(float)(0.4 * Math.PI));
             int newDir = (int)currentDirection;
             newDir = (newDir + 1) % 4;
             currentDirection = (Direction)newDir;
@@ -194,11 +194,21 @@ namespace Naovigate.Movement
 
         /// <summary>
         /// Turn 180 degrees
+        /// left is more accurate, so we double left.
         /// </summary>
         public void TurnAround()
         {
             TurnLeft();
             TurnLeft();
+        }
+
+        /// <summary>
+        /// Turn given radians.
+        /// </summary>
+        /// <param name="dir"></param>
+        public void Turn(float dir)
+        {
+            motion.moveTo(0, 0, dir);
         }
 
         /// <summary>

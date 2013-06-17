@@ -62,8 +62,9 @@ namespace Naovigate.Event
         TurnRelative = 0x48,
         TurnAbsolute = 0x49,
         LookForObject = 0x50,
-        Test = 0xFF,
+        Test = 0xFD,
         Report = 0xFE,
+        KeepAlive = 0xFF,
     }
 
     /// <summary>

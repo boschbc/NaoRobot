@@ -56,6 +56,7 @@
     <Compile Include="Event\GoalToNao\ReportBackEvent.cs" />
     <Compile Include="Event\GoalToNao\SayEvent.cs" />
     <Compile Include="Event\Internal\GoToMarkerEvent.cs" />
+    <Compile Include="Event\Internal\KeepAliveEvent.cs" />
     <Compile Include="Event\Internal\LookForObjectEvent.cs" />
     <Compile Include="Event\Internal\ReportEvent.cs" />
     <Compile Include="Event\Internal\ShutdownEvent.cs" />

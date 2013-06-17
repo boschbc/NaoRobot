@@ -56,10 +56,10 @@ namespace Naovigate.Vision
         /// <returns></returns>
         public bool IsTooClose() {
             bool left, right;
-            return IsToClose(out left, out right);
+            return IsTooClose(out left, out right);
         }
 
-        public bool IsToClose(out bool collidingLeft, out bool collidingRight)
+        public bool IsTooClose(out bool collidingLeft, out bool collidingRight)
         {
             float left = getSonarDataLeft();
             float right = getSonarDataRight();

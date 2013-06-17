@@ -98,7 +98,7 @@ namespace Naovigate.Communication
 
                 if (keepAlive == null) {
                     keepAlive = new KeepAlive(communicationStream);
-                    //keepAlive.StartAync();
+                    keepAlive.StartAync();
                 }
                 Logger.Log(this, "Connection established.");
                 //send our agent id.

@@ -41,7 +41,6 @@ namespace Naovigate.Movement
         public void LookForMarker()
         {
             Pose.Instance.Look(0f);
-            //Walk.Instance.StartWalking(0.7F, 0, 0);
             MarkerRecogniser rec = MarkerRecogniser.Instance;
             Sonar sonar = Sonar.Instance;
             ArrayList markers;
@@ -53,10 +52,23 @@ namespace Naovigate.Movement
                 ArrayList data = rec.GetMarkerData();
                 markers = data.Count == 0 ? data : (ArrayList)data[1];
                 CheckMarkers(markers);
-                if (markers.Count == 0 && !NaoState.Instance.HoldingObject && sonar.IsTooClose())
+                // dont check sensor when holding object, it will probably block it.
+                if (!NaoState.Instance.HoldingObject && markers.Count == 0)
                 {
-                    Logger.Log(this, "I probably reached the marker");
-                    looking = false;
+                    bool leftCollide, rightCollide, toClose;
+                    toClose = sonar.IsTooClose(out leftCollide, out rightCollide);
+                    if (toClose)
+                    {
+                        Logger.Log(this, "I probably reached the marker");
+                        looking = false;
+                    }
+                    else if (leftCollide || rightCollide)
+                    {
+                        // turn a bit.
+                        float dir = (float)(leftCollide ? -0.2f * Math.PI : 0.2f * Math.PI);
+                        Walk.Instance.StopMoving();
+                        Walk.Instance.Turn(dir);
+                    }
                 }
             }
             Walk.Instance.StopMoving();
@@ -76,8 +88,8 @@ namespace Naovigate.Movement
                 if ((int)((ArrayList)marker[1])[0] == markerID)
                 {
                     Logger.Log(this, "Correct marker: " + (Running && looking));
-                    bool reached = Calculate(marker);
-                    looking = reached ? false : looking;
+                    if (Calculate(marker))
+                        looking = false;
                     break;
                 }
             }
@@ -92,12 +104,9 @@ namespace Naovigate.Movement
         {
             bool reached = false;
             float angle = ((float)((ArrayList)marker[0])[1]) / 4F;
-            if (Running)
-            {
-                Call(() => Walk.Instance.StartWalking(speed, 0, Math.Max(-1, Math.Min(1, angle))));
-            }
+            Call(() => Walk.Instance.StartWalking(speed, 0, Math.Max(-1, Math.Min(1, angle))));
+            
             float sizeY = ((float)((ArrayList)marker[0])[4]);
-
             if (MarkerRecogniser.estimateDistance(sizeY) <= (double)dist)
             {
                 Logger.Log("At Correct Distance: "+dist);

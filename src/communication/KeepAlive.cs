@@ -1,6 +1,8 @@
 ﻿using System;
 using Naovigate.Util;
 using System.Threading;
+using Naovigate.Event;
+using Naovigate.Event.Internal;
 
 namespace Naovigate.Communication
 {
@@ -19,7 +21,7 @@ namespace Naovigate.Communication
                 Thread.Sleep(10000);
                 try
                 {
-                    stream.WriteByte(255);
+                    EventQueue.Goal.Post(new KeepAliveEvent());
                 }
                 catch
                 {
