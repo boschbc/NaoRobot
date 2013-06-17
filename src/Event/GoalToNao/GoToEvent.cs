@@ -65,7 +65,7 @@ namespace Naovigate.Event.GoalToNao
             {
                 Logger.Log(this, "Planning route...");
                 List<RouteEntry> route = Planner.PlanRoute(NaoState.Instance.Map, locations);
-                if (route != null)
+                if (route != null && route.Count != 0)
                     Logger.Log(this, "Path found, walking...");
                 else 
                 {
