@@ -5,6 +5,7 @@ using Naovigate.Communication;
 using Naovigate.GUI;
 using Naovigate.Movement;
 using Naovigate.Util;
+using System.Collections;
 namespace Naovigate
 {
     public static class MainProgram
@@ -12,7 +13,7 @@ namespace Naovigate
         public static readonly int NaoPort = 9559;
         public static readonly int GoalPort = 6747;
         public static readonly string LocalHost = "127.0.0.1";
-        public static readonly string nao2 = "192.168.0.104";
+        public static readonly string nao2 = "192.168.0.126";
         public static readonly string soccer = "192.168.0.101";
         public static readonly string goalIP1 = "192.168.0.105";
         public static readonly string NaoIP = nao2;
@@ -36,9 +37,10 @@ namespace Naovigate
 
         public static void Test()
         {
-            Walk.Instance.TurnTo(Naovigate.Navigation.Direction.Up);
-            Walk.Instance.TurnTo(Naovigate.Navigation.Direction.Right);
-            Walk.Instance.TurnTo(Naovigate.Navigation.Direction.Left);
+            Vision.Camera c = new Vision.Camera("Test");
+            c.Subscribe();
+            c.CalibrateCamera(3);
+            c.Unsubscribe();
         }
 
         private static void Setup()

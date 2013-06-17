@@ -38,9 +38,9 @@ namespace Naovigate.Util
                 proxies.Add(ret);
                 return ret;
             }
-            catch
+            catch(Exception e)
             {
-                throw new UnavailableConnectionException("Could not create proxy: " + typeof(TProxy).Name);
+                throw new UnavailableConnectionException("Could not create proxy: " + typeof(TProxy).Name+": "+e.Message);
             }
         }
 
