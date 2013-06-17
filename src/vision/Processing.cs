@@ -112,18 +112,19 @@ namespace Naovigate.Vision
             catch
             {
                 InitDefaultColors();
+                Logger.Log(this, "CATCHING!");
             }
         }
 
         private void InitDefaultColors()
         {
             colors = new List<Hsv>();
-            Hsv redObjectMin = new Hsv(255, 255, 255);
-            Hsv redObjectMax = new Hsv (255, 255, 255);
-            Hsv greenObjectMin = new Hsv (80, 150, 43 );
-            Hsv greenObjectMax = new Hsv (116, 199, 180 );
+            Hsv redObjectMin = new Hsv(0, 180, 10);
+            Hsv redObjectMax = new Hsv (100, 255, 255);
             Hsv blueObjectMin = new Hsv (100, 150, 0);
             Hsv blueObjectMax = new Hsv (140, 255, 200);
+            Hsv greenObjectMin = new Hsv(40, 120, 40);
+            Hsv greenObjectMax = new Hsv(100, 255, 200);
             colors.Add(redObjectMin);
             colors.Add(redObjectMax);
             colors.Add(blueObjectMin);
@@ -162,15 +163,17 @@ namespace Naovigate.Vision
         public Rectangle SearchForObjects(Image<Hsv, Byte> hsv)
         {
             rectangles = new List<Rectangle>();
-            for (int i = 0; i <= colors.Count / 2; i++)
+            for (int i = 0; i < colors.Count; i= i+2)
             {
                 Image<Gray, Byte> rangedImg = hsv.InRange(colors[i], colors[i + 1]);
                 Rectangle rectangle = rec.getBoundingBox(rangedImg);
                 if (rectangle.Height != 0)
                 {
+                    
                     rectangles.Add(rectangle);
                 }
             }
+            Logger.Log(this, rectangles.Count);
             if (rectangles.Count == 0)
                 return new Rectangle(0, 0, 0, 0);
             else
