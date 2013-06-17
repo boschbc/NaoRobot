@@ -173,7 +173,6 @@ namespace Naovigate.Vision
                     rectangles.Add(rectangle);
                 }
             }
-            Logger.Log(this, rectangles.Count);
             if (rectangles.Count == 0)
                 return new Rectangle(0, 0, 0, 0);
             else
