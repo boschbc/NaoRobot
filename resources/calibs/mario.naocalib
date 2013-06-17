@@ -1,10 +1,10 @@
 CloseToObjectDistance 160
 HRedMin 0
-SRedMin 100
-VRedMin 90
-HRedMax 80
+SRedMin 180
+VRedMin 10
+HRedMax 100
 SRedMax 255
-VRedMax 150
+VRedMax 255
 HBlueMin 100
 SBlueMin 150
 VBlueMin 0
