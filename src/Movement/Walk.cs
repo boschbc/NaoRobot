@@ -181,7 +181,8 @@ namespace Naovigate.Movement
         public void TurnLeft()
         {
             InitMove();
-            motion.moveTo(0, 0, (float)(turn * Math.PI));
+            //Turnleft doesn't need calibration (cause Naos are strange)
+            motion.moveTo(0, 0, (float)(0.5 * Math.PI));
             int newDir = (int)currentDirection;
             newDir = (newDir + 3) % 4;
             currentDirection = (Direction)newDir;
