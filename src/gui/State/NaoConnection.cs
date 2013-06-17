@@ -30,11 +30,11 @@ namespace Naovigate.GUI.State
                 NaoState.Instance.Connect(ipChooser.IP, MainProgram.NaoPort);
                 
             }
-            catch (UnavailableConnectionException)
+            catch (UnavailableConnectionException ex)
             {
                 Logger.Log(this,
                     String.Format("Could not connect to Nao at: {0}:{1}",
-                    ipChooser.IP, MainProgram.NaoPort));
+                    ipChooser.IP, MainProgram.NaoPort)+": " + ex.Message);
             }
         }
     }
