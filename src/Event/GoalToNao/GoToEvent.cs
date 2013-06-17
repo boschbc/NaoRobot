@@ -90,7 +90,7 @@ namespace Naovigate.Event.GoalToNao
                         worker.Start();
                     }
                 }
-                CheckSeeObject();
+                
                 if (Aborted)
                     ReportFailure();
                 else
@@ -117,6 +117,7 @@ namespace Naovigate.Event.GoalToNao
         {
             base.ReportSuccess();
             EventQueue.Goal.Post(new LocationEvent(locations[locations.Count-1].X, locations[locations.Count-1].Y));
+            CheckSeeObject();
         }
 
         /// <summary>
