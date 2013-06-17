@@ -106,7 +106,7 @@ namespace Naovigate.Communication
                 {
                     EventQueue.Goal.Post(new AgentEvent());
                     EventQueue.Goal.Post(new LocationEvent(11));
-                    Logger.Say("Hello Goal");
+                    Logger.Say("Connected to Goal");
                 }
                 return true;
             } 
