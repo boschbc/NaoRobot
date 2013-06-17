@@ -55,14 +55,20 @@ namespace Naovigate.Vision
         /// </summary>
         /// <returns></returns>
         public bool IsTooClose() {
+            bool left, right;
+            return IsToClose(out left, out right);
+        }
+
+        public bool IsToClose(out bool collidingLeft, out bool collidingRight)
+        {
             float left = getSonarDataLeft();
             float right = getSonarDataRight();
-            Logger.Log(this, "Left = "+left.Readable()+", Right = "+right.Readable());
-            bool collidingLeft = left <= 0.3f && left > 0;
-            bool collidingRight = right <= 0.3f && right > 0;
+            Logger.Log(this, "Left = " + left.Readable() + ", Right = " + right.Readable());
+            collidingLeft = left <= 0.3f && left > 0;
+            collidingRight = right <= 0.3f && right > 0;
             bool res = (collidingLeft && collidingRight);
-            if(res)
-                Logger.Log(this, "IsTooClose: "+res);
+            if (res)
+                Logger.Log(this, "IsTooClose: " + res);
             if (!res && (collidingLeft || collidingRight))
                 Logger.Say("Side Wall");
             return res;

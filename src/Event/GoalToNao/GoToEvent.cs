@@ -16,7 +16,7 @@ namespace Naovigate.Event.GoalToNao
     /// </summary>
     public sealed class GoToEvent : ReportBackEvent
     {
-        protected List<Point> locations;
+        private List<Point> locations;
         
         /// <summary>
         /// Creates a new GoToEvent.
@@ -153,6 +153,15 @@ namespace Naovigate.Event.GoalToNao
                 return false;
             GoToEvent other = (GoToEvent)obj;
             return this.locations.SequenceEqual(other.locations);
+        }
+
+        // <summary>
+        /// get hashcode
+        /// </summary>
+        /// <returns></returns>
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

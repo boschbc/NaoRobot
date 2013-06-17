@@ -13,6 +13,7 @@ namespace Naovigate.Movement
      */
     public sealed class MarkerSearchWorker : ActionExecutor
     {
+        private static readonly float speed = 0.7F;
         private int markerID;
         private double dist;
         private bool looking = true;
@@ -45,35 +46,32 @@ namespace Naovigate.Movement
             Sonar sonar = Sonar.Instance;
             ArrayList markers;
             Logger.Log(this, "Look for marker");
-            Call(() => Walk.Instance.StartWalking(0.7F, 0, 0));
+            Call(() => Walk.Instance.StartWalking(speed, 0, 0));
             while (Running && looking)
             {
                 Thread.Sleep(1000);
-                //if (!Walk.Instance.IsMoving()) Running = false;
                 ArrayList data = rec.GetMarkerData();
                 markers = data.Count == 0 ? data : (ArrayList)data[1];
                 CheckMarkers(markers);
-                if (markers.Count == 0 && sonar.IsTooClose())
+                if (markers.Count == 0 && !NaoState.Instance.HoldingObject && sonar.IsTooClose())
                 {
                     Logger.Log(this, "I probably reached the marker");
                     looking = false;
-                }
-                if (!Walk.Instance.MotorOn())
-                {
-                    Logger.Say("Help");
-                    Abort();
                 }
             }
             Walk.Instance.StopMoving();
             Logger.Log("Exit LookForMarker : " + Running);
         }
 
+        /// <summary>
+        /// check all the markers currently visible.
+        /// </summary>
+        /// <param name="markers"></param>
         private void CheckMarkers(ArrayList markers)
         {
             Logger.Log(this, "checkMarkers: " + markers.Count);
             for (int i = 0; i < markers.Count; i++)
             {
-                Logger.Log(this, "marker: " + i);
                 ArrayList marker = (ArrayList)markers[i];
                 if ((int)((ArrayList)marker[1])[0] == markerID)
                 {
@@ -85,16 +83,18 @@ namespace Naovigate.Movement
             }
         }
 
-        //Change direction towards the marker and return true iff we reached our destination
+        /// <summary>
+        /// Change direction towards the marker and return true iff we reached our destination.
+        /// </summary>
+        /// <param name="marker"></param>
+        /// <returns></returns>
         private bool Calculate(ArrayList marker)
         {
-            Logger.Log(this, "Calculate: " + Running);
             bool reached = false;
             float angle = ((float)((ArrayList)marker[0])[1]) / 4F;
             if (Running)
             {
-                Logger.Log(this, "StartWalking: " + Running);
-                Call(() => Walk.Instance.StartWalking(0.5F, 0, Math.Max(-1, Math.Min(1, angle))));
+                Call(() => Walk.Instance.StartWalking(speed, 0, Math.Max(-1, Math.Min(1, angle))));
             }
             float sizeY = ((float)((ArrayList)marker[0])[4]);
 
