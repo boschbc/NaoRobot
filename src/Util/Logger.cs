@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
 
 namespace Naovigate.Util
@@ -9,10 +10,18 @@ namespace Naovigate.Util
     public static class Logger
     {
         private static readonly string Format = "{0} [{1}] {2} :: {3} :: {4}";
-        private static readonly string LogFilePath = "log.txt";
+        private static readonly string LogFilePath = InitLogFilePath();
         private static readonly string DefaultInvokerName = "Token";
 
         private static int id = 0;
+
+        private static string InitLogFilePath()
+        {
+            int suffix = 0;
+            while (File.Exists("log" + suffix + ".txt"))
+                suffix++;
+            return "log" + suffix + ".txt";
+        }
 
         static Logger()
         {
@@ -27,7 +36,7 @@ namespace Naovigate.Util
         public static void Clear()
         {
             lock (LogFilePath)
-                System.IO.File.WriteAllText(LogFilePath, "");
+                File.WriteAllText(LogFilePath, "");
             id = 0;
         }
 
@@ -53,7 +62,7 @@ namespace Naovigate.Util
             Console.WriteLine(formatted);
             if (LogToFile)
                 lock (LogFilePath)
-                    System.IO.File.AppendAllText(LogFilePath, formatted + "\n");
+                    File.AppendAllText(LogFilePath, formatted + "\n");
         }
 
         /// <summary>
