@@ -63,7 +63,12 @@ namespace Naovigate.Util
         public T GetRecord<T>(string key)
         {
             if (records.ContainsKey(key))
-                return (T)records[key];
+            {
+                if (typeof(T) == typeof(int))
+                    return (T)Convert.ChangeType(Int32.Parse((string)records[key]), typeof(T));
+                else
+                    return (T)records[key];
+            }
             else
             {
                 Logger.Log(this, "No such entry: " + key);
