@@ -27,6 +27,8 @@ namespace Naovigate
                 DialogResult useDebugGui = MessageBox.Show("Do you wish to use the NaoDebugger?", "Use Debugger?", MessageBoxButtons.YesNo);
                 if (useDebugGui == DialogResult.Yes)
                     LaunchDebugger.DebugMain();
+                else
+                    Test();
                 Console.Read();
             }
             catch(Exception e)
@@ -37,8 +39,8 @@ namespace Naovigate
 
         public static void Test()
         {
-            ObjectSearchWorker w = new ObjectSearchWorker();
-            w.Start();
+            Calibration.Instance = new Calibration("../resources/calibs/mario.naocalib");
+            Logger.Log(Calibration.Instance.GetRecord<int>("SRedMin"));
         }
 
         private static void Setup()
