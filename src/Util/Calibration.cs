@@ -67,7 +67,10 @@ namespace Naovigate.Util
                 if (typeof(T) == typeof(int))
                     return (T)Convert.ChangeType(Int32.Parse((string)records[key]), typeof(T));
                 else
+                {
+                    Logger.Log(typeof(Calibration), key + " = " + (T)records[key]);
                     return (T)records[key];
+                }
             }
             else
             {
