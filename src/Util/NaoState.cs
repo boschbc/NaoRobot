@@ -10,6 +10,7 @@ using Naovigate.Grabbing;
 using Naovigate.Navigation;
 using Naovigate.Event;
 using Naovigate.Movement;
+using System.Threading;
 
 namespace Naovigate.Util
 {
@@ -83,17 +84,15 @@ namespace Naovigate.Util
         /// <param name="endPoint">IP end point to connect to.</param>
         public virtual void Connect(IPEndPoint endPoint)
         {
-            
             if (Connected) {
                 Logger.Log(this, "Already Connected");
                 return;
             }
-            Logger.Log(this, "Connecting to Nao...");
             IP = endPoint.Address;
             Port = endPoint.Port;
             CreateMyProxies();
-            Init();
             connected = true;
+            Init();
 
             Update();
             if (OnConnect != null)
