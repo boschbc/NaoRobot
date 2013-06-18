@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
@@ -16,7 +17,9 @@ namespace Naovigate.Event.GoalToNao
     /// </summary>
     public sealed class GoToEvent : ReportBackEvent
     {
+        private static readonly bool checkIfPossibleObject = false;
         private List<Point> locations;
+        private List<RouteEntry> route;
         
         /// <summary>
         /// Creates a new GoToEvent.
@@ -65,7 +68,7 @@ namespace Naovigate.Event.GoalToNao
             try
             {
                 Logger.Log(this, "Planning route...");
-                List<RouteEntry> route = Planner.PlanRoute(NaoState.Instance.Map, locations);
+                route = Planner.PlanRoute(NaoState.Instance.Map, locations);
                 if (route != null && route.Count != 0)
                     Logger.Log(this, "Path found, walking...");
                 else 
@@ -107,8 +110,25 @@ namespace Naovigate.Event.GoalToNao
 
         private void CheckSeeObject()
         {
-            if(!NaoState.Instance.HoldingObject)
-                new LookForObjectEvent().Fire();
+            if (!checkIfPossibleObject)
+            {
+                if (!NaoState.Instance.HoldingObject)
+                    new LookForObjectEvent().Fire();
+            }
+            else
+            try // only detect objects when we are in a room that can contain objects.
+            {
+                RouteEntry last = route.Count == 0 ? null : route[route.Count - 1];
+                Tile lastTile = NaoState.Instance.Map.TileWithMarkerID(last.MarkerID);
+                // 4 object rooms, ids 1, 2, 3, 4
+                if(lastTile.ID <= 4 && !NaoState.Instance.HoldingObject)
+                    new LookForObjectEvent().Fire();
+            } catch(Exception e){
+                // any error, just look.
+                Logger.Log(this, e);
+                if (!NaoState.Instance.HoldingObject)
+                    new LookForObjectEvent().Fire();
+            }
         }
 
         /// <summary>

@@ -65,6 +65,25 @@ namespace Naovigate.Navigation
         }
 
         /// <summary>
+        /// Retrieve the tile with markerID id.
+        /// </summary>
+        /// <param name="id">Identifier.</param>
+        public Tile TileWithMarkerID(int id)
+        {
+            if (id == -1)
+                return null;
+
+            foreach (Tile t in this.Tiles)
+            {
+                if (t.MarkerAt(Direction.Up) == id) return t;
+                if (t.MarkerAt(Direction.Down) == id) return t;
+                if (t.MarkerAt(Direction.Left) == id) return t;
+                if (t.MarkerAt(Direction.Right) == id) return t;
+            }
+            return null;
+        }
+
+        /// <summary>
         /// Add the tile at position (x, y).
         /// This will replace the old time, if there was any.
         /// </summary>
