@@ -29,7 +29,7 @@ namespace Naovigate.Communication
         private void WriteByteAsBitString(byte b)
         {
             string s = ToBitString(b, 8);
-            Logger.Log(this, "Write " + s);
+            Logger.Log("BSComs", "Write " + s);
             byte[] bytes = Encoding.UTF8.GetBytes(s);
             WriteRaw(bytes, 0, bytes.Length);
         }
@@ -64,7 +64,7 @@ namespace Naovigate.Communication
                 if (bitstring[i] == '1')
                     value += 1 << (7 - i);
             }
-            Logger.Log(this, "read " + value + "(" + bitstring + ")");
+            Logger.Log("BSComs", "read " + value + "(" + bitstring + ")");
             return (byte) value;
         }
 
