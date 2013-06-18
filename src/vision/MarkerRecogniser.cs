@@ -12,7 +12,7 @@ namespace Naovigate.Vision
 
         public static MarkerRecogniser instance = null;
 
-        public static double FRANKENAO2C = 5.577;
+        public static double FRANKENAO2C = 4.85;
 
         public static MarkerRecogniser Instance
         {

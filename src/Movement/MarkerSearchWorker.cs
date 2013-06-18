@@ -113,7 +113,7 @@ namespace Naovigate.Movement
         private bool Calculate(ArrayList marker)
         {
             bool reached = false;
-            float angle = ((float)((ArrayList)marker[0])[1]) / 4F;
+            float angle = ((float)((ArrayList)marker[0])[1]) / 3F;
             Call(() => Walk.Instance.StartWalking(speed, 0, Math.Max(-1, Math.Min(1, angle))));
             
             float sizeY = ((float)((ArrayList)marker[0])[4]);
