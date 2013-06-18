@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Threading;
 using Naovigate.Util;
 using Naovigate.Vision;
@@ -7,8 +8,6 @@ namespace Naovigate.Movement
 {
     internal sealed class ObjectSearchWorker : ActionExecutor
     {
-        private static readonly bool useCentering = false;
-        private static int centerValue = 20;
         private Camera camera;
         private Processing processor;
 
@@ -53,10 +52,7 @@ namespace Naovigate.Movement
             Logger.Log(this, "Found object: " + ObjectFound);
             if (ObjectFound){
                 Call(GoInfrontOfObject);
-                if(useCentering && PositionedCorrectly)
-                    CenterOnImage();
             }
-            
         }
 
         /// <summary>
@@ -130,37 +126,6 @@ namespace Naovigate.Movement
                 }
             }
             walk.StopMoving();
-        }
-
-        /// <summary>
-        /// center on the object, visible in the camera image
-        /// </summary>
-        private void CenterOnImage()
-        {
-            Eyes.Instance.LookStraight();
-            Aldebaran.Proxies.MotionProxy motion = Util.Proxies.GetProxy<Aldebaran.Proxies.MotionProxy>();
-            // image = 160x120
-            while(!Centered){
-                Rectangle obj = processor.DetectObject();
-                // no object in range. it was before, so we probably broke something.
-                if (obj.Width == 0)
-                {
-                    PositionedCorrectly = false;
-                    break;
-                }
-
-                int toLeft = obj.X;
-                int toRight = 160 - obj.X - obj.Width;
-                if (toLeft - toRight < centerValue)
-                {
-                    Centered = true;
-                }
-                else
-                {
-                    // center
-                    motion.moveTo(0f, (toLeft > toRight ? /*right*/0.05f : /*left*/-0.05f), 0f);
-                }
-            }
         }
     }
 }

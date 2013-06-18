@@ -342,8 +342,14 @@ namespace Naovigate.Movement
         /// </summary>
         public void TakeStableArmPosition()
         {
-            Walk.Instance.InitMove();
-            motion.angleInterpolationWithSpeed(new ArrayList(new string[] { "LElbowRoll", "RElbowRoll", "LShoulderPitch", "RShoulderPitch" }), new ArrayList(new float[] { 1.4F, 1.4F, 1.4F, 1.4F }), 0.2f);
+            motion.wakeUp();
+            Grabbing.GrabWorker w = new Grabbing.GrabWorker();
+            Pose.Instance.StandUp();
+            w.StiffenArms();
+            w.CloseArmsAroundObject();
+            w.GrabHands();
+            w.HoldForWalking();
+
         }
 
         /// <summary>
@@ -356,7 +362,7 @@ namespace Naovigate.Movement
             if (posture != null)
                 posture.Dispose();
         }
-    }
 
+    }
     
 }

@@ -18,6 +18,8 @@ namespace Naovigate.Communication
         public static readonly String DefaultIP = MainProgram.LocalHost;
         public static readonly int DefaultPort = MainProgram.GoalPort;
 
+        public static int initialPosition = 15;
+
         protected static GoalCommunicator instance = null;
 
         private object sLock = new object();
@@ -105,7 +107,7 @@ namespace Naovigate.Communication
                 if (NaoState.Instance.Connected)
                 {
                     EventQueue.Goal.Post(new AgentEvent());
-                    EventQueue.Goal.Post(new LocationEvent(11));
+                    EventQueue.Goal.Post(new LocationEvent(initialPosition));
                     Logger.Say("Connected to Goal");
                 }
                 return true;
