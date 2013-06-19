@@ -17,7 +17,7 @@ namespace Naovigate.Event.GoalToNao
     /// </summary>
     public sealed class GoToEvent : ReportBackEvent
     {
-        private static readonly bool checkIfPossibleObject = false;
+        private static readonly bool checkIfPossibleObject = true;
         private List<Point> locations;
         private List<RouteEntry> route;
         
