@@ -11,7 +11,7 @@ namespace Naovigate.Vision
     internal sealed class Processing : IDisposable
     {
 
-        private static int closeEnough = 135;
+        private static int closeEnough = 160;
         /// <summary>
         /// Indicate if the given rectangle is an indication of being
         /// close enough to this object.

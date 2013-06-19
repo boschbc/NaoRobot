@@ -8,7 +8,10 @@ namespace Naovigate.Util
     /// </summary>
     internal class Calibration
     {
-        private static readonly string DefaultPath = "../resources/calibs/default.naocalib";
+        static Calibration(){
+            object crap = Instance;
+        }
+        private static readonly string DefaultPath = "../resources/calibs/luigi.naocalib";
         private static Calibration instance;
 
         public static Calibration Instance
