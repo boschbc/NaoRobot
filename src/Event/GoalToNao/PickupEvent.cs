@@ -86,6 +86,7 @@ namespace Naovigate.Event.GoalToNao
         {
             try
             {
+                Pose.Instance.StandUp();
                 GoInfrontOfObject();
                 ObjectSearchWorker results = executor as ObjectSearchWorker;
                 results.PositionedCorrectly.Log(this);
