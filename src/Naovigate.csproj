@@ -259,6 +259,12 @@
     <Compile Include="GUI\Util\RGBChooser.Designer.cs">
       <DependentUpon>RGBChooser.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\Util\StartLocationChooser.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="GUI\Util\StartLocationChooser.Designer.cs">
+      <DependentUpon>StartLocationChooser.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainProgram.cs" />
     <Compile Include="Movement\Pose.cs" />
     <Compile Include="Movement\Walk.cs" />
@@ -416,6 +422,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\Util\RGBChooser.resx">
       <DependentUpon>RGBChooser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\Util\StartLocationChooser.resx">
+      <DependentUpon>StartLocationChooser.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

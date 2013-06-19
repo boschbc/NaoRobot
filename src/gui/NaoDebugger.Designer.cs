@@ -40,9 +40,9 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.stateMonitorPanel = new Naovigate.GUI.State.StateMonitorPanel();
             this.naoConnection = new Naovigate.GUI.State.NaoConnection();
-            this.liveCamera = new Naovigate.GUI.LiveCamera.LiveCamera();
             this.calibrationTab = new System.Windows.Forms.TabPage();
-            this.loadCalibrationButton1 = new Naovigate.GUI.Util.LoadCalibrationButton();
+            this.liveCamera = new Naovigate.GUI.LiveCamera.LiveCamera();
+            this.startLocationChooser1 = new Naovigate.GUI.Util.StartLocationChooser();
             this.panel1.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.eventsTab.SuspendLayout();
@@ -192,6 +192,16 @@
             this.naoConnection.Size = new System.Drawing.Size(245, 71);
             this.naoConnection.TabIndex = 1;
             // 
+            // calibrationTab
+            // 
+            this.calibrationTab.Controls.Add(this.startLocationChooser1);
+            this.calibrationTab.Location = new System.Drawing.Point(4, 22);
+            this.calibrationTab.Name = "calibrationTab";
+            this.calibrationTab.Size = new System.Drawing.Size(257, 396);
+            this.calibrationTab.TabIndex = 3;
+            this.calibrationTab.Text = "Calibration";
+            this.calibrationTab.UseVisualStyleBackColor = true;
+            // 
             // liveCamera
             // 
             this.liveCamera.Active = false;
@@ -203,24 +213,14 @@
             this.liveCamera.Size = new System.Drawing.Size(338, 397);
             this.liveCamera.TabIndex = 0;
             // 
-            // calibrationTab
+            // startLocationChooser1
             // 
-            this.calibrationTab.Controls.Add(this.loadCalibrationButton1);
-            this.calibrationTab.Location = new System.Drawing.Point(4, 22);
-            this.calibrationTab.Name = "calibrationTab";
-            this.calibrationTab.Size = new System.Drawing.Size(257, 396);
-            this.calibrationTab.TabIndex = 3;
-            this.calibrationTab.Text = "Calibration";
-            this.calibrationTab.UseVisualStyleBackColor = true;
-            // 
-            // loadCalibrationButton1
-            // 
-            this.loadCalibrationButton1.AutoSize = true;
-            this.loadCalibrationButton1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.loadCalibrationButton1.Location = new System.Drawing.Point(8, 3);
-            this.loadCalibrationButton1.Name = "loadCalibrationButton1";
-            this.loadCalibrationButton1.Size = new System.Drawing.Size(96, 29);
-            this.loadCalibrationButton1.TabIndex = 0;
+            this.startLocationChooser1.AutoSize = true;
+            this.startLocationChooser1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.startLocationChooser1.Location = new System.Drawing.Point(8, 3);
+            this.startLocationChooser1.Name = "startLocationChooser1";
+            this.startLocationChooser1.Size = new System.Drawing.Size(91, 26);
+            this.startLocationChooser1.TabIndex = 0;
             // 
             // NaoDebugger
             // 
@@ -265,7 +265,7 @@
         private Goal.RemoteServerControl remoteServerControl1;
         private Events.EventLauncherPanel eventLauncherPanel1;
         private System.Windows.Forms.TabPage calibrationTab;
-        private Util.LoadCalibrationButton loadCalibrationButton1;
+        private Util.StartLocationChooser startLocationChooser1;
 
     }
 }
