@@ -120,8 +120,8 @@ namespace Naovigate.Event.GoalToNao
             {
                 RouteEntry last = route.Count == 0 ? null : route[route.Count - 1];
                 Tile lastTile = NaoState.Instance.Map.TileWithMarkerID(last.MarkerID);
-                // 4 object rooms, ids 1, 2, 3, 4
-                if(lastTile.ID <= 4 && !NaoState.Instance.HoldingObject)
+                // 4 object rooms, ids 1, 2, 3
+                if(lastTile.ID <= 3 && !NaoState.Instance.HoldingObject)
                     new LookForObjectEvent().Fire();
             } catch(Exception e){
                 // any error, just look.

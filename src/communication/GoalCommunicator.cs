@@ -18,7 +18,7 @@ namespace Naovigate.Communication
         public static readonly String DefaultIP = MainProgram.LocalHost;
         public static readonly int DefaultPort = MainProgram.GoalPort;
 
-        public static int initialPosition = 15;
+        public static int initialPosition = 16;
 
         protected static GoalCommunicator instance = null;
 
